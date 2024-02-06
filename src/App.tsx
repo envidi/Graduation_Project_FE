@@ -1,7 +1,7 @@
 import './styles/styles.css'
 import './styles/queries.css'
 
-import { ToastContainer, toast } from 'react-toastify'
+// import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 
 import { useState, useEffect, lazy, Suspense } from 'react'
@@ -26,7 +26,7 @@ const AboutUsPage = lazy(() => import('./pages/AboutUs/AboutUsPage'))
 const CustomerInfoPage = lazy(
   () => import('./pages/CustomerInfo/CustomerInfoPage')
 )
-const AdminPage = lazy(() => import('./pages/Admin/AdminPage'))
+// const AdminPage = lazy(() => import('./pages/Admin/AdminPage'))
 
 function App() {
   // //////////
