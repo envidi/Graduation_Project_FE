@@ -1,6 +1,20 @@
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export const MobileNav = ({
+interface MobileNavProps {
+  menuState: boolean;
+  menuStyle: React.CSSProperties;
+  setMenuState: React.Dispatch<React.SetStateAction<boolean>>;
+  signedPerson: {
+    person_type: string;
+    first_name: string;
+  };
+  handlelogout: () => void;
+  handleSignState: () => void;
+  handleLoginState: () => void;
+}
+
+const MobileNav: React.FC<MobileNavProps> = ({
   menuState,
   menuStyle,
   setMenuState,
@@ -8,15 +22,15 @@ export const MobileNav = ({
   handlelogout,
   handleSignState,
   handleLoginState,
-}: any) => {
-  const navigate = useNavigate()
+}) => {
+  const navigate = useNavigate();
 
   return (
     <>
       <div className="mobile-nav-menu" style={menuState ? menuStyle : {}}>
         <button
           className="btn-menu-close"
-          onClick={() => setMenuState((prev: any) => !prev)}
+          onClick={() => setMenuState((prev) => !prev)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,8 +53,8 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
-                navigate('/')
+                setMenuState((prev) => !prev);
+                navigate("/");
               }}
             >
               Home
@@ -50,8 +64,8 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
-                navigate('/showtimes')
+                setMenuState((prev) => !prev);
+                navigate("/showtimes");
               }}
             >
               Showtimes
@@ -61,21 +75,21 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
-                navigate('/aboutus')
+                setMenuState((prev) => !prev);
+                navigate("/aboutus");
               }}
             >
               About Us
             </button>
           </li>
           {Object.keys(signedPerson).length !== 0 &&
-            signedPerson.person_type === 'Admin' && (
+            signedPerson.person_type === "Admin" && (
               <li className="mobile-nav-list-item">
                 <button
                   className="mobile-nav-item"
                   onClick={() => {
-                    setMenuState((prev:any) => !prev)
-                    navigate('/admin')
+                    setMenuState((prev) => !prev);
+                    navigate("/admin");
                   }}
                 >
                   Admin
@@ -87,8 +101,8 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev:any) => !prev)
-                handleSignState()
+                setMenuState((prev) => !prev);
+                handleSignState();
               }}
             >
               Sign Up
@@ -98,8 +112,8 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev:any) => !prev)
-                handleLoginState()
+                setMenuState((prev) => !prev);
+                handleLoginState();
               }}
             >
               Sign in
@@ -111,8 +125,8 @@ export const MobileNav = ({
               <button
                 className="mobile-nav-item"
                 onClick={() => {
-                  handlelogout()
-                  setMenuState((prev:any) => !prev)
+                  handlelogout();
+                  setMenuState((prev) => !prev);
                 }}
               >
                 Log out
@@ -128,5 +142,7 @@ export const MobileNav = ({
         )}
       </div>
     </>
-  )
-}
+  );
+};
+
+export default MobileNav;

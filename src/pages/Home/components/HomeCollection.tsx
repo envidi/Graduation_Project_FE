@@ -1,48 +1,45 @@
-import { useEffect, useState } from 'react'
-import { CollectionCard } from '../../../components/CollectionCard'
-import axios from 'axios'
-import HashLoader from 'react-spinners/HashLoader'
+import React, { useEffect, useState } from "react";
+import { CollectionCard } from "../../../components/CollectionCard";
+import axios from "axios";
+import HashLoader from "react-spinners/HashLoader";
+import { MOVIES } from '../../../apis/mock-data'
 
-export const HomeCollection = ({
-  currentMovieDetails,
-  signedPerson,
-  handleLoginState
-}:any) => {
+export const HomeCollection = () => {
   const override = {
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-  }
+    display: "block",
+    marginLeft: "auto",
+    marginRight: "auto",
+  };
 
-  const [movieData, setMovieData] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [movieData, setMovieData] = useState<{
+    title: string;
+    link: string;
+    Mota: string;
+    phan_loai: string;
+    image: string;
+    tac_gia: string;
+    dien_vien: string;
+    the_loai: string;
+    khoi_chieu: string;
+    thoi_luong: string;
+  }[]>([]);
+
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:7000/latestMovies[]')
-        setMovieData(response.data)
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchData()
-  }, [])
-
-  const latestMoviesCards = movieData.map((latestMovie:any) => {
+    const newMovies = MOVIES.slice(0, 10);
+    setLoading(false);
+    setMovieData(newMovies);
+  }, []);
+  
+  const latestMoviesCards = movieData.map((latestMovie, idx) => { 
     return (
       <CollectionCard
-        key={latestMovie.id}
+        key={idx}
         {...latestMovie}
-        signedPerson={signedPerson}
-        handleLoginState={handleLoginState}
-        currentMovieDetails={currentMovieDetails}
       />
-    )
-  })
+    );
+  });
 
   return (
     <section className="section-home-collection" id="nowShowing">
@@ -57,5 +54,5 @@ export const HomeCollection = ({
         {!loading && latestMoviesCards}
       </div>
     </section>
-  )
-}
+  );
+};

@@ -1,7 +1,15 @@
+import React from "react";
 
-export const Feature = ({ idx, title, description, image_path }:any) => {
+interface FeatureProps {
+  idx: number;
+  title: string;
+  description: string;
+  image_path: string;
+}
+
+export const Feature = ({ idx, title, description, image_path }) => {
   const featureSvgs = {
-    'Unparalleled Cinematic Experience': (
+    "Unparalleled Cinematic Experience": (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="feature-icon"
@@ -24,7 +32,7 @@ export const Feature = ({ idx, title, description, image_path }:any) => {
         />
       </svg>
     ),
-    'Delight in Dolby Atmos': (
+    "Delight in Dolby Atmos": (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="feature-icon"
@@ -48,7 +56,7 @@ export const Feature = ({ idx, title, description, image_path }:any) => {
         />
       </svg>
     ),
-    'Tantalizing Treats': (
+    "Tantalizing Treats": (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="feature-icon"
@@ -96,7 +104,7 @@ export const Feature = ({ idx, title, description, image_path }:any) => {
         />
       </svg>
     ),
-    'Luxurious Escape': (
+    "Luxurious Escape": (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="feature-icon"
@@ -136,8 +144,8 @@ export const Feature = ({ idx, title, description, image_path }:any) => {
           d="M480 218.67v74.66"
         />
       </svg>
-    )
-  }
+    ),
+  };
 
   return (
     <div className="feature-content">
@@ -146,7 +154,7 @@ export const Feature = ({ idx, title, description, image_path }:any) => {
       )}
 
       <div className="feature-text">
-        {featureSvgs[`${title }`]}
+        {featureSvgs[`${title}`]}
         <p className="feature-text-heading">{title}</p>
         <p className="feature-text-details">{description}</p>
       </div>
@@ -155,5 +163,5 @@ export const Feature = ({ idx, title, description, image_path }:any) => {
         <img className="feature-img" src={image_path} alt={title} />
       )}
     </div>
-  )
-}
+  );
+};

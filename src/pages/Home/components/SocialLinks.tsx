@@ -1,3 +1,5 @@
+import React from "react";
+
 export const SocialLinks = () => {
   return (
     <section className="section-social-links">
@@ -55,5 +57,5 @@ export const SocialLinks = () => {
         </svg>
       </a>
     </section>
-  )
-}
+  );
+};

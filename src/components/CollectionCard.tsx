@@ -1,50 +1,49 @@
-import { useNavigate } from 'react-router-dom'
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-export const CollectionCard = ({
-  id,
-  name,
-  image_path,
-  rating,
-  duration,
-  release_date,
-  genres
-  // signedPerson,
-  // handleLoginState,
-}:any) => {
-  const navigate = useNavigate()
+interface CollectionCardProps {
+  title: string
+  link: string,
+  Mota: string,
+  image: string,
+  tac_gia: string
+  dien_vien: string
+  the_loai: string
+  khoi_chieu: string
+  thoi_luong: string
+}
 
-  const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
-  const ourRating = rating
+export const CollectionCard: React.FC<CollectionCardProps> = ({
+  title,
+  link,
+  Mota,
+  image,
+  tac_gia,
+  dien_vien,
+  the_loai,
+  khoi_chieu,
+  thoi_luong,
+}) => {
+  const navigate = useNavigate();
 
   return (
     <div
       className="home-movie-card"
-      onClick={() => navigate(`/movieDetails/${id}`)}
+      onClick={() => navigate(`/movieDetails/${link}`)}
     >
       <div className="home-movie-img-box">
         <img
           className="home-movie-img"
-          src={image_path}
+          src={image}
           alt={`${name} photo`}
         />
       </div>
 
       <div className="movie-card-line line-1">
-        <p className="movie-title">{name}</p>
-
-        <div className="movie-rating">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="collection-icon"
-            viewBox="0 0 512 512"
-          >
-            <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
-          </svg>
-          <span>{ourRating.toFixed(1)}</span>
-        </div>
+        <p className="movie-title">{title}</p>
       </div>
 
-      <p className="movie-genre">{genres}</p>
+      <p className="movie-genre">{the_loai}</p>
 
       <div className="movie-card-third-line">
         <div className="line-2">
@@ -89,7 +88,7 @@ export const CollectionCard = ({
               d="M464 160H48"
             />
           </svg>
-          <p className="category">{releaseDate}</p>
+          <p className="category">{khoi_chieu.split(" ")[2]}</p>
         </div>
 
         <div className="line-3">
@@ -99,7 +98,7 @@ export const CollectionCard = ({
             viewBox="0 0 512 512"
           >
             <path
-              d="M256 64C150 64 64 150 64 256s86 192 192 192 192-86 192-192S362 64 256 64z"
+              d="M256 64C150 64 64 150 64 256s86 192 192 192 192-86 192-192S362 64 256 64z"        
               fill="none"
               stroke="currentColor"
               strokeMiterlimit="10"
@@ -114,30 +113,13 @@ export const CollectionCard = ({
               d="M256 128v144h96"
             />
           </svg>
-          <p className="category-value">{duration}</p>
+          <p className="category-value">{thoi_luong.split(": ")[1]}</p>
         </div>
       </div>
 
-      {/* <button
-        className="book-btn btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          Object.keys(signedPerson).length !== 0 &&
-          signedPerson.person_type === "Customer"
-            ? navigate("/purchase")
-            : handleLoginState();
-        }}
-      >
-        Get ticket
-      </button> */}
-      <button
-        className="book-btn btn"
-        onClick={() => {
-          navigate('/purchase')
-        }}
-      >
+      <button className="book-btn btn">
         Get ticket
       </button>
     </div>
-  )
-}
+  );
+};

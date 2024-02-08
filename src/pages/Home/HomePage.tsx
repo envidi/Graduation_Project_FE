@@ -1,23 +1,23 @@
-import { Navbar } from '../../components/Navbar'
-// import { Footer } from "../../components/Footer";
-import { HeroSection } from './components/HeroSection'
-import { HomeCollection } from './components/HomeCollection'
-// import { Features } from "./components/Features";
-import { SocialLinks } from './components/SocialLinks'
-import { TopEdge } from '../../components/TopEdge'
+import React from "react";
+import { HeroSection } from "./components/HeroSection";
+import { HomeCollection } from "./components/HomeCollection";
+import { Features } from "./components/Features";
+import { SocialLinks } from "./components/SocialLinks";
+import { TopEdge } from "../../components/TopEdge";
+import Header from "../../layouts/components/Header/Header";
+import Footer from "../../layouts/components/Footer/Footer";
 
 const HomePage = ({
+  signedPerson,
   handleSignState,
   handleLoginState,
-  signedPerson,
   handlelogout,
-  currentMovieDetails,
-  setMenuState
-}:any) => {
+  setMenuState,
+}) => {
   return (
     <>
       <TopEdge />
-      <Navbar
+      <Header
         signedPerson={signedPerson}
         pageName="home"
         handleSignState={handleSignState}
@@ -25,24 +25,18 @@ const HomePage = ({
         handlelogout={handlelogout}
         setMenuState={setMenuState}
       />
-      <HeroSection
+      <HeroSection 
         handleLoginState={handleLoginState}
         signedPerson={signedPerson}
       />
-      <HomeCollection
-        currentMovieDetails={currentMovieDetails}
-        signedPerson={signedPerson}
-        handleLoginState={handleLoginState}
-      />
-      {/* <Features /> */}
+      <HomeCollection />
+      <Features />
       <SocialLinks />
-      {/* <Footer
-        handleSignState={handleSignState}
-        handleLoginState={handleLoginState}
+      <Footer
         pageName="home"
-      /> */}
+      />
     </>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

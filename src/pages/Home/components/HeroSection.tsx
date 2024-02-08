@@ -1,8 +1,9 @@
-import { useNavigate } from 'react-router-dom'
-import { HashLink } from 'react-router-hash-link'
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { HashLink } from "react-router-hash-link";
 
-export const HeroSection = ({ handleLoginState, signedPerson }:any) => {
-  const navigate = useNavigate()
+export const HeroSection = ({ handleLoginState, signedPerson }) => {
+  const navigate = useNavigate();
 
   return (
     <section className="section-hero">
@@ -19,12 +20,6 @@ export const HeroSection = ({ handleLoginState, signedPerson }:any) => {
           </p>
           <div className="hero-btn-container">
             <button
-              onClick={() => {
-                Object.keys(signedPerson).length !== 0 &&
-                signedPerson.person_type === 'Customer'
-                  ? navigate('/purchase')
-                  : handleLoginState()
-              }}
               className="btn btn-full"
             >
               Buy a ticket
@@ -83,5 +78,5 @@ export const HeroSection = ({ handleLoginState, signedPerson }:any) => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
