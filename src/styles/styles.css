@@ -51,6 +51,9 @@ box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
   padding: 0;
   box-sizing: border-box;
 }
+:root {
+  --info-desc-font: 1.7rem;
+}
 
 html {
   font-size: 62.5%;
@@ -58,7 +61,7 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1;
   font-weight: 400;
   color: #cccdd0;
@@ -191,7 +194,7 @@ header {
   text-decoration: none;
   color: #333;
   font-size: 1.6rem;
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 500;
   padding: 1.2rem;
   transition: all 0.3s;
@@ -611,7 +614,7 @@ header {
 .section-home-collection:after {
   width: 165%;
   height: 90%;
-  content: "";
+  content: '';
   position: absolute;
   background-color: inherit;
   top: 0;
@@ -646,9 +649,30 @@ header {
 
 .details-collection-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 26rem);
+  /* grid-template-columns: repeat(auto-fit, 26rem); */
   gap: 4.8rem;
   justify-content: center;
+  position: relative;
+}
+.details-collection-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* background-color: red; */
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6000525210084033) 0%,
+    rgba(255, 255, 255, 0) 8%,
+    rgba(254, 254, 254, 0) 48%,
+    rgba(255, 255, 255, 0) 92%,
+    rgba(0, 0, 0, 0.5972514005602241) 100%
+  );
+  pointer-events: none;
 }
 
 .home-movie-card {
@@ -958,7 +982,7 @@ header {
 .footer-btn {
   background-color: transparent;
   border: none;
-  font-family: "Inter";
+  font-family: 'Inter';
 }
 
 .footer-link:link,
@@ -1871,18 +1895,19 @@ header {
 .movie-info-attr-container {
   margin: 2.4rem;
   display: grid;
+  margin-top: 3.1rem;
   grid-template-columns: auto 1fr;
-  row-gap: 1.8rem;
-  column-gap: 2.4rem;
+  row-gap: 1.4rem;
+  column-gap: 3rem;
 }
 
 .movie-info-name {
   grid-column: 1/-1;
-  font-size: 4.4rem;
+  font-size: 4.65rem;
   font-weight: 500;
   letter-spacing: -0.25px;
   color: #e6e6e6;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.3rem;
   line-height: 1.2;
 }
 
@@ -1928,8 +1953,9 @@ header {
 .movie-info-description-container {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 1rem;
   margin-bottom: 4.8rem;
+  /* font-size: var(--info-desc-font); */
 }
 .movie-info-location-container {
   margin-bottom: 4.8rem;
@@ -1944,7 +1970,7 @@ header {
 }
 
 .movie-info-description {
-  font-size: 1.6rem;
+  font-size: var(--info-desc-font);
   line-height: 1.6;
   letter-spacing: 0.25px;
   color: #cccdd0;

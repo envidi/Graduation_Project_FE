@@ -1,58 +1,46 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import HashLoader from 'react-spinners/HashLoader'
 
-export const LocationSelector = ({
-  locationData,
-  userLocation,
-  handleLocationSelection,
-  getTheatreData
-}:any) => {
-  const [loading, setLoading] = useState(true)
+export const LocationSelector = () => {
+  // const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true)
-        const response = await axios.get(
-          `${import.meta.env.VITE_API_URL}/theatres`
-        )
-        getTheatreData(response.data)
-      } catch (err) {
-        console.log(err)
-      } finally {
-        setLoading(false)
-      }
-    }
+  // const locationOptions =
+  //   locationData.length > 0 &&
+  //   locationData.map((location:any, idx:any) => {
+  //     return (
+  //       <option key={idx} value={location.location}>
+  //         {location.location}
+  //       </option>
+  //     )
+  //   })
 
-    fetchData()
-  }, [])
-
-  const locationOptions =
-    locationData.length > 0 &&
-    locationData.map((location:any, idx:any) => {
-      return (
-        <option key={idx} value={location.location}>
-          {location.location}
-        </option>
-      )
-    })
-
-  return !loading ? (
+  return true ? (
     <div className="location-select-container ">
-      <select
-        id="location-selector"
-        onChange={(e) => handleLocationSelection(e)}
-      >
-        {locationOptions}
-      </select>
+      <Select>
+        <SelectTrigger className="w-[10rem] bg-[#313441] outline-none py-8 text-[#e6e6e8] border-none px-5 text-[1.7rem] rounded-xl">
+          <SelectValue placeholder="BHD" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem className="text-[1.6rem]" value="BHD">
+            BHD
+          </SelectItem>
+          <SelectItem className="text-[1.6rem]" value="CGV">
+            CGV
+          </SelectItem>
+        </SelectContent>
+      </Select>
 
       <p className="selected-location">
-        Location: <span>{userLocation?.location}</span>
+        Location: <span>Hà Nội</span>
       </p>
       <p className="selected-theatre">
-        Theatre: <span>{userLocation?.name}</span>
+        Theatre: <span>BHD</span>
       </p>
     </div>
   ) : (

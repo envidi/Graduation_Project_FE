@@ -1,36 +1,22 @@
 import { useNavigate } from 'react-router-dom'
+import imgSpider from '@/assets/spiderman.webp'
 
-export const CollectionCard = ({
-  id,
-  name,
-  image_path,
-  rating,
-  duration,
-  release_date,
-  genres
-  // signedPerson,
-  // handleLoginState,
-}:any) => {
+export const CollectionCard = ({ className }: { className: string }) => {
   const navigate = useNavigate()
 
-  const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
-  const ourRating = rating
+  // const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
+  // const ourRating = rating
 
   return (
-    <div
-      className="home-movie-card"
-      onClick={() => navigate(`/movieDetails/${id}`)}
-    >
+    <div className={`home-movie-card ${className}`}>
       <div className="home-movie-img-box">
-        <img
-          className="home-movie-img"
-          src={image_path}
-          alt={`${name} photo`}
-        />
+        <img className="home-movie-img" src={imgSpider} alt={'photo'} />
       </div>
 
       <div className="movie-card-line line-1">
-        <p className="movie-title">{name}</p>
+        <p className="movie-title xs:text-xl">
+          Spider-Man: Across the Spider-Verse
+        </p>
 
         <div className="movie-rating">
           <svg
@@ -40,11 +26,11 @@ export const CollectionCard = ({
           >
             <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
           </svg>
-          <span>{ourRating.toFixed(1)}</span>
+          <span>8.8</span>
         </div>
       </div>
 
-      <p className="movie-genre">{genres}</p>
+      <p className="movie-genre">Action, Adventure, Animation</p>
 
       <div className="movie-card-third-line">
         <div className="line-2">
@@ -89,7 +75,7 @@ export const CollectionCard = ({
               d="M464 160H48"
             />
           </svg>
-          <p className="category">{releaseDate}</p>
+          <p className="category">23/06/2023</p>
         </div>
 
         <div className="line-3">
@@ -114,7 +100,7 @@ export const CollectionCard = ({
               d="M256 128v144h96"
             />
           </svg>
-          <p className="category-value">{duration}</p>
+          <p className="category-value">2h 16m</p>
         </div>
       </div>
 

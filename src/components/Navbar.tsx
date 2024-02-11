@@ -1,31 +1,24 @@
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+// import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 
-export const Navbar = ({
-  pageName,
-  handleSignState,
-  handleLoginState,
-  signedPerson,
-  handlelogout,
-  setMenuState
-}:any) => {
-  const [signUpState, setSignUpState] = useState(false)
-  const navigate = useNavigate()
+export const Navbar = () => {
+  // const [signUpState, setSignUpState] = useState(false)
+  // const navigate = useNavigate()
 
-  const toggleSignState = () => {
-    setSignUpState((prevState) => !prevState)
-  }
+  // const toggleSignState = () => {
+  //   setSignUpState((prevState) => !prevState)
+  // }
 
-  const selectionTab = {
-    backgroundColor: '#eb3656',
-  }
+  // const selectionTab = {
+  //   backgroundColor: '#eb3656',
+  // }
 
   return (
     <header>
       <button
         className="btn-menu"
-        onClick={() => setMenuState((prevState) => !prevState)}
+        // onClick={() => setMenuState((prevState) => !prevState)}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -43,7 +36,7 @@ export const Navbar = ({
         </svg>
       </button>
 
-      {pageName === 'home' ? (
+      {true ? (
         <HashLink className="logo-container" to="#headerTop">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -101,7 +94,7 @@ export const Navbar = ({
             <Link
               className="nav-item"
               to="/"
-              style={pageName === 'home' ? selectionTab : {}}
+              // style={pageName === 'home' ? selectionTab : {}}
             >
               Home
             </Link>
@@ -110,7 +103,7 @@ export const Navbar = ({
             <Link
               className="nav-item"
               to="/showtimes"
-              style={pageName === 'showtimes' ? selectionTab : {}}
+              // style={pageName === 'showtimes' ? selectionTab : {}}
             >
               Showtimes
             </Link>
@@ -119,12 +112,12 @@ export const Navbar = ({
             <Link
               className="nav-item"
               to="/aboutus"
-              style={pageName === 'aboutUs' ? selectionTab : {}}
+              // style={pageName === 'aboutUs' ? selectionTab : {}}
             >
               About Us
             </Link>
           </li>
-          {Object.keys(signedPerson).length !== 0 &&
+          {/* {Object.keys(signedPerson).length !== 0 &&
             signedPerson.person_type === 'Admin' && (
               <li>
                 <Link
@@ -135,23 +128,17 @@ export const Navbar = ({
                   Admin
                 </Link>
               </li>
-            )}
+            )} */}
         </ul>
       </nav>
 
       <div className="nav-signup">
-        {Object.keys(signedPerson).length !== 0 && (
+        {/* {Object.keys(signedPerson).length !== 0 && (
           <p className="nav-signed-name">{signedPerson.first_name}</p>
-        )}
+        )} */}
+        <p className="nav-signed-name">Nguyen</p>
         <button
           className="customer-profile-btn"
-          onClick={(e) => {
-            e.stopPropagation()
-            Object.keys(signedPerson).length !== 0 &&
-            signedPerson.person_type === 'Customer'
-              ? navigate('/customer')
-              : handleLoginState()
-          }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -176,84 +163,32 @@ export const Navbar = ({
           </svg>
         </button>
 
-        {Object.keys(signedPerson).length === 0 ? (
-          <button className="btn-signup-arrow" onClick={toggleSignState}>
-            {!signUpState ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="signup-icon"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="48"
-                  d="M112 184l144 144 144-144"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="signup-icon"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="48"
-                  d="M112 328l144-144 144 144"
-                />
-              </svg>
-            )}
-          </button>
-        ) : (
-          <button className="btn-logout" onClick={handlelogout}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="logout-icon"
-              viewBox="0 0 512 512"
-            >
-              <path
-                d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="32"
-              />
-            </svg>
-          </button>
-        )}
+        <button className="btn-signup-arrow">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="signup-icon"
+            viewBox="0 0 512 512"
+          >
+            <path
+              fill="none"
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="48"
+              d="M112 184l144 144 144-144"
+            />
+          </svg>
+        </button>
 
-        {signUpState && (
+        {true && (
           <div className="signup-options">
             {
               <ul className="signup-buttons">
                 <li>
-                  <button
-                    className="signup-button"
-                    onClick={() => {
-                      toggleSignState()
-                      handleSignState()
-                    }}
-                  >
-                    Sign up
-                  </button>
+                  <button className="signup-button">Sign up</button>
                 </li>
                 <li>
-                  <button
-                    className="login-button"
-                    onClick={() => {
-                      toggleSignState()
-                      handleLoginState()
-                    }}
-                  >
-                    Sign in
-                  </button>
+                  <button className="login-button">Sign in</button>
                 </li>
               </ul>
             }
