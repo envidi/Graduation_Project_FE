@@ -2,11 +2,15 @@ import { ChangeEvent } from 'react'
 interface MyComponentProps {
   // eslint-disable-next-line no-unused-vars
   handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
-  addComment: () => void
+  // eslint-disable-next-line no-unused-vars
+  addComment: (like: number) => void
   input: string | number
 }
 
 const FormComment = ({ handleChange, addComment, input }: MyComponentProps) => {
+  const isValid =
+    input.toString().length > 0 && !input.toString().startsWith(' ')
+
   return (
     <div className="group flex flex-row  mb-4 ">
       <img
@@ -25,8 +29,9 @@ const FormComment = ({ handleChange, addComment, input }: MyComponentProps) => {
       <div className="bg-background-secondary  group-focus-within:border-primary-movieColor border-r-[1px] border-t-[1px]  rounded-r-lg border-b-[1px] flex justify-center items-center md:w-60 xs:w-72">
         <button
           type="submit"
-          onClick={addComment}
-          className="ml-2 md:px-9 md:py-4 lg:px-10 lg:py-5 sm:px-10 xs:py-4 xs:px-9 sm:py-5 bg-primary-movieColor text-primary-white md:text-3xl sm:text-4xl xs:text-3xl text rounded-lg font-semibold"
+          onClick={() => addComment(0)}
+          disabled={!isValid}
+          className="ml-2 md:px-9 md:py-4 lg:px-10 lg:py-5 disabled:cursor-not-allowed disabled:opacity-40 sm:px-10 xs:py-4 xs:px-9 sm:py-5 bg-primary-movieColor text-primary-white md:text-3xl sm:text-4xl xs:text-3xl text rounded-lg font-semibold"
         >
           Post
         </button>

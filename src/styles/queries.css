@@ -232,7 +232,7 @@
   .home-collection-container,
   .details-collection-container {
     overflow-x: auto;
-    justify-content: start;
+    /* justify-content: start; */
   }
 
   .home-collection-container {

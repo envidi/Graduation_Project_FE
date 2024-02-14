@@ -1,25 +1,29 @@
 import { useState } from 'react'
 import './comment.css'
-import CommentItem from './CommentList'
+import CommentList from './CommentList'
 import useNode from '@/hooks/useNode'
 import { countComments } from '@/utils'
 import { MyObjectComment } from '@/hooks/useNode'
 const comments: MyObjectComment = {
   id: 1,
   content: '',
+  like: 1,
   items: [
     {
       id: 2,
       content: 'John',
+      like: 1,
       items: [
         {
           id: 3,
           content: 'Envidi',
+          like: 2,
           items: [
             {
               id: 4,
               content: 'JohnCena',
-              items:[]
+              like: 3,
+              items: []
             }
           ]
         }
@@ -29,11 +33,17 @@ const comments: MyObjectComment = {
 }
 function Comment() {
   const [commentData, setCommentData] = useState(comments)
-  const { insertNode } = useNode()
   const commentCount = countComments(commentData) - 1
-  const handleInsertNode = (folderId: number, item: string) => {
-    console.log(commentCount)
-    const finalStructure = insertNode(commentData, folderId, item)
+  const { insertNode, editNode } = useNode()
+
+  const handleInsertNode = (folderId: number, item: string, like:number) => {
+    const finalStructure = insertNode(commentData, folderId, like, item)
+    setCommentData((prev: MyObjectComment) => {
+      return { ...prev, ...finalStructure }
+    })
+  }
+  const handleEditNode = (folderId: number, item: string, like:number) => {
+    const finalStructure = editNode(commentData, folderId, like, item)
     setCommentData(finalStructure)
   }
 
@@ -44,8 +54,9 @@ function Comment() {
       </h2>
       <div className="bg-background-main flex  flex-col">
         <div className="w-full md:w-100 h-auto shadow py-2 flex flex-col space-y-2">
-          <CommentItem
+          <CommentList
             handleInsertNode={handleInsertNode}
+            handleEditNode={handleEditNode}
             comment={commentData}
           />
         </div>

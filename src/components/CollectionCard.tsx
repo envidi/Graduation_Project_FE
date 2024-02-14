@@ -1,22 +1,43 @@
 import { useNavigate } from 'react-router-dom'
-import imgSpider from '@/assets/spiderman.webp'
+import { MovieType } from '@/Interface/movie'
+import { convertMintuteToHour, getDay } from '@/utils'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
-export const CollectionCard = ({ className }: { className: string }) => {
+export const CollectionCard = ({
+  className,
+  movie
+}: {
+  className: string
+  movie: MovieType
+}) => {
   const navigate = useNavigate()
+  const { name, image, rate, categoryId, fromDate, duration } = movie
 
+  const categorySection = categoryId?.map((category, index) => {
+    return (
+      <span className="mr-2" key={category._id}>
+        {category.name}
+        {index === categoryId.length - 1 ? '' : ','}
+      </span>
+    )
+  })
   // const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
   // const ourRating = rating
 
   return (
     <div className={`home-movie-card ${className}`}>
       <div className="home-movie-img-box">
-        <img className="home-movie-img" src={imgSpider} alt={'photo'} />
+        <LazyLoadImage
+          className="movie-info-img"
+          src={image}
+          alt={'Movie Photo'}
+          effect="blur"
+        />
+        {/* <img className="home-movie-img" src={image} alt={'photo'} /> */}
       </div>
 
       <div className="movie-card-line line-1">
-        <p className="movie-title xs:text-xl">
-          Spider-Man: Across the Spider-Verse
-        </p>
+        <p className="movie-title xs:text-xl">{name}</p>
 
         <div className="movie-rating">
           <svg
@@ -26,11 +47,11 @@ export const CollectionCard = ({ className }: { className: string }) => {
           >
             <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
           </svg>
-          <span>8.8</span>
+          <span>{rate}/5</span>
         </div>
       </div>
 
-      <p className="movie-genre">Action, Adventure, Animation</p>
+      <p className="movie-genre">{categorySection}</p>
 
       <div className="movie-card-third-line">
         <div className="line-2">
@@ -75,7 +96,7 @@ export const CollectionCard = ({ className }: { className: string }) => {
               d="M464 160H48"
             />
           </svg>
-          <p className="category">23/06/2023</p>
+          <p className="category">{getDay(fromDate)}</p>
         </div>
 
         <div className="line-3">
@@ -100,7 +121,7 @@ export const CollectionCard = ({ className }: { className: string }) => {
               d="M256 128v144h96"
             />
           </svg>
-          <p className="category-value">2h 16m</p>
+          <p className="category-value">{convertMintuteToHour(duration)}</p>
         </div>
       </div>
 

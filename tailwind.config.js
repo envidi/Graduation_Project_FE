@@ -45,7 +45,8 @@ module.exports = {
         background: {
           DEFAULT : 'hsl(var(--background))',
           main: 'hsl(var(--bg-main))',
-          secondary: 'hsl(var(--bg-secondary))'
+          secondary: 'hsl(var(--bg-secondary))',
+          btnControllerCarousel:'hsl(var(--button-control-carousel))'
         },
         foreground: 'hsl(var(--foreground))',
         primary: {

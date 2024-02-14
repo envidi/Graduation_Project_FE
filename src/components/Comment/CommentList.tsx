@@ -1,25 +1,30 @@
 import FormComment from './FormComment'
 import FormReply from './FormReply'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 type ChangeEvent = React.ChangeEvent<HTMLTextAreaElement>
 import { MyObjectComment } from '@/hooks/useNode'
 import CommentItem from './CommentItem'
 interface CommentListType {
   // eslint-disable-next-line no-unused-vars
-  handleInsertNode: (folderId: number, item: string) => void
+  handleInsertNode: (folderId: number, item: string, like: number) => void
+  // eslint-disable-next-line no-unused-vars
+  handleEditNode: (folderId: number, item: string, like: number) => void
   comment: {
     id: number
     content: string
+    like: number
     items: MyObjectComment[]
   }
 }
 
-const CommentList = ({ handleInsertNode, comment }: CommentListType) => {
+const CommentList = ({
+  handleInsertNode,
+  handleEditNode,
+  comment
+}: CommentListType) => {
   const [showInput, setShowInput] = useState<boolean>(false)
   const [expand, setExpand] = useState<boolean>(false)
   const [input, setInput] = useState('')
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-
   const handleNewComment = () => {
     setShowInput(!showInput)
     setExpand(true)
@@ -34,9 +39,9 @@ const CommentList = ({ handleInsertNode, comment }: CommentListType) => {
   const cancleReply = () => {
     setShowInput(false)
   }
-  const addComment = () => {
+  const addComment = (like: number) => {
     setExpand(true)
-    handleInsertNode(comment.id, input)
+    handleInsertNode(comment.id, input, like)
     setShowInput(false)
     setInput('')
   }
@@ -61,6 +66,7 @@ const CommentList = ({ handleInsertNode, comment }: CommentListType) => {
             <CommentItem
               comment={comment}
               handleNewComment={handleNewComment}
+              handleEditNode={handleEditNode}
               toggleReply={toggleReply}
               expand={expand}
             />
@@ -68,20 +74,22 @@ const CommentList = ({ handleInsertNode, comment }: CommentListType) => {
         </div>
       }
       <div
-        className={comment.id !== 1 ? 'ms-24' : ''}
+        className={comment.id !== 1 ? 'sm:ms-24 xs:ms-16' : ''}
         style={{ display: expand || comment.id === 1 ? 'block' : 'none' }}
       >
         {showInput && (
           <FormReply
-            handleChange={handleChange}
-            handleClick={addComment}
+            comment={comment}
             cancleReply={cancleReply}
-            ref={inputRef}
+            setExpand={setExpand}
+            setShowInput={setShowInput}
+            handleInsertNode={handleInsertNode}
           />
         )}
         {comment?.items?.map((cmnt: MyObjectComment) => {
           return (
             <CommentList
+              handleEditNode={handleEditNode}
               handleInsertNode={handleInsertNode}
               key={cmnt.id}
               comment={cmnt}

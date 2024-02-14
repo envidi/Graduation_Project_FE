@@ -1985,7 +1985,7 @@ header {
 
 .movie-info-screen-container-3d,
 .movie-info-screen-container-2d {
-  display: grid;
+  /* display: grid; */
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto 1fr;
   justify-items: center;

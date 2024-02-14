@@ -1,190 +1,90 @@
-// import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getOneMovie } from '@/api/movie'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { LocationSelector } from '../../../components/LocationSelector'
 import { Calendar } from '@/components/ui/calendar'
 import { useState } from 'react'
+import 'react-lazy-load-image-component/src/effects/blur.css'
 // import axios from 'axios'
-// import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
-import img from '@/assets/oppenheimer.webp'
+import {
+  chuyenDoiNgayDauVao,
+  convertAmPm,
+  getDay,
+  getHourAndMinute,
+  selectCalendar
+} from '@/utils'
+
+export interface ShowTime {
+  _id: string
+  screenRoomId: string
+  status: string
+  timeFrom: string
+  timeTo: string
+  date: string
+}
 
 export const MovieInfoSection = () => {
   const [date, setDate] = useState<Date | undefined>(new Date())
-  const isTrue = true
-  // const [movieData, setMovieData] = useState({})
-  // const [showtimesData, setShowtimesData] = useState([])
-  // const navigate = useNavigate()
-  // const [loading1, setLoading1] = useState(false)
-  // const [loading2, setLoading2] = useState(true)
-  // const { id } = useParams()
-  // const movieDetailsId = Number(id)
+  const id = useParams()
+  const { data: dataMovie, isLoading } = useQuery({
+    queryKey: ['MOVIE', id],
+    queryFn: () => getOneMovie('65c8dc874a19975a1cc5fc7e')
+  })
 
+  const isTrue = true
   const override = {
     display: 'block',
     margin: '9.6rem auto'
   }
+  if (isLoading) {
+    return <HashLoader cssOverride={override} size={60} color="#eb3656" />
+  }
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading1(true)
-  //     try {
-  //       const movieDetailResponse = await axios.post(
-  //         `${import.meta.env.VITE_API_URL}/movieDetail`,
-  //         {
-  //           movieDetailsId,
-  //         }
-  //       )
+  const {
+    name,
+    image,
+    rate,
+    author,
+    actor,
+    language,
+    duration,
+    categoryCol,
+    fromDate,
+    desc,
+    showTimeCol
+  } = dataMovie
+  const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
 
-  //       const formattedRelDate = new Date(
-  //         movieDetailResponse.data[0].release_date
-  //       ).toLocaleDateString('en-GB')
-  //       const durationDetail1 = movieDetailResponse.data[0].duration.replace(
-  //         'h',
-  //         ' hours'
-  //       )
-  //       const duration = durationDetail1.replace('m', ' minutes')
-  //       const formattedMovieData = {
-  //         ...movieDetailResponse.data[0],
-  //         name: movieDetailResponse.data[0].name,
-  //         duration,
-  //         release_date: formattedRelDate,
-  //         rating: movieDetailResponse.data[0].rating.toFixed(1),
-  //       }
+  const showTimePerDay = showTimeCol
+    .map((showTime: ShowTime) => {
+      if (
+        getDay(showTime.date) === getDay(selectCalendar(date)) &&
+        showTime.status === 'Available'
+      ) {
+        return showTime
+      }
+    })
+    .filter(function (element: ShowTime) {
+      return element !== undefined
+    })
 
-  //       setMovieData(formattedMovieData)
-
-  //       const showtimeResponse = await axios.post(
-  //         `${import.meta.env.VITE_API_URL}/movieWiseShowtime`,
-  //         {
-  //           movieDetailsId,
-  //           theatreId: userLocation?.id,
-  //         }
-  //       )
-  //       setShowtimesData(showtimeResponse.data)
-  //     } catch (err) {
-  //       console.error(err)
-  //     } finally {
-  //       setLoading1(false)
-  //     }
-  //   }
-
-  //   fetchData()
-  // }, [movieDetailsId])
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading2(true)
-  //       const response = await axios.post(
-  //         `${import.meta.env.VITE_API_URL}/movieWiseShowtime`,
-  //         {
-  //           movieDetailsId,
-  //           theatreId: userLocation?.id,
-  //         }
-  //       )
-  //       setShowtimesData(response.data)
-  //     } catch (err) {
-  //       console.error(err)
-  //     } finally {
-  //       setLoading2(false)
-  //     }
-  //   }
-
-  //   fetchData()
-  // }, [userLocation])
-
-  // const showtimesObj3d = {}
-  // const showtimesObj2d = {}
-
-  // showtimesData.length > 0 &&
-  //   showtimesData.forEach((show) => {
-  //     const curDate = show.showtime_date
-
-  //     if (show.show_type === '3D') {
-  //       if (curDate in showtimesObj3d) {
-  //         showtimesObj3d[curDate].push(show)
-  //       } else {
-  //         showtimesObj3d[curDate] = [show]
-  //       }
-  //     }
-  //   })
-
-  // showtimesData.length > 0 &&
-  //   showtimesData.forEach((show) => {
-  //     const curDate = show.showtime_date
-
-  //     if (show.show_type === '2D') {
-  //       if (curDate in showtimesObj2d) {
-  //         showtimesObj2d[curDate].push(show)
-  //       } else {
-  //         showtimesObj2d[curDate] = [show]
-  //       }
-  //     }
-  //   })
-
-  const showHtml3d = (
-    <div className="showtimes-schedule">
-      <h3 className="showtimes-date">Aug 19, 2023</h3>
-
-      <ul className="showtimes-startime-btn-list">
-        <li>
-          <button className="showtimes-startime-btn">2:30 pm</button>
-        </li>
-        <li>
-          <button className="showtimes-startime-btn">2:30 pm</button>
-        </li>
-      </ul>
-    </div>
-  )
-
-  // const showHtml2d = Object.keys(showtimesObj2d).map(
-  //   (showDate, indexShowDate) => {
-  //     const times = showtimesObj2d[showDate]
-
-  //     const timesHtml = times.map((singleTime, index) => {
-  //       return (
-  //         <li key={index}>
-  //           <button
-  //             className="showtimes-startime-btn"
-  //             onClick={() => {
-  //               Object.keys(signedPerson).length !== 0 &&
-  //               signedPerson.person_type === 'Customer'
-  //                 ? navigate('/purchase')
-  //                 : handleLoginState()
-  //             }}
-  //           >
-  //             {singleTime.movie_start_time}
-  //           </button>
-  //         </li>
-  //       )
-  //     })
-  //     const formattedDate = new Date(showDate).toLocaleString('en-US', {
-  //       month: 'short',
-  //       day: 'numeric',
-  //       year: 'numeric',
-  //     })
-
-  //     return (
-  //       <div key={indexShowDate} className="showtimes-schedule">
-  //         <h3 className="showtimes-date">{formattedDate}</h3>
-
-  //         <ul className="showtimes-startime-btn-list">{timesHtml}</ul>
-  //       </div>
-  //     )
-  //   }
-  // )
-
-  return !isTrue ? (
-    <HashLoader cssOverride={override} size={60} color="#eb3656" />
-  ) : (
+  return (
     <div className="section-movie-info container ">
       <div className="max-w-[132rem] mx-auto px-[3.2rem]">
         <div className="movie-info-grid-container">
           <div className="movie-info-img-container">
-            <img className="movie-info-img" src={img} alt="Movie Photo" />
+            <LazyLoadImage
+              className="movie-info-img"
+              src={image}
+              alt={'Movie Photo'}
+              effect="blur"
+            />
           </div>
 
           <div className="movie-info-attr-container">
-            <h2 className="movie-info-name">Oppenheimer</h2>
+            <h2 className="movie-info-name">{name}</h2>
 
             <div className="movie-info-small-container ">
               <svg
@@ -209,7 +109,7 @@ export const MovieInfoSection = () => {
                   strokeWidth="32"
                 />
               </svg>
-              <p>English</p>
+              <p>{language}</p>
             </div>
 
             <div className="movie-info-small-container ">
@@ -220,7 +120,7 @@ export const MovieInfoSection = () => {
               >
                 <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
               </svg>
-              <p>9.4/10</p>
+              <p>{rate}/10</p>
             </div>
 
             <div className="movie-info-small-container ">
@@ -265,7 +165,7 @@ export const MovieInfoSection = () => {
                   d="M464 160H48"
                 />
               </svg>
-              <p>21/07/2023</p>
+              <p>{getDay(fromDate)}</p>
             </div>
 
             <div className="movie-info-small-container ">
@@ -290,43 +190,40 @@ export const MovieInfoSection = () => {
                   d="M256 128v144h96"
                 />
               </svg>
-              <p>3 hours</p>
+              <p>{duration}</p>
             </div>
 
             <div className="movie-info-genre-container">
               <p className="movie-info-title">Genre: </p>
-              <p>Biography, Drama, History</p>
+              {categoryCol.map((category: { _id: string; name: string }) => (
+                <p key={category._id}>{category.name}</p>
+              ))}
             </div>
 
             <div className="movie-info-director-container">
               <p className="movie-info-title">Directed by: </p>
-              <p>Christopher Nolan</p>
+              <p>{author}</p>
             </div>
 
             <div className="movie-info-cast-container">
               <p className="movie-info-title">Top Cast: </p>
-              <p>Cillian Murphy</p>
+              <p>{actor}</p>
             </div>
           </div>
         </div>
 
         <div className="movie-info-description-container">
           <h3 className="movie-info-description-heading">Synopsis</h3>
-          <p className="movie-info-description">
-            During World War II, Lt. Gen. Leslie Groves Jr. appoints physicist
-            J. Robert Oppenheimer to work on the top-secret Manhattan Project.
-            Oppenheimer and a team of scientists spend years developing and
-            designing the atomic bomb. Their work comes to fruition on July 16,
-            1945, as they witness the world s first nuclear explosion, forever
-            changing the course of history.
-          </p>
+          <p className="movie-info-description">{desc}</p>
         </div>
 
         <div className="movie-info-location-container">
           <LocationSelector />
         </div>
 
-        <h3 className="movie-info-screen-heading">Showtimes</h3>
+        <h3 className="movie-info-screen-heading heading-collection w-fit mb-10">
+          Showtimes
+        </h3>
         <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center ">
           <Calendar
             mode="single"
@@ -335,23 +232,31 @@ export const MovieInfoSection = () => {
             className="rounded-md px-5 border border-border-calendarBorder mt-[3.2rem] "
           />
           {isTrue ? (
-            <div className="movie-info-screen-container md:basis-2/3 sm:w-full  xs:w-full ">
-              <div className="movie-info-screen-container-3d">
-                <h2 className="showtimes-screen">3D</h2>
+            <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full  xs:w-full ">
+              <div
+                className={`movie-info-screen-container-3d ${showTimePerDay.length > 0 ? 'grid' : ''}`}
+              >
+                <h2 className="showtimes-screen">{today}</h2>
 
-                {showHtml3d}
-                {showHtml3d}
-                {showHtml3d}
-                {showHtml3d}
-              </div>
-
-              <div className="movie-info-screen-container-2d">
-                <h2 className="showtimes-screen">2D</h2>
-
-                {showHtml3d}
-                {showHtml3d}
-                {showHtml3d}
-                {showHtml3d}
+                {showTimePerDay.length > 0 ? (
+                  showTimePerDay.map((showtime: ShowTime, index: number) => {
+                    return (
+                      <div
+                        className="showtimes-schedule md:my-8 xs:my-10"
+                        key={index}
+                      >
+                        {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
+                        <button className="showtimes-startime-btn xs:w-52 xs:h-20 md:w-40 md:h-16">
+                          {convertAmPm(getHourAndMinute(showtime.timeFrom))}
+                        </button>
+                      </div>
+                    )
+                  })
+                ) : (
+                  <div className="h-32 text-3xl flex items-center justify-center w-full">
+                    No showtime in this day
+                  </div>
+                )}
               </div>
             </div>
           ) : (

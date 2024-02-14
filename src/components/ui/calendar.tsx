@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { DayPicker } from 'react-day-picker'
@@ -32,12 +33,12 @@ function Calendar({
         table: 'w-full border-collapse space-y-1',
         head_row: 'flex',
         head_cell:
-          'text-muted-foreground rounded-md lg:w-20 md:w-14 sm:w-24 xs:w-24 sm:text-3xl xs:text-3xl font-normal md:text-2xl',
+          'text-muted-foreground rounded-md lg:w-20 md:w-16 md:h-16 sm:w-20 xs:w-20 sm:text-3xl xs:text-2xl font-normal md:text-2xl',
         row: 'flex w-full mt-2 ',
-        cell: 'lg:h-20 lg:w-20 md:w-14 md:h-14 sm:h-24 sm:w-24 xs:h-24 xs:w-24 text-center rounded-md text-xl p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
+        cell: 'lg:h-20 lg:w-20 md:w-16 md:h-16 sm:h-24 sm:w-24 xs:h-20 xs:w-20 text-center rounded-md text-xl p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
         day: cn(
           buttonVariants({ variant: 'ghost' }),
-          'lg:h-20 lg:w-20 md:w-14 md:h-14 sm:h-24 sm:w-24 xs:h-24 xs:w-24 sm:text-3xl xs:text-3xl p-0 md:text-2xl font-normal aria-selected:opacity-100 '
+          'lg:h-20 lg:w-20 md:w-16 md:h-16 sm:h-24 sm:w-24 xs:h-20 xs:w-20 sm:text-3xl xs:text-2xl p-0 md:text-2xl font-normal aria-selected:opacity-100 '
         ),
         day_range_end: 'day-range-end',
         day_selected:
@@ -52,6 +53,7 @@ function Calendar({
         ...classNames
       }}
       components={{
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         IconLeft: ({ ...props }) => <ChevronLeft className="h-20 w-20" />,
         IconRight: ({ ...props }) => <ChevronRight className="h-20 w-20" />
       }}

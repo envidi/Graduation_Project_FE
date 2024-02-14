@@ -1,14 +1,31 @@
+/* eslint-disable quotes */
 import { ChevronRight, ChevronDown, ThumbsUp } from 'lucide-react'
 import Action from '../Action/Action'
 import { MyObjectComment } from '@/hooks/useNode'
+import { useState } from 'react'
 interface CommentItemType {
-    comment : MyObjectComment
-    handleNewComment : ()=>void
-    toggleReply : ()=>void
-    expand:boolean
+  comment: MyObjectComment
+  handleNewComment: () => void
+  toggleReply: () => void
+  // eslint-disable-next-line no-unused-vars
+  handleEditNode: (folderId: number, item: string, like: number) => void
+  expand: boolean
 }
 
-function CommentItem({ comment, handleNewComment, toggleReply, expand }: CommentItemType) {
+function CommentItem({
+  comment,
+  handleNewComment,
+  toggleReply,
+  handleEditNode,
+  expand
+}: CommentItemType) {
+  const [isLike, setIsLike] = useState<boolean|undefined>(undefined)
+  const likeCount = !isLike ? comment.like + 1 : comment.like - 1
+
+  const handleLike = () => {
+    handleEditNode(comment.id, comment.content, likeCount)
+    setIsLike(!isLike)
+  }
   return (
     <>
       <div className="group relative flex flex-shrink-0 self-start cursor-pointer">
@@ -39,10 +56,15 @@ function CommentItem({ comment, handleNewComment, toggleReply, expand }: Comment
           <div className="flex justify-start items-center sm:text-3xl  xs:text-4xl w-full my-3">
             <div className="font-semibold text-[#babbc0] gap-4 px-2 flex flex-col items-center justify-center space-x-1">
               <div className="font-semibold text-[#babbc0] gap-4 px-2 flex items-center justify-center space-x-1">
-                <a href="#" className="hover:underline">
-                  <small className="flex">
+                <a className="hover:underline">
+                  <small
+                    className={`flex ${isLike ? 'text-primary-movieColor' : ''}`}
+                    onClick={handleLike}
+                  >
                     <ThumbsUp size={20} className="mb-2" />
-                    <span className="flex items-center mt-1 ms-2">12</span>
+                    <span className="flex items-center mt-1 ms-2">
+                      {comment.like}
+                    </span>
                   </small>
                 </a>
                 <small className="self-center">.</small>
