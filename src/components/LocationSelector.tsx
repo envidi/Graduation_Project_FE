@@ -1,49 +1,77 @@
+/* eslint-disable no-unused-vars */
+import { getAllCinema } from '@/api/cinema'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
+  SelectValue
 } from '@/components/ui/select'
+import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import HashLoader from 'react-spinners/HashLoader'
+interface CinemaType {
+  _id: string
+  CinemaName: string
+  CinemaAdress: string
+}
 
-export const LocationSelector = () => {
-  // const [loading, setLoading] = useState(true)
+export const LocationSelector = ({
+  handleCurrentLocation
+}: {
+  handleCurrentLocation: (location:string) => void
+}) => {
+  const [locationTheater, setLocationTheater] = useState<string>(
+    '65ab4469b0b5038ee5248f2a'
+  )
+  const { data: dataCinema, isLoading } = useQuery({
+    queryKey: ['CINEMA'],
+    queryFn: () => getAllCinema()
+  })
+  if (isLoading) {
+    return <HashLoader color="#eb3656" />
+  }
+  const defaultLocation = dataCinema.find((cinema: CinemaType) => {
+    return cinema._id === locationTheater
+  })
+  const handleOnSelect = (value: string) => {
+    setLocationTheater(value)
+    handleCurrentLocation(value)
+  }
 
-  // const locationOptions =
-  //   locationData.length > 0 &&
-  //   locationData.map((location:any, idx:any) => {
-  //     return (
-  //       <option key={idx} value={location.location}>
-  //         {location.location}
-  //       </option>
-  //     )
-  //   })
-
-  return true ? (
+  return (
     <div className="location-select-container ">
-      <Select>
-        <SelectTrigger className="w-[10rem] bg-[#313441] outline-none py-8 text-[#e6e6e8] border-none px-5 text-[1.7rem] rounded-xl">
-          <SelectValue placeholder="BHD" />
+      <Select onValueChange={(value: string) => handleOnSelect(value)}>
+        <SelectTrigger className="w-52 bg-[#313441] outline-none py-8 text-[#e6e6e8] border-none px-5 text-[1.7rem] rounded-xl">
+          <SelectValue placeholder={defaultLocation.CinemaName ?? ''} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem className="text-[1.6rem]" value="BHD">
-            BHD
-          </SelectItem>
-          <SelectItem className="text-[1.6rem]" value="CGV">
-            CGV
-          </SelectItem>
+          {dataCinema?.map((data: CinemaType) => {
+            return (
+              <SelectItem
+                key={data._id}
+                className="text-[1.6rem]"
+                value={data._id}
+              >
+                {data.CinemaName}
+              </SelectItem>
+            )
+          })}
         </SelectContent>
       </Select>
 
-      <p className="selected-location">
-        Location: <span>Hà Nội</span>
+      <p className="selected-location text-primary-movieColor">
+        Location:{' '}
+        <span className="text-primary-locationMovie">
+          {defaultLocation.CinemaAdress ?? ''}
+        </span>
       </p>
-      <p className="selected-theatre">
-        Theatre: <span>BHD</span>
+      <p className="selected-theatre text-primary-movieColor">
+        Theatre:{' '}
+        <span className="text-primary-locationMovie">
+          {defaultLocation.CinemaName ?? ''}
+        </span>
       </p>
     </div>
-  ) : (
-    <HashLoader color="#eb3656" />
   )
 }

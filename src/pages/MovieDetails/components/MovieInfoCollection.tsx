@@ -10,7 +10,7 @@ import './slider.css'
 import { Navigation } from 'swiper/modules'
 import { FreeMode } from 'swiper/modules'
 import 'swiper/css/free-mode'
-// import Carousel from '@/components/CardCarousel/CardCarousel'
+import Carousel from '@/components/CardCarousel/CardCarousel'
 import HashLoader from 'react-spinners/HashLoader'
 import { checkSlidePerView } from '@/utils'
 import { MovieType } from '@/Interface/movie'
@@ -31,7 +31,6 @@ export const MovieInfoCollection = () => {
   if (isLoading) {
     return <HashLoader cssOverride={override} size={60} color="#eb3656" />
   }
-  // const dataMovie = [1, 2, 3]
   // const { name, image, rate, categoryCol, fromDate, showTimeCol } =
   //   dataMovie
   // const [swiperRef, setSwiperRef] = useState<>(null)
@@ -63,37 +62,17 @@ export const MovieInfoCollection = () => {
   //   fetchData()
   // }, [movieDetailsId])
 
-  // const latestMoviesCards = movieData.map((latestMovie, idx) => {
-  //   return (
-  //     idx < 6 && (
-  //       <CollectionCard
-  //         key={latestMovie.id}
-  //         {...latestMovie}
-  //         signedPerson={signedPerson}
-  //         handleLoginState={handleLoginState}
-  //         currentMovieDetails={currentMovieDetails}
-  //       />
-  //     )
-  //   )
-  // })
-
   return (
-    <section className="section-movie-info-collection">
+    <section className="section-movie-info-collection bg-background-secondary">
       <div className="home-collection-heading-container">
-        <h1 className="heading-secondary heading-collection">
+        <h1 className="heading-secondary border-b-4 border-primary-movieColor ">
           Find other movies &rarr;
         </h1>
       </div>
 
       <div className="details-collection-container">
         <Swiper
-          slidesPerView={
-            dataMovie?.length > 0
-              ? dataMovie.length
-              : dataMovie?.length > 5
-                ? 5
-                : dataMovie?.length
-          }
+          slidesPerView={4}
           spaceBetween={30}
           freeMode={true}
           pagination={{
@@ -102,65 +81,40 @@ export const MovieInfoCollection = () => {
           navigation={true}
           breakpoints={{
             // when window width is >= 320px
-            '350': {
+            350: {
               slidesPerView: 1,
               spaceBetween: 1
             },
-            '500': {
+            500: {
               slidesPerView: 2,
               spaceBetween: 20
             },
             // when window width is >= 480px
-            '600': {
-              slidesPerView:
-                dataMovie?.length > 0
-                  ? dataMovie.length
-                  : dataMovie?.length > 5
-                    ? 2
-                    : dataMovie?.length,
+            600: {
+              slidesPerView: checkSlidePerView(dataMovie, 2),
               spaceBetween: 20
             },
             // when window width is >= 600px
-            '730': {
-              slidesPerView:
-                dataMovie?.length > 0
-                  ? dataMovie.length
-                  : dataMovie?.length > 5
-                    ? 3
-                    : dataMovie?.length,
+            730: {
+              slidesPerView: checkSlidePerView(dataMovie, 3),
               spaceBetween: 10
             },
-            '950': {
-              slidesPerView:
-                dataMovie?.length > 0
-                  ? dataMovie.length
-                  : dataMovie?.length > 5
-                    ? 4
-                    : dataMovie?.length,
+            950: {
+              slidesPerView: checkSlidePerView(dataMovie, 4),
               spaceBetween: 20
             },
             // when window width is >= 640px
-            '1024': {
-              slidesPerView:
-                dataMovie?.length > 0
-                  ? dataMovie.length
-                  : dataMovie?.length > 5
-                    ? 4
-                    : dataMovie?.length,
+            1024: {
+              slidesPerView: checkSlidePerView(dataMovie, 4),
               spaceBetween: 40
             },
             // when window width is >= 640px
-            '1240': {
-              slidesPerView:
-                dataMovie?.length > 0
-                  ? dataMovie.length
-                  : dataMovie?.length > 5
-                    ? 5
-                    : dataMovie?.length,
+            1240: {
+              slidesPerView: checkSlidePerView(dataMovie, 5),
               spaceBetween: 15
             },
             // when window width is >= 640px
-            '1280': {
+            1280: {
               slidesPerView: checkSlidePerView(dataMovie, 5),
               spaceBetween: 40
             }
@@ -170,15 +124,6 @@ export const MovieInfoCollection = () => {
           // onSlideChange={setSwiperRef}
         >
           {dataMovie?.map((movie: MovieType, index: number) => {
-            // const {
-            //   _id,
-            //   name,
-            //   image,
-            //   rate,
-            //   categoryCol,
-            //   fromDate,
-            //   showTimeCol
-            // } = dataMovie
             return (
               <SwiperSlide key={index}>
                 <CollectionCard
@@ -190,14 +135,15 @@ export const MovieInfoCollection = () => {
           })}
         </Swiper>
         {/* ------------------------------------------------------------------------- */}
-        {/* <Carousel className="xs:block sm:hidden">
-          {[...new Array(10)].map((_, i) => (
+        <Carousel className="xs:block sm:hidden">
+          {dataMovie?.map((movie: MovieType, i: number) => (
             <CollectionCard
               key={i}
+              movie={movie}
               className="md:w-[26rem] sm:w-[28rem] xs:w-[26rem]"
             />
           ))}
-        </Carousel> */}
+        </Carousel>
       </div>
     </section>
   )

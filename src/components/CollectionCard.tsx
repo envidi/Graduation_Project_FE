@@ -25,7 +25,7 @@ export const CollectionCard = ({
   // const ourRating = rating
 
   return (
-    <div className={`home-movie-card ${className}`}>
+    <div className={`home-movie-card bg-background-main ${className}`}>
       <div className="home-movie-img-box">
         <LazyLoadImage
           className="movie-info-img"
@@ -37,12 +37,12 @@ export const CollectionCard = ({
       </div>
 
       <div className="movie-card-line line-1">
-        <p className="movie-title xs:text-xl">{name}</p>
+        <p className="movie-title text-primary-cardMovie xs:text-xl">{name}</p>
 
-        <div className="movie-rating">
+        <div className="movie-rating text-primary-infoMovie">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="collection-icon"
+            className="collection-icon text-primary-movieColor fill-primary-movieColor"
             viewBox="0 0 512 512"
           >
             <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
@@ -51,13 +51,13 @@ export const CollectionCard = ({
         </div>
       </div>
 
-      <p className="movie-genre">{categorySection}</p>
+      <p className="movie-genre text-primary-infoMovie">{categorySection}</p>
 
       <div className="movie-card-third-line">
         <div className="line-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="collection-icon"
+            className="collection-icon text-primary-movieColor fill-primary-movieColor"
             viewBox="0 0 512 512"
           >
             <rect
@@ -102,7 +102,7 @@ export const CollectionCard = ({
         <div className="line-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="collection-icon"
+            className="collection-icon text-primary-movieColor fill-primary-movieColor"
             viewBox="0 0 512 512"
           >
             <path

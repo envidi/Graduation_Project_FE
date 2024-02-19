@@ -3,7 +3,7 @@ import { getOneMovie } from '@/api/movie'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { LocationSelector } from '../../../components/LocationSelector'
 import { Calendar } from '@/components/ui/calendar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 // import axios from 'axios'
 import { useParams } from 'react-router-dom'
@@ -15,10 +15,16 @@ import {
   getHourAndMinute,
   selectCalendar
 } from '@/utils'
+import { AVAILABLE, MOVIE } from '@/utils/constant'
 
 export interface ShowTime {
   _id: string
   screenRoomId: string
+  cinemaId: {
+    _id: string
+    CinemaName: string
+    CinemaAdress: string
+  }
   status: string
   timeFrom: string
   timeTo: string
@@ -27,13 +33,22 @@ export interface ShowTime {
 
 export const MovieInfoSection = () => {
   const [date, setDate] = useState<Date | undefined>(new Date())
+  const [currentLocation, setCurrentLocation] = useState<string>('')
   const id = useParams()
   const { data: dataMovie, isLoading } = useQuery({
-    queryKey: ['MOVIE', id],
+    queryKey: [MOVIE, id],
     queryFn: () => getOneMovie('65c8dc874a19975a1cc5fc7e')
   })
 
-  const isTrue = true
+  useEffect(() => {
+    if (dataMovie && Object.keys(dataMovie).length > 0) {
+      setCurrentLocation(dataMovie.showTimeCol[0].cinemaId._id)
+    }
+  }, [dataMovie])
+  console.log(currentLocation)
+  const handleCurrentLocation = (locationId: string) => {
+    setCurrentLocation(locationId)
+  }
   const override = {
     display: 'block',
     margin: '9.6rem auto'
@@ -55,13 +70,15 @@ export const MovieInfoSection = () => {
     desc,
     showTimeCol
   } = dataMovie
+
   const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
 
   const showTimePerDay = showTimeCol
     .map((showTime: ShowTime) => {
       if (
         getDay(showTime.date) === getDay(selectCalendar(date)) &&
-        showTime.status === 'Available'
+        showTime.status === AVAILABLE &&
+        showTime.cinemaId._id.toString() === currentLocation.toString()
       ) {
         return showTime
       }
@@ -84,12 +101,12 @@ export const MovieInfoSection = () => {
           </div>
 
           <div className="movie-info-attr-container">
-            <h2 className="movie-info-name">{name}</h2>
+            <h2 className="movie-info-name text-primary-nameMovie">{name}</h2>
 
             <div className="movie-info-small-container ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
                 viewBox="0 0 512 512"
               >
                 <path
@@ -115,7 +132,7 @@ export const MovieInfoSection = () => {
             <div className="movie-info-small-container ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
                 viewBox="0 0 512 512"
               >
                 <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
@@ -126,7 +143,7 @@ export const MovieInfoSection = () => {
             <div className="movie-info-small-container ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
                 viewBox="0 0 512 512"
               >
                 <rect
@@ -171,7 +188,7 @@ export const MovieInfoSection = () => {
             <div className="movie-info-small-container ">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
                 viewBox="0 0 512 512"
               >
                 <path
@@ -193,20 +210,26 @@ export const MovieInfoSection = () => {
               <p>{duration}</p>
             </div>
 
-            <div className="movie-info-genre-container">
-              <p className="movie-info-title">Genre: </p>
+            <div className="movie-info-genre-container text-primary-infoMovie">
+              <p className="movie-info-title text-primary-movieColor">
+                Genre:{' '}
+              </p>
               {categoryCol.map((category: { _id: string; name: string }) => (
                 <p key={category._id}>{category.name}</p>
               ))}
             </div>
 
-            <div className="movie-info-director-container">
-              <p className="movie-info-title">Directed by: </p>
+            <div className="movie-info-director-container text-primary-infoMovie">
+              <p className="movie-info-title text-primary-movieColor">
+                Directed by:{' '}
+              </p>
               <p>{author}</p>
             </div>
 
-            <div className="movie-info-cast-container">
-              <p className="movie-info-title">Top Cast: </p>
+            <div className="movie-info-cast-container text-primary-infoMovie">
+              <p className="movie-info-title text-primary-movieColor">
+                Top Cast:{' '}
+              </p>
               <p>{actor}</p>
             </div>
           </div>
@@ -218,10 +241,10 @@ export const MovieInfoSection = () => {
         </div>
 
         <div className="movie-info-location-container">
-          <LocationSelector />
+          <LocationSelector handleCurrentLocation={handleCurrentLocation} />
         </div>
 
-        <h3 className="movie-info-screen-heading heading-collection w-fit mb-10">
+        <h3 className="movie-info-screen-heading border-b-4 border-primary-movieColor text-primary-movieColor w-fit mb-10">
           Showtimes
         </h3>
         <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center ">
@@ -231,37 +254,35 @@ export const MovieInfoSection = () => {
             onSelect={setDate}
             className="rounded-md px-5 border border-border-calendarBorder mt-[3.2rem] "
           />
-          {isTrue ? (
-            <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full  xs:w-full ">
-              <div
-                className={`movie-info-screen-container-3d ${showTimePerDay.length > 0 ? 'grid' : ''}`}
-              >
-                <h2 className="showtimes-screen">{today}</h2>
+          <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full">
+            <div
+              className={`movie-info-screen-container-3d bg-background-third ${showTimePerDay.length > 0 ? 'grid' : ''}`}
+            >
+              <h2 className="showtimes-screen bg-background-headerShow">
+                {today}
+              </h2>
 
-                {showTimePerDay.length > 0 ? (
-                  showTimePerDay.map((showtime: ShowTime, index: number) => {
-                    return (
-                      <div
-                        className="showtimes-schedule md:my-8 xs:my-10"
-                        key={index}
-                      >
-                        {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
-                        <button className="showtimes-startime-btn xs:w-52 xs:h-20 md:w-40 md:h-16">
-                          {convertAmPm(getHourAndMinute(showtime.timeFrom))}
-                        </button>
-                      </div>
-                    )
-                  })
-                ) : (
-                  <div className="h-32 text-3xl flex items-center justify-center w-full">
-                    No showtime in this day
-                  </div>
-                )}
-              </div>
+              {showTimePerDay.length > 0 ? (
+                showTimePerDay.map((showtime: ShowTime, index: number) => {
+                  return (
+                    <div
+                      className="showtimes-schedule md:my-8 xs:my-10"
+                      key={index}
+                    >
+                      {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
+                      <button className="showtimes-startime-btn border-2 border-primary-movieColor hover:bg-primary-movieColorSecond text-primary-infoMovie xs:w-52 xs:h-20 md:w-40 md:h-16">
+                        {convertAmPm(getHourAndMinute(showtime.timeFrom))}
+                      </button>
+                    </div>
+                  )
+                })
+              ) : (
+                <div className="h-32 text-3xl flex items-center justify-center w-full">
+                  No showtime in this day
+                </div>
+              )}
             </div>
-          ) : (
-            <HashLoader cssOverride={override} size={60} color="#eb3656" />
-          )}
+          </div>
         </div>
       </div>
     </div>

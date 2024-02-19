@@ -13,15 +13,15 @@ module.exports = {
   prefix: '',
   theme: {
     screens: {
-      'xs': '350px',
+      xs: '350px',
       // => @media (min-width: 400px) { ... }
-      'sm': '600px',
+      sm: '600px',
       // => @media (min-width: 640px) { ... }
-      'md': '768px',
+      md: '768px',
       // => @media (min-width: 768px) { ... }
-      'lg': '1024px',
+      lg: '1024px',
       // => @media (min-width: 1024px) { ... }
-      'xl': '1280px',
+      xl: '1280px',
       // => @media (min-width: 1280px) { ... }
       '2xl': '1400px'
       // => @media (min-width: 1400px) { ... }
@@ -43,16 +43,23 @@ module.exports = {
         input: 'hsl(var(--input))',
         ring: 'hsl(var(--ring))',
         background: {
-          DEFAULT : 'hsl(var(--background))',
+          DEFAULT: 'hsl(var(--background))',
           main: 'hsl(var(--bg-main))',
           secondary: 'hsl(var(--bg-secondary))',
-          btnControllerCarousel:'hsl(var(--button-control-carousel))'
+          third: 'hsl(var(--bg-showtime))',
+          headerShow: 'hsl(var(--bg-headerShowTime))',
+          btnControllerCarousel: 'hsl(var(--button-control-carousel))'
         },
         foreground: 'hsl(var(--foreground))',
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
           movieColor: 'hsl(var(--primary-color-movie))',
+          movieColorSecond: 'hsl(var(--secondary-color-movie))',
+          nameMovie: 'hsl(var(--text-name-movie-color))',
+          infoMovie: 'hsl(var(--text-info-movie-color))',
+          cardMovie: 'hsl(var(--text-card-movie-color))',
+          locationMovie: 'hsl(var(--text-location-movie-color))',
           white: 'hsl(var(--primary-white))'
         },
         secondary: {

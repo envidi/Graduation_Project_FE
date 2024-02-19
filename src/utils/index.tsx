@@ -93,11 +93,7 @@ export function selectCalendar(inputDate: Date | undefined) {
   return ketQua
 }
 export const checkSlidePerView = (data: MovieType[], slide: number) => {
-  return data?.length > 0
-    ? data.length
-    : data?.length > 5
-      ? slide
-      : data?.length
+  return data?.length > 0 ? (data.length > slide ? slide : data.length) : 0
 }
 export function convertMintuteToHour(phut: number) {
   // Tính số giờ

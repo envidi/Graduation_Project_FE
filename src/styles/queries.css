@@ -572,7 +572,7 @@
   }
 
   .movie-info-img {
-    width: 50%;
+    /* width: 50%; */
     overflow: hidden;
     border-radius: 11px;
   }

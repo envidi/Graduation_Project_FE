@@ -4,15 +4,23 @@
 
 @layer base {
   :root {
+    --text-name-movie-color: 0 0% 90%;
+    --text-info-movie-color: 230 5% 74%;
+    --text-location-movie-color: 240 4% 91%;
+    --text-card-movie-color: 240 5% 91%;
+
     --background: 230 26% 14%;
     --foreground: 225 4% 81%;
     --primary-color-movie: 349 82% 57%;
+    --secondary-color-movie: 349 82% 65%;
     --calendar-border: hsla(220, 3%, 81%, 0.3);
     --button-control-carousel: 0 0% 25%;
     --primary-white: white;
 
     --bg-main: 227 27% 14%;
     --bg-secondary: 229 14% 22%;
+    --bg-showtime: 231 25% 11%;
+    --bg-headerShowTime: 229 27% 12%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
