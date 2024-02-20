@@ -90,6 +90,7 @@ header {
   padding: 0 3.2rem;
   align-items: center;
   position: sticky;
+ 
   top: 0;
   z-index: 3;
   background-color: transparent;
@@ -487,13 +488,14 @@ header {
   align-items: center;
   gap: 1.2rem;
   position: relative;
-  top: 70px;
-  left: 20%;
+  top: 2rem;
+  margin-left:20rem;
+  left: 20%; 
   transform: translate(-50% , -50%);
 }
 
 .search-input {
-  min-width: 28rem;
+  min-width: 20rem;
   height: 3.2rem;
   border: none;
   border-radius: 9px;

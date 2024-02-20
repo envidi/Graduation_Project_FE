@@ -111,14 +111,7 @@ const Header: React.FC<HeaderProps> = ({
       )}
 
       {/* header search */}
-      <div className="search-container">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Search for movies, theaters, showtimes"
-        />
-        <button className="search-btn">Search</button>
-      </div>
+   
       
       {/* header nav */}
       <nav>
@@ -161,7 +154,14 @@ const Header: React.FC<HeaderProps> = ({
           </li>
         </ul>
       </nav>
-
+      <div className="search-container">
+        <input
+          type="text"
+          className="search-input"
+          placeholder="Search for movies, theaters, showtimes"
+        />
+        {/* <button className="search-btn">Search</button> */}
+      </div>
       {/* header auth */}
       <div className="nav-signup">
         {Object.keys(signedPerson).length !== 0 && (
