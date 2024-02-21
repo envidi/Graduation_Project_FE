@@ -8,6 +8,7 @@ import './styles/queries.css'
 import { Route, Routes } from 'react-router-dom'
 import ClientLayout from './layouts/ClientLayout'
 import MovieDetailsPage from './pages/MovieDetails/MovieDetailsPage'
+import PurchasePage from './pages/Purchase/PurchasePage'
 // import { ProtectedRoute } from './components/ProtectedRoute'
 
 // import { SignupModal } from './pages/modals/SignupModal'
@@ -359,7 +360,7 @@ function App() {
   // console.log(userPurchaseInfo);
 
   return (
-  // <>
+    // <>
     //   <div
     //     style={
     //       signModalState || loginModalState || menuState ? blurredStyle : {}
@@ -578,10 +579,13 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<ClientLayout />}>
+          <Route path="/movie/:id" element={<MovieDetailsPage />} />
           <Route
-            path="/movie/:id"
+            path="/purchase"
             element={
-              <MovieDetailsPage />
+              // <Suspense fallback={<PageLoader />}>
+              <PurchasePage />
+              // </Suspense>
             }
           />
         </Route>

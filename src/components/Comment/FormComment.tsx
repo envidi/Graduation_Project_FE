@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react'
+import { SendHorizontal } from 'lucide-react';
 interface MyComponentProps {
   // eslint-disable-next-line no-unused-vars
   handleChange: (e: ChangeEvent<HTMLTextAreaElement>) => void
@@ -33,7 +34,7 @@ const FormComment = ({ handleChange, addComment, input }: MyComponentProps) => {
           disabled={!isValid}
           className="ml-2 md:px-9 md:py-4 lg:px-10 lg:py-5 disabled:cursor-not-allowed disabled:opacity-40 sm:px-10 xs:py-4 xs:px-9 sm:py-5 bg-primary-movieColor text-primary-white md:text-3xl sm:text-4xl xs:text-3xl text rounded-lg font-semibold"
         >
-          Post
+          <SendHorizontal size={20}/>
         </button>
       </div>
     </div>

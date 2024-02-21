@@ -1,152 +1,110 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+// import React, { useEffect, useState } from 'react'
+// import axios from 'axios'
 import { DateSelector } from './DateSelector'
 import { MovieSelector } from './MovieSelector'
 import { PictureQualitySelector } from './PictureQualitySelector'
-import { SeatSelector } from './SeatSelector'
+// import { SeatSelector } from './SeatSelector'
 import { LocationSelector } from '../../../components/LocationSelector'
 import { PayMethodSelector } from './PayMethodSelector'
-import BarLoader from 'react-spinners/BarLoader'
+// import BarLoader from 'react-spinners/BarLoader'
 
-export const PurchaseSection = ({
-  locationData,
-  userLocation,
-  handleLocationSelection,
-  theatreId,
-  handleUserDateChange,
-  userDate,
-  datesData,
-  getMovieData,
-  movieData,
-  userMovieId,
-  handleUserMovieChange,
-  userShowtimeId,
-  userHallId,
-  getHallData,
-  hallData,
-  handleUserHallShow,
-  getTheatreData,
-  signedPerson,
-  userSeatPrice,
-  getShowDatesData,
-  seatsData,
-  getSeatsData,
-  handleUserSeats,
-  userSeatList,
-  formattedDate,
-  curHallObj,
-  currentMovie,
-  userSeatListName,
-  handleUserPaymentMethod,
-  userPayMethod,
-  clearUserSelection,
-  ticketPurchaseError,
-  purchaseCompletion,
-}) => {
-  const [ticketIds, setTicketIds] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [btnDisabled, setBtnDisabled] = useState(true)
-
-  const currentDate = () => {
-    const date = new Date()
-    const day = date.getDate()
-    const month = date.getMonth() + 1
-    const year = date.getFullYear()
-    return `${year}-${month}-${day}`
+export const PurchaseSection = () => {
+  const handleCurrentLocation = () => {
+    console.log(1)
   }
+  // const [ticketIds, setTicketIds] = useState([])
+  // const [loading, setLoading] = useState(false)
+  // const [btnDisabled, setBtnDisabled] = useState(true)
 
-  useEffect(() => {
-    userPayMethod.length > 0 ? setBtnDisabled(false) : setBtnDisabled(true)
-  }, [userPayMethod])
+  // const currentDate = () => {
+  //   const date = new Date()
+  //   const day = date.getDate()
+  //   const month = date.getMonth() + 1
+  //   const year = date.getFullYear()
+  //   return `${year}-${month}-${day}`
+  // }
 
-  const handleTicketPurchase = async () => {
-    try {
-      setBtnDisabled(true)
-      setLoading(true)
-      let paymentID
+  // useEffect(() => {
+  //   userPayMethod.length > 0 ? setBtnDisabled(false) : setBtnDisabled(true)
+  // }, [userPayMethod])
 
-      // Make the payment request
-      const paymentResponse = await axios.post(
-        `${import.meta.env.VITE_API_URL}/payment`,
-        {
-          amount: userSeatPrice * userSeatListName.length,
-          userPayMethod,
-          email: signedPerson.email,
-        }
-      )
+  // const handleTicketPurchase = async () => {
+  //   try {
+  //     setBtnDisabled(true)
+  //     setLoading(true)
+  //     let paymentID
 
-      paymentID = paymentResponse.data && paymentResponse.data[0].last_id
+  //     // Make the payment request
+  //     const paymentResponse = await axios.post(
+  //       `${import.meta.env.VITE_API_URL}/payment`,
+  //       {
+  //         amount: userSeatPrice * userSeatListName.length,
+  //         userPayMethod,
+  //         email: signedPerson.email,
+  //       }
+  //     )
 
-      // Purchase tickets for each seat
-      for (const seatId of userSeatList) {
-        await axios.post(`${import.meta.env.VITE_API_URL}/purchaseTicket`, {
-          price: userSeatPrice,
-          purchase_date: currentDate(),
-          paymentID,
-          seatId,
-          userHallId,
-          userMovieId,
-          userShowtimeId,
-        })
-      }
+  //     paymentID = paymentResponse.data && paymentResponse.data[0].last_id
 
-      // Get recent purchase data
-      const recentPurchaseResponse = await axios.post(
-        `${import.meta.env.VITE_API_URL}/recentPurchase`,
-        {
-          paymentID,
-        }
-      )
+  //     // Purchase tickets for each seat
+  //     for (const seatId of userSeatList) {
+  //       await axios.post(`${import.meta.env.VITE_API_URL}/purchaseTicket`, {
+  //         price: userSeatPrice,
+  //         purchase_date: currentDate(),
+  //         paymentID,
+  //         seatId,
+  //         userHallId,
+  //         userMovieId,
+  //         userShowtimeId,
+  //       })
+  //     }
 
-      setTicketIds(recentPurchaseResponse.data)
+  //     // Get recent purchase data
+  //     const recentPurchaseResponse = await axios.post(
+  //       `${import.meta.env.VITE_API_URL}/recentPurchase`,
+  //       {
+  //         paymentID,
+  //       }
+  //     )
 
-      // Clear user selection
-      await clearUserSelection()
-    } catch (err) {
-      console.error(err)
-      ticketPurchaseError()
-    } finally {
-      setLoading(false)
-    }
-  }
+  //     setTicketIds(recentPurchaseResponse.data)
 
-  useEffect(() => {
-    const tickets = []
+  //     // Clear user selection
+  //     await clearUserSelection()
+  //   } catch (err) {
+  //     console.error(err)
+  //     ticketPurchaseError()
+  //   } finally {
+  //     setLoading(false)
+  //   }
+  // }
 
-    if (ticketIds.length > 0) {
-      ticketIds.forEach((ticket) => {
-        tickets.push(ticket.id)
-      })
-      console.log(tickets)
-      purchaseCompletion(tickets)
-    }
-  }, [ticketIds])
+  // useEffect(() => {
+  //   const tickets = []
+
+  //   if (ticketIds.length > 0) {
+  //     ticketIds.forEach((ticket) => {
+  //       tickets.push(ticket.id)
+  //     })
+  //     console.log(tickets)
+  //     purchaseCompletion(tickets)
+  //   }
+  // }, [ticketIds])
 
   return (
-    <section className="section-purchase">
-      <div className="purchase-container container">
+    <section className="section-purchase ">
+      <div className="purchase-container container max-w-[132rem]">
         <div className="purchase-section-left">
           <div className="purchase-heading">
-            <LocationSelector
-              locationData={locationData}
-              userLocation={userLocation}
-              handleLocationSelection={handleLocationSelection}
-              getTheatreData={getTheatreData}
-            />
+            <LocationSelector handleCurrentLocation={handleCurrentLocation} />
           </div>
 
-          {theatreId && theatreId !== '' && (
-            <DateSelector
-              theatreId={theatreId}
-              userDate={userDate}
-              handleUserDateChange={handleUserDateChange}
-              datesData={datesData}
-              userLocation={userLocation}
-              getShowDatesData={getShowDatesData}
-            />
-          )}
-
-          {userDate?.length !== 0 && (
+          {/* {theatreId && theatreId !== '' && <DateSelector />} */}
+          <DateSelector />
+          <MovieSelector />
+          <PictureQualitySelector />
+          <PayMethodSelector />
+          {/* {userDate?.length !== 0 && (
             <MovieSelector
               theatreId={theatreId}
               movieData={movieData}
@@ -155,8 +113,8 @@ export const PurchaseSection = ({
               userMovieId={userMovieId}
               handleUserMovieChange={handleUserMovieChange}
             />
-          )}
-          {userMovieId !== '' && (
+          )} */}
+          {/* {userMovieId !== '' && (
             <PictureQualitySelector
               theatreId={theatreId}
               userDate={userDate}
@@ -168,57 +126,41 @@ export const PurchaseSection = ({
               handleUserHallShow={handleUserHallShow}
               userSeatPrice={userSeatPrice}
             />
-          )}
+          )} */}
 
-          {userShowtimeId !== '' && (
+          {/* {userShowtimeId !== '' && (
             <SeatSelector
-              userShowtimeId={userShowtimeId}
-              userHallId={userHallId}
-              userMovieId={userMovieId}
-              seatsData={seatsData}
-              getSeatsData={getSeatsData}
-              handleUserSeats={handleUserSeats}
-              userSeatList={userSeatList}
-            />
-          )}
 
-          {userSeatList && userSeatList.length > 0 && (
+            />
+          )} */}
+
+          {/* {userSeatList && userSeatList.length > 0 && (
             <PayMethodSelector
               handleUserPaymentMethod={handleUserPaymentMethod}
               userPayMethod={userPayMethod}
             />
-          )}
+          )} */}
         </div>
 
         <div className="purchase-section-right">
           <h2 className="ticket-container-heading">Ticket Summary</h2>
 
           <div className="ticket-container">
-            {currentMovie && (
-              <div className="ticket-heading">
-                <div className="ticket-movie-img-cont">
-                  <img
-                    className="ticket-movie-img"
-                    src={currentMovie.image_path}
-                    alt="selected movie image"
-                  />
-                </div>
-
-                {currentMovie && (
-                  <div className="ticket-primary-info">
-                    {curHallObj && (
-                      <p className="ticket-movie-screen">
-                        {curHallObj.show_type}
-                      </p>
-                    )}
-                    <p className="ticket-movie-name">
-                      {currentMovie.movie_name}
-                    </p>
-                    <p className="ticket-movie-dur">{currentMovie.duration}</p>
-                  </div>
-                )}
+            <div className="ticket-heading">
+              <div className="ticket-movie-img-cont">
+                <img
+                  className="ticket-movie-img"
+                  src="https://res.cloudinary.com/dsmy4ogdj/image/upload/v1707899661/scarygirl_nmxrem.jpg"
+                  alt="selected movie image"
+                />
               </div>
-            )}
+
+              <div className="ticket-primary-info">
+                <p className="ticket-movie-screen">3D</p>
+                <p className="ticket-movie-name">oppenheimer</p>
+                <p className="ticket-movie-dur">1h 54m</p>
+              </div>
+            </div>
 
             <div className="ticket-info">
               <ul className="ticket-info-list">
@@ -252,7 +194,8 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {userLocation ? userLocation.location : '--'}
+                    {/* {userLocation ? userLocation.location : '--'} */}
+                    Panthapath
                   </p>
                 </li>
 
@@ -303,7 +246,8 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {formattedDate ? formattedDate : '--'}
+                    {/* {formattedDate ? formattedDate : '--'} */}
+                    Aug 19, 2023
                   </p>
                 </li>
 
@@ -338,7 +282,8 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {curHallObj ? curHallObj.hall_name : '--'}
+                    {/* {curHallObj ? curHallObj.hall_name : '--'} */}
+                    Hall 2
                   </p>
                 </li>
 
@@ -363,7 +308,8 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {userHallId ? curHallObj.movie_start_time : '--'}
+                    {/* {userHallId ? curHallObj.movie_start_time : '--'} */}
+                    6:00 pm
                   </p>
                 </li>
 
@@ -380,7 +326,7 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {userSeatListName ? userSeatListName.length : '--'}
+                    {/* {userSeatListName ? userSeatListName.length : '--'} */}1
                   </p>
                 </li>
 
@@ -397,11 +343,12 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {userSeatListName && userSeatListName.length !== 0
+                    {/* {userSeatListName && userSeatListName.length !== 0
                       ? userSeatListName
                           .map((seat) => seat.seat_name)
                           .join(', ')
-                      : '--'}
+                      : '--'} */}
+                    C5
                   </p>
                 </li>
 
@@ -437,9 +384,10 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {userPayMethod && userPayMethod.length > 0
+                    {/* {userPayMethod && userPayMethod.length > 0
                       ? userPayMethod
-                      : '--'}
+                      : '--'} */}
+                    Bkash
                   </p>
                 </li>
 
@@ -475,20 +423,17 @@ export const PurchaseSection = ({
                   </div>
 
                   <p className="ticket-info-val">
-                    {userSeatPrice && userSeatListName
+                    {/* {userSeatPrice && userSeatListName
                       ? `BDT ${userSeatPrice * userSeatListName.length}TK`
-                      : '--'}
+                      : '--'} */}
+                    BDT 450TK
                   </p>
                 </li>
               </ul>
             </div>
-
-            <button
-              className={btnDisabled ? 'ticket-btn-disabled' : 'ticket-btn'}
-              onClick={handleTicketPurchase}
-              disabled={btnDisabled}
-            >
-              {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'}
+            <button className="ticket-btn">
+              {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
+              purchase ticket
             </button>
           </div>
         </div>

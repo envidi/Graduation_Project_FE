@@ -1,4 +1,3 @@
-
 // import { Navbar } from '../../components/Navbar'
 import { MovieInfoSection } from './components/MovieInfoSection'
 import { MovieInfoCollection } from './components/MovieInfoCollection'
@@ -8,10 +7,7 @@ import Comment from '@/components/Comment/Comment'
 
 import '@/components/Comment/comment.css'
 
-
-
 const MovieDetailsPage = () => {
-  
   // useEffect(() => {
   //   window.scrollTo({ top: 0, behavior: 'smooth' })
   // }, [movieDetailsId])

@@ -5,7 +5,13 @@ import { LocationSelector } from '../../../components/LocationSelector'
 import { Calendar } from '@/components/ui/calendar'
 import { useEffect, useState } from 'react'
 import 'react-lazy-load-image-component/src/effects/blur.css'
-// import axios from 'axios'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger
+} from '@/components/ui/dialog'
+
 import { useParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
 import {
@@ -45,7 +51,6 @@ export const MovieInfoSection = () => {
       setCurrentLocation(dataMovie.showTimeCol[0].cinemaId._id)
     }
   }, [dataMovie])
-  console.log(currentLocation)
   const handleCurrentLocation = (locationId: string) => {
     setCurrentLocation(locationId)
   }
@@ -232,6 +237,22 @@ export const MovieInfoSection = () => {
               </p>
               <p>{actor}</p>
             </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" variant="outline">
+                  Trailer
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="p-0 w-fit">
+                <iframe
+                  width="917"
+                  height="516"
+                  src="https://www.youtube.com/embed/RemcgXjZEHM"
+                  title="Một video hạnh phúc để gửi lời chúc Valentine | Review Xàm: Gara Hạnh Phúc"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                ></iframe>
+              </DialogContent>
+            </Dialog>
           </div>
         </div>
 
