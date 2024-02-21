@@ -1,56 +1,63 @@
 import { useNavigate } from 'react-router-dom'
+import { MovieType } from '@/Interface/movie'
+import { convertMintuteToHour, getDay } from '@/utils'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 
 export const CollectionCard = ({
-  id,
-  name,
-  image_path,
-  rating,
-  duration,
-  release_date,
-  genres
-  // signedPerson,
-  // handleLoginState,
-}:any) => {
+  className,
+  movie
+}: {
+  className: string
+  movie: MovieType
+}) => {
   const navigate = useNavigate()
+  const { name, image, rate, categoryId, fromDate, duration } = movie
 
-  const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
-  const ourRating = rating
+  const categorySection = categoryId?.map((category, index) => {
+    return (
+      <span className="mr-2" key={category._id}>
+        {category.name}
+        {index === categoryId.length - 1 ? '' : ','}
+      </span>
+    )
+  })
+  // const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
+  // const ourRating = rating
 
   return (
-    <div
-      className="home-movie-card"
-      onClick={() => navigate(`/movieDetails/${id}`)}
-    >
+    <div className={`home-movie-card bg-background-main ${className}`}>
       <div className="home-movie-img-box">
-        <img
-          className="home-movie-img"
-          src={image_path}
-          alt={`${name} photo`}
+        <LazyLoadImage
+          className="movie-info-img"
+          src={image}
+          alt={'Movie Photo'}
+          effect="blur"
         />
+        {/* <img className="home-movie-img" src={image} alt={'photo'} /> */}
       </div>
 
       <div className="movie-card-line line-1">
-        <p className="movie-title">{name}</p>
+        <p className="movie-title text-primary-cardMovie xs:text-xl">{name}</p>
 
-        <div className="movie-rating">
+        <div className="movie-rating text-primary-infoMovie">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="collection-icon"
+            className="collection-icon text-primary-movieColor fill-primary-movieColor"
             viewBox="0 0 512 512"
           >
             <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
           </svg>
-          <span>{ourRating.toFixed(1)}</span>
+          <span>{rate}/5</span>
         </div>
       </div>
 
-      <p className="movie-genre">{genres}</p>
+      <p className="movie-genre text-primary-infoMovie">{categorySection}</p>
 
       <div className="movie-card-third-line">
         <div className="line-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="collection-icon"
+            className="collection-icon text-primary-movieColor fill-primary-movieColor"
             viewBox="0 0 512 512"
           >
             <rect
@@ -89,13 +96,13 @@ export const CollectionCard = ({
               d="M464 160H48"
             />
           </svg>
-          <p className="category">{releaseDate}</p>
+          <p className="category">{getDay(fromDate)}</p>
         </div>
 
         <div className="line-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            className="collection-icon"
+            className="collection-icon text-primary-movieColor fill-primary-movieColor"
             viewBox="0 0 512 512"
           >
             <path
@@ -114,7 +121,7 @@ export const CollectionCard = ({
               d="M256 128v144h96"
             />
           </svg>
-          <p className="category-value">{duration}</p>
+          <p className="category-value">{convertMintuteToHour(duration)}</p>
         </div>
       </div>
 

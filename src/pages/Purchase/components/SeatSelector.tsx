@@ -2,15 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import HashLoader from 'react-spinners/HashLoader'
 
-export const SeatSelector = ({
-  userShowtimeId,
-  userHallId,
-  userMovieId,
-  seatsData,
-  getSeatsData,
-  handleUserSeats,
-  userSeatList,
-}) => {
+export const SeatSelector = () => {
   const override = {
     display: 'block',
     margin: '1.6rem auto',

@@ -232,7 +232,7 @@
   .home-collection-container,
   .details-collection-container {
     overflow-x: auto;
-    justify-content: start;
+    /* justify-content: start; */
   }
 
   .home-collection-container {
@@ -240,7 +240,7 @@
   }
 
   .details-collection-container {
-    grid-template-columns: repeat(5, 27rem);
+    /* grid-template-columns: repeat(5, 27rem); */
   }
 
   ::-webkit-scrollbar {
@@ -572,7 +572,7 @@
   }
 
   .movie-info-img {
-    width: 50%;
+    /* width: 50%; */
     overflow: hidden;
     border-radius: 11px;
   }
@@ -603,5 +603,10 @@
   .form-movie-add div input {
     width: 100%;
     margin-left: 0;
+  }
+}
+@media ((max-width: 600px) and (min-width: 410px)) {
+  .movie-info-screen-container-3d {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

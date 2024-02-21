@@ -1,382 +1,311 @@
-import { useEffect, useState } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { getOneMovie } from '@/api/movie'
+import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { LocationSelector } from '../../../components/LocationSelector'
-import axios from 'axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Calendar } from '@/components/ui/calendar'
+import { useEffect, useState } from 'react'
+import 'react-lazy-load-image-component/src/effects/blur.css'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger
+} from '@/components/ui/dialog'
+
+import { useParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
+import {
+  chuyenDoiNgayDauVao,
+  convertAmPm,
+  getDay,
+  getHourAndMinute,
+  selectCalendar
+} from '@/utils'
+import { AVAILABLE, MOVIE } from '@/utils/constant'
 
-export const MovieInfoSection = ({
-  locationData,
-  getTheatreData,
-  userLocation,
-  handleLocationSelection,
+export interface ShowTime {
+  _id: string
+  screenRoomId: string
+  cinemaId: {
+    _id: string
+    CinemaName: string
+    CinemaAdress: string
+  }
+  status: string
+  timeFrom: string
+  timeTo: string
+  date: string
+}
 
-  signedPerson,
-  handleLoginState,
-}) => {
-  const [movieData, setMovieData] = useState({})
-  const [showtimesData, setShowtimesData] = useState([])
-  const navigate = useNavigate()
-  const [loading1, setLoading1] = useState(false)
-  const [loading2, setLoading2] = useState(true)
-  const { id } = useParams()
-  const movieDetailsId = Number(id)
+export const MovieInfoSection = () => {
+  const [date, setDate] = useState<Date | undefined>(new Date())
+  const [currentLocation, setCurrentLocation] = useState<string>('')
+  const id = useParams()
+  const { data: dataMovie, isLoading } = useQuery({
+    queryKey: [MOVIE, id],
+    queryFn: () => getOneMovie('65c8dc874a19975a1cc5fc7e')
+  })
 
+  useEffect(() => {
+    if (dataMovie && Object.keys(dataMovie).length > 0) {
+      setCurrentLocation(dataMovie.showTimeCol[0].cinemaId._id)
+    }
+  }, [dataMovie])
+  const handleCurrentLocation = (locationId: string) => {
+    setCurrentLocation(locationId)
+  }
   const override = {
     display: 'block',
-    margin: '9.6rem auto',
+    margin: '9.6rem auto'
+  }
+  if (isLoading) {
+    return <HashLoader cssOverride={override} size={60} color="#eb3656" />
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading1(true)
-      try {
-        const movieDetailResponse = await axios.post(
-          `${import.meta.env.VITE_API_URL}/movieDetail`,
-          {
-            movieDetailsId,
-          }
-        )
+  const {
+    name,
+    image,
+    rate,
+    author,
+    actor,
+    language,
+    duration,
+    categoryCol,
+    fromDate,
+    desc,
+    showTimeCol
+  } = dataMovie
 
-        const formattedRelDate = new Date(
-          movieDetailResponse.data[0].release_date
-        ).toLocaleDateString('en-GB')
-        const durationDetail1 = movieDetailResponse.data[0].duration.replace(
-          'h',
-          ' hours'
-        )
-        const duration = durationDetail1.replace('m', ' minutes')
-        const formattedMovieData = {
-          ...movieDetailResponse.data[0],
-          name: movieDetailResponse.data[0].name,
-          duration,
-          release_date: formattedRelDate,
-          rating: movieDetailResponse.data[0].rating.toFixed(1),
-        }
+  const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
 
-        setMovieData(formattedMovieData)
-
-        const showtimeResponse = await axios.post(
-          `${import.meta.env.VITE_API_URL}/movieWiseShowtime`,
-          {
-            movieDetailsId,
-            theatreId: userLocation?.id,
-          }
-        )
-        setShowtimesData(showtimeResponse.data)
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoading1(false)
-      }
-    }
-
-    fetchData()
-  }, [movieDetailsId])
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading2(true)
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/movieWiseShowtime`,
-          {
-            movieDetailsId,
-            theatreId: userLocation?.id,
-          }
-        )
-        setShowtimesData(response.data)
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoading2(false)
-      }
-    }
-
-    fetchData()
-  }, [userLocation])
-
-  const showtimesObj3d = {}
-  const showtimesObj2d = {}
-
-  showtimesData.length > 0 &&
-    showtimesData.forEach((show) => {
-      const curDate = show.showtime_date
-
-      if (show.show_type === '3D') {
-        if (curDate in showtimesObj3d) {
-          showtimesObj3d[curDate].push(show)
-        } else {
-          showtimesObj3d[curDate] = [show]
-        }
+  const showTimePerDay = showTimeCol
+    .map((showTime: ShowTime) => {
+      if (
+        getDay(showTime.date) === getDay(selectCalendar(date)) &&
+        showTime.status === AVAILABLE &&
+        showTime.cinemaId._id.toString() === currentLocation.toString()
+      ) {
+        return showTime
       }
     })
-
-  showtimesData.length > 0 &&
-    showtimesData.forEach((show) => {
-      const curDate = show.showtime_date
-
-      if (show.show_type === '2D') {
-        if (curDate in showtimesObj2d) {
-          showtimesObj2d[curDate].push(show)
-        } else {
-          showtimesObj2d[curDate] = [show]
-        }
-      }
+    .filter(function (element: ShowTime) {
+      return element !== undefined
     })
 
-  const showHtml3d = Object.keys(showtimesObj3d).map(
-    (showDate, indexHtml3d) => {
-      const times = showtimesObj3d[showDate]
+  return (
+    <div className="section-movie-info container ">
+      <div className="max-w-[132rem] mx-auto px-[3.2rem]">
+        <div className="movie-info-grid-container">
+          <div className="movie-info-img-container">
+            <LazyLoadImage
+              className="movie-info-img"
+              src={image}
+              alt={'Movie Photo'}
+              effect="blur"
+            />
+          </div>
 
-      const timesHtml = times.map((singleTime, index) => {
-        return (
-          <li key={index}>
-            <button
-              className="showtimes-startime-btn"
-              onClick={() => {
-                Object.keys(signedPerson).length !== 0 &&
-                signedPerson.person_type === 'Customer'
-                  ? navigate('/purchase')
-                  : handleLoginState()
-              }}
-            >
-              {singleTime.movie_start_time}
-            </button>
-          </li>
-        )
-      })
-      const formattedDate = new Date(showDate).toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      })
+          <div className="movie-info-attr-container">
+            <h2 className="movie-info-name text-primary-nameMovie">{name}</h2>
 
-      return (
-        <div key={indexHtml3d} className="showtimes-schedule">
-          <h3 className="showtimes-date">{formattedDate}</h3>
+            <div className="movie-info-small-container ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  d="M192 448h128M384 208v32c0 70.4-57.6 128-128 128h0c-70.4 0-128-57.6-128-128v-32M256 368v80"
+                />
+                <path
+                  d="M256 64a63.68 63.68 0 00-64 64v111c0 35.2 29 65 64 65s64-29 64-65V128c0-36-28-64-64-64z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                />
+              </svg>
+              <p>{language}</p>
+            </div>
 
-          <ul className="showtimes-startime-btn-list">{timesHtml}</ul>
+            <div className="movie-info-small-container ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
+                viewBox="0 0 512 512"
+              >
+                <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
+              </svg>
+              <p>{rate}/10</p>
+            </div>
+
+            <div className="movie-info-small-container ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
+                viewBox="0 0 512 512"
+              >
+                <rect
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  x="48"
+                  y="80"
+                  width="416"
+                  height="384"
+                  rx="48"
+                />
+                <circle cx="296" cy="232" r="24" />
+                <circle cx="376" cy="232" r="24" />
+                <circle cx="296" cy="312" r="24" />
+                <circle cx="376" cy="312" r="24" />
+                <circle cx="136" cy="312" r="24" />
+                <circle cx="216" cy="312" r="24" />
+                <circle cx="136" cy="392" r="24" />
+                <circle cx="216" cy="392" r="24" />
+                <circle cx="296" cy="392" r="24" />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  strokeLinecap="round"
+                  d="M128 48v32M384 48v32"
+                />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  d="M464 160H48"
+                />
+              </svg>
+              <p>{getDay(fromDate)}</p>
+            </div>
+
+            <div className="movie-info-small-container ">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M256 64C150 64 64 150 64 256s86 192 192 192 192-86 192-192S362 64 256 64z"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeMiterlimit="10"
+                  strokeWidth="32"
+                />
+                <path
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                  d="M256 128v144h96"
+                />
+              </svg>
+              <p>{duration}</p>
+            </div>
+
+            <div className="movie-info-genre-container text-primary-infoMovie">
+              <p className="movie-info-title text-primary-movieColor">
+                Genre:{' '}
+              </p>
+              {categoryCol.map((category: { _id: string; name: string }) => (
+                <p key={category._id}>{category.name}</p>
+              ))}
+            </div>
+
+            <div className="movie-info-director-container text-primary-infoMovie">
+              <p className="movie-info-title text-primary-movieColor">
+                Directed by:{' '}
+              </p>
+              <p>{author}</p>
+            </div>
+
+            <div className="movie-info-cast-container text-primary-infoMovie">
+              <p className="movie-info-title text-primary-movieColor">
+                Top Cast:{' '}
+              </p>
+              <p>{actor}</p>
+            </div>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button size="lg" variant="outline">
+                  Trailer
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="p-0 w-fit">
+                <iframe
+                  width="917"
+                  height="516"
+                  src="https://www.youtube.com/embed/RemcgXjZEHM"
+                  title="Một video hạnh phúc để gửi lời chúc Valentine | Review Xàm: Gara Hạnh Phúc"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                ></iframe>
+              </DialogContent>
+            </Dialog>
+          </div>
         </div>
-      )
-    }
-  )
 
-  const showHtml2d = Object.keys(showtimesObj2d).map(
-    (showDate, indexShowDate) => {
-      const times = showtimesObj2d[showDate]
-
-      const timesHtml = times.map((singleTime, index) => {
-        return (
-          <li key={index}>
-            <button
-              className="showtimes-startime-btn"
-              onClick={() => {
-                Object.keys(signedPerson).length !== 0 &&
-                signedPerson.person_type === 'Customer'
-                  ? navigate('/purchase')
-                  : handleLoginState()
-              }}
-            >
-              {singleTime.movie_start_time}
-            </button>
-          </li>
-        )
-      })
-      const formattedDate = new Date(showDate).toLocaleString('en-US', {
-        month: 'short',
-        day: 'numeric',
-        year: 'numeric',
-      })
-
-      return (
-        <div key={indexShowDate} className="showtimes-schedule">
-          <h3 className="showtimes-date">{formattedDate}</h3>
-
-          <ul className="showtimes-startime-btn-list">{timesHtml}</ul>
+        <div className="movie-info-description-container">
+          <h3 className="movie-info-description-heading">Synopsis</h3>
+          <p className="movie-info-description">{desc}</p>
         </div>
-      )
-    }
-  )
 
-  return loading1 ? (
-    <HashLoader cssOverride={override} size={60} color="#eb3656" />
-  ) : (
-    <div className="section-movie-info container">
-      <div className="movie-info-grid-container">
-        <div className="movie-info-img-container">
-          <img
-            className="movie-info-img"
-            src={movieData && movieData.image_path}
-            alt="Movie Photo"
+        <div className="movie-info-location-container">
+          <LocationSelector handleCurrentLocation={handleCurrentLocation} />
+        </div>
+
+        <h3 className="movie-info-screen-heading border-b-4 border-primary-movieColor text-primary-movieColor w-fit mb-10">
+          Showtimes
+        </h3>
+        <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center ">
+          <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
+            className="rounded-md px-5 border border-border-calendarBorder mt-[3.2rem] "
           />
-        </div>
-
-        <div className="movie-info-attr-container">
-          <h2 className="movie-info-name">{movieData && movieData.name}</h2>
-
-          <div className="movie-info-small-container ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="movie-info-icon"
-              viewBox="0 0 512 512"
+          <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full">
+            <div
+              className={`movie-info-screen-container-3d bg-background-third ${showTimePerDay.length > 0 ? 'grid' : ''}`}
             >
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="32"
-                d="M192 448h128M384 208v32c0 70.4-57.6 128-128 128h0c-70.4 0-128-57.6-128-128v-32M256 368v80"
-              />
-              <path
-                d="M256 64a63.68 63.68 0 00-64 64v111c0 35.2 29 65 64 65s64-29 64-65V128c0-36-28-64-64-64z"
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="32"
-              />
-            </svg>
-            <p>{movieData && movieData.language}</p>
-          </div>
+              <h2 className="showtimes-screen bg-background-headerShow">
+                {today}
+              </h2>
 
-          <div className="movie-info-small-container ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="movie-info-icon"
-              viewBox="0 0 512 512"
-            >
-              <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
-            </svg>
-            <p>{movieData.rating}/10</p>
-          </div>
-
-          <div className="movie-info-small-container ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="movie-info-icon"
-              viewBox="0 0 512 512"
-            >
-              <rect
-                fill="none"
-                stroke="currentColor"
-                strokeLinejoin="round"
-                strokeWidth="32"
-                x="48"
-                y="80"
-                width="416"
-                height="384"
-                rx="48"
-              />
-              <circle cx="296" cy="232" r="24" />
-              <circle cx="376" cy="232" r="24" />
-              <circle cx="296" cy="312" r="24" />
-              <circle cx="376" cy="312" r="24" />
-              <circle cx="136" cy="312" r="24" />
-              <circle cx="216" cy="312" r="24" />
-              <circle cx="136" cy="392" r="24" />
-              <circle cx="216" cy="392" r="24" />
-              <circle cx="296" cy="392" r="24" />
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinejoin="round"
-                strokeWidth="32"
-                strokeLinecap="round"
-                d="M128 48v32M384 48v32"
-              />
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinejoin="round"
-                strokeWidth="32"
-                d="M464 160H48"
-              />
-            </svg>
-            <p>{movieData.release_date}</p>
-          </div>
-
-          <div className="movie-info-small-container ">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="movie-info-icon"
-              viewBox="0 0 512 512"
-            >
-              <path
-                d="M256 64C150 64 64 150 64 256s86 192 192 192 192-86 192-192S362 64 256 64z"
-                fill="none"
-                stroke="currentColor"
-                strokeMiterlimit="10"
-                strokeWidth="32"
-              />
-              <path
-                fill="none"
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="32"
-                d="M256 128v144h96"
-              />
-            </svg>
-            <p>{movieData.duration}</p>
-          </div>
-
-          <div className="movie-info-genre-container">
-            <p className="movie-info-title">Genre: </p>
-            <p>{movieData && movieData.genres}</p>
-          </div>
-
-          <div className="movie-info-director-container">
-            <p className="movie-info-title">Directed by: </p>
-            <p>{movieData && movieData.directors}</p>
-          </div>
-
-          <div className="movie-info-cast-container">
-            <p className="movie-info-title">Top Cast: </p>
-            <p>{movieData && movieData.top_cast}</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="movie-info-description-container">
-        <h3 className="movie-info-description-heading">Synopsis</h3>
-        <p className="movie-info-description">
-          {movieData && movieData.synopsis}
-        </p>
-      </div>
-
-      <div className="movie-info-location-container">
-        <LocationSelector
-          getTheatreData={getTheatreData}
-          locationData={locationData}
-          userLocation={userLocation}
-          handleLocationSelection={handleLocationSelection}
-        />
-      </div>
-
-      <h3 className="movie-info-screen-heading">Showtimes</h3>
-
-      {!loading2 ? (
-        <div className="movie-info-screen-container">
-          {showHtml3d.length > 0 && (
-            <div className="movie-info-screen-container-3d">
-              <h2 className="showtimes-screen">3D</h2>
-
-              {showHtml3d}
+              {showTimePerDay.length > 0 ? (
+                showTimePerDay.map((showtime: ShowTime, index: number) => {
+                  return (
+                    <div
+                      className="showtimes-schedule md:my-8 xs:my-10"
+                      key={index}
+                    >
+                      {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
+                      <button className="showtimes-startime-btn border-2 border-primary-movieColor hover:bg-primary-movieColorSecond text-primary-infoMovie xs:w-52 xs:h-20 md:w-40 md:h-16">
+                        {convertAmPm(getHourAndMinute(showtime.timeFrom))}
+                      </button>
+                    </div>
+                  )
+                })
+              ) : (
+                <div className="h-32 text-3xl flex items-center justify-center w-full">
+                  No showtime in this day
+                </div>
+              )}
             </div>
-          )}
-
-          {showHtml2d.length > 0 && (
-            <div className="movie-info-screen-container-2d">
-              <h2 className="showtimes-screen">2D</h2>
-
-              {showHtml2d}
-            </div>
-          )}
+          </div>
         </div>
-      ) : (
-        <HashLoader cssOverride={override} size={60} color="#eb3656" />
-      )}
+      </div>
     </div>
   )
 }

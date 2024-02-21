@@ -1,15 +1,12 @@
-import React from "react";
+// import React from 'react'
 
-export const PayMethodSelector = ({
-  handleUserPaymentMethod,
-  userPayMethod,
-}) => {
-  const checkedColor = (val) => {
-    return {
-      backgroundColor: val === userPayMethod ? "#ef5e78" : "",
-      border: val === userPayMethod ? "2px solid transparent" : "",
-    };
-  };
+export const PayMethodSelector = () => {
+  // const checkedColor = (val) => {
+  //   return {
+  //     backgroundColor: val === userPayMethod ? '#ef5e78' : '',
+  //     border: val === userPayMethod ? '2px solid transparent' : ''
+  //   }
+  // }
   return (
     <div>
       <form>
@@ -18,18 +15,18 @@ export const PayMethodSelector = ({
           <div
             className="pay-input-container"
             key="Bkash"
-            style={checkedColor("Bkash")}
+            // style={checkedColor('Bkash')}
           >
             <input
               type="radio"
-              id={1}
+              // id={1}
               name="Select Payment"
               value="Bkash"
-              onChange={(e) => handleUserPaymentMethod(e)}
-              checked={"Bkash" === userPayMethod}
+              // onChange={(e) => handleUserPaymentMethod(e)}
+              // checked={'Bkash' === userPayMethod}
             />
 
-            <label className="form-pay-detail" htmlFor={"Bkash"}>
+            <label className="form-pay-detail" htmlFor={'Bkash'}>
               Bkash
             </label>
           </div>
@@ -37,18 +34,18 @@ export const PayMethodSelector = ({
           <div
             className="pay-input-container"
             key="Nagad"
-            style={checkedColor("Nagad")}
+            // style={checkedColor('Nagad')}
           >
             <input
               type="radio"
-              id={2}
+              // id={2}
               name="Select Payment"
               value="Nagad"
-              onChange={(e) => handleUserPaymentMethod(e)}
-              checked={"Nagad" === userPayMethod}
+              // onChange={(e) => handleUserPaymentMethod(e)}
+              // checked={'Nagad' === userPayMethod}
             />
 
-            <label className="form-pay-detail" htmlFor={"Nagad"}>
+            <label className="form-pay-detail" htmlFor={'Nagad'}>
               Nagad
             </label>
           </div>
@@ -56,18 +53,18 @@ export const PayMethodSelector = ({
           <div
             className="pay-input-container"
             key="Credit Card"
-            style={checkedColor("Credit Card")}
+            // style={checkedColor('Credit Card')}
           >
             <input
               type="radio"
-              id={3}
+              // id={3}
               name="Select Payment"
               value="Credit Card"
-              onChange={(e) => handleUserPaymentMethod(e)}
-              checked={"Credit Card" === userPayMethod}
+              // onChange={(e) => handleUserPaymentMethod(e)}
+              // checked={'Credit Card' === userPayMethod}
             />
 
-            <label className="form-pay-detail" htmlFor={"Credit Card"}>
+            <label className="form-pay-detail" htmlFor={'Credit Card'}>
               Credit Card
             </label>
           </div>
@@ -75,23 +72,23 @@ export const PayMethodSelector = ({
           <div
             className="pay-input-container"
             key="Debit Card"
-            style={checkedColor("Debit Card")}
+            // style={checkedColor('Debit Card')}
           >
             <input
               type="radio"
-              id={4}
+              // id={4}
               name="Select Payment"
               value="Debit Card"
-              onChange={(e) => handleUserPaymentMethod(e)}
-              checked={"Debit Card" === userPayMethod}
+              // onChange={(e) => handleUserPaymentMethod(e)}
+              // checked={'Debit Card' === userPayMethod}
             />
 
-            <label className="form-pay-detail" htmlFor={"Debit Card"}>
+            <label className="form-pay-detail" htmlFor={'Debit Card'}>
               Debit Card
             </label>
           </div>
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
