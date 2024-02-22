@@ -1,102 +1,70 @@
-import React, { useEffect, useState } from 'react'
-import axios from 'axios'
-import HashLoader from 'react-spinners/HashLoader'
+import  { useEffect, useState } from 'react';
+import axios from 'axios';
+import HashLoader from 'react-spinners/HashLoader';
+import { Seat } from '@/Interface/seat';
 
-export const SeatSelector = ({
-  userShowtimeId,
-  userHallId,
-  userMovieId,
-  seatsData,
-  getSeatsData,
-  handleUserSeats,
-  userSeatList,
-}) => {
-  const override = {
-    display: 'block',
-    margin: '1.6rem auto',
-  }
 
-  const [loading, setLoading] = useState(false)
+export const SeatSelector = () => {
+  const [loading, setLoading] = useState(false);
+  const [seats, setSeats] = useState<Seat[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true)
+    const fetchSeats = async () => {
       try {
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/seats`,
-          {
-            userShowtimeId,
-            userHallId,
-            userMovieId,
-          }
-        )
-        getSeatsData(response.data)
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoading(false)
+        setLoading(true);
+        const response = await axios.get('http://localhost:3000/Seat');
+        setSeats(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [userHallId, userShowtimeId, userMovieId])
+    fetchSeats();
+  }, []);
 
-  let rows = []
-  let rowSeat = []
-
-  seatsData.forEach((seat) => {
-    return seat.selected && userSeat.push(seat.seat_id)
-  })
-
-  seatsData.forEach((seat, idx) => {
-    let seatStatus
-
-    const handleTouchStart = (e) => {
-      e.preventDefault()
-      handleUserSeats(seat.seat_id)
-    }
-
-    seat.booked_status === 0
-      ? (seatStatus = 'booked')
-      : (seatStatus = 'available')
-
-    const seatHtml = (
-      <div
-        className={`seat ${seatStatus}`}
-        onClick={() => seatStatus !== 'booked' && handleUserSeats(seat.seat_id)}
-        onTouchEnd={seatStatus !== 'booked' ? handleTouchStart : undefined}
-        key={seat.seat_id}
-        style={{
-          backgroundColor: userSeatList.includes(seat.seat_id) ? '#ef5e78' : '',
-        }}
-      >
-        {seat.seat_name}
+  const renderSeat = (seat: Seat) => {
+    // Custom logic to render seat component based on seat properties
+    return (
+      <div key={seat._id} className="seat">
+        {seat.row} - {seat.column}
       </div>
-    )
+    );
+  };
 
-    if (idx === 0) {
-      rowSeat.push(seatHtml)
-    } else if (
-      seatsData[idx].seat_name[0] !== seatsData[idx - 1].seat_name[0]
-    ) {
-      rows.push(
-        <div className="row" key={seatsData[idx - 1].seat_name[0]}>
-          {rowSeat}
-        </div>
-      )
-      rowSeat = []
-      rowSeat.push(seatHtml)
-    } else if (idx === seatsData.length - 1) {
-      rowSeat.push(seatHtml)
-      rows.push(
-        <div className="row" key={seatsData[idx - 1].seat_name[0]}>
-          {rowSeat}
-        </div>
-      )
-    } else {
-      rowSeat.push(seatHtml)
+  const renderSeatRow = (rowSeats: Seat[]) => {
+    return (
+      <div key={rowSeats[0].row} className="seat-row">
+        {rowSeats.map(renderSeat)}
+      </div>
+    );
+  };
+
+  const renderSeatLayout = () => {
+    // Custom logic to arrange seats in rows/columns
+    const rows: JSX.Element[] = [];
+    // Logic to group seats by row
+    const groupedSeats: { [row: number]: Seat[] } = {};
+    seats.forEach((seat) => {
+      if (!groupedSeats[seat.row]) {
+        groupedSeats[seat.row] = [];
+      }
+      groupedSeats[seat.row].push(seat);
+    });
+
+    // Render each row of seats
+    for (const row in groupedSeats) {
+      rows.push(renderSeatRow(groupedSeats[row]));
     }
-  })
+
+    return rows;
+  };
+
+  const override = {
+    display: "block",
+    margin: "1.6rem auto",
+  };
 
   return (
     <div>
@@ -117,9 +85,9 @@ export const SeatSelector = ({
             <div className="screen-2"></div>
           </div>
           <div className="theatre-screen-heading">Theatre Screen</div>
-          <div className="seat-container">{rows}</div>
+          <div className="seat-container">{renderSeatLayout()}</div>
         </>
       )}
     </div>
-  )
-}
+  );
+};

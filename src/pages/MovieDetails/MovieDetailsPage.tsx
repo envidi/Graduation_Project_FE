@@ -1,58 +1,31 @@
-import { useEffect } from "react";
-import { Navbar } from "../../components/Navbar";
-import { MovieInfoSection } from "./components/MovieInfoSection";
-import { MovieInfoCollection } from "./components/MovieInfoCollection";
-import { Footer } from "../../components/Footer";
-import { AnimatedPage } from "../../components/AnimatedPage";
+// import { Navbar } from '../../components/Navbar'
+import { MovieInfoSection } from './components/MovieInfoSection'
+import { MovieInfoCollection } from './components/MovieInfoCollection'
+// import { Footer } from '../../components/Footer'
+import { AnimatedPage } from '../../components/AnimatedPage'
+import Comment from '@/components/Comment/Comment'
 
-const MovieDetailsPage = ({
-  handleSignState,
-  handleLoginState,
-  signedPerson,
-  handlelogout,
-  getTheatreData,
-  locationData,
-  userLocation,
-  handleLocationSelection,
-  movieDetailsId,
-  currentMovieDetails,
-  setMenuState,
-}) => {
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  }, [movieDetailsId]);
+import '@/components/Comment/comment.css'
+
+
+
+const MovieDetailsPage = () => {
+  
+  // useEffect(() => {
+  //   window.scrollTo({ top: 0, behavior: 'smooth' })
+  // }, [movieDetailsId])
 
   return (
     <AnimatedPage>
       <>
-        <Navbar
-          signedPerson={signedPerson}
-          pageName="movieDetails"
-          handleSignState={handleSignState}
-          handleLoginState={handleLoginState}
-          handlelogout={handlelogout}
-          setMenuState={setMenuState}
-        />
-        <MovieInfoSection
-          getTheatreData={getTheatreData}
-          locationData={locationData}
-          userLocation={userLocation}
-          handleLocationSelection={handleLocationSelection}
-          signedPerson={signedPerson}
-          handleLoginState={handleLoginState}
-        />
-        <MovieInfoCollection
-          currentMovieDetails={currentMovieDetails}
-          signedPerson={signedPerson}
-          handleLoginState={handleLoginState}
-        />
-        <Footer
-          handleSignState={handleSignState}
-          handleLoginState={handleLoginState}
-        />
+        <MovieInfoSection />
+        <MovieInfoCollection />
+        <div className="App">
+          <Comment />
+        </div>
       </>
     </AnimatedPage>
-  );
-};
+  )
+}
 
-export default MovieDetailsPage;
+export default MovieDetailsPage

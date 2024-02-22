@@ -1,69 +1,45 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import HashLoader from "react-spinners/HashLoader";
+import { Input } from "@/components/ui/input";
 
-export const DateSelector = ({
-  datesData,
-  handleUserDateChange,
-  userDate,
-  userLocation,
-  getShowDatesData,
-  theatreId,
-}) => {
-  const [loading, setLoading] = useState(true);
+
+
+export const DateSelector: React.FC = ({}) => {
+  const [loading, setLoading] = useState(false);
+  const [dateOptions, setDateOptions] = useState<string[]>([]);
+  const [userDate, setUserDate] = useState("");
+
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchDates = async () => {
       try {
         setLoading(true);
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/showtimesDates`,
-          {
-            theatreId,
-          }
-        );
-        getShowDatesData(response.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
+        const response = await axios.get("/api/dates");
+        setDateOptions(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
         setLoading(false);
       }
     };
 
-    fetchData();
-  }, [userLocation]);
+    fetchDates();
+  }, []);
 
-  const checkedColor = (val) => {
-    return {
-      backgroundColor: val === userDate ? "#ef5e78" : "",
-      color: val === userDate ? "#e6e6e8" : "",
-    };
+  const handleUserDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserDate(e.target.value);
   };
 
-  const dateOptions = datesData?.map((dateData, idx) => {
-    const day = new Date(dateData.showtime_date).toLocaleString("en-us", {
-      weekday: "short",
-    });
+  const checkedColor = (formattedDate: string) => {
+    // Custom logic to style the selected date
+    // Return an object with CSS properties
+    return formattedDate === userDate ? { backgroundColor: "#ccc" } : {};
+  };
 
-    const month = new Date(dateData.showtime_date).toLocaleString("en-us", {
-      month: "short",
-    });
-
-    const date = new Date(dateData.showtime_date).toLocaleString("en-us", {
-      day: "numeric",
-    });
-
-    const year = new Date(dateData.showtime_date).toLocaleString("en-us", {
-      year: "numeric",
-    });
-
-    const monthNumber = new Date(dateData.showtime_date).toLocaleString(
-      "en-us",
-      {
-        month: "numeric",
-      }
-    );
-
-    const formattedDate = `${year}-${monthNumber}-${date}`;
+  const renderDateOption = (formattedDate: string, idx: number) => {
+    const date = formattedDate.slice(8, 10);
+    const month = formattedDate.slice(5, 7);
+    const day = formattedDate.slice(0, 3);
 
     return (
       <div
@@ -71,9 +47,9 @@ export const DateSelector = ({
         key={idx}
         style={checkedColor(formattedDate)}
       >
-        <input
+        <Input
           type="radio"
-          id={idx}
+          id={idx.toString()}
           name="Select Date"
           value={formattedDate}
           onChange={(e) => handleUserDateChange(e)}
@@ -89,14 +65,14 @@ export const DateSelector = ({
         </label>
       </div>
     );
-  });
+  };
 
   return (
     <div>
       <form>
         <div className="form-item-heading">Select Date</div>
         {!loading ? (
-          <div className="form-item-options">{dateOptions}</div>
+          <div className="form-item-options">{dateOptions.map(renderDateOption)}</div>
         ) : (
           <HashLoader color="#eb3656" />
         )}
