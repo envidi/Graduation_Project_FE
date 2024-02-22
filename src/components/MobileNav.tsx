@@ -7,7 +7,7 @@ export const MobileNav = ({
   signedPerson,
   handlelogout,
   handleSignState,
-  handleLoginState,
+  handleLoginState
 }: any) => {
   const navigate = useNavigate()
 
@@ -68,26 +68,26 @@ export const MobileNav = ({
               About Us
             </button>
           </li>
-          {Object.keys(signedPerson).length !== 0 &&
+          {/* {Object.keys(signedPerson).length !== 0 &&
             signedPerson.person_type === 'Admin' && (
               <li className="mobile-nav-list-item">
                 <button
                   className="mobile-nav-item"
                   onClick={() => {
-                    setMenuState((prev:any) => !prev)
+                    setMenuState((prev: any) => !prev)
                     navigate('/admin')
                   }}
                 >
                   Admin
                 </button>
               </li>
-            )}
+            )} */}
 
           <li className="mobile-nav-list-item">
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev:any) => !prev)
+                setMenuState((prev: any) => !prev)
                 handleSignState()
               }}
             >
@@ -98,7 +98,7 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev:any) => !prev)
+                setMenuState((prev: any) => !prev)
                 handleLoginState()
               }}
             >
@@ -112,7 +112,7 @@ export const MobileNav = ({
                 className="mobile-nav-item"
                 onClick={() => {
                   handlelogout()
-                  setMenuState((prev:any) => !prev)
+                  setMenuState((prev: any) => !prev)
                 }}
               >
                 Log out

@@ -21,7 +21,7 @@ import {
   getHourAndMinute,
   selectCalendar
 } from '@/utils'
-import { AVAILABLE, MOVIE } from '@/utils/constant'
+import { AVAILABLE, MOVIE_DETAIL } from '@/utils/constant'
 
 export interface ShowTime {
   _id: string
@@ -42,7 +42,7 @@ export const MovieInfoSection = () => {
   const [currentLocation, setCurrentLocation] = useState<string>('')
   const id = useParams()
   const { data: dataMovie, isLoading } = useQuery({
-    queryKey: [MOVIE, id],
+    queryKey: [MOVIE_DETAIL, id],
     queryFn: () => getOneMovie('65c8dc874a19975a1cc5fc7e')
   })
 
