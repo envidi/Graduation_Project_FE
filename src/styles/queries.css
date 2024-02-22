@@ -403,13 +403,12 @@
   }
   .showtimes-screen-container {
     display: grid;
-    grid-template-rows: 1fr;
   }
 
-  .showtimes-schedule-container-3d,
-  .showtimes-schedule-container-2d {
+  /* .showtimes-schedule-container-3d, */
+  .showtimes-schedule-container {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 5.4rem auto;
+    /* grid-template-rows: 5.4rem auto; */
   }
 
   .showtimes-img-box {
