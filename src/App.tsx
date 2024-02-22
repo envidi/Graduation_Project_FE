@@ -15,6 +15,7 @@ import PurchasePage from './pages/Purchase/PurchasePage'
 // import { LoginModal } from './pages/modals/LoginModal'
 
 import HomePage from './pages/Home/HomePage'
+import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 
 // import { AnimatePresence } from 'framer-motion'
 // import { MobileNav } from './components/MobileNav'
@@ -589,6 +590,7 @@ function App() {
               // </Suspense>
             }
           />
+          <Route path="/showtimes" element={<ShowtimesPage />} />
         </Route>
       </Routes>
     </>
