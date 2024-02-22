@@ -14,7 +14,7 @@ import PurchasePage from './pages/Purchase/PurchasePage'
 // import { SignupModal } from './pages/modals/SignupModal'
 // import { LoginModal } from './pages/modals/LoginModal'
 
-// import HomePage from './pages/Home/HomePage'
+import HomePage from './pages/Home/HomePage'
 
 // import { AnimatePresence } from 'framer-motion'
 // import { MobileNav } from './components/MobileNav'
@@ -579,6 +579,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<ClientLayout />}>
+          <Route index path="/" element={<HomePage />} />
           <Route path="/movie/:id" element={<MovieDetailsPage />} />
           <Route
             path="/purchase"
