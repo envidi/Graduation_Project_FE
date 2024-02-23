@@ -11,7 +11,7 @@ const HomePage = () => {
     <>
       <TopEdge />
 
-      <HeroSection/>
+      <HeroSection />
       <HomeCollection />
       <Features />
       <SocialLinks />
