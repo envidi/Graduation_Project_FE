@@ -3,93 +3,101 @@ import React, { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BarLoader from 'react-spinners/BarLoader'
-
-export const SignupModal = ({
-  handleSignState,
-  signupSuccessToast,
-  signupFailedToast,
-}) => {
+import { signup } from '@/api/auth'
+import { useMutation } from 'react-query'
+import { useFormik } from 'formik'
+interface FormValues {
+  name: string
+  email: string
+  password: string
+  address: string
+  mobile: string
+}
+export const SignupModal = () => {
   const [loading, setLoading] = useState(false)
   const [passViewState, setPassViewState] = useState(false)
-  const [signupDetails, setSignupDetails] = useState({
-    firstName: '',
-    lastName: '',
-    phoneNumber: '',
-    email: '',
-    password: '',
+  const [showForm, setShowForm] = useState(true);
+
+
+  const handleShowForm = () => {
+    setShowForm((prevShowForm) => !prevShowForm); // Cập nhật trạng thái để ẩn/hiển thị form
+  };
+
+  const CreateUser = useMutation({
+    mutationFn: async (user:any ) => await signup(user),
+    onSuccess() {
+      toast.success('Đăng ký thành công');
+    },
+    onError() {
+      toast.error('Đăng ký thất bại, kiểm tra lại thông tin giúp tớ điii <3');
+    },
   })
 
-  const handleSignupDetails = (e) => {
-    const name = e.target.name
-    const value = e.target.value
+  const formikValidate = useFormik<FormValues>({
+    initialValues: {
+      name: "",
+      email: "",
+      password: "",
+      address: "",
+      mobile: "",
+    },
 
-    setSignupDetails((prevDetails) => ({ ...prevDetails, [name]: value }))
-  }
+    validate: (values) => {
+      const errors: Partial<FormValues> = {}
 
-  const togglePassState = (e) => {
+      if (!values.name || values.name.length <= 6) {
+        errors.name = 'Bắt buộc phải nhập name và phải lớn hơn 6 ký tự '
+      }
+      if (!values.address || values.address.length <= 6) {
+        errors.address = 'Bắt buộc phải nhập address và phải lớn hơn 6 ký tự '
+      }
+      if (!values.mobile || values.mobile.length <= 6) {
+        errors.mobile = 'Bắt buộc phải nhập mobile và phải lớn hơn 6 ký tự '
+      }
+      if (!values.email) {
+        errors.email = 'Required email'
+      } else if (
+        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+      ) {
+        errors.email = 'Chưa nhập địa chỉ email'
+      }
+      if (!values.password) {
+        errors.password = 'Bắt buộc phải nhập password'
+      } else if (values.password.length < 8) {
+        errors.password = 'Password phải lớn hơn 8 ký tự'
+      }
+
+      return errors
+    },
+    onSubmit: async (values) => {
+      console.log('value', values)
+
+      try {
+   
+  
+        const response = await CreateUser.mutateAsync(values)
+        console.log('res', response)
+      } catch (error) {
+        console.error('Lỗi khi gọi API:', error)
+      }
+    },
+  })
+  const togglePassState = (e: any) => {
     e.preventDefault()
     setPassViewState((prevState) => !prevState)
   }
 
-  const handleDataInsert = async (e) => {
-    e.preventDefault()
-
-    if (
-      signupDetails.firstName !== '' &&
-      signupDetails.lastName !== '' &&
-      signupDetails.phoneNumber !== '' &&
-      signupDetails.phoneNumber.length === 11 &&
-      signupDetails.email !== '' &&
-      signupDetails.password !== '' &&
-      signupDetails.password.length >= 8
-    ) {
-      try {
-        setLoading(true)
-
-        const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/registration`,
-          {
-            firstName: signupDetails.firstName,
-            lastName: signupDetails.lastName,
-            phoneNumber: signupDetails.phoneNumber,
-            email: signupDetails.email,
-            password: signupDetails.password,
-          }
-        )
-
-        if (response.status === 200) {
-          handleSignState()
-          signupSuccessToast(response.data.message)
-        }
-      } catch (err) {
-        console.log('Error during registration:', err.response.data.message)
-        handleSignState()
-        signupFailedToast(err.response.data.message)
-      } finally {
-        setLoading(false)
-        setSignupDetails({
-          firstName: '',
-          lastName: '',
-          phoneNumber: '',
-          email: '',
-          password: '',
-        })
-      }
-    }
-  }
-
   return (
-    <div className="signup-form">
-      <form onSubmit={(e) => handleDataInsert(e)}>
+    <div>
+      {showForm && (
+        <div className="signup-form">
+      <form onSubmit={formikValidate.handleSubmit} 
+      encType='multipart/form-data'>
         <div className="signup-form-heading">
           <h2 className="signup-form-heading-text">
             Create a ASHO DEKHI Account
           </h2>
-          <button
-            type="button"
-            className="btn-form-exit"
-            onClick={handleSignState}
-          >
+          <button type="button" className="btn-form-exit" onClick={handleShowForm}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="form-icon"
@@ -109,49 +117,61 @@ export const SignupModal = ({
 
         <div className="signup-form-body">
           <div className="signup-form-category-sp">
+            {formikValidate.touched.name && formikValidate.errors.name && (
+              <span className="text-red-500">{formikValidate.errors.name}</span>
+            )}
             <div className="signup-form-category">
               <label>
-                First Name: <span>*</span>
+                Name: <span>*</span>
               </label>
               <input
-                name="firstName"
                 type="text"
-                placeholder="Enter First Name"
-                onChange={(e) => handleSignupDetails(e)}
-                value={signupDetails.firstName}
-                required
+                placeholder="Enter Username"
+                onChange={formikValidate.handleChange}
+                onBlur={formikValidate.handleBlur}
+                name="name"
               />
             </div>
 
+            {formikValidate.touched.address &&
+              formikValidate.errors.address && (
+                <div className="text-red-500">
+                  {formikValidate.errors.address}
+                </div>
+              )}
             <div className="signup-form-category">
               <label>
-                Last Name: <span>*</span>
+                Address: <span>*</span>
               </label>
               <input
-                name="lastName"
                 type="text"
-                value={signupDetails.lastName}
-                placeholder="Enter Last Name"
-                onChange={(e) => handleSignupDetails(e)}
-                required
+                placeholder="Enter Your address"
+                onChange={formikValidate.handleChange}
+                onBlur={formikValidate.handleBlur}
+                name="address"
               />
             </div>
           </div>
 
+          {formikValidate.touched.mobile && formikValidate.errors.mobile && (
+            <div className="text-red-500">{formikValidate.errors.mobile}</div>
+          )}
           <div className="signup-form-category">
             <label>
               Phone Number(Must contain 11 digits): <span>*</span>
             </label>
             <input
-              name="phoneNumber"
-              type="number"
-              value={signupDetails.phoneNumber}
+              name="mobile"
+              type="text"
               placeholder="Enter Phone No."
-              onChange={(e) => handleSignupDetails(e)}
-              required
+              onChange={formikValidate.handleChange}
+              onBlur={formikValidate.handleBlur}
             />
           </div>
 
+          {formikValidate.touched.email && formikValidate.errors.email && (
+            <div className="text-red-500">{formikValidate.errors.email}</div>
+          )}
           <div className="signup-form-category">
             <label>
               Email: <span>*</span>
@@ -159,25 +179,29 @@ export const SignupModal = ({
             <input
               name="email"
               type="email"
-              value={signupDetails.email}
-              placeholder="Enter Email"
-              onChange={(e) => handleSignupDetails(e)}
-              required
+              placeholder="Enter Your Email"
+              onChange={formikValidate.handleChange}
+              onBlur={formikValidate.handleBlur}
             />
           </div>
 
+          {formikValidate.touched.password &&
+            formikValidate.errors.password && (
+              <div className="text-red-500">
+                {formikValidate.errors.password}
+              </div>
+            )}
           <div className="signup-form-category">
             <label>
               Password(Must contain at least 8 digits): <span>*</span>
             </label>
             <div className="input-password">
               <input
+                type="password"
+                placeholder="Enter Your password"
+                onChange={formikValidate.handleChange}
+                onBlur={formikValidate.handleBlur}
                 name="password"
-                value={signupDetails.password}
-                type={passViewState ? 'text' : 'password'}
-                onChange={(e) => handleSignupDetails(e)}
-                placeholder="Enter Password"
-                required
               />
               <button
                 type="button"
@@ -222,12 +246,14 @@ export const SignupModal = ({
             </div>
           </div>
 
-          <button type="submit" className="btn-reg">
+          <button type="submit" className="btn-reg bg-[#eb3656]" disabled={loading}>
             {loading ? <BarLoader color="#e6e6e8" /> : 'Sign up'}
           </button>
-          <ToastContainer />
         </div>
       </form>
     </div>
+      )}
+    </div>
+    
   )
 }

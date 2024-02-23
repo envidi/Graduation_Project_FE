@@ -17,20 +17,20 @@ export const HomeCollection = ({
   const [movieData, setMovieData] = useState([])
   const [loading, setLoading] = useState(true)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:7000/latestMovies[]')
-        setMovieData(response.data)
-      } catch (err) {
-        console.error(err)
-      } finally {
-        setLoading(false)
-      }
-    }
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:7000/latestMovies[]')
+  //       setMovieData(response.data)
+  //     } catch (err) {
+  //       console.error(err)
+  //     } finally {
+  //       setLoading(false)
+  //     }
+  //   }
 
-    fetchData()
-  }, [])
+  //   fetchData()
+  // }, [])
 
   const latestMoviesCards = movieData.map((latestMovie:any) => {
     return (

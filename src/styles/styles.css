@@ -2292,3 +2292,46 @@ header {
   justify-content: center;
   align-items: center;
 }
+
+@media only screen and (max-width: 24rem) {
+  /* Điều chỉnh các thuộc tính CSS cho màn hình có độ rộng tối đa 375px */
+  .signup-form{
+    margin-top: 15%;
+  }
+  .login-form {
+    margin-top: 15%;
+
+  }
+}
+
+@media only screen and (max-width: 27rem) {
+  /* Điều chỉnh các thuộc tính CSS cho màn hình có độ rộng tối đa 375px */
+  .signup-form{
+    margin-top: 15%;
+  }
+  .login-form {
+    margin-top: 15%;
+
+  }
+}
+
+@media only screen and (max-width: 48rem) {
+  /* Điều chỉnh các thuộc tính CSS cho màn hình có độ rộng tối đa 375px */
+  .signup-form{
+    margin-top: 15%;
+  }
+  .login-form {
+    margin-top: 15%;
+
+  }
+}
+
+@media only screen and (min-width: 767px ) and (max-width: 1184px ) {
+  .signup-form{
+    margin-top: 15%;
+  }
+  .login-form {
+    margin-top: 15%;
+
+  }
+}

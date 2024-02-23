@@ -1,9 +1,10 @@
 import './styles/styles.css'
 import './styles/queries.css'
 
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+// import { ToastContainer, toast } from 'react-toastify'
 
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { useState, useEffect, lazy, Suspense } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { ProtectedRoute } from './components/ProtectedRoute'
@@ -16,6 +17,7 @@ import HomePage from './pages/Home/HomePage'
 import { AnimatePresence } from 'framer-motion'
 import { MobileNav } from './components/MobileNav'
 import { PageLoader } from './components/PageLoader'
+import ForgotPassword from './pages/modals/FogotPassword';
 
 const PurchasePage = lazy(() => import('./pages/Purchase/PurchasePage'))
 const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
@@ -26,7 +28,7 @@ const AboutUsPage = lazy(() => import('./pages/AboutUs/AboutUsPage'))
 const CustomerInfoPage = lazy(
   () => import('./pages/CustomerInfo/CustomerInfoPage')
 )
-const AdminPage = lazy(() => import('./pages/Admin/AdminPage'))
+// const AdminPage = lazy(() => import('./pages/Admin/AdminPage'))
 
 function App() {
   // //////////
@@ -61,9 +63,7 @@ function App() {
   const location = useLocation()
 
   const blurredStyle = {
-    filter: 'blur(5px)',
-    pointerEvents: 'none',
-    userSelect: 'none',
+   
   }
 
   const toastPrimaryCategories = {
@@ -485,11 +485,11 @@ function App() {
                 />
               }
             >
-              <Route
+              <Route  
                 path="/admin"
                 element={
                   <Suspense fallback={<PageLoader />}>
-                    <AdminPage
+                    {/* <AdminPage
                       signedPerson={signedPerson}
                       handleSignState={handleSignState}
                       handleLoginState={handleLoginState}
@@ -499,7 +499,7 @@ function App() {
                       adminShowtimeToast={adminShowtimeToast}
                       adminShowninToast={adminShowninToast}
                       setMenuState={setMenuState}
-                    />
+                    /> */}
                   </Suspense>
                 }
               />
@@ -523,6 +523,10 @@ function App() {
             <Route
               path="/movieDetails"
               element={<Navigate replace to="/movieDetails/1" />}
+            />
+             <Route
+              path="/forgotPassword"
+              element={<ForgotPassword />}
             />
 
             <Route
@@ -572,7 +576,23 @@ function App() {
         handleSignState={handleSignState}
         handleLoginState={handleLoginState}
       />
+     <ToastContainer
+  position="top-right"
+  autoClose={5000}
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  rtl={false}
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover
+  theme="light"
+  transition={Bounce} // Sử dụng dấu '=' để gán giá trị cho thuộc tính
+/>
+
+      
     </>
+    
   )
 }
 
