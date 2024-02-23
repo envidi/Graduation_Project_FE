@@ -62,8 +62,6 @@ export const ShowtimesCard = (props: ShowtimesCardProps) => {
       }
     })
 
-    console.log('objShowTimePerDay', objShowTimePerDay)
-
     if (!objShowTimePerDay[currentDay]) {
       return null
     }
