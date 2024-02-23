@@ -1,6 +1,7 @@
 // import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
+import SearchBar from './SearchBar/SearchBar'
 
 export const Navbar = () => {
   // const [signUpState, setSignUpState] = useState(false)
@@ -117,6 +118,7 @@ export const Navbar = () => {
               About Us
             </Link>
           </li>
+
           {/* {Object.keys(signedPerson).length !== 0 &&
             signedPerson.person_type === 'Admin' && (
               <li>
@@ -131,15 +133,13 @@ export const Navbar = () => {
             )} */}
         </ul>
       </nav>
-
+      <SearchBar />
       <div className="nav-signup">
         {/* {Object.keys(signedPerson).length !== 0 && (
           <p className="nav-signed-name">{signedPerson.first_name}</p>
         )} */}
         <p className="nav-signed-name">Nguyen</p>
-        <button
-          className="customer-profile-btn"
-        >
+        <button className="customer-profile-btn">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="profile-icon"
