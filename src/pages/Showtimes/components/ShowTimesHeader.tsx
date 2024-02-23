@@ -1,21 +1,17 @@
-import { LocationSelector } from "../../../components/LocationSelector";
-import { GenreSelector } from "./GenreSelector";
+import { LocationSelector } from '../../../components/LocationSelector'
+import { CategorySelector } from './CategorySelector'
+
+type ShowTimesHeaderProps = {
+  handleCurrentLocation: (locationId: string) => void
+}
 
 export const ShowTimesHeader = ({
-  locationData,
-  userLocation,
-  handleLocationSelection,
-  getTheatreData,
-}) => {
+  handleCurrentLocation
+}: ShowTimesHeaderProps) => {
   return (
     <section className="showtimes-header container">
-      <LocationSelector
-        locationData={locationData}
-        userLocation={userLocation}
-        handleLocationSelection={handleLocationSelection}
-        getTheatreData={getTheatreData}
-      />
-      <GenreSelector />
+      <LocationSelector handleCurrentLocation={handleCurrentLocation} />
+      <CategorySelector />
     </section>
-  );
-};
+  )
+}
