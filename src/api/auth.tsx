@@ -18,3 +18,7 @@ export const forgotPassword = (email:string) => {
 export const resetPassword = (user : any) => {
     return baseAuth.put('/resetPassword', user)
 }
+
+export const getDetailUser = () => {
+    return InsanceToken.get('/userDetail')
+}

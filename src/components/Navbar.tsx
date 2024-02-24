@@ -1,20 +1,34 @@
-import { useState } from 'react'
+import { getDetailUser } from '@/api/auth'
+import { useContext, useState } from 'react'
+import { useMutation, useQuery } from 'react-query'
 import { Link, useNavigate } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
-
+import { TbLogout } from 'react-icons/tb'
+import { ContextMain } from '@/context/Context'
+import { toast } from 'react-toastify'
 export const Navbar = ({
   pageName,
   handleSignState,
   handleLoginState,
   signedPerson,
   handlelogout,
-  setMenuState
-}:any) => {
+  setMenuState,
+}: any) => {
   const [signUpState, setSignUpState] = useState(false)
+  // const [isLogined, setIsLogined] = useState(
+  //   !!localStorage.getItem('Accesstoken')
+  // )
   const navigate = useNavigate()
-
+  const {userDetail, isLogined , setIsLogined} = useContext(ContextMain)
+  console.log("detail", userDetail);
+  
   const toggleSignState = () => {
     setSignUpState((prevState) => !prevState)
+  }
+  const logout = () => {
+    localStorage.removeItem('Accesstoken')
+    setIsLogined(false)
+    toast.success("Đăng xuất thành công nhé <3")
   }
 
   const selectionTab = {
@@ -139,127 +153,141 @@ export const Navbar = ({
         </ul>
       </nav>
 
-      <div className="nav-signup">
-        {Object.keys(signedPerson).length !== 0 && (
-          <p className="nav-signed-name">{signedPerson.first_name}</p>
-        )}
-        <button
-          className="customer-profile-btn"
-          onClick={(e) => {
-            e.stopPropagation()
-            Object.keys(signedPerson).length !== 0 &&
-            signedPerson.person_type === 'Customer'
-              ? navigate('/customer')
-              : handleLoginState()
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="profile-icon"
-            viewBox="0 0 512 512"
+      {isLogined ? (
+        <div className="flex items-center">
+          <span className="text-red-600 font-bold text-xl mr-5 cursor-pointer hover:text-red-400">
+            Hello: {userDetail?.message?.name}
+          </span>
+          <div>
+            <TbLogout
+              className="text-red-500 font-bold text-3xl cursor-pointer"
+              onClick={logout}
+            />
+          </div>
+        </div>
+      ) : (
+        <div className="nav-signup">
+          {Object.keys(signedPerson).length !== 0 && (
+            <p className="nav-signed-name">{signedPerson.first_name}</p>
+          )}
+          <button
+            className="customer-profile-btn"
+            onClick={(e) => {
+              e.stopPropagation()
+              Object.keys(signedPerson).length !== 0 &&
+              signedPerson.person_type === 'Customer'
+                ? navigate('/customer')
+                : handleLoginState()
+            }}
           >
-            <path
-              d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="32"
-            />
-            <path
-              d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z"
-              fill="none"
-              stroke="currentColor"
-              strokeMiterlimit="10"
-              strokeWidth="32"
-            />
-          </svg>
-        </button>
-
-        {Object.keys(signedPerson).length === 0 ? (
-          <button className="btn-signup-arrow" onClick={toggleSignState}>
-            {!signUpState ? (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="signup-icon"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="48"
-                  d="M112 184l144 144 144-144"
-                />
-              </svg>
-            ) : (
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="signup-icon"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="48"
-                  d="M112 328l144-144 144 144"
-                />
-              </svg>
-            )}
-          </button>
-        ) : (
-          <button className="btn-logout" onClick={handlelogout}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="logout-icon"
+              className="profile-icon"
               viewBox="0 0 512 512"
             >
               <path
-                d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256"
+                d="M344 144c-3.92 52.87-44 96-88 96s-84.15-43.12-88-96c-4-55 35-96 88-96s92 42 88 96z"
                 fill="none"
                 stroke="currentColor"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="32"
               />
+              <path
+                d="M256 304c-87 0-175.3 48-191.64 138.6C62.39 453.52 68.57 464 80 464h352c11.44 0 17.62-10.48 15.65-21.4C431.3 352 343 304 256 304z"
+                fill="none"
+                stroke="currentColor"
+                strokeMiterlimit="10"
+                strokeWidth="32"
+              />
             </svg>
           </button>
-        )}
 
-        {signUpState && (
-          <div className="signup-options">
-            {
-              <ul className="signup-buttons">
-                <li>
-                  <button
-                    className="signup-button"
-                    onClick={() => {
-                      toggleSignState()
-                      handleSignState()
-                    }}
-                  >
-                    Sign up
-                  </button>
-                </li>
-                <li>
-                  <button
-                    className="login-button"
-                    onClick={() => {
-                      toggleSignState()
-                      handleLoginState()
-                    }}
-                  >
-                    Sign in
-                  </button>
-                </li>
-              </ul>
-            }
-          </div>
-        )}
-      </div>
+          {Object.keys(signedPerson).length === 0 ? (
+            <button className="btn-signup-arrow" onClick={toggleSignState}>
+              {!signUpState ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="signup-icon"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="48"
+                    d="M112 184l144 144 144-144"
+                  />
+                </svg>
+              ) : (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="signup-icon"
+                  viewBox="0 0 512 512"
+                >
+                  <path
+                    fill="none"
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="48"
+                    d="M112 328l144-144 144 144"
+                  />
+                </svg>
+              )}
+            </button>
+          ) : (
+            <button className="btn-logout" onClick={handlelogout}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="logout-icon"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  d="M304 336v40a40 40 0 01-40 40H104a40 40 0 01-40-40V136a40 40 0 0140-40h152c22.09 0 48 17.91 48 40v40M368 336l80-80-80-80M176 256h256"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="32"
+                />
+              </svg>
+            </button>
+          )}
+
+          {signUpState && (
+            <div className="signup-options">
+              {
+                <ul className="signup-buttons">
+                  <li>
+                    <button
+                      className="signup-button"
+                      onClick={() => {
+                        toggleSignState()
+                        handleSignState()
+                      }}
+                    >
+                      Sign up
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="login-button"
+                      onClick={() => {
+                        toggleSignState()
+                        handleLoginState()
+                      }}
+                    >
+                      Sign in
+                    </button>
+                  </li>
+                </ul>
+              }
+            </div>
+          )}
+        </div>
+      )}
     </header>
   )
 }

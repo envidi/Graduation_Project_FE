@@ -18,6 +18,7 @@ import { AnimatePresence } from 'framer-motion'
 import { MobileNav } from './components/MobileNav'
 import { PageLoader } from './components/PageLoader'
 import ForgotPassword from './pages/modals/FogotPassword';
+import Profile from './pages/modals/Profile';
 
 const PurchasePage = lazy(() => import('./pages/Purchase/PurchasePage'))
 const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
@@ -525,8 +526,8 @@ function App() {
               element={<Navigate replace to="/movieDetails/1" />}
             />
              <Route
-              path="/forgotPassword"
-              element={<ForgotPassword />}
+              path="/profile"
+              element={<Profile />}
             />
 
             <Route

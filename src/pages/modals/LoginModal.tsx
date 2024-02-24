@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import BarLoader from 'react-spinners/BarLoader';
 import { useMutation } from 'react-query';
@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import {toast} from 'react-toastify'
 import { Link } from 'react-router-dom';
 import ForgotPassword from './FogotPassword';
+import { ContextMain } from '@/context/Context';
 interface FormValues {
   email: string;
   password: string;
@@ -17,7 +18,8 @@ export const LoginModal = () => {
   const [passViewState, setPassViewState] = useState(false);
   const [showForm, setShowForm] = useState(true);
   const [showForgotPassword , setShowForgotPassword] = useState(false)
-
+  // const [isLogined, setIsLogined] = useState(false)
+  const {setIsLogined , isLogined} = useContext(ContextMain)
   const togglePassState = (e: any) => {
     e.preventDefault();
     setPassViewState((prevState) => !prevState);
@@ -29,6 +31,7 @@ export const LoginModal = () => {
   const LoginUser = useMutation({
     mutationFn: async (user: FormValues) => await signin(user),
     onSuccess(response) {
+      setIsLogined(true)
       const {Accesstoken} = response.data
       localStorage.setItem("Accesstoken", Accesstoken)
       toast.success('Đăng nhập thành công');
@@ -78,7 +81,7 @@ export const LoginModal = () => {
 
   return (
     <div>
-      {showForm  && !showForgotPassword && (
+      {!isLogined && showForm  && !showForgotPassword && (
         <div className="login-form overlay">
           <form onSubmit={formikValidate.handleSubmit}>
             <div className="signup-form-heading">
@@ -188,7 +191,7 @@ export const LoginModal = () => {
       )}
 
 
-       {showForgotPassword && (
+       { !isLogined && showForgotPassword && (
         <ForgotPassword />
       )}
    
