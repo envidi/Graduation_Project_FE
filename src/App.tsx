@@ -37,6 +37,7 @@ function App() {
   // //////////
 
   const [signModalState, setSignModalState] = useState(false)
+  const [profileModalState, setProfileModalState] = useState(false)
   const [loginModalState, setLoginModalState] = useState(false)
   const [menuState, setMenuState] = useState(false)
   const menuStyle = {
@@ -169,7 +170,14 @@ function App() {
   }
 
   const handleSignState = () => {
+    console.log(" check login ");
+    
     setSignModalState((prevState) => !prevState)
+  }
+  const handleProfileState = () => {
+    console.log( "check profile");
+    
+    setProfileModalState((prevState) => !prevState)
   }
 
   const handleLoginState = () => {
@@ -521,6 +529,10 @@ function App() {
               }
             />
 
+<Route
+              path='/profile'
+              element={<Profile />}
+            />
             <Route
               path="/movieDetails"
               element={<Navigate replace to="/movieDetails/1" />}
@@ -564,6 +576,13 @@ function App() {
       {loginModalState && (
         <LoginModal
           handleLoginState={handleLoginState}
+          handleSignedPerson={handleSignedPerson}
+          loginFailedToast={loginFailedToast}
+        />
+      )}
+      {profileModalState && (
+        <Profile
+          handleProfileState={handleProfileState}
           handleSignedPerson={handleSignedPerson}
           loginFailedToast={loginFailedToast}
         />

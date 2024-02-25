@@ -9,6 +9,12 @@ export const signin = (user: any) => {
     return baseAuth.post('/login', user)
 }
 
+export const updateUser = (user: any) => {
+    console.log("check user ", user);
+    
+    return InsanceToken.put('/updateUser', user)
+}
+
 export const forgotPassword = (email:string) => {
     console.log("email", email);
     

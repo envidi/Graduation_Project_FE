@@ -6,15 +6,18 @@ import { HashLink } from 'react-router-hash-link'
 import { TbLogout } from 'react-icons/tb'
 import { ContextMain } from '@/context/Context'
 import { toast } from 'react-toastify'
+import  Profile  from '@/pages/modals/Profile'
 export const Navbar = ({
   pageName,
   handleSignState,
   handleLoginState,
+  handleProfileState,
   signedPerson,
   handlelogout,
   setMenuState,
 }: any) => {
   const [signUpState, setSignUpState] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
   // const [isLogined, setIsLogined] = useState(
   //   !!localStorage.getItem('Accesstoken')
   // )
@@ -24,6 +27,9 @@ export const Navbar = ({
   
   const toggleSignState = () => {
     setSignUpState((prevState) => !prevState)
+  }
+  const toggleProfile = () => {
+    setShowProfile((prevState) => !prevState)
   }
   const logout = () => {
     localStorage.removeItem('Accesstoken')
@@ -155,9 +161,12 @@ export const Navbar = ({
 
       {isLogined ? (
         <div className="flex items-center">
-          <span className="text-red-600 font-bold text-xl mr-5 cursor-pointer hover:text-red-400">
+          <a href='/profile'>
+          <span className="text-red-600 font-bold text-xl mr-5 cursor-pointer hover:text-red-400" >
             Hello: {userDetail?.message?.name}
           </span>
+          </a>
+        
           <div>
             <TbLogout
               className="text-red-500 font-bold text-3xl cursor-pointer"
@@ -287,7 +296,13 @@ export const Navbar = ({
             </div>
           )}
         </div>
+
+       
       )}
+      {showProfile && (
+        <><div>hellooobfbs</div><Profile /></>
+      ) }
+      
     </header>
   )
 }

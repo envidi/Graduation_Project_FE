@@ -173,12 +173,13 @@ export const LoginModal = () => {
               </div>
               
 
-              <div>
+              <div className='flex justify-between'>
              
                    <a type='button' className="cursor-s-resize" onClick={toggoleShowForgot} >
                Quên mật khẩu ? 
               </a>
-           
+
+                    {/* Nhớ mật khẩu  <input type="checkbox"  />  */}
               </div>
             
                 

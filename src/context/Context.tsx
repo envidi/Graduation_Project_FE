@@ -1,7 +1,8 @@
-import { getDetailUser } from '@/api/auth'
+import { getDetailUser, updateUser } from '@/api/auth'
 import React, { createContext, useState } from 'react'
 import { useContext } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
 
 export const ContextMain = createContext({})
 
@@ -26,8 +27,19 @@ const ContextProvider = ({children} : {children: React.ReactNode}) => {
         },
       })
       console.log('user detail ', userDetail)
+      
 
-      const values = {isLogined, setIsLogined, userDetail}
+      const userUpdate = useMutation({
+        mutationFn : async (user) => await updateUser(user),
+        onSuccess() {
+          toast.success("Update Successfully <3 ")
+        },
+        onError(){
+          toast.error("Update faile, try again !!!!!!!")
+        }
+      })
+
+      const values = {isLogined, setIsLogined, userDetail,userUpdate}
   return (
     <ContextMain.Provider value={values}>
         {children}
