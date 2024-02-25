@@ -1,59 +1,88 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import HashLoader from 'react-spinners/HashLoader';
 import { Seat } from '@/Interface/seat';
 
-
 export const SeatSelector = () => {
   const [loading, setLoading] = useState(false);
   const [seats, setSeats] = useState<Seat[]>([]);
+  const [userSeatList, setUserSeatList] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchSeats = async () => {
+    const fetchData = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
-        const response = await axios.get('http://localhost:3000/Seat');
+        const response = await axios.get(
+          `http://localhost:3000/Seat`,
+        
+        );
         setSeats(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
+      } finally {
         setLoading(false);
       }
     };
 
-    fetchSeats();
+    fetchData();
   }, []);
 
+  const handleUserSeats = (seatId: string) => {
+    // Custom logic to handle user seat selection
+    setUserSeatList(prevList => prevList.includes(seatId) ? prevList.filter(id => id !== seatId) : [...prevList, seatId]);
+  };
   const renderSeat = (seat: Seat) => {
-    // Custom logic to render seat component based on seat properties
+    const seatStatus = seat.status === 0 ? 'booked' : 'available';
+
+    const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+      e.preventDefault();
+      handleUserSeats(seat._id);
+    };
+
     return (
-      <div key={seat._id} className="seat">
-        {seat.row} - {seat.column}
+      <div
+        className={`seat ${seatStatus}`}
+        onClick={() => seatStatus !== 'booked' && handleUserSeats(seat._id)}
+        onTouchEnd={seatStatus !== 'booked' ? handleTouchStart : undefined}
+        key={seat._id}
+        style={{
+          backgroundColor: userSeatList.includes(seat._id) ? '#ef5e78' : ''
+        }}
+      >
+        {seat.name}
       </div>
     );
   };
 
   const renderSeatRow = (rowSeats: Seat[]) => {
     return (
-      <div key={rowSeats[0].row} className="seat-row">
+      <div className="row" key={rowSeats[0].name[0]}>
         {rowSeats.map(renderSeat)}
       </div>
     );
   };
 
   const renderSeatLayout = () => {
-    // Custom logic to arrange seats in rows/columns
     const rows: JSX.Element[] = [];
-    // Logic to group seats by row
-    const groupedSeats: { [row: number]: Seat[] } = {};
-    seats.forEach((seat) => {
-      if (!groupedSeats[seat.row]) {
-        groupedSeats[seat.row] = [];
-      }
-      groupedSeats[seat.row].push(seat);
-    });
+    const groupedSeats: { [row: string]: Seat[] } = {};
+    const seatRows = Math.ceil(seats.length / 8); // Assuming there are 8 seats in each row
 
-    // Render each row of seats
+    for (let i = 0; i < seatRows; i++) {
+      const startIdx = i * 8;
+      const endIdx = startIdx + 8;
+      const rowSeats = seats.slice(startIdx, endIdx);
+      rows.push(renderSeatRow(rowSeats));
+    }
+  
+
+    // seats.forEach((seat) => {
+    //   if (!groupedSeats[seat.typeSeat[0]]) {
+    //     groupedSeats[seat.typeSeat[0]] = [];
+    //   }
+    //   groupedSeats[seat.typeSeat[0]].push(seat);
+    // });
+
+    
     for (const row in groupedSeats) {
       rows.push(renderSeatRow(groupedSeats[row]));
     }
@@ -62,8 +91,8 @@ export const SeatSelector = () => {
   };
 
   const override = {
-    display: "block",
-    margin: "1.6rem auto",
+    display: 'block',
+    margin: '1.6rem auto',
   };
 
   return (

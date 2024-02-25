@@ -4,6 +4,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf3015"
       },
+      "name":"A1",
       "typeSeat": "normal",
       "price": 100,
       "row": 1,
@@ -28,6 +29,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf3019"
       },
+      "name":"A2",
       "typeSeat": "normal",
       "price": 100,
       "row": 1,
@@ -76,6 +78,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"A3",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -100,6 +103,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"A4",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -125,6 +129,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"A5",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -149,6 +154,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"A6",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -173,6 +179,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"A7",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -197,6 +204,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"A8",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -221,6 +229,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B1",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -245,6 +254,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B2",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -269,6 +279,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B3",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -293,6 +304,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B4",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -317,6 +329,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B5",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -341,6 +354,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B6",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -365,6 +379,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B7",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -389,6 +404,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"B8",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -413,6 +429,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"C1",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -437,6 +454,32 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"C2",
+      "typeSeat": "Vip",
+      "price": 100,
+      "row": 2,
+      "column": 1,
+      "status": "Available",
+      "ScreeningRoomId": {
+        "$oid": "65b5fc657d1fb9cf7b743e33"
+      },
+      "ShowScheduleId": {
+        "$oid": "65c9d28b06b0f5b8daaf3010"
+      },
+      "TimeSlotId": {
+        "$oid": "65c9d28b06b0f5b8daaf3012"
+      },
+      "createdAt": {
+        "$date": "2024-02-12T08:10:51.574Z"
+      },
+      "updatedAt": {
+        "$date": "2024-02-12T08:10:51.574Z"
+      }
+    },{
+      "_id": {
+        "$oid": "65c9d28b06b0f5b8daaf301c"
+      },
+      "name":"C3",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -461,6 +504,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"C4",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -485,6 +529,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"C5",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -509,6 +554,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
+      "name":"C6",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,
@@ -533,30 +579,7 @@
       "_id": {
         "$oid": "65c9d28b06b0f5b8daaf301c"
       },
-      "typeSeat": "normal",
-      "price": 100,
-      "row": 2,
-      "column": 1,
-      "status": "Available",
-      "ScreeningRoomId": {
-        "$oid": "65b5fc657d1fb9cf7b743e33"
-      },
-      "ShowScheduleId": {
-        "$oid": "65c9d28b06b0f5b8daaf3010"
-      },
-      "TimeSlotId": {
-        "$oid": "65c9d28b06b0f5b8daaf3012"
-      },
-      "createdAt": {
-        "$date": "2024-02-12T08:10:51.574Z"
-      },
-      "updatedAt": {
-        "$date": "2024-02-12T08:10:51.574Z"
-      }
-    },{
-      "_id": {
-        "$oid": "65c9d28b06b0f5b8daaf301c"
-      },
+      "name":"C7",
       "typeSeat": "normal",
       "price": 100,
       "row": 2,

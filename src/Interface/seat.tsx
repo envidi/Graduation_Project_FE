@@ -3,7 +3,8 @@ import { TimeSlot } from "./timeslots";
 
 
 export interface Seat{
-    _id ?:number | string;
+    _id : string;
+    name:string
     typeSeat:string,
     price:number,
     row:number,
