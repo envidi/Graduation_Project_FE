@@ -8,13 +8,14 @@ import './search.css'
 import { useDebounce } from '@uidotdev/usehooks'
 import { searchMovie } from '@/api/movie'
 import { Loader2 } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { Skeleton } from '@/components/ui/skeleton'
+import { X } from 'lucide-react'
+import DropdownSearchItem from './DropdownSearchItem'
+
 function SearchBar() {
   const [showSearch, setShowSearch] = useState<boolean>(false)
 
   const [searchTerm, setSearchTerm] = useState('')
-  const [results, setResults] = useState<any>(null)
+  const [results, setResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const debouncedSearchTerm = useDebounce(searchTerm, 500)
   const handleClick: MouseEventHandler<HTMLDivElement> = (
@@ -27,7 +28,7 @@ function SearchBar() {
     ) {
       setShowSearch(!showSearch)
       if (showSearch) {
-        setResults(null)
+        setResults([])
         setSearchTerm('')
       }
     }
@@ -55,16 +56,19 @@ function SearchBar() {
   }, [debouncedSearchTerm])
 
   return (
-    <div>
+    <div
+      className={`absolute top-[-23px] bg-background-secondary w-full ${showSearch ? 'show-search-bg' : ''} `}
+    >
       <div
         onClick={handleClick}
-        className={`search  ${showSearch ? 'show-search' : ''}`}
+        className={`search ${showSearch ? 'show-search bg-primary-white' : ''}`}
         id="search-bar"
       >
         <input
           type="text"
           placeholder="Type something..."
           name="q"
+          autoComplete="off"
           value={searchTerm}
           onChange={handleChange}
           className="search__input text-2xl bg-transparent text-background-main "
@@ -73,7 +77,10 @@ function SearchBar() {
           {isSearching ? (
             <Loader2 size={15} className="animate-spin text-background-main" />
           ) : (
-            <i className="ri-close-line search__close"></i>
+            <X
+              className={`hover:cursor-pointer text-background-main ${showSearch ? 'block': 'hidden'}`}
+              size={15}
+            />
           )}
         </div>
         <div
@@ -84,56 +91,11 @@ function SearchBar() {
           <i className="ri-close-line search__close"></i>
         </div>
         {searchTerm !== '' && (
-          <div className="absolute w-full  left-0 top-24 bg-slate-800 px-1 py-1 rounded-lg">
-            {results?.length > 0 && !isSearching ? (
-              <>
-                {results?.map((result: any) => {
-                  const { categoryId } = result
-                  return (
-                    <div
-                      className="flex items-center hover:bg-background-secondary px-7 py-4"
-                      key={result._id}
-                    >
-                      <div>
-                        <Avatar>
-                          <AvatarImage src={result.image} />
-                          <AvatarFallback>CN</AvatarFallback>
-                        </Avatar>
-                      </div>
-                      <div className="flex flex-col ms-4 gap-1">
-                        <span className="text-primary-movieColor text-2xl">
-                          {result.name}
-                        </span>
-                        <div className="flex gap-2">
-                          {categoryId.map(
-                            (category: { _id: string; name: string }) => {
-                              return (
-                                <span key={category._id}>{category.name}</span>
-                              )
-                            }
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )
-                })}
-              </>
-            ) : (
-              <>
-                {isSearching && searchTerm !== '' ? (
-                  <div className="flex items-center space-x-4 px-7 py-4">
-                    <Skeleton className="h-12 w-12 rounded-full" />
-                    <div className="space-y-2">
-                      <Skeleton className="h-4 w-[250px]" />
-                      <Skeleton className="h-4 w-[200px]" />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="p-5 text-2xl">Không có kết quả</div>
-                )}
-              </>
-            )}
-          </div>
+          <DropdownSearchItem
+            results={results}
+            isSearching={isSearching}
+            searchTerm={searchTerm}
+          />
         )}
       </div>
     </div>

@@ -49,7 +49,8 @@ module.exports = {
           secondary: 'hsl(var(--bg-secondary))',
           third: 'hsl(var(--bg-showtime))',
           headerShow: 'hsl(var(--bg-headerShowTime))',
-          btnControllerCarousel: 'hsl(var(--button-control-carousel))'
+          btnControllerCarousel: 'hsl(var(--button-control-carousel))',
+          skeleton : 'var(--bg-skeleton)'
         },
         foreground: 'hsl(var(--foreground))',
         primary: {
@@ -61,7 +62,7 @@ module.exports = {
           infoMovie: 'hsl(var(--text-info-movie-color))',
           cardMovie: 'hsl(var(--text-card-movie-color))',
           locationMovie: 'hsl(var(--text-location-movie-color))',
-          white: 'hsl(var(--primary-white))'
+          white: 'var(--primary-white)'
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',

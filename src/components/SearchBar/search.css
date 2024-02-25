@@ -38,8 +38,7 @@ body {
   position: relative;
   width: 45px;
   height: 45px;
-  margin-top: 10px;
-  margin-right: 20px;
+
   box-shadow: 0 4px 24px hsla(222, 68%, 12%, 0.1);
   border-radius: 4rem;
   padding: 10px;
@@ -91,9 +90,14 @@ body {
 /* Search animated */
 .show-search {
   width: 100%;
-  transform: translateX(-130px);
+  transform: translateX(-25vw);
+
   transition: all 0.5s ease-in-out;
-  background-color: white;
+
+}
+.show-search-bg {
+  width: 100%;
+  transition: all 0.5s ease-in-out;
 }
 .show-search .search__input {
   opacity: 1;
@@ -114,5 +118,11 @@ body {
 @media screen and (min-width: 576px) {
   .show-search {
     width: 450px;
+  }
+}
+@media screen and (min-width: 577px) and (max-width: 975px) {
+  .show-search {
+    transform: translateX(-29vw);
+    width: 350px;
   }
 }
