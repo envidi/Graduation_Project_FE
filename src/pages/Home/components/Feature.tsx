@@ -1,5 +1,12 @@
 
-export const Feature = ({ idx, title, description, image_path }:any) => {
+interface FeatureProps {
+  idx: number
+  title: string
+  description: string
+  image_path: string
+}
+
+export const Feature = ({ idx, title, description, image_path }:FeatureProps) => {
   const featureSvgs = {
     'Unparalleled Cinematic Experience': (
       <svg
@@ -146,7 +153,7 @@ export const Feature = ({ idx, title, description, image_path }:any) => {
       )}
 
       <div className="feature-text">
-        {featureSvgs[`${title }`]}
+        {featureSvgs[`${title}`]}
         <p className="feature-text-heading">{title}</p>
         <p className="feature-text-details">{description}</p>
       </div>

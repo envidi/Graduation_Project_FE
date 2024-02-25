@@ -7,7 +7,7 @@ export const CollectionCard = ({
   className,
   movie
 }: {
-  className: string
+  className?: string
   movie: MovieType
 }) => {
   const navigate = useNavigate()
@@ -15,7 +15,7 @@ export const CollectionCard = ({
 
   const categorySection = categoryId?.map((category, index) => {
     return (
-      <span className="mr-2" key={category._id}>
+      <span className="mr-2" key={index}>
         {category.name}
         {index === categoryId.length - 1 ? '' : ','}
       </span>

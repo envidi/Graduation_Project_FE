@@ -108,3 +108,7 @@ export function convertMintuteToHour(phut: number) {
   // Trả về chuỗi kết quả
   return gio + 'h ' + phutConLai + 'm'
 }
+
+export function getFourConsecutiveDays() {
+  return [...Array(4)].map((_, i) => new Date(Date.now() + i * 86400000))
+}

@@ -8,12 +8,14 @@ import './styles/queries.css'
 import { Route, Routes } from 'react-router-dom'
 import ClientLayout from './layouts/ClientLayout'
 import MovieDetailsPage from './pages/MovieDetails/MovieDetailsPage'
+import PurchasePage from './pages/Purchase/PurchasePage'
 // import { ProtectedRoute } from './components/ProtectedRoute'
 
 // import { SignupModal } from './pages/modals/SignupModal'
 // import { LoginModal } from './pages/modals/LoginModal'
 
-// import HomePage from './pages/Home/HomePage'
+import HomePage from './pages/Home/HomePage'
+import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 
 // import { AnimatePresence } from 'framer-motion'
 // import { MobileNav } from './components/MobileNav'
@@ -359,7 +361,7 @@ function App() {
   // console.log(userPurchaseInfo);
 
   return (
-  // <>
+    // <>
     //   <div
     //     style={
     //       signModalState || loginModalState || menuState ? blurredStyle : {}
@@ -578,12 +580,17 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<ClientLayout />}>
+          <Route index path="/" element={<HomePage />} />
+          <Route path="/movie/:id" element={<MovieDetailsPage />} />
           <Route
-            path="/movie/:id"
+            path="/purchase"
             element={
-              <MovieDetailsPage />
+              // <Suspense fallback={<PageLoader />}>
+              <PurchasePage />
+              // </Suspense>
             }
           />
+          <Route path="/showtimes" element={<ShowtimesPage />} />
         </Route>
       </Routes>
     </>

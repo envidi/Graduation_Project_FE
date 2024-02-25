@@ -1152,8 +1152,7 @@ header {
 
 .showtimes-screen-container {
   display: grid;
-  grid-template-rows: 1fr 1fr;
-  /* background-color: #171a28; */
+  background-color: #171a28;
 }
 
 .showtimes-screen {
@@ -1169,19 +1168,19 @@ header {
   box-shadow: 0 1.2rem 1.4rem rgba(16, 17, 26, 0.4);
 }
 
-.showtimes-schedule-container-3d,
-.showtimes-schedule-container-2d {
+/* .showtimes-schedule-container-3d, */
+.showtimes-schedule-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto 1fr;
+  /* grid-template-rows: auto 1fr; */
   justify-items: center;
 }
 
-.showtimes-schedule-container-3d {
+/* .showtimes-schedule-container-3d {
   background-color: #171a28;
-}
+} */
 
-.showtimes-schedule-container-2d {
+.showtimes-schedule-container {
   background-color: #171a28;
 }
 
