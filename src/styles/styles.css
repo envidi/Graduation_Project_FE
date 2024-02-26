@@ -51,6 +51,9 @@ box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
   padding: 0;
   box-sizing: border-box;
 }
+:root {
+  --info-desc-font: 1.7rem;
+}
 
 html {
   font-size: 62.5%;
@@ -58,17 +61,17 @@ html {
 }
 
 body {
-  font-family: "Inter", sans-serif;
+  font-family: 'Inter', sans-serif;
   line-height: 1;
   font-weight: 400;
   color: #cccdd0;
-  background-color: #1a1d2c;
+  /* background-color: #1a1d2c; */
 }
 
 .heading-primary,
 .heading-secondary,
 .heading-tertiary {
-  color: #e6e6e8;
+  /* color: #e6e6e8; */
   font-weight: 600;
   letter-spacing: -0.3px;
 }
@@ -191,7 +194,7 @@ header {
   text-decoration: none;
   color: #333;
   font-size: 1.6rem;
-  font-family: "Inter";
+  font-family: 'Inter';
   font-weight: 500;
   padding: 1.2rem;
   transition: all 0.3s;
@@ -602,7 +605,7 @@ header {
 
 .section-home-collection,
 .section-movie-info-collection {
-  background-color: #313441;
+  /* background-color: #313441; */
   padding: 5.8rem 4.8rem;
   position: relative;
   min-height: 76.8rem;
@@ -611,7 +614,7 @@ header {
 .section-home-collection:after {
   width: 165%;
   height: 90%;
-  content: "";
+  content: '';
   position: absolute;
   background-color: inherit;
   top: 0;
@@ -634,7 +637,7 @@ header {
 }
 
 .heading-collection {
-  border-bottom: 4px solid #eb3656;
+  /* border-bottom: 4px solid #eb3656; */
 }
 
 .home-collection-container {
@@ -646,15 +649,36 @@ header {
 
 .details-collection-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, 26rem);
+  /* grid-template-columns: repeat(auto-fit, 26rem); */
   gap: 4.8rem;
   justify-content: center;
+  position: relative;
+}
+.details-collection-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* background-color: red; */
+  width: 100%;
+  height: 100%;
+  z-index: 100;
+  background: rgb(0, 0, 0);
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.6000525210084033) 0%,
+    rgba(255, 255, 255, 0) 8%,
+    rgba(254, 254, 254, 0) 48%,
+    rgba(255, 255, 255, 0) 92%,
+    rgba(0, 0, 0, 0.5972514005602241) 100%
+  );
+  pointer-events: none;
 }
 
 .home-movie-card {
   display: flex;
   flex-direction: column;
-  background-color: #1a1d2c;
+  /* background-color: #1a1d2c; */
   position: relative;
   border-radius: 11px;
   overflow: hidden;
@@ -696,13 +720,13 @@ header {
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.75px;
-  color: #e8e8ea;
+  /* color: #e8e8ea; */
 }
 
 .movie-genre {
   font-size: 1.1rem;
   font-weight: 500;
-  color: #babbc0;
+  /* color: #babbc0; */
   margin-bottom: 1.4rem;
   letter-spacing: 0.5px;
 }
@@ -716,7 +740,7 @@ header {
 }
 
 .movie-rating {
-  color: #babbc0;
+  /* color: #babbc0; */
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -726,8 +750,8 @@ header {
 .collection-icon {
   height: 1.4rem;
   width: 1.4rem;
-  color: #eb3656;
-  fill: #eb3656;
+  /* color: #eb3656;
+  fill: #eb3656; */
 }
 
 .line-2,
@@ -958,7 +982,7 @@ header {
 .footer-btn {
   background-color: transparent;
   border: none;
-  font-family: "Inter";
+  font-family: 'Inter';
 }
 
 .footer-link:link,
@@ -994,7 +1018,7 @@ header {
   display: flex;
   flex-direction: column;
   line-height: 1.6;
-  color: #eb3656;
+  /* color: #eb3656; */
 }
 
 .location-select-container select {
@@ -1031,7 +1055,7 @@ header {
 
 .selected-location span,
 .selected-theatre span {
-  color: #e6e6e8;
+  /* color: #e6e6e8; */
   font-weight: 400;
 }
 
@@ -1128,7 +1152,6 @@ header {
 
 .showtimes-screen-container {
   display: grid;
-  grid-template-rows: 1fr 1fr;
   background-color: #171a28;
 }
 
@@ -1145,19 +1168,19 @@ header {
   box-shadow: 0 1.2rem 1.4rem rgba(16, 17, 26, 0.4);
 }
 
-.showtimes-schedule-container-3d,
-.showtimes-schedule-container-2d {
+/* .showtimes-schedule-container-3d, */
+.showtimes-schedule-container {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: auto 1fr;
+  /* grid-template-rows: auto 1fr; */
   justify-items: center;
 }
 
-.showtimes-schedule-container-3d {
+/* .showtimes-schedule-container-3d {
   background-color: #171a28;
-}
+} */
 
-.showtimes-schedule-container-2d {
+.showtimes-schedule-container {
   background-color: #171a28;
 }
 
@@ -1182,7 +1205,7 @@ header {
 
 .showtimes-startime-btn {
   font-family: inherit;
-  color: #babbc0;
+  /* color: #babbc0; */
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 1.6;
@@ -1190,7 +1213,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid #eb3656;
+  /* border: 2px solid #eb3656; */
   width: 11rem;
   height: 4.4rem;
   border-radius: 2.8rem;
@@ -1200,7 +1223,7 @@ header {
 }
 
 .showtimes-startime-btn:hover {
-  background-color: #ef5e78;
+  /* background-color: #ef5e78; */
   transform: translateY(-0.4rem);
   border: 2px solid transparent;
 }
@@ -1871,18 +1894,19 @@ header {
 .movie-info-attr-container {
   margin: 2.4rem;
   display: grid;
+  margin-top: 3.1rem;
   grid-template-columns: auto 1fr;
-  row-gap: 1.8rem;
-  column-gap: 2.4rem;
+  row-gap: 1.4rem;
+  column-gap: 3rem;
 }
 
 .movie-info-name {
   grid-column: 1/-1;
-  font-size: 4.4rem;
+  font-size: 4.65rem;
   font-weight: 500;
   letter-spacing: -0.25px;
-  color: #e6e6e6;
-  margin-bottom: 1.2rem;
+  /* color: #e6e6e6; */
+  margin-bottom: 1.3rem;
   line-height: 1.2;
 }
 
@@ -1900,8 +1924,8 @@ header {
 .movie-info-icon {
   height: 2.4rem;
   width: 2.4rem;
-  color: #eb3656;
-  fill: #eb3656;
+  /* color: #eb3656;
+  fill: #eb3656; */
 }
 
 .movie-info-genre-container {
@@ -1916,20 +1940,21 @@ header {
   gap: 0.6rem;
   font-size: 1.4rem;
   font-weight: 500;
-  color: #babbc0;
+  /* color: #babbc0; */
   letter-spacing: 0.5px;
 }
 
 .movie-info-title {
-  color: #eb3656;
+  /* color: #eb3656; */
   font-weight: 600;
 }
 
 .movie-info-description-container {
   display: flex;
   flex-direction: column;
-  gap: 2.4rem;
+  gap: 1rem;
   margin-bottom: 4.8rem;
+  /* font-size: var(--info-desc-font); */
 }
 .movie-info-location-container {
   margin-bottom: 4.8rem;
@@ -1938,16 +1963,16 @@ header {
 .movie-info-description-heading,
 .movie-info-screen-heading,
 .customer-info-heading {
-  color: #eb3656;
+  /* color: #eb3656; */
   font-size: 3.2rem;
   font-weight: 500;
 }
 
 .movie-info-description {
-  font-size: 1.6rem;
+  font-size: var(--info-desc-font);
   line-height: 1.6;
   letter-spacing: 0.25px;
-  color: #cccdd0;
+  /* color: #cccdd0; */
 }
 
 .movie-info-screen-container {
@@ -1959,11 +1984,11 @@ header {
 
 .movie-info-screen-container-3d,
 .movie-info-screen-container-2d {
-  display: grid;
+  /* display: grid; */
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: auto 1fr;
   justify-items: center;
-  background-color: #151723;
+  /* background-color: #151723; */
   border-radius: 11px;
 }
 
