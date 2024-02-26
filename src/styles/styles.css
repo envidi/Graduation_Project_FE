@@ -65,8 +65,13 @@ body {
   line-height: 1;
   font-weight: 400;
   color: #cccdd0;
-  /* background-color: #1a1d2c; */
 }
+/* width */
+/* ::-webkit-scrollbar {
+  width: 4px;
+}
+
+/* Track */
 
 .heading-primary,
 .heading-secondary,
@@ -95,7 +100,7 @@ header {
   position: fixed;
   width: 100%;
   top: 0;
-  z-index: 3;
+  z-index: 11;
   background-color: transparent;
   background-image: linear-gradient(to bottom, #171a28, transparent 70%);
 }

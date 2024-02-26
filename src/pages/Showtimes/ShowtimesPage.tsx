@@ -6,7 +6,7 @@ import { ShowTimesHeader } from './components/ShowTimesHeader'
 const ShowtimesPage = () => {
   const [currentLocation, setCurrentLocation] = useState<string>('')
 
-  console.log({ currentLocation })
+
   const handleCurrentLocation = (locationId: string) => {
     setCurrentLocation(locationId)
   }

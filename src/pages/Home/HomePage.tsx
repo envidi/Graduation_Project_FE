@@ -6,14 +6,14 @@ import { TopEdge } from '../../components/TopEdge'
 import IntroduceMovie from './components/IntroduceMovie'
 // import Header from '../../layouts/components/Header/Header'
 // import Footer from '../../layouts/components/Footer/Footer'
-
-const HomePage = () => {
+import { MoviePropsType } from './components/HomeCollection'
+const HomePage = ({ dataMovie, isLoading }: MoviePropsType) => {
   return (
     <>
       <TopEdge />
       <IntroduceMovie />
       <HeroSection />
-      <HomeCollection />
+      <HomeCollection dataMovie={dataMovie} isLoading={isLoading} />
       <Features />
       <SocialLinks />
     </>

@@ -31,36 +31,6 @@ export const MovieInfoCollection = () => {
   if (isLoading) {
     return <HashLoader cssOverride={override} size={60} color="#eb3656" />
   }
-  // const { name, image, rate, categoryCol, fromDate, showTimeCol } =
-  //   dataMovie
-  // const [swiperRef, setSwiperRef] = useState<>(null)
-
-  // const { id } = useParams()
-  // const [movieData, setMovieData] = useState([])
-  // const [loading, setLoading] = useState(false)
-
-  // const movieDetailsId = Number(id)
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     setLoading(true)
-  //     try {
-  //       const response = await axios.post(
-  //         `${import.meta.env.VITE_API_URL}/otherMovies`,
-  //         {
-  //           movieDetailsId,
-  //         }
-  //       )
-  //       setMovieData(response.data)
-  //     } catch (err) {
-  //       console.error(err)
-  //     } finally {
-  //       setLoading(false)
-  //     }
-  //   }
-
-  //   fetchData()
-  // }, [movieDetailsId])
 
   return (
     <section className="section-movie-info-collection bg-background-secondary">
@@ -72,7 +42,7 @@ export const MovieInfoCollection = () => {
 
       <div className="details-collection-container">
         <Swiper
-          slidesPerView={4}
+          slidesPerView={5}
           spaceBetween={30}
           freeMode={true}
           pagination={{
@@ -116,7 +86,7 @@ export const MovieInfoCollection = () => {
             // when window width is >= 640px
             1280: {
               slidesPerView: checkSlidePerView(dataMovie, 5),
-              spaceBetween: 40
+              spaceBetween: 10
             }
           }}
           modules={[FreeMode, Navigation]}
