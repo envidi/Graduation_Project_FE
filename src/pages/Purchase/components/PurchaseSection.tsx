@@ -10,89 +10,11 @@ import { PayMethodSelector } from './PayMethodSelector'
 
 export const PurchaseSection = () => {
   const handleCurrentLocation = () => {
-    console.log(1)
+
   }
-  // const [ticketIds, setTicketIds] = useState([])
-  // const [loading, setLoading] = useState(false)
-  // const [btnDisabled, setBtnDisabled] = useState(true)
-
-  // const currentDate = () => {
-  //   const date = new Date()
-  //   const day = date.getDate()
-  //   const month = date.getMonth() + 1
-  //   const year = date.getFullYear()
-  //   return `${year}-${month}-${day}`
-  // }
-
-  // useEffect(() => {
-  //   userPayMethod.length > 0 ? setBtnDisabled(false) : setBtnDisabled(true)
-  // }, [userPayMethod])
-
-  // const handleTicketPurchase = async () => {
-  //   try {
-  //     setBtnDisabled(true)
-  //     setLoading(true)
-  //     let paymentID
-
-  //     // Make the payment request
-  //     const paymentResponse = await axios.post(
-  //       `${import.meta.env.VITE_API_URL}/payment`,
-  //       {
-  //         amount: userSeatPrice * userSeatListName.length,
-  //         userPayMethod,
-  //         email: signedPerson.email,
-  //       }
-  //     )
-
-  //     paymentID = paymentResponse.data && paymentResponse.data[0].last_id
-
-  //     // Purchase tickets for each seat
-  //     for (const seatId of userSeatList) {
-  //       await axios.post(`${import.meta.env.VITE_API_URL}/purchaseTicket`, {
-  //         price: userSeatPrice,
-  //         purchase_date: currentDate(),
-  //         paymentID,
-  //         seatId,
-  //         userHallId,
-  //         userMovieId,
-  //         userShowtimeId,
-  //       })
-  //     }
-
-  //     // Get recent purchase data
-  //     const recentPurchaseResponse = await axios.post(
-  //       `${import.meta.env.VITE_API_URL}/recentPurchase`,
-  //       {
-  //         paymentID,
-  //       }
-  //     )
-
-  //     setTicketIds(recentPurchaseResponse.data)
-
-  //     // Clear user selection
-  //     await clearUserSelection()
-  //   } catch (err) {
-  //     console.error(err)
-  //     ticketPurchaseError()
-  //   } finally {
-  //     setLoading(false)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   const tickets = []
-
-  //   if (ticketIds.length > 0) {
-  //     ticketIds.forEach((ticket) => {
-  //       tickets.push(ticket.id)
-  //     })
-  //     console.log(tickets)
-  //     purchaseCompletion(tickets)
-  //   }
-  // }, [ticketIds])
 
   return (
-    <section className="section-purchase ">
+    <section className="section-purchase mt-20">
       <div className="purchase-container container max-w-[132rem]">
         <div className="purchase-section-left">
           <div className="purchase-heading">

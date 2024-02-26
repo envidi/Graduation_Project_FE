@@ -1,36 +1,21 @@
 import { CollectionCard } from '../../../components/CollectionCard'
-import { useQuery } from '@tanstack/react-query'
-
-import { getAllMovie } from '@/api/movie'
-import { MOVIE } from '@/utils/constant'
 import HashLoader from 'react-spinners/HashLoader'
 import { MovieType } from '@/Interface/movie'
 // import { MOVIES } from '../../../apis/mock-data'
-
-
-export const HomeCollection = () => {
-  const { data: dataMovie, isLoading } = useQuery({
-    queryKey: [MOVIE],
-    queryFn: () => getAllMovie()
-  })
+export interface MoviePropsType {
+  dataMovie: MovieType[]
+  isLoading: boolean
+}
+export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
   const override = {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto'
   }
+  console.log(dataMovie)
   if (isLoading) {
     return <HashLoader cssOverride={override} color="#eb3656" />
   }
-
-  // const [movieData, setMovieData] = useState<any>(MOVIES)
-
-  // const [loading, setLoading] = useState(true)
-
-  // useEffect(() => {
-  //   const newMovies = MOVIES.slice(0, 10)
-  //   setLoading(false)
-  //   setMovieData(newMovies)
-  // }, [])
 
   return (
     <section className="section-home-collection" id="nowShowing">
