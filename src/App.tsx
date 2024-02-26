@@ -5,15 +5,19 @@ import { useQuery } from '@tanstack/react-query'
 import { MOVIE } from '@/utils/constant'
 import { Route, Routes } from 'react-router-dom'
 import ClientLayout from './layouts/ClientLayout'
-import MovieDetailsPage from './pages/MovieDetails/MovieDetailsPage'
 import PurchasePage from './pages/Purchase/PurchasePage'
 import { getAllMovieHome } from '@/api/movie'
 
-import HomePage from './pages/Home/HomePage'
 import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
-import { useEffect } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { moviesAction } from './store/movie'
 import { useDispatch } from 'react-redux'
+import { AnimatePresence } from 'framer-motion'
+import { PageLoader } from './components/PageLoader'
+const MovieDetailsPage = lazy(
+  () => import('./pages/MovieDetails/MovieDetailsPage')
+)
+const HomePage = lazy(() => import('./pages/Home/HomePage'))
 
 function App() {
   const dispatch = useDispatch()
@@ -30,18 +34,31 @@ function App() {
 
   return (
     <>
-      <Routes>
-        <Route path="/" element={<ClientLayout />}>
-          <Route
-            index
-            path="/"
-            element={<HomePage dataMovie={dataMovie} isLoading={isLoading} />}
-          />
-          <Route path="/movie/:slug" element={<MovieDetailsPage />} />
-          <Route path="/purchase" element={<PurchasePage />} />
-          <Route path="/showtimes" element={<ShowtimesPage />} />
-        </Route>
-      </Routes>
+      <AnimatePresence>
+        <Routes>
+          <Route path="/" element={<ClientLayout />}>
+            <Route
+              index
+              path="/"
+              element={
+                <Suspense fallback={<PageLoader />}>
+                  <HomePage dataMovie={dataMovie} isLoading={isLoading} />
+                </Suspense>
+              }
+            />
+            <Route
+              path="/movie/:slug"
+              element={
+                <Suspense fallback={<PageLoader />}>
+                  <MovieDetailsPage />
+                </Suspense>
+              }
+            />
+            <Route path="/purchase" element={<PurchasePage />} />
+            <Route path="/showtimes" element={<ShowtimesPage />} />
+          </Route>
+        </Routes>
+      </AnimatePresence>
     </>
   )
 }

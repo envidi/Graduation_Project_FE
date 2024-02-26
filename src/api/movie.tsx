@@ -8,6 +8,10 @@ export const getAllMovieHome = async () => {
   const result = await instance.get('/movie/home')
   return result.data.data.docs
 }
+export const getAllMovie = async () => {
+  const result = await instance.get('/movie')
+  return result.data.data.docs
+}
 export const searchMovie = async (search: string) => {
   try {
     const result = await instance.get('/movie/search?q=' + search)
