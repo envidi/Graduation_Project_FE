@@ -10,9 +10,7 @@ export const Navbar = () => {
   //   setSignUpState((prevState) => !prevState)
   // }
 
-  // const selectionTab = {
-  //   backgroundColor: '#eb3656',
-  // }
+  const  isTrue = true
 
   return (
     <header>
@@ -36,7 +34,7 @@ export const Navbar = () => {
         </svg>
       </button>
 
-      {true ? (
+      {isTrue ? (
         <HashLink className="logo-container" to="#headerTop">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -117,6 +115,13 @@ export const Navbar = () => {
               About Us
             </Link>
           </li>
+<<<<<<< HEAD
+=======
+          <li className='relative'>
+            <SearchBar />
+          </li>
+
+>>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
           {/* {Object.keys(signedPerson).length !== 0 &&
             signedPerson.person_type === 'Admin' && (
               <li>

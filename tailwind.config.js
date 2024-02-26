@@ -18,6 +18,7 @@ module.exports = {
     },
     extend: {
       colors: {
+<<<<<<< HEAD
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -26,6 +27,34 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+=======
+        border: {
+          DEFAULT: 'hsl(var(--border))',
+          calendarBorder: 'var(--calendar-border)'
+        },
+        input: 'hsl(var(--input))',
+        ring: 'hsl(var(--ring))',
+        background: {
+          DEFAULT: 'hsl(var(--background))',
+          main: 'hsl(var(--bg-main))',
+          secondary: 'hsl(var(--bg-secondary))',
+          third: 'hsl(var(--bg-showtime))',
+          headerShow: 'hsl(var(--bg-headerShowTime))',
+          btnControllerCarousel: 'hsl(var(--button-control-carousel))',
+          skeleton : 'var(--bg-skeleton)'
+        },
+        foreground: 'hsl(var(--foreground))',
+        primary: {
+          DEFAULT: 'hsl(var(--primary))',
+          foreground: 'hsl(var(--primary-foreground))',
+          movieColor: 'hsl(var(--primary-color-movie))',
+          movieColorSecond: 'hsl(var(--secondary-color-movie))',
+          nameMovie: 'hsl(var(--text-name-movie-color))',
+          infoMovie: 'hsl(var(--text-info-movie-color))',
+          cardMovie: 'hsl(var(--text-card-movie-color))',
+          locationMovie: 'hsl(var(--text-location-movie-color))',
+          white: 'var(--primary-white)'
+>>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

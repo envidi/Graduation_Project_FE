@@ -5,6 +5,12 @@ import { HomeCollection } from './components/HomeCollection'
 // import { Features } from "./components/Features";
 import { SocialLinks } from './components/SocialLinks'
 import { TopEdge } from '../../components/TopEdge'
+<<<<<<< HEAD
+=======
+import IntroduceMovie from './components/IntroduceMovie'
+// import Header from '../../layouts/components/Header/Header'
+// import Footer from '../../layouts/components/Footer/Footer'
+>>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
 
 const HomePage = ({
   handleSignState,
@@ -17,6 +23,7 @@ const HomePage = ({
   return (
     <>
       <TopEdge />
+<<<<<<< HEAD
       <Navbar
         signedPerson={signedPerson}
         pageName="home"
@@ -35,6 +42,12 @@ const HomePage = ({
         handleLoginState={handleLoginState}
       />
       {/* <Features /> */}
+=======
+      <IntroduceMovie />
+      <HeroSection />
+      <HomeCollection />
+      <Features />
+>>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
       <SocialLinks />
       {/* <Footer
         handleSignState={handleSignState}

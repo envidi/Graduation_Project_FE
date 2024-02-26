@@ -1,14 +1,10 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BarLoader from 'react-spinners/BarLoader'
 
-export const SignupModal = ({
-  handleSignState,
-  signupSuccessToast,
-  signupFailedToast,
-}) => {
+export const SignupModal = () => {
   const [loading, setLoading] = useState(false)
   const [passViewState, setPassViewState] = useState(false)
   const [signupDetails, setSignupDetails] = useState({
