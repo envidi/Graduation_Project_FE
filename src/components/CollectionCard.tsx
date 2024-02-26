@@ -22,6 +22,7 @@ export const CollectionCard = ({
     )
   })
 
+
   return (
     <div className={`home-movie-card bg-background-main ${className}`}>
       <div className="home-movie-img-box">
@@ -29,7 +30,7 @@ export const CollectionCard = ({
           className="movie-info-img"
           src={image}
           alt={'Movie Photo'}
-          effect="blur"
+          effect='opacity'
         />
       </div>
 

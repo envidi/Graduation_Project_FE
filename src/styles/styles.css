@@ -788,10 +788,16 @@ header {
   pointer-events: none;
   visibility: hidden;
 }
-
-.home-movie-card:hover .home-movie-img {
+.home-movie-card span img {
+  transition: all 0.3s ease-in-out !important;
+}
+.home-movie-card:hover span img {
   transform: scale(1.05);
   filter: blur(3px);
+  transition: all 0.3s ease-in-out !important;
+}
+.blur_image_loaded{
+  filter: blur(5px);
 }
 
 .home-movie-card:hover .book-btn {

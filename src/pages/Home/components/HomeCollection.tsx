@@ -12,7 +12,6 @@ export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
     marginLeft: 'auto',
     marginRight: 'auto'
   }
-  console.log(dataMovie)
   if (isLoading) {
     return <HashLoader cssOverride={override} color="#eb3656" />
   }
