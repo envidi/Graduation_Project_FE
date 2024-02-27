@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
 
-export const CategorySelector = () => {
+type CategorySelectorProps = {
+  handleSelectedCategory: (categoryId: string) => void
+}
+export const CategorySelector = ({ handleSelectedCategory }) => {
   const override = {
     display: 'block',
     margin: '4.8rem auto'
@@ -42,6 +45,7 @@ export const CategorySelector = () => {
             value={cate.name}
             onChange={() => {
               setSearchParams({ category: cate.name })
+              handleSelectedCategory(cate._id)
             }}
             checked={cate.name === userCategory}
           />
