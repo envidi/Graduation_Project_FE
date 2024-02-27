@@ -3,15 +3,17 @@ import { CategorySelector } from './CategorySelector'
 
 type ShowTimesHeaderProps = {
   handleCurrentLocation: (locationId: string) => void
+  handleSelectedCategory: (categoryId: string) => void
 }
 
 export const ShowTimesHeader = ({
-  handleCurrentLocation
+  handleCurrentLocation,
+  handleSelectedCategory
 }: ShowTimesHeaderProps) => {
   return (
     <section className="showtimes-header container">
       <LocationSelector handleCurrentLocation={handleCurrentLocation} />
-      <CategorySelector />
+      <CategorySelector handleSelectedCategory={handleSelectedCategory} />
     </section>
   )
 }
