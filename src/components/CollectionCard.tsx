@@ -11,7 +11,7 @@ export const CollectionCard = ({
   movie: MovieType
 }) => {
   const navigate = useNavigate()
-  const { name, image, rate, categoryId, fromDate, duration } = movie
+  const { slug, name, image, rate, categoryId, fromDate, duration } = movie
 
   const categorySection = categoryId?.map((category, index) => {
     return (
@@ -21,8 +21,7 @@ export const CollectionCard = ({
       </span>
     )
   })
-  // const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
-  // const ourRating = rating
+
 
   return (
     <div className={`home-movie-card ${className}`}>
@@ -31,9 +30,8 @@ export const CollectionCard = ({
           className="movie-info-img"
           src={image}
           alt={'Movie Photo'}
-          effect="blur"
+          effect='opacity'
         />
-        {/* <img className="home-movie-img" src={image} alt={'photo'} /> */}
       </div>
 
       <div className="movie-card-line line-1">
@@ -140,7 +138,7 @@ export const CollectionCard = ({
       <button
         className="book-btn btn"
         onClick={() => {
-          navigate('/purchase')
+          navigate('/movie/' + slug)
         }}
       >
         Get ticket

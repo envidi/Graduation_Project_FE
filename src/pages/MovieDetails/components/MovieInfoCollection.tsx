@@ -31,6 +31,7 @@ export const MovieInfoCollection = () => {
   if (isLoading) {
     return <HashLoader cssOverride={override} size={60} color="#eb3656" />
   }
+<<<<<<< HEAD
   // const dataMovie = [1, 2, 3]
   // const { name, image, rate, categoryCol, fromDate, showTimeCol } =
   //   dataMovie
@@ -62,6 +63,8 @@ export const MovieInfoCollection = () => {
 
   //   fetchData()
   // }, [movieDetailsId])
+=======
+>>>>>>> 6321283d0233e3c02d819f0d3fd80d2d2b72cdf2
 
   // const latestMoviesCards = movieData.map((latestMovie, idx) => {
   //   return (
@@ -87,6 +90,7 @@ export const MovieInfoCollection = () => {
 
       <div className="details-collection-container">
         <Swiper
+<<<<<<< HEAD
           slidesPerView={
             dataMovie?.length > 0
               ? dataMovie.length
@@ -94,6 +98,9 @@ export const MovieInfoCollection = () => {
                 ? 5
                 : dataMovie?.length
           }
+=======
+          slidesPerView={5}
+>>>>>>> 6321283d0233e3c02d819f0d3fd80d2d2b72cdf2
           spaceBetween={30}
           freeMode={true}
           pagination={{
@@ -162,7 +169,7 @@ export const MovieInfoCollection = () => {
             // when window width is >= 640px
             '1280': {
               slidesPerView: checkSlidePerView(dataMovie, 5),
-              spaceBetween: 40
+              spaceBetween: 10
             }
           }}
           modules={[FreeMode, Navigation]}

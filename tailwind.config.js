@@ -18,7 +18,7 @@ module.exports = {
     },
     extend: {
       colors: {
-<<<<<<< HEAD
+        
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -27,7 +27,7 @@ module.exports = {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-=======
+        },
         border: {
           DEFAULT: 'hsl(var(--border))',
           calendarBorder: 'var(--calendar-border)'
@@ -54,7 +54,7 @@ module.exports = {
           cardMovie: 'hsl(var(--text-card-movie-color))',
           locationMovie: 'hsl(var(--text-location-movie-color))',
           white: 'var(--primary-white)'
->>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
+
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",

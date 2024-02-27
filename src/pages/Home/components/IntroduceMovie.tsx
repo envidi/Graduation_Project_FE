@@ -2,6 +2,7 @@ import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import '@/styles/introduce.css'
 import { TicketCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import imgBg from '/Images/movies/money_heist-bg.jpg'
 
 function IntroduceMovie() {
   return (
@@ -12,8 +13,8 @@ function IntroduceMovie() {
           <div className="bottom"></div>
           <img
             className="img-background"
-            src="https://wallpapers.com/images/featured/money-heist-segtwbhffwy01w82.jpg"
-            alt=""
+            src={imgBg}
+            alt="money_heist"
           />
           <div className="content xs:w-[55%] sm:w-[50%] md:w-[45%] lg:w-[38%] xl:w-[35%]">
             <section className="left xs:ms-10 sm:ms-12 flex flex-col justify-center h-full">

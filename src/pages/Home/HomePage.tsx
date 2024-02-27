@@ -10,6 +10,7 @@ import { TopEdge } from '../../components/TopEdge'
 import IntroduceMovie from './components/IntroduceMovie'
 // import Header from '../../layouts/components/Header/Header'
 // import Footer from '../../layouts/components/Footer/Footer'
+<<<<<<< HEAD
 >>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
 
 const HomePage = ({
@@ -20,6 +21,10 @@ const HomePage = ({
   currentMovieDetails,
   setMenuState
 }:any) => {
+=======
+import { MoviePropsType } from './components/HomeCollection'
+const HomePage = ({ dataMovie, isLoading }: MoviePropsType) => {
+>>>>>>> 6321283d0233e3c02d819f0d3fd80d2d2b72cdf2
   return (
     <>
       <TopEdge />
@@ -45,7 +50,7 @@ const HomePage = ({
 =======
       <IntroduceMovie />
       <HeroSection />
-      <HomeCollection />
+      <HomeCollection dataMovie={dataMovie} isLoading={isLoading} />
       <Features />
 >>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
       <SocialLinks />

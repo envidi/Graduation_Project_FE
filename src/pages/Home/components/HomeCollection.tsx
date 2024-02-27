@@ -5,13 +5,10 @@ import axios from 'axios'
 import HashLoader from 'react-spinners/HashLoader'
 =======
 import { CollectionCard } from '../../../components/CollectionCard'
-import { useQuery } from '@tanstack/react-query'
-
-import { getAllMovie } from '@/api/movie'
-import { MOVIE } from '@/utils/constant'
 import HashLoader from 'react-spinners/HashLoader'
 import { MovieType } from '@/Interface/movie'
 // import { MOVIES } from '../../../apis/mock-data'
+<<<<<<< HEAD
 
 >>>>>>> f264635b3831c5d39e386a4d4fd1a846932259fa
 
@@ -20,12 +17,20 @@ export const HomeCollection = ({
   signedPerson,
   handleLoginState
 }:any) => {
+=======
+export interface MoviePropsType {
+  dataMovie: MovieType[]
+  isLoading: boolean
+}
+export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
+>>>>>>> 6321283d0233e3c02d819f0d3fd80d2d2b72cdf2
   const override = {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto',
   }
 
+<<<<<<< HEAD
   const [movieData, setMovieData] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -56,6 +61,8 @@ export const HomeCollection = ({
     )
   })
 
+=======
+>>>>>>> 6321283d0233e3c02d819f0d3fd80d2d2b72cdf2
   return (
     <section className="section-home-collection" id="nowShowing">
       <div className="home-collection-heading-container">
