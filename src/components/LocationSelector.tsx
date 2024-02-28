@@ -19,7 +19,7 @@ interface CinemaType {
 export const LocationSelector = ({
   handleCurrentLocation
 }: {
-  handleCurrentLocation: (location:string) => void
+  handleCurrentLocation: (location: string) => void
 }) => {
   const [locationTheater, setLocationTheater] = useState<string>(
     '65ab4469b0b5038ee5248f2a'

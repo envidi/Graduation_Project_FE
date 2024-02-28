@@ -7,24 +7,22 @@ import {
   getHourAndMinute,
   selectCalendar
 } from '@/utils'
-import { AVAILABLE, MOVIE_DETAIL } from '@/utils/constant'
+import { MOVIE_DETAIL } from '@/utils/constant'
 import { useQuery } from '@tanstack/react-query'
+import { format } from 'date-fns'
 import { useNavigate } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
-import { format } from 'date-fns'
 
 type ShowtimesCardProps = {
-  _id: string
-  userLocation: string
+  movieId: string
 }
-export const ShowtimesCard = (props: ShowtimesCardProps) => {
-  // const dates2d = props['2D'] ? Object.keys(props['2D']) : []
 
+export const ShowtimesCard = ({ movieId }: ShowtimesCardProps) => {
   const navigate = useNavigate()
 
   const { data: dataMovie, isLoading } = useQuery({
-    queryKey: [MOVIE_DETAIL, props._id],
-    queryFn: () => getOneMovie(props._id)
+    queryKey: [MOVIE_DETAIL, movieId],
+    queryFn: () => getOneMovie(movieId)
   })
 
   const override = {
@@ -118,7 +116,7 @@ export const ShowtimesCard = (props: ShowtimesCardProps) => {
         <h2 className="showtimes-title">{dataMovie.name}</h2>
         <button
           className="showtimes-details-btn"
-          onClick={() => navigate(`/movie/${props._id}`)}
+          onClick={() => navigate(`/movie/${movieId}`)}
         >
           See details
         </button>

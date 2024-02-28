@@ -2,32 +2,35 @@ import { useState } from 'react'
 import { AnimatedPage } from '../../components/AnimatedPage'
 import { ShowTimesCollection } from './components/ShowTimesCollection'
 import { ShowTimesHeader } from './components/ShowTimesHeader'
+import { ShowtimeContextProvider } from './contexts'
 
 const ShowtimesPage = () => {
   const [currentLocation, setCurrentLocation] = useState<string>('')
-  const [currentCategory, setCurrentCategory] = useState<string>('')
+  const [filterMovieByCategory, setFilterMovieByCategory] = useState<string[]>(
+    []
+  )
 
   const handleCurrentLocation = (locationId: string) => {
     setCurrentLocation(locationId)
   }
 
-  const handleSelectedCategory = (categoryId: string) => {
-    setCurrentCategory(categoryId)
+  const handleFilterMovieByCategory = (filterMovie: string[]) => {
+    setFilterMovieByCategory(filterMovie)
   }
 
-  console.log('currentCategory', currentCategory)
   return (
     <AnimatedPage>
-      <>
-        <ShowTimesHeader
-          handleCurrentLocation={handleCurrentLocation}
-          handleSelectedCategory={handleSelectedCategory}
-        />
-        <ShowTimesCollection
-          userLocation={currentLocation}
-          currentCategory={currentCategory}
-        />
-      </>
+      <ShowtimeContextProvider
+        value={{
+          currentLocation,
+          handleCurrentLocation,
+          filterMovieByCategory,
+          handleFilterMovieByCategory
+        }}
+      >
+        <ShowTimesHeader />
+        <ShowTimesCollection />
+      </ShowtimeContextProvider>
     </AnimatedPage>
   )
 }

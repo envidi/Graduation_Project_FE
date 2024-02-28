@@ -1,33 +1,36 @@
-import { getAllCategory } from '@/api/category'
-import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
+import { useAllCategory } from '../hooks'
+import { useShowTimeContext } from '../contexts'
 
-type CategorySelectorProps = {
-  handleSelectedCategory: (categoryId: string) => void
-}
-export const CategorySelector = ({ handleSelectedCategory }) => {
-  const override = {
-    display: 'block',
-    margin: '4.8rem auto'
-  }
+export const CategorySelector = () => {
+  const { handleFilterMovieByCategory } = useShowTimeContext()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const userCategory = searchParams.get('category') || 'All'
 
-  const { data: categoryData, isLoading } = useQuery({
-    queryKey: ['CATEGORY'],
-    queryFn: () => getAllCategory()
-  })
+  const { data: categoryData, isLoading } = useAllCategory()
+
+  const handleSelectedCategoryId = (cate: any) => {
+    setSearchParams({ category: cate.name })
+
+    handleFilterMovieByCategory(cate.products)
+  }
+
+  if (isLoading) {
+    return (
+      <HashLoader
+        cssOverride={{ display: 'block', margin: '4.8rem auto' }}
+        color="#eb3656"
+      />
+    )
+  }
 
   const checkedColor = (val) => {
     return {
       backgroundColor: val === userCategory ? '#ef5e78' : '',
       border: val === userCategory ? '2px solid transparent' : ''
     }
-  }
-
-  if (isLoading) {
-    return <HashLoader cssOverride={override} color="#eb3656" />
   }
 
   const renderCategory = () => {
@@ -43,10 +46,7 @@ export const CategorySelector = ({ handleSelectedCategory }) => {
             id={idx}
             name="Select Category"
             value={cate.name}
-            onChange={() => {
-              setSearchParams({ category: cate.name })
-              handleSelectedCategory(cate._id)
-            }}
+            onChange={() => handleSelectedCategoryId(cate)}
             checked={cate.name === userCategory}
           />
 
