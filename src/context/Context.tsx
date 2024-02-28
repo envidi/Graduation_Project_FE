@@ -8,7 +8,7 @@ export const ContextMain = createContext({})
 
 const ContextProvider = ({children} : {children: React.ReactNode}) => {
 
-    const [isLogined, setIsLogined] = useState(false)
+    const [isLogined, setIsLogined] = useState(!!localStorage.getItem("Accesstoken"))
     const { data: userDetail } = useQuery({
         queryKey: ['USERDETAIL'],
         queryFn: async () => {
