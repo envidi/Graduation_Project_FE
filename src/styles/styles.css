@@ -363,6 +363,28 @@ header {
   border-radius: 11px;
   z-index: 2;
 }
+.signup-form2{
+  position: fixed;
+  width: 44.8rem;
+  background-color: #fff;
+  top: 8.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3.2rem;
+  border-radius: 11px;
+  z-index: 2;
+}
+.login-form2{
+  position: fixed;
+  width: 44.8rem;
+  background-color: #fff;
+  top: 2.6rem;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 3.2rem;
+  border-radius: 11px;
+  z-index: 2;
+}
 
 .signup-form-heading {
   display: flex;

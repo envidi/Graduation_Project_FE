@@ -8,12 +8,15 @@ import ClientLayout from './layouts/ClientLayout'
 import PurchasePage from './pages/Purchase/PurchasePage'
 import { getAllMovieHome } from '@/api/movie'
 
+import 'react-toastify/dist/ReactToastify.css';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import { Suspense, lazy, useEffect } from 'react'
 import { moviesAction } from './store/movie'
 import { useDispatch } from 'react-redux'
 import { AnimatePresence } from 'framer-motion'
 import { PageLoader } from './components/PageLoader'
+import Profile from './pages/modals/Profile'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -56,9 +59,24 @@ function App() {
             />
             <Route path="/purchase" element={<PurchasePage />} />
             <Route path="/showtimes" element={<ShowtimesPage />} />
+            <Route path='/profile' element={<Profile />} />
           </Route>
         </Routes>
       </AnimatePresence>
+
+      <ToastContainer
+  position="top-right"
+  autoClose={5000}
+  hideProgressBar={false}
+  newestOnTop={false}
+  closeOnClick
+  rtl={false}
+  pauseOnFocusLoss
+  draggable
+  pauseOnHover
+  theme="light"
+  transition={Bounce} // Sử dụng dấu '=' để gán giá trị cho thuộc tính
+/>
     </>
   )
 }
