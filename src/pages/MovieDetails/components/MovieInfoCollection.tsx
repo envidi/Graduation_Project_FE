@@ -40,7 +40,7 @@ export const MovieInfoCollection = () => {
         </h1>
       </div>
 
-      <div className="details-collection-container">
+      <div className="details-collection-container after:opacity-0 dark:after:opacity-100">
         <Swiper
           slidesPerView={5}
           spaceBetween={30}

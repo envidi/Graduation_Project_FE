@@ -1,13 +1,10 @@
-import { useEffect, useState } from 'react'
-import axios from 'axios'
+// import { useEffect, useState } from 'react'
+// import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
-import HashLoader from 'react-spinners/HashLoader'
+// import HashLoader from 'react-spinners/HashLoader'
 
 export const Footer = () => {
-  const [locationData, setLocationData] = useState<any>([])
-  const [loading, setLoading] = useState(true)
-
   return (
     <section className="section-footer container">
       {/* {pageName === 'home' ? (
@@ -83,28 +80,35 @@ export const Footer = () => {
             d="M360 94.59V296M443.13 212.87L296 360M417.41 360H216M299.13 443.13l-144-144M152 416V216M68.87 299.13l144-144M94.59 152H288M212.87 68.87L360 216"
           />
         </svg>
-        <h1 className="footer-logo-text">Asho Dekhi</h1>
+        <h1 className="footer-logo-text text-primary-locationMovie">
+          Asho Dekhi
+        </h1>
       </HashLink>
 
       <div className="footer-link-container foot-reg">
-        <button className="footer-btn">
+        <button className="footer-btn hover:text-primary-movieColorSecond text-foreground">
           Create account
         </button>
       </div>
 
       <div className="footer-link-container">
-        <button className="footer-btn">Sign in</button>
+        <button className="footer-btn hover:text-primary-movieColorSecond text-foreground">
+          Sign in
+        </button>
       </div>
 
       <div className="footer-link-container">
-        <Link className="footer-link" to="/aboutus">
+        <Link
+          className="footer-link text-foreground hover:text-primary-movieColorSecond"
+          to="/aboutus"
+        >
           About us
         </Link>
       </div>
 
       <h3 className="footer-heading">Our Theatres</h3>
 
-      <p className="copyright">
+      <p className="copyright text-primary-copyright">
         Copyright &copy; 2023 by NELOY SAHA, Inc. All rights reserved.
       </p>
 

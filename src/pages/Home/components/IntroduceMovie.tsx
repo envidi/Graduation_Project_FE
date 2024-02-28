@@ -11,11 +11,7 @@ function IntroduceMovie() {
         <section className="netflix-home-video">
           <div className="top"></div>
           <div className="bottom"></div>
-          <img
-            className="img-background"
-            src={imgBg}
-            alt="money_heist"
-          />
+          <img className="img-background" src={imgBg} alt="money_heist" />
           <div className="content xs:w-[55%] sm:w-[50%] md:w-[45%] lg:w-[38%] xl:w-[35%]">
             <section className="left xs:ms-10 sm:ms-12 flex flex-col justify-center h-full">
               <img
@@ -32,7 +28,7 @@ function IntroduceMovie() {
                   <DialogTrigger asChild>
                     <Button
                       variant="home_outline"
-                      className="ms-5 btn btn-secondary m-2 "
+                      className="ms-5 btn btn-secondary text-white m-2 "
                     >
                       <i className="bi bi-info-circle p-0"></i> Trailer
                     </Button>
@@ -48,7 +44,7 @@ function IntroduceMovie() {
                   </DialogContent>
                 </Dialog>
               </div>
-              <div className="mt-10 ms-2 xs:hidden sm:block xs:text-xl sm:text-2xl md:text-2xl lg:text-3xl text-primary-white leading-10 ">
+              <div className="mt-10 ms-2 xs:hidden sm:block xs:text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white leading-loose ">
                 Money Heist (La Casa de Papel) is a popular Netflix series about
                 a group of robbers with fake names. The Professor is the
                 mastermind behind the heists and has a tragic backstory that
