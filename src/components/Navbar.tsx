@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 import SearchBar from './SearchBar/SearchBar'
+import { ModeToggle } from './mode-toggle'
 
 export const Navbar = () => {
   // const [signUpState, setSignUpState] = useState(false)
@@ -11,7 +12,7 @@ export const Navbar = () => {
   //   setSignUpState((prevState) => !prevState)
   // }
 
-  const  isTrue = true
+  const isTrue = true
 
   return (
     <header>
@@ -116,7 +117,7 @@ export const Navbar = () => {
               About Us
             </Link>
           </li>
-          <li className='relative'>
+          <li className="relative">
             <SearchBar />
           </li>
 
@@ -136,9 +137,7 @@ export const Navbar = () => {
       </nav>
 
       <div className="nav-signup">
-        {/* {Object.keys(signedPerson).length !== 0 && (
-          <p className="nav-signed-name">{signedPerson.first_name}</p>
-        )} */}
+        <ModeToggle />
         <p className="nav-signed-name">Nguyen</p>
         <button className="customer-profile-btn">
           <svg

@@ -24,7 +24,7 @@ export const CollectionCard = ({
 
 
   return (
-    <div className={`home-movie-card bg-background-main ${className}`}>
+    <div className={`home-movie-card bg-background-card ${className} shadow-lg dark:shadow-2xl`} >
       <div className="home-movie-img-box">
         <LazyLoadImage
           className="movie-info-img"
@@ -136,7 +136,7 @@ export const CollectionCard = ({
         Get ticket
       </button> */}
       <button
-        className="book-btn btn"
+        className="book-btn bg-primary-movieColor hover:bg-primary-movieColorSecond btn"
         onClick={() => {
           navigate('/movie/' + slug)
         }}

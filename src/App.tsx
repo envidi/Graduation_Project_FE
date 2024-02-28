@@ -1,6 +1,6 @@
 import './styles/styles.css'
 import './styles/queries.css'
-
+import { ThemeProvider } from '@/components/theme-provider'
 import { useQuery } from '@tanstack/react-query'
 import { MOVIE } from '@/utils/constant'
 import { Route, Routes } from 'react-router-dom'
@@ -34,31 +34,33 @@ function App() {
 
   return (
     <>
-      <AnimatePresence>
-        <Routes>
-          <Route path="/" element={<ClientLayout />}>
-            <Route
-              index
-              path="/"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <HomePage dataMovie={dataMovie} isLoading={isLoading} />
-                </Suspense>
-              }
-            />
-            <Route
-              path="/movie/:slug"
-              element={
-                <Suspense fallback={<PageLoader />}>
-                  <MovieDetailsPage />
-                </Suspense>
-              }
-            />
-            <Route path="/purchase" element={<PurchasePage />} />
-            <Route path="/showtimes" element={<ShowtimesPage />} />
-          </Route>
-        </Routes>
-      </AnimatePresence>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <AnimatePresence>
+          <Routes>
+            <Route path="/" element={<ClientLayout />}>
+              <Route
+                index
+                path="/"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <HomePage dataMovie={dataMovie} isLoading={isLoading} />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/movie/:slug"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <MovieDetailsPage />
+                  </Suspense>
+                }
+              />
+              <Route path="/purchase" element={<PurchasePage />} />
+              <Route path="/showtimes" element={<ShowtimesPage />} />
+            </Route>
+          </Routes>
+        </AnimatePresence>
+      </ThemeProvider>
     </>
   )
 }

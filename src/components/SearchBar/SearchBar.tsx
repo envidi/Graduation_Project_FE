@@ -33,7 +33,9 @@ function SearchBar() {
       }
     }
   }
-
+  const overlay =
+    // eslint-disable-next-line quotes
+    "after:content-[''] after:absolute after:top-[-15%] after:left-[-60vw] after:z-[10] after:opacity-60 after:bg-black after:w-[200vw] after:h-screen"
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e): void => {
     const target = e.target as HTMLInputElement
     setSearchTerm(target.value)
@@ -57,11 +59,11 @@ function SearchBar() {
 
   return (
     <div
-      className={`absolute top-[-23px] bg-background-secondary w-full ${showSearch ? 'show-search-bg' : ''} `}
+      className={`absolute top-[-23px] bg-background-secondary w-full ${showSearch ? 'show-search-bg ' + overlay : ''} `}
     >
       <div
         onClick={handleClick}
-        className={`search ${showSearch ? 'show-search bg-primary-white' : ''}`}
+        className={`search z-50 ${showSearch ? 'show-search bg-white' : ''}`}
         id="search-bar"
       >
         <input
@@ -78,7 +80,7 @@ function SearchBar() {
             <Loader2 size={15} className="animate-spin text-background-main" />
           ) : (
             <X
-              className={`hover:cursor-pointer text-background-main ${showSearch ? 'block': 'hidden'}`}
+              className={`hover:cursor-pointer text-background-main ${showSearch ? 'block' : 'hidden'}`}
               size={15}
             />
           )}

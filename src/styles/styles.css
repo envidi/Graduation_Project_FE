@@ -66,9 +66,25 @@ body {
   font-weight: 400;
   color: #cccdd0;
 }
-/* width */
-/* ::-webkit-scrollbar {
+::-webkit-scrollbar {
   width: 4px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #b30000;
+  border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #b30000;
 }
 
 /* Track */
@@ -543,14 +559,14 @@ header {
 
 .btn-outline:link,
 .btn-outline:visited {
-  background-color: #1a1d2c;
+  /* background-color: #1a1d2c; */
   color: inherit;
   transition: all 0.3s;
 }
 
 .btn-full {
-  background-color: #eb3656;
-  color: #e6e6e8;
+  /* background-color: #eb3656; */
+  /* color: #e6e6e8; */
   transition: all 0.3s;
   border: none;
   font-family: inherit;
@@ -601,7 +617,7 @@ header {
 }
 
 .hero-review-text span {
-  color: #eb3656;
+  /* color: #eb3656; */
   font-weight: 700;
 }
 
@@ -688,7 +704,7 @@ header {
   position: relative;
   border-radius: 11px;
   overflow: hidden;
-  box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.21);
+  /* box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.21); */
   padding-bottom: 2rem;
 }
 
@@ -775,7 +791,7 @@ header {
   top: 0;
   left: 50%;
   transform: translate(-50%, -100%);
-  background-color: #eb3656;
+  /* background-color: #eb3656; */
   padding: 1.6rem 3.2rem;
   border: none;
   color: #e6e6e8;
@@ -796,7 +812,7 @@ header {
   filter: blur(3px);
   transition: all 0.3s ease-in-out !important;
 }
-.blur_image_loaded{
+.blur_image_loaded {
   filter: blur(5px);
 }
 
@@ -808,7 +824,7 @@ header {
 }
 
 .book-btn:hover {
-  background-color: #ef5e78;
+  /* background-color: #ef5e78; */
 }
 
 /* **************** */
@@ -832,7 +848,7 @@ header {
   text-transform: uppercase;
   letter-spacing: 1.2px;
   line-height: 1.6;
-  color: #eb3656;
+  /* color: #eb3656; */
 }
 
 .feature-contents {
@@ -852,28 +868,28 @@ header {
   font-size: 2.8rem;
   margin: 1.6rem 0;
   font-weight: 500;
-  color: #fff;
+  /* color: #fff; */
 }
 
 .feature-icon {
-  color: #eb3656;
+  /* color: #eb3656; */
   height: 6.4rem;
   width: 6.4rem;
 
-  fill: #eb3656;
+  /* fill: #eb3656; */
 }
 
 .feature-text-details {
   font-size: 1.6rem;
   line-height: 1.6;
-  color: #babbc0;
+  /* color: #babbc0; */
   font-weight: 400;
 }
 
 .feature-img {
   width: 100%;
   border-radius: 9px;
-  box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.3); */
 }
 
 /* ******************** */
@@ -882,8 +898,8 @@ header {
 
 .section-social-links {
   padding: 4.8rem 0rem;
-  border-top: 1px solid #313441;
-  border-bottom: 1px solid #313441;
+  /* border-top: 1px solid #313441; */
+  /* border-bottom: 1px solid #313441; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -892,7 +908,7 @@ header {
 
 .social-link:link,
 .social-link:visited {
-  border: 2px solid #eb3656;
+  /* border: 2px solid #eb3656; */
   padding: 1rem;
   border-radius: 50%;
   transition: all 0.3s;
@@ -908,7 +924,7 @@ header {
 .social-link-icon {
   height: 2.4rem;
   width: 2.4rem;
-  fill: #eb3656;
+  /* fill: #eb3656; */
 }
 
 .social-link:hover .social-link-icon {
@@ -952,7 +968,7 @@ header {
   font-size: 3.2rem;
   font-weight: 600;
   text-transform: uppercase;
-  color: #e6e6e6;
+  /* color: #e6e6e6; */
 }
 
 .copyright {
@@ -1004,7 +1020,7 @@ header {
   font-size: 1.6rem;
   font-weight: 500;
   letter-spacing: 0.75px;
-  color: #cccdd0;
+  /* color: #cccdd0; */
   transition: all 0.3s;
   letter-spacing: 0.25px;
 }
@@ -1012,7 +1028,7 @@ header {
 .footer-link:hover,
 .footer-link:active,
 .footer-btn:hover {
-  color: #ef5e78;
+  /* color: #ef5e78; */
 }
 
 /* ************** */
@@ -1176,8 +1192,8 @@ header {
   text-align: center;
   background-color: #171a28;
   grid-column: 1/-1;
-  color: #e6e6e8;
-  box-shadow: 0 1.2rem 1.4rem rgba(16, 17, 26, 0.4);
+  /* color: #e6e6e8; */
+  /* box-shadow: 0 1.2rem 1.4rem rgba(16, 17, 26, 0.4); */
 }
 
 /* .showtimes-schedule-container-3d, */
@@ -1896,6 +1912,7 @@ header {
 .movie-info-img-container {
   border-radius: 11px;
   overflow: hidden;
+  display: flex;
   box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.25);
 }
 
@@ -1930,7 +1947,7 @@ header {
   font-weight: 500;
   line-height: 1.6;
   align-items: center;
-  color: #cccdd0;
+  /* color: #cccdd0; */
 }
 
 .movie-info-icon {

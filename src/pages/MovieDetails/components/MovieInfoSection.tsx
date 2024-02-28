@@ -52,7 +52,11 @@ export const MovieInfoSection = () => {
   })
 
   useEffect(() => {
-    if (dataMovie && Object.keys(dataMovie).length > 0 && dataMovie?.showTimeCol?.length > 0) {
+    if (
+      dataMovie &&
+      Object.keys(dataMovie).length > 0 &&
+      dataMovie?.showTimeCol?.length > 0
+    ) {
       setCurrentLocation(dataMovie?.showTimeCol[0]?.cinemaId?._id || [])
     }
   }, [dataMovie])
@@ -113,7 +117,7 @@ export const MovieInfoSection = () => {
           <div className="movie-info-attr-container">
             <h2 className="movie-info-name text-primary-nameMovie">{name}</h2>
 
-            <div className="movie-info-small-container ">
+            <div className="movie-info-small-container text-primary-locationMovie">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
@@ -278,13 +282,13 @@ export const MovieInfoSection = () => {
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-md px-5 border border-border-calendarBorder mt-[3.2rem] "
+            className="rounded-md px-5 border border-border-calendarBorder shadow mt-[3.2rem] "
           />
           <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full">
             <div
               className={`movie-info-screen-container-3d bg-background-third ${showTimePerDay?.length > 0 ? 'grid' : ''}`}
             >
-              <h2 className="showtimes-screen bg-background-headerShow">
+              <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
                 {today}
               </h2>
 

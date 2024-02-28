@@ -19,7 +19,7 @@ function DropdownSearchItem({
   searchTerm
 }: DropdownSearchItemType) {
   return (
-    <div className="absolute w-full  left-0 top-24 bg-slate-800 px-1 py-1 rounded-lg">
+    <div className="absolute w-full  left-0 top-[46px] bg-slate-800 px-1 py-1 rounded-lg ">
       {results?.length > 0 && !isSearching ? (
         <motion.div
           initial="hidden"
@@ -41,7 +41,7 @@ function DropdownSearchItem({
                   },
                   hidden: { opacity: 0, y: 20, transition: { duration: 0.2 } }
                 }}
-                className="flex items-center hover:bg-background-secondary px-7 py-4 hover:cursor-pointer"
+                className="flex items-center hover:bg-[#303340] px-7 py-4 hover:cursor-pointer"
                 key={result._id}
               >
                 <div>
@@ -58,7 +58,10 @@ function DropdownSearchItem({
                     {categoryId.map(
                       (category: { _id: string; name: string }) => {
                         return (
-                          <span className="text-xl" key={category._id}>
+                          <span
+                            className="text-xl text-[#cccdd0]"
+                            key={category._id}
+                          >
                             {category.name}
                           </span>
                         )
@@ -85,7 +88,6 @@ function DropdownSearchItem({
           )}
         </>
       )}
-      
     </div>
   )
 }
