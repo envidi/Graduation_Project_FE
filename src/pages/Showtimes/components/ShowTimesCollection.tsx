@@ -1,51 +1,45 @@
-import { getAllMovie, getRelateMovie } from '@/api/movie'
+import { getAllMovie } from '@/api/movie'
 import { useQuery } from '@tanstack/react-query'
-import { useSearchParams } from 'react-router-dom'
+// import { useSearchParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
+import { useShowTimeContext } from '../contexts'
 import { ShowtimesCard } from './ShowtimesCard'
 
-type ShowTimesCollectionProps = {
-  userLocation: string
-  currentCategory: string
-}
-export const ShowTimesCollection = ({
-  userLocation,
-  currentCategory
-}: ShowTimesCollectionProps) => {
-  const override = {
-    display: 'block',
-    margin: '4.8rem auto'
-  }
+export const ShowTimesCollection = () => {
+  const { currentLocation, filterMovieByCategory } = useShowTimeContext()
 
   // Thay đổi địa điểm (location) hoặc thể loại (category) phim thì sẽ get lại dữ liệu
 
-  const [searchParams] = useSearchParams()
+  // const [searchParams] = useSearchParams()
 
-  const userGenre = searchParams.get('genre') || 'All'
+  // const currentCategory = searchParams.get('category') || 'All'
 
   const { data: dataMovies, isLoading } = useQuery({
-    queryKey: ['ALL_MOVIES', userLocation, userGenre],
-    queryFn: () => getAllMovie(),
-    enabled: currentCategory === 'All' || currentCategory === ''
+    queryKey: ['ALL_MOVIES', currentLocation],
+    queryFn: () => getAllMovie()
+    // enabled: currentCategory === 'All'
   })
 
-  const { data: dataFilteredMovies, isLoading: isLoadingFilter } = useQuery({
-    queryKey: ['MOVIE_RELATED', currentCategory],
-    queryFn: () => getRelateMovie('65c8dc874a19975a1cc5fc7e'),
-    initialData: dataMovies
-  })
-
-  if (isLoading || isLoadingFilter) {
-    return <HashLoader cssOverride={override} color="#eb3656" />
+  if (isLoading) {
+    return (
+      <HashLoader
+        cssOverride={{ display: 'block', margin: '4.8rem auto' }}
+        color="#eb3656"
+      />
+    )
   }
 
+  const listDataMovieId = dataMovies.map((movie) => movie._id)
+
+  const listMovieId =
+    filterMovieByCategory.length === 0 ? listDataMovieId : filterMovieByCategory
+
+  // Lần đầu map dựa vào danh sach phim, nếu filter theo category thì map theo id
   return (
     <section className="section-showtimes">
       <div className="showtimes-collection container">
-        {dataFilteredMovies.map((movie, idx) => {
-          return (
-            <ShowtimesCard key={idx} {...movie} userLocation={userLocation} />
-          )
+        {listMovieId.map((movieId, idx) => {
+          return <ShowtimesCard key={idx} movieId={movieId} />
         })}
       </div>
     </section>

@@ -1,19 +1,13 @@
 import { LocationSelector } from '../../../components/LocationSelector'
+import { useShowTimeContext } from '../contexts'
 import { CategorySelector } from './CategorySelector'
 
-type ShowTimesHeaderProps = {
-  handleCurrentLocation: (locationId: string) => void
-  handleSelectedCategory: (categoryId: string) => void
-}
-
-export const ShowTimesHeader = ({
-  handleCurrentLocation,
-  handleSelectedCategory
-}: ShowTimesHeaderProps) => {
+export const ShowTimesHeader = () => {
+  const { handleCurrentLocation } = useShowTimeContext()
   return (
     <section className="showtimes-header container">
       <LocationSelector handleCurrentLocation={handleCurrentLocation} />
-      <CategorySelector handleSelectedCategory={handleSelectedCategory} />
+      <CategorySelector />
     </section>
   )
 }
