@@ -2,18 +2,16 @@ import { CollectionCard } from '../../../components/CollectionCard'
 import { useQuery } from '@tanstack/react-query'
 import { getRelateMovie } from '@/api/movie'
 import { useParams } from 'react-router-dom'
-import { Swiper, SwiperSlide } from 'swiper/react'
+import { SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 // import 'swiper/css/pagination'
 import 'swiper/css/navigation'
 import './slider.css'
-import { Navigation } from 'swiper/modules'
-import { FreeMode } from 'swiper/modules'
 import 'swiper/css/free-mode'
 import Carousel from '@/components/CardCarousel/CardCarousel'
 import HashLoader from 'react-spinners/HashLoader'
-import { checkSlidePerView } from '@/utils'
 import { MovieType } from '@/Interface/movie'
+import SwiperSlider from '@/components/SwiperSlide/SwiperSlider'
 // import axios from 'axios'
 // import HashLoader from 'react-spinners/HashLoader'
 // import { useParams } from 'react-router-dom'
@@ -41,58 +39,7 @@ export const MovieInfoCollection = () => {
       </div>
 
       <div className="details-collection-container after:opacity-0 dark:after:opacity-100">
-        <Swiper
-          slidesPerView={5}
-          spaceBetween={30}
-          freeMode={true}
-          pagination={{
-            clickable: true
-          }}
-          navigation={true}
-          breakpoints={{
-            // when window width is >= 320px
-            350: {
-              slidesPerView: 1,
-              spaceBetween: 1
-            },
-            500: {
-              slidesPerView: 2,
-              spaceBetween: 20
-            },
-            // when window width is >= 480px
-            600: {
-              slidesPerView: checkSlidePerView(dataMovie, 2),
-              spaceBetween: 20
-            },
-            // when window width is >= 600px
-            730: {
-              slidesPerView: checkSlidePerView(dataMovie, 3),
-              spaceBetween: 10
-            },
-            950: {
-              slidesPerView: checkSlidePerView(dataMovie, 4),
-              spaceBetween: 20
-            },
-            // when window width is >= 640px
-            1024: {
-              slidesPerView: checkSlidePerView(dataMovie, 4),
-              spaceBetween: 40
-            },
-            // when window width is >= 640px
-            1240: {
-              slidesPerView: checkSlidePerView(dataMovie, 5),
-              spaceBetween: 15
-            },
-            // when window width is >= 640px
-            1280: {
-              slidesPerView: checkSlidePerView(dataMovie, 5),
-              spaceBetween: 10
-            }
-          }}
-          modules={[FreeMode, Navigation]}
-          className="mySwiper ps-2 xs:py-5 sm:py-0 sm:block xs:hidden"
-          // onSlideChange={setSwiperRef}
-        >
+        <SwiperSlider dataMovie={dataMovie} slidePerView={5}>
           {dataMovie?.map((movie: MovieType, index: number) => {
             return (
               <SwiperSlide key={index}>
@@ -103,7 +50,7 @@ export const MovieInfoCollection = () => {
               </SwiperSlide>
             )
           })}
-        </Swiper>
+        </SwiperSlider>
         {/* ------------------------------------------------------------------------- */}
         <Carousel className="xs:block sm:hidden">
           {dataMovie?.map((movie: MovieType, i: number) => (

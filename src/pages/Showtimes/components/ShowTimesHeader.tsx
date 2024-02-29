@@ -5,7 +5,7 @@ import { CategorySelector } from './CategorySelector'
 export const ShowTimesHeader = () => {
   const { handleCurrentLocation } = useShowTimeContext()
   return (
-    <section className="showtimes-header container">
+    <section className="showtimes-header container ">
       <LocationSelector handleCurrentLocation={handleCurrentLocation} />
       <CategorySelector />
     </section>
