@@ -35,7 +35,7 @@ function SearchBar() {
   }
   const overlay =
     // eslint-disable-next-line quotes
-    "after:content-[''] after:absolute after:top-[-15%] after:left-[-60vw] after:z-[10] after:opacity-60 after:bg-black after:w-[200vw] after:h-screen"
+    "after:content-[''] after:absolute after:top-[-15%] after:left-[-65vw] after:z-[10] after:opacity-60 after:bg-black after:w-[200vw] after:h-screen"
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e): void => {
     const target = e.target as HTMLInputElement
     setSearchTerm(target.value)
@@ -56,6 +56,7 @@ function SearchBar() {
 
     searchHN()
   }, [debouncedSearchTerm])
+
 
   return (
     <div

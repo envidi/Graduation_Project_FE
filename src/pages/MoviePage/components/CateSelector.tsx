@@ -1,18 +1,23 @@
 import { useSearchParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
-import { useAllCategory } from '../hooks'
-import { useShowTimeContext } from '../contexts'
-export const CategorySelector = () => {
-  const { handleFilterMovieByCategory } = useShowTimeContext()
+import { useAllCategory } from '@/pages/Showtimes/hooks'
+import { categoriesAction } from '@/store/category'
+import { useDispatch } from 'react-redux'
+const CateSelector = () => {
+  const dispatch = useDispatch()
 
   const [searchParams, setSearchParams] = useSearchParams()
   const userCategory = searchParams.get('category') || 'All'
 
   const { data: categoryData, isLoading } = useAllCategory()
 
-  const handleSelectedCategoryId = (cate: { _id:string, name: string, products: [] }) => {
+  const handleSelectedCategoryId = (cate: {
+    _id: string
+    name: string
+    products: []
+  }) => {
     setSearchParams({ category: cate.name })
-    handleFilterMovieByCategory(cate.products)
+    dispatch(categoriesAction.chooseCate(cate._id))
   }
 
   if (isLoading) {
@@ -33,7 +38,7 @@ export const CategorySelector = () => {
 
   const renderCategory = () => {
     return categoryData?.map(
-      (cate: { _id:string; name: string; products: [] }, idx: number) => {
+      (cate: { _id: string; name: string; products: [] }, idx: number) => {
         return (
           <div
             className="genre-input-container shadow-md"
@@ -82,3 +87,4 @@ export const CategorySelector = () => {
     </div>
   )
 }
+export default CateSelector
