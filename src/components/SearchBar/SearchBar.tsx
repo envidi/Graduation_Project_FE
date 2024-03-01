@@ -1,23 +1,26 @@
 import {
   ChangeEventHandler,
   MouseEventHandler,
-  useEffect,
   useState
 } from 'react'
 import './search.css'
-import { useDebounce } from '@uidotdev/usehooks'
-import { searchMovie } from '@/api/movie'
 import { Loader2 } from 'lucide-react'
 import { X } from 'lucide-react'
 import DropdownSearchItem from './DropdownSearchItem'
+import useDebounceCustom from '@/hooks/useDebounceCustom'
 
 function SearchBar() {
   const [showSearch, setShowSearch] = useState<boolean>(false)
 
-  const [searchTerm, setSearchTerm] = useState('')
-  const [results, setResults] = useState([])
-  const [isSearching, setIsSearching] = useState(false)
-  const debouncedSearchTerm = useDebounce(searchTerm, 500)
+  const [
+    results,
+    isSearching,
+    searchTerm,
+    setSearchTerm,
+    setResults,
+    setIsSearching
+  ] = useDebounceCustom()
+
   const handleClick: MouseEventHandler<HTMLDivElement> = (
     event: React.MouseEvent<HTMLDivElement>
   ): void => {
@@ -33,30 +36,19 @@ function SearchBar() {
       }
     }
   }
+  const handleCloseSearch = () => {
+    setShowSearch(false)
+    setSearchTerm('')
+  }
   const overlay =
     // eslint-disable-next-line quotes
-    "after:content-[''] after:absolute after:top-[-15%] after:left-[-65vw] after:z-[10] after:opacity-60 after:bg-black after:w-[200vw] after:h-screen"
+    "after:content-[''] after:absolute after:top-[-15%] after:left-[-75vw] after:z-[10] after:opacity-60 after:bg-black after:w-[200vw] after:h-screen"
+
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e): void => {
     const target = e.target as HTMLInputElement
     setSearchTerm(target.value)
     setIsSearching(true)
   }
-  useEffect(() => {
-    const searchHN = async () => {
-      let results = []
-      setIsSearching(true)
-      if (debouncedSearchTerm) {
-        const data = await searchMovie(searchTerm)
-        results = data || data?.length > 0 ? data : []
-      }
-
-      setIsSearching(false)
-      setResults(results)
-    }
-
-    searchHN()
-  }, [debouncedSearchTerm])
-
 
   return (
     <div
@@ -98,6 +90,7 @@ function SearchBar() {
             results={results}
             isSearching={isSearching}
             searchTerm={searchTerm}
+            handleCloseSearch={handleCloseSearch}
           />
         )}
       </div>

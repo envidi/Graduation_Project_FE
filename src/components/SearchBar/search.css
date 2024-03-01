@@ -90,10 +90,9 @@ body {
 /* Search animated */
 .show-search {
   width: 100%;
-  transform: translateX(-25vw);
+  transform: translateX(-28vw);
 
   transition: all 0.5s ease-in-out;
-
 }
 .show-search-bg {
   width: 100%;
@@ -122,7 +121,13 @@ body {
 }
 @media screen and (min-width: 577px) and (max-width: 975px) {
   .show-search {
-    transform: translateX(-29vw);
-    width: 350px;
+    transform: translateX(-37vw);
+    width: 410px;
+  }
+}
+@media screen and (min-width: 976px) and (max-width: 1050px) {
+  .show-search {
+    transform: translateX(-35vw);
+    width: 400px;
   }
 }

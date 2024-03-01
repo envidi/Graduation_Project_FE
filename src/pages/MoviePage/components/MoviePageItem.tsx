@@ -45,7 +45,7 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
     order: 'asc'
   })
   const { data: dataMovie, isLoading } = useStatusMovie(query)
-  const [currentMovies, setCurrentMovie] = useState<any>(dataMovie)
+  const [currentMovies, setCurrentMovie] = useState<MovieType[]>(dataMovie)
 
   const override = {
     display: 'block',
@@ -78,7 +78,6 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
       }
     })
   }
-  console.log(currentMovies)
   return (
     <>
       <div className="flex justify-between items-center">

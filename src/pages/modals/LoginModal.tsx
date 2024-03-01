@@ -63,7 +63,6 @@ export const LoginModal = () => {
       return errors
     },
     onSubmit: async (values) => {
-
       try {
         await LoginUser.mutateAsync(values)
       } catch (error) {
