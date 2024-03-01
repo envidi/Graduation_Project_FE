@@ -1,67 +1,15 @@
-// import React, { useEffect, useState } from 'react'
-// import axios from 'axios'
-import { DateSelector } from './DateSelector'
-import { MovieSelector } from './MovieSelector'
-import { PictureQualitySelector } from './PictureQualitySelector'
-// import { SeatSelector } from './SeatSelector'
-import { LocationSelector } from '../../../components/LocationSelector'
-import { PayMethodSelector } from './PayMethodSelector'
+
+import SeatPage from '@/pages/SeatPage/SeatPage'
 // import BarLoader from 'react-spinners/BarLoader'
 
 export const PurchaseSection = () => {
-  const handleCurrentLocation = () => {
-
-  }
+ 
 
   return (
     <section className="section-purchase mt-20">
       <div className="purchase-container container max-w-[132rem]">
         <div className="purchase-section-left">
-          <div className="purchase-heading">
-            <LocationSelector handleCurrentLocation={handleCurrentLocation} />
-          </div>
-
-          {/* {theatreId && theatreId !== '' && <DateSelector />} */}
-          <DateSelector />
-          <MovieSelector />
-          <PictureQualitySelector />
-          <PayMethodSelector />
-          {/* {userDate?.length !== 0 && (
-            <MovieSelector
-              theatreId={theatreId}
-              movieData={movieData}
-              getMovieData={getMovieData}
-              userDate={userDate}
-              userMovieId={userMovieId}
-              handleUserMovieChange={handleUserMovieChange}
-            />
-          )} */}
-          {/* {userMovieId !== '' && (
-            <PictureQualitySelector
-              theatreId={theatreId}
-              userDate={userDate}
-              userShowtimeId={userShowtimeId}
-              userHallId={userHallId}
-              getHallData={getHallData}
-              hallData={hallData}
-              userMovieId={userMovieId}
-              handleUserHallShow={handleUserHallShow}
-              userSeatPrice={userSeatPrice}
-            />
-          )} */}
-
-          {/* {userShowtimeId !== '' && (
-            <SeatSelector
-
-            />
-          )} */}
-
-          {/* {userSeatList && userSeatList.length > 0 && (
-            <PayMethodSelector
-              handleUserPaymentMethod={handleUserPaymentMethod}
-              userPayMethod={userPayMethod}
-            />
-          )} */}
+          <SeatPage/>
         </div>
 
         <div className="purchase-section-right">

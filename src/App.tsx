@@ -3,7 +3,6 @@ import './styles/queries.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Route, Routes } from 'react-router-dom'
 import ClientLayout from './layouts/ClientLayout'
-import PurchasePage from './pages/Purchase/PurchasePage'
 
 import 'react-toastify/dist/ReactToastify.css'
 import { Bounce, ToastContainer } from 'react-toastify'
@@ -13,14 +12,17 @@ import { moviesAction } from './store/movie'
 import { useDispatch } from 'react-redux'
 import { AnimatePresence } from 'framer-motion'
 import { PageLoader } from './components/PageLoader'
-import Profile from './pages/modals/Profile'
+// import Profile from './pages/modals/Profile'
 import useAllMovie from './hooks/useAllMovie'
 import NotFound from './pages/NotFound/NotFound'
+import PurchaseLayout from './layouts/PurchaseLayout'
+import SeatPage from './pages/SeatPage/SeatPage'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
 const HomePage = lazy(() => import('./pages/Home/HomePage'))
 const MoviePage = lazy(() => import('./pages/MoviePage/MoviePage'))
+const FoodPage = lazy(() => import('./pages/FoodPage/FoodPage'))
 
 function App() {
   const dispatch = useDispatch()
@@ -55,7 +57,7 @@ function App() {
                   </Suspense>
                 }
               />
-              <Route path="/purchase" element={<PurchasePage />} />
+              {/* <Route path="/purchase" element={<PurchasePage />} /> */}
               <Route path="/showtimes" element={<ShowtimesPage />} />
               <Route
                 path="/movies"
@@ -65,7 +67,26 @@ function App() {
                   </Suspense>
                 }
               />
+
               <Route path="*" element={<NotFound />} />
+              <Route path="/purchase" element={<PurchaseLayout />}>
+                <Route
+                  path="food"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <FoodPage />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="seat"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <SeatPage />
+                    </Suspense>
+                  }
+                />
+              </Route>
             </Route>
           </Routes>
         </AnimatePresence>

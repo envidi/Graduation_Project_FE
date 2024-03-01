@@ -379,7 +379,7 @@ header {
   border-radius: 11px;
   z-index: 2;
 }
-.signup-form2{
+.signup-form2 {
   position: fixed;
   width: 44.8rem;
   background-color: #fff;
@@ -390,7 +390,7 @@ header {
   border-radius: 11px;
   z-index: 2;
 }
-.login-form2{
+.login-form2 {
   position: fixed;
   width: 44.8rem;
   background-color: #fff;
@@ -1356,6 +1356,9 @@ header {
 .purchase-section-right {
   margin-top: 4.8rem;
 }
+.ticket_summary {
+  margin-top: 10rem;
+}
 
 .purchase-section-left {
   display: flex;
@@ -2054,6 +2057,19 @@ header {
   /* background-color: #151723; */
   border-radius: 11px;
 }
+.food-item:hover {
+  box-shadow: 0px 0px 6px rgba(235, 55, 88, 0.5);
+}
+.food-info-screen-container {
+  /* display: grid; */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto 1fr;
+  gap: 20px;
+  row-gap: 10px;
+  justify-items: center;
+  /* background-color: #151723; */
+  border-radius: 11px;
+}
 
 /* ****************** */
 /* CUSTOMER INFO PAGE */
@@ -2379,4 +2395,30 @@ header {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media (min-width: 600px) and (max-width: 768px) {
+  .food-info-screen-container {
+    /* display: grid; */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 40px;
+    row-gap: 10px;
+  }
+}
+@media (min-width: 500px) and (max-width: 600px) {
+  .food-info-screen-container {
+    /* display: grid; */
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto 1fr;
+    gap: 20px;
+    row-gap: 10px;
+  }
+}
+@media (min-width: 370px) and (max-width: 500px) {
+  .food-info-screen-container {
+    /* display: grid; */
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: auto 1fr;
+    row-gap: 10px;
+  }
 }
