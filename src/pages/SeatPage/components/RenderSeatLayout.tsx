@@ -1,13 +1,23 @@
+import { convertNumberToAlphabet } from '@/utils/seatAlphaIndex'
 import { useEffect, useState } from 'react'
 import RenderSeatRow from './RenderSeatRow'
+import { Seat } from '@/Interface/seat'
+interface RenderSeatLayoutType {
+  seats: Seat[]
+  // eslint-disable-next-line no-unused-vars
+  handleUserSeats: (seatId: string) => void
+  // eslint-disable-next-line no-unused-vars
+  handleSeatClick: (seat: Seat) => void
+  userSeatList: string[]
+}
+
 function RenderSeatLayout({
   seats,
   handleUserSeats,
   handleSeatClick,
   userSeatList
-}: any) {
-  //   const rows: JSX.Element[] = []
-  const [rows, setRows] = useState<any>([])
+}: RenderSeatLayoutType) {
+  const [rows, setRows] = useState<Seat[][]>([])
 
   useEffect(() => {
     if (seats) {
@@ -20,16 +30,21 @@ function RenderSeatLayout({
       setRows(updatedRows)
     }
   }, [seats])
+  return rows.map((row: Seat[], index: number) => {
 
-  return rows.map((row: any, index: number) => {
     return (
-      <RenderSeatRow
-        key={index}
-        rowSeats={row}
-        handleUserSeats={handleUserSeats}
-        handleSeatClick={handleSeatClick}
-        userSeatList={userSeatList}
-      />
+      <div key={index} className="flex items-center w-full">
+        <div className="text-3xl uppercase mr-10 text-primary-movieColor font-semibold">
+          {convertNumberToAlphabet(row[0].row)}
+        </div>
+        <RenderSeatRow
+          key={index}
+          rowSeats={row}
+          handleUserSeats={handleUserSeats}
+          handleSeatClick={handleSeatClick}
+          userSeatList={userSeatList}
+        />
+      </div>
     )
   })
 }

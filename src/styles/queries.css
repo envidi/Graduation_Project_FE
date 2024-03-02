@@ -38,12 +38,12 @@
   }
 
   .purchase-container {
-    grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-columns: 1fr 33.8rem;
+    gap: 4.5rem;
   }
 
   .purchase-section-left {
-    padding-bottom: 0;
+    padding-bottom: 8.5rem;
   }
 
   .ticket-movie-img {
@@ -267,6 +267,21 @@
   .btn-logout,
   .nav-signed-name {
     display: none;
+  }
+}
+@media (max-width: 57em) {
+  .purchase-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .purchase-section-left {
+    padding-bottom: 0 !important;
+  }
+  .purchase-section-right {
+    width: 100%;
+  }
+  .ticket-heading {
+    width: 32.5rem;
   }
 }
 
@@ -512,6 +527,7 @@
 
   .theatre-screen {
     width: 34rem;
+    height: 15rem;
   }
 
   .seat:nth-child(2) {

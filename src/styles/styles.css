@@ -1804,6 +1804,7 @@ header {
 
 .row {
   display: flex;
+  width: 100%;
   gap: 0.6rem;
 }
 
@@ -1844,6 +1845,9 @@ header {
   transform: translateY(-0.2rem);
   background-color: #ef5e78;
   box-shadow: 0 1rem 1.8rem 0 rgba(235, 54, 87, 0.16);
+}
+.vip{
+  background-color: #b30000;
 }
 
 .seat-guide-container {
