@@ -1,10 +1,9 @@
-
 function TicketSummary() {
   return (
-    <div className="purchase-section-right ticket_summary">
+    <div className="purchase-section-right ticket_summary ">
       <h2 className="ticket-container-heading">Ticket Summary</h2>
 
-      <div className="ticket-container">
+      <div className="ticket-container md:sticky md:top-0">
         <div className="ticket-heading">
           <div className="ticket-movie-img-cont">
             <img

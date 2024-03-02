@@ -8,6 +8,8 @@ import 'react-lazy-load-image-component/src/effects/blur.css'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { ticketAction } from '@/store/ticket'
 
 import { useParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
@@ -24,7 +26,10 @@ import { MovieType } from '@/Interface/movie'
 
 export interface ShowTime {
   _id: string
-  screenRoomId: string
+  screenRoomId: {
+    _id: string
+    name : string
+  }
   cinemaId: {
     _id: string
     CinemaName: string
@@ -37,6 +42,7 @@ export interface ShowTime {
 }
 
 export const MovieInfoSection = () => {
+  const dispatch = useDispatch()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movies = useSelector((state: any) => state.movies.movies)
   const [date, setDate] = useState<Date | undefined>(new Date())
@@ -100,6 +106,17 @@ export const MovieInfoSection = () => {
     .filter(function (element: ShowTime) {
       return element !== undefined
     })
+  const handleChooseShowtime = (showtime: ShowTime) => {
+    dispatch(
+      ticketAction.addProperties({
+        id_showtime: showtime._id,
+        id_movie: _id,
+        hall_name: showtime.screenRoomId.name,
+        hall_id: showtime.screenRoomId._id
+      })
+    )
+    navigate('/purchase/seat')
+  }
 
   return (
     <div className="section-movie-info container ">
@@ -298,7 +315,7 @@ export const MovieInfoSection = () => {
                     <div
                       className="showtimes-schedule md:my-8 xs:my-10"
                       key={index}
-                      onClick={() => navigate('/purchase')}
+                      onClick={() => handleChooseShowtime(showtime)}
                     >
                       {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
                       <button className="showtimes-startime-btn border-2 border-primary-movieColor hover:bg-primary-movieColorSecond text-primary-infoMovie xs:w-52 xs:h-20 md:w-40 md:h-16">

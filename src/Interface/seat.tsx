@@ -8,7 +8,7 @@ export interface Seat {
   price: number
   row: number
   column: number
-  status: number
+  status: string
   ScreeningRoomId: Screeningrooms[]
   ShowScheduleId: string[]
   TimeSlotId: TimeSlot[]
