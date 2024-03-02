@@ -1,47 +1,52 @@
-// import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { HashLink } from 'react-router-hash-link'
-import SearchBar from './SearchBar/SearchBar'
-import { useContext, useState } from 'react'
-import { SignupModal } from '@/pages/modals/SignupModal'
-import { ContextMain } from '@/context/Context'
-import { LoginModal } from '@/pages/modals/LoginModal'
-import Profile from '@/pages/modals/Profile'
-import { MdLogout } from 'react-icons/md'
-import { toast } from 'react-toastify'
-import { ModeToggle } from './mode-toggle'
+import { useState, useContext } from 'react'; 
+import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
+import SearchBar from './SearchBar/SearchBar';
+import { SignupModal } from '@/pages/modals/SignupModal';
+import { ContextMain } from '@/context/Context';
+import { LoginModal } from '@/pages/modals/LoginModal';
+import Profile from '@/pages/modals/Profile';
+import { MdLogout } from 'react-icons/md';
+import { toast } from 'react-toastify';
+import { ModeToggle } from './mode-toggle';
 
 export const Navbar = () => {
-  const [showSignup, setShowSignup] = useState(false)
-  const [showSignIn, setShowSignIn] = useState(false)
-  const [showNav, setShowNav] = useState(false)
-  const [showProfile, setShowProfile] = useState(false)
-  // const [signUpState, setSignUpState] = useState(false)
-  // const navigate = useNavigate()
-  const { userDetail, isLogined, setIsLogined } = useContext<any>(ContextMain)
-  const toggleShowForm = () => {
-    setShowSignup((pre) => !pre)
-  }
+  const [showSignup, setShowSignup] = useState(false);
+  const [showSignIn, setShowSignIn] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showNav, setShowNav] = useState(false);
+  const [showMenu, setShowMenu] = useState(false); // New state for controlling menu display
+
+  const { userDetail, isLogined, setIsLogined } = useContext<any>(ContextMain); // UseContext without additional import
   const toggleShowNav = () => {
-    setShowNav((pre) => !pre)
-  }
+    setShowNav((prev) => !prev);
+  };
+  const toggleShowForm = () => {
+    setShowSignup((prev) => !prev);
+  };
+
   const toggleShowProfile = () => {
-    setShowProfile((pre) => !pre)
-  }
+    setShowProfile((prev) => !prev);
+  };
 
   const toggleShowFormSignIn = () => {
-    setShowSignIn((pre) => !pre)
-  }
+    setShowSignIn((prev) => !prev);
+  };
+
   const logout = (e: any) => {
-    localStorage.removeItem('Accesstoken')
-    setIsLogined(false)
-    toast.success('Đăng xuất thành công nhé <3')
-  }
+    localStorage.removeItem('Accesstoken');
+    setIsLogined(false);
+    toast.success('Đăng xuất thành công nhé <3');
+  };
+
+  const toggleShowMenu = () => { // Function to toggle menu display
+    setShowMenu((prev) => !prev);
+  };
 
   return (
     <header>
       <div>
-        <button className="btn-menu">
+        <button className="btn-menu" onClick={toggleShowMenu}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="menu-icon"
@@ -85,7 +90,7 @@ export const Navbar = () => {
       </div>
 
       <nav>
-        <ul className="nav-items">
+        <ul className={showMenu ? "nav-items show-nav" : "nav-items"}> {/* Use showMenu state to control menu display */}
           <li>
             <Link className="nav-item" to="/">
               Home
@@ -205,5 +210,5 @@ export const Navbar = () => {
         {showProfile && <Profile />}
       </div>
     </header>
-  )
-}
+  );
+};
