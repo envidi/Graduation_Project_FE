@@ -16,6 +16,10 @@ export const Navbar = () => {
   const [showSignIn, setShowSignIn] = useState(false)
   const [showNav, setShowNav] = useState(false)
   const [showProfile, setShowProfile] = useState(false)
+  const [showSignup, setShowSignup] = useState(false)
+  const [showSignIn, setShowSignIn] = useState(false)
+  const [showNav, setShowNav] = useState(false)
+  const [showProfile, setShowProfile] = useState(false)
   // const [signUpState, setSignUpState] = useState(false)
   // const navigate = useNavigate()
   const { userDetail, isLogined, setIsLogined } = useContext<any>(ContextMain)
@@ -106,6 +110,7 @@ export const Navbar = () => {
               About Us
             </Link>
           </li>
+          <li className="relative">
           <li className="relative">
             <SearchBar />
           </li>

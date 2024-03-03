@@ -379,7 +379,7 @@ header {
   border-radius: 11px;
   z-index: 2;
 }
-.signup-form2 {
+.signup-form2{
   position: fixed;
   width: 44.8rem;
   background-color: #fff;
@@ -390,7 +390,7 @@ header {
   border-radius: 11px;
   z-index: 2;
 }
-.login-form2 {
+.login-form2{
   position: fixed;
   width: 44.8rem;
   background-color: #fff;
