@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { toast } from 'react-toastify'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BarLoader from 'react-spinners/BarLoader'
 import { signup } from '@/api/auth'
@@ -30,7 +31,7 @@ export const SignupModal = () => {
     },
     onError() {
       toast.error('Đăng ký thất bại, kiểm tra lại thông tin giúp tớ điii <3')
-    }
+    },
   })
 
   const formikValidate = useFormik<FormValues>({
@@ -40,10 +41,12 @@ export const SignupModal = () => {
       password: '',
       address: '',
       mobile: '',
-      confirmPassword: ''
+      confirmPassword: '',
     },
 
     validate: (values) => {
+      console.log('values :  ', values)
+
       const errors: Partial<FormValues> = {}
 
       if (!values.name || values.name.length <= 6) {
@@ -78,6 +81,7 @@ export const SignupModal = () => {
       return errors
     },
     onSubmit: async (values) => {
+      console.log('value check ', values)
       const data = new FormData()
       data.set('name', values.name)
       data.set('email', values.email)
@@ -95,12 +99,14 @@ export const SignupModal = () => {
         ) // hoặc giá trị mặc định khác tùy thuộc vào logic của bạn
       }
 
+      console.log('checkl', Object.fromEntries(data))
       try {
-        await CreateUser.mutateAsync(data)
+        const response = await CreateUser.mutateAsync(data)
+        console.log('res', response)
       } catch (error) {
         console.error('Lỗi khi gọi API:', error)
       }
-    }
+    },
   })
   const togglePassState = (e: any) => {
     e.preventDefault()
@@ -108,9 +114,12 @@ export const SignupModal = () => {
   }
   const handleChangeFiles = (e: any) => {
     setFiles(e.target.files)
+    console.log('file ', files)
   }
 
   const resetFormik = () => {
+    console.log('reset')
+
     formikValidate.resetForm({
       values: {
         name: '',
@@ -118,8 +127,8 @@ export const SignupModal = () => {
         address: '',
         mobile: '',
         password: '',
-        confirmPassword: ''
-      }
+        confirmPassword: '',
+      },
     })
   }
 
