@@ -122,12 +122,12 @@ export const Navbar = () => {
 
       <nav ref={navRef}>
         <ul className={showNavBar ? 'nav-items show-nav' : 'nav-items'}>
-          <li>
+          <li >
             <Link className="nav-item" to="/">
               Home
             </Link>
-          </li>
-          <li>
+          </li >
+          <li >
             <Link className="nav-item" to="/showtimes">
               Showtimes
             </Link>
