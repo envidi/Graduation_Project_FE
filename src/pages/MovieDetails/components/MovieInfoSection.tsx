@@ -9,7 +9,8 @@ import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { ticketAction } from '@/store/ticket'
+import { TicketType, ticketAction } from '@/store/ticket'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 import { useParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
@@ -28,7 +29,7 @@ export interface ShowTime {
   _id: string
   screenRoomId: {
     _id: string
-    name : string
+    name: string
   }
   cinemaId: {
     _id: string
@@ -45,6 +46,7 @@ export const MovieInfoSection = () => {
   const dispatch = useDispatch()
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movies = useSelector((state: any) => state.movies.movies)
+  const [, setTicket] = useLocalStorage<TicketType | null>('ticket', null)
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [currentLocation, setCurrentLocation] = useState<string>('')
   const navigate = useNavigate()
@@ -88,7 +90,8 @@ export const MovieInfoSection = () => {
     categoryCol,
     fromDate,
     desc,
-    showTimeCol
+    showTimeCol,
+    moviePriceCol
   } = dataMovie
 
   const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
@@ -107,14 +110,20 @@ export const MovieInfoSection = () => {
       return element !== undefined
     })
   const handleChooseShowtime = (showtime: ShowTime) => {
-    dispatch(
-      ticketAction.addProperties({
-        id_showtime: showtime._id,
-        id_movie: _id,
-        hall_name: showtime.screenRoomId.name,
-        hall_id: showtime.screenRoomId._id
-      })
-    )
+    const ticketObject = {
+      id_showtime: showtime._id,
+      cinema_name: showtime.cinemaId.CinemaName,
+      id_movie: _id,
+      hall_name: showtime.screenRoomId.name,
+      hall_id: showtime.screenRoomId._id,
+      image_movie: image,
+      name_movie: name,
+      duration_movie: duration,
+      price_movie: moviePriceCol[0].price,
+      time_from: showtime.timeFrom
+    }
+    dispatch(ticketAction.addProperties(ticketObject))
+    setTicket(ticketObject)
     navigate('/purchase/seat')
   }
 

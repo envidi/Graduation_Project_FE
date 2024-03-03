@@ -2,13 +2,14 @@ import { convertNumberToAlphabet } from '@/utils/seatAlphaIndex'
 import { useEffect, useState } from 'react'
 import RenderSeatRow from './RenderSeatRow'
 import { Seat } from '@/Interface/seat'
+import { SeatUserList } from '@/Interface/ticket'
 interface RenderSeatLayoutType {
   seats: Seat[]
   // eslint-disable-next-line no-unused-vars
-  handleUserSeats: (seatId: string) => void
+  handleUserSeats: (seat: SeatUserList) => void
   // eslint-disable-next-line no-unused-vars
   handleSeatClick: (seat: Seat) => void
-  userSeatList: string[]
+  userSeatList: SeatUserList[]
 }
 
 function RenderSeatLayout({
@@ -31,7 +32,6 @@ function RenderSeatLayout({
     }
   }, [seats])
   return rows.map((row: Seat[], index: number) => {
-
     return (
       <div key={index} className="flex items-center w-full">
         <div className="text-3xl uppercase mr-10 text-primary-movieColor font-semibold">
