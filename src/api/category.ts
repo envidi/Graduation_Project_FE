@@ -1,3 +1,4 @@
+import { Category } from '@/admin/types/category'
 import instance from './config'
 
 export const getAllCategory = async () => {
@@ -6,5 +7,13 @@ export const getAllCategory = async () => {
 }
 export const getMovieByCategory = async (categoryId: string) => {
   const result = await instance.get('/category/query?id=' + categoryId)
-  return result.data.data
+  return result.data.data as Category[]
+}
+
+// admin
+
+//remove category
+export const removeCategory = async (id: string) => {
+  const result = await instance.delete(`/category/${id}`)
+  return result.data
 }
