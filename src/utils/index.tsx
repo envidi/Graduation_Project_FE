@@ -112,3 +112,29 @@ export function convertMintuteToHour(phut: number) {
 export function getFourConsecutiveDays() {
   return [...Array(4)].map((_, i) => new Date(Date.now() + i * 86400000))
 }
+export function formatVND(amount:number) {
+  // Chuyển số tiền thành chuỗi
+  const amountStr = amount.toString()
+
+  // Tạo một mảng để chứa các ký tự
+  const result = []
+
+  // Đếm số chữ số đã thêm vào
+  let count = 0
+
+  // Duyệt qua chuỗi số tiền theo chiều ngược
+  for (let i = amountStr.length - 1; i >= 0; i--) {
+    result.push(amountStr[i])
+    count++
+
+    // Thêm dấu phẩy sau mỗi 3 chữ số (trừ chữ số cuối cùng)
+    if (count % 3 === 0 && count < amountStr.length) {
+      result.push(',')
+    }
+  }
+
+  // Đảo ngược mảng kết quả và nối lại thành một chuỗi
+  const formattedAmount = result.reverse().join('') + ' VND'
+
+  return formattedAmount
+}

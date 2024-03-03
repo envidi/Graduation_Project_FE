@@ -1,13 +1,14 @@
 import { Seat } from '@/Interface/seat'
 import RenderSeat from './RenderSeat'
+import { SeatUserList } from '@/Interface/ticket'
 
 interface RenderSeatRowType {
   rowSeats: Seat[]
   // eslint-disable-next-line no-unused-vars
-  handleUserSeats: (seatId: string) => void
+  handleUserSeats: (seat: SeatUserList) => void
   // eslint-disable-next-line no-unused-vars
   handleSeatClick: (seat: Seat) => void
-  userSeatList: string[]
+  userSeatList: SeatUserList[]
 }
 function RenderSeatRow({
   rowSeats,

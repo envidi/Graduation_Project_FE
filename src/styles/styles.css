@@ -379,7 +379,7 @@ header {
   border-radius: 11px;
   z-index: 2;
 }
-.signup-form2{
+.signup-form2 {
   position: fixed;
   width: 44.8rem;
   background-color: #fff;
@@ -390,7 +390,7 @@ header {
   border-radius: 11px;
   z-index: 2;
 }
-.login-form2{
+.login-form2 {
   position: fixed;
   width: 44.8rem;
   background-color: #fff;
@@ -1379,7 +1379,7 @@ header {
   font-weight: 600;
   letter-spacing: 0.75px;
   color: #eb3656;
-  margin-bottom: 3.2rem;
+  margin-bottom: 1.2rem;
   padding-left: 2.4rem;
 }
 
@@ -1832,11 +1832,6 @@ header {
   margin-left: 4rem;
 }
 
-.booked {
-  background-color: #fbd7dd;
-  color: #777;
-}
-
 .seat:not(.booked) {
   cursor: pointer;
 }
@@ -1846,8 +1841,15 @@ header {
   background-color: #ef5e78;
   box-shadow: 0 1rem 1.8rem 0 rgba(235, 54, 87, 0.16);
 }
-.vip{
-  background-color: #b30000;
+.vip {
+  background-color: #db1f1f;
+}
+.vip:hover {
+  background-color: #ef5e78;
+}
+.sold {
+  background-color: #fbd7dd;
+  color: #777;
 }
 
 .seat-guide-container {

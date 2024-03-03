@@ -1,4 +1,4 @@
-export function convertNumberToAlphabet(num:number) {
+export function convertNumberToAlphabet(num: number) {
   const alphabetArray = [
     'a',
     'b',
@@ -34,4 +34,11 @@ export function convertNumberToAlphabet(num:number) {
   } else {
     return num.toString() // Trả về số nếu không nằm trong khoảng từ 1 đến 26
   }
+}
+export const changeStatusSeat = (status: string) => {
+  const objectStatus: { [key:string] : string} = {
+    VIP: 'vip',
+    available: 'available'
+  }
+  return objectStatus[status] || objectStatus['available']
 }

@@ -1,24 +1,26 @@
 import { useState } from 'react'
 import HashLoader from 'react-spinners/HashLoader'
 import { Seat } from '@/Interface/seat'
-import { useSelector } from 'react-redux'
 import useAllSeatByShowTime from '@/hooks/useAllSeatByShowTime'
 import RenderSeatLayout from './components/RenderSeatLayout'
+import { TicketType } from '@/store/ticket'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { useDispatch, useSelector } from 'react-redux'
+import { ticketAction } from '@/store/ticket'
+import { SeatUserList, TicketSelector } from '@/Interface/ticket'
 
 const SeatPage = () => {
-  // const [loading, setLoading] = useState(false)
-  // const [seats, setSeats] = useState<Seat[]>([])
-  const { hall_id, id_showtime } = useSelector(
-    (state: any) => state.ticket.ticket
+  const dispatch = useDispatch()
+  const { seat: seatChosen } = useSelector(
+    (state: TicketSelector) => state.ticket.ticket
   )
+  const [ticket] = useLocalStorage<TicketType | null>('ticket')
 
   const { data: seats, isLoading: loading } = useAllSeatByShowTime({
-    _hallId:hall_id,
-    _showId:id_showtime
+    _hallId: ticket?.hall_id || '',
+    _showId: ticket?.id_showtime || ''
   })
-  const [userSeatList, setUserSeatList] = useState<string[]>([])
-  const [selectedSeat, setSelectedSeat] = useState<Seat | null>(null)
-  // const [showPaymentSidebar, setShowPaymentSidebar] = useState(false)
+  const [, setSelectedSeat] = useState<Seat | null>(null)
 
   const override = {
     display: 'block',
@@ -28,21 +30,16 @@ const SeatPage = () => {
     return <HashLoader cssOverride={override} color="#eb3656" />
   }
 
-  const handleUserSeats = (seatId: string) => {
-    setUserSeatList((prevList) =>
-      prevList.includes(seatId)
-        ? prevList.filter((id) => id !== seatId)
-        : [...prevList, seatId]
-    )
-
-    // if (userSeatList.length === 0) {
-    //   setShowPaymentSidebar(false)
-    // }
+  const handleUserSeats = (seat: SeatUserList) => {
+    const prevListId = seatChosen.map((prev: SeatUserList) => prev.id)
+    const seatResult = prevListId.includes(seat.id)
+      ? seatChosen.filter((s: SeatUserList) => s.id !== seat.id)
+      : [...seatChosen, seat]
+    dispatch(ticketAction.addProperties({ seat: [...seatResult] }))
   }
 
   const handleSeatClick = (seat: Seat) => {
     setSelectedSeat(seat)
-    // setShowPaymentSidebar(true)
   }
 
   return (
@@ -64,7 +61,7 @@ const SeatPage = () => {
               <p className="seat-status-details">Selected</p>
             </div>
             <div className="flex items-center">
-              <div className="seat-selected-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
+              <div className="seat-selected-demo bg-[#db1f1f] lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
               <p className="seat-status-details">Vip</p>
             </div>
           </div>
@@ -77,7 +74,7 @@ const SeatPage = () => {
             {seats && seats.length > 0 && (
               <RenderSeatLayout
                 seats={seats}
-                userSeatList={userSeatList}
+                userSeatList={seatChosen}
                 handleUserSeats={handleUserSeats}
                 handleSeatClick={handleSeatClick}
               />

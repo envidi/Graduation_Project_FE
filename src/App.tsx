@@ -5,8 +5,8 @@ import { Route, Routes } from 'react-router-dom'
 import ClientLayout from './layouts/ClientLayout'
 
 import 'react-toastify/dist/ReactToastify.css'
-import { Bounce, ToastContainer, toast } from 'react-toastify'
-import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
+import { Bounce, ToastContainer } from 'react-toastify'
+
 import { Suspense, lazy, useEffect } from 'react'
 import { moviesAction } from './store/movie'
 import { useDispatch } from 'react-redux'
@@ -14,13 +14,10 @@ import { AnimatePresence } from 'framer-motion'
 import { PageLoader } from './components/PageLoader'
 // import Profile from './pages/modals/Profile'
 import useAllMovie from './hooks/useAllMovie'
-import NotFound from './pages/NotFound/NotFound'
-import PurchaseLayout from './layouts/PurchaseLayout'
-import SeatPage from './pages/SeatPage/SeatPage'
-import Profile from './admin/pages/Profile'
-import PageTitle from './admin/components/PageTitle'
-import ECommerce from './admin/pages/Dashboard/ECommerce'
 
+import Profile from './admin/pages/Profile'
+// import PageTitle from './admin/components/PageTitle'
+import ECommerce from './admin/pages/Dashboard/ECommerce'
 import SignIn from './admin/pages/Authentication/SignIn'
 import SignUp from './admin/pages/Authentication/SignUp'
 import Chart from './admin/pages/Chart'
@@ -32,12 +29,17 @@ import Buttons from './admin/pages/UiElements/Buttons'
 import Calendar from './admin/pages/Calendar'
 import Settings from './admin/pages/Settings'
 import CategoryPage from './admin/pages/Category'
+
+import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
+import NotFound from './pages/NotFound/NotFound'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
 const HomePage = lazy(() => import('./pages/Home/HomePage'))
 const MoviePage = lazy(() => import('./pages/MoviePage/MoviePage'))
 const FoodPage = lazy(() => import('./pages/FoodPage/FoodPage'))
+const PurchaseLayout = lazy(() => import('./layouts/PurchaseLayout'))
+const SeatPage = lazy(() => import('./pages/SeatPage/SeatPage'))
 
 function App() {
   const dispatch = useDispatch()
@@ -84,7 +86,14 @@ function App() {
                   </Suspense>
                 }
               />
-              <Route path="/purchase" element={<PurchaseLayout />}>
+              <Route
+                path="/purchase"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <PurchaseLayout />
+                  </Suspense>
+                }
+              >
                 <Route
                   path="food"
                   element={
@@ -124,6 +133,9 @@ function App() {
         </AnimatePresence>
 
         <ToastContainer
+          style={{
+            fontSize: '1.8rem'
+          }}
           position="top-right"
           autoClose={5000}
           hideProgressBar={false}
