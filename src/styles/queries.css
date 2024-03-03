@@ -123,11 +123,7 @@ html {
   left: 50%;
   transform: translateX(-50%);
 }
-/* .show-nav li{
-  border-bottom: 2px solid #cdcdcd;
-  width: 100%;
-  display: block;
-} */
+
 .nav-items {
   display: flex;
   flex-direction: column;
@@ -273,12 +269,12 @@ left: -100%;
 .home-collection-container,
 .details-collection-container {
   overflow-x: auto;
-  /* justify-content: start; */
+  /* justify-content: start;  */
 }
 
-.home-collection-container {
-  grid-template-columns: repeat(6, 27rem);
-}
+/* .home-collection-container {
+  grid-template-columns: repeat(2, 27rem);
+} */
 
 .details-collection-container {
   /* grid-template-columns: repeat(5, 27rem); */

@@ -45,7 +45,7 @@ export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
       <div className="home-collection-container">
         {dataMovie && dataMovie.map((movie: MovieType, idx: number) => {
           // Kiểm tra xem phim này có phải là phim đang được hiển thị không, nếu có thì hiển thị, ngược lại ẩn đi
-          const isVisible = idx >= currentMovieIndex && idx < currentMovieIndex + 3;
+          const isVisible = idx >= currentMovieIndex && idx < currentMovieIndex + getNumberOfMoviesToDisplay();
           return (
             <div key={idx} style={{ display: isVisible ? 'block' : 'none' }}>
               <CollectionCard className="" movie={movie} />
@@ -55,4 +55,19 @@ export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
       </div>
     </section>
   )
+}
+
+// Hàm để lấy số lượng phim cần hiển thị dựa vào kích thước màn hình
+const getNumberOfMoviesToDisplay = () => {
+  // Kiểm tra kích thước màn hình và trả về số lượng phim tương ứng
+  if (window.innerWidth >= 1024) {
+    // Máy tính
+    return 3;
+  } else if (window.innerWidth >= 768) {
+    // iPad
+    return 2;
+  } else {
+    // Màn hình nhỏ hơn iPad, có thể điều chỉnh tùy theo yêu cầu
+    return 1;
+  }
 }
