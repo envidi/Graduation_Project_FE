@@ -1,7 +1,8 @@
-import { useState, useContext } from 'react'; 
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 import SearchBar from './SearchBar/SearchBar';
+import { useContext } from 'react';
 import { SignupModal } from '@/pages/modals/SignupModal';
 import { ContextMain } from '@/context/Context';
 import { LoginModal } from '@/pages/modals/LoginModal';
@@ -13,16 +14,22 @@ import { ModeToggle } from './mode-toggle';
 export const Navbar = () => {
   const [showSignup, setShowSignup] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
-  const [showProfile, setShowProfile] = useState(false);
   const [showNav, setShowNav] = useState(false);
-  const [showMenu, setShowMenu] = useState(false); // New state for controlling menu display
+  const [showNavBar, setShowNavBar] = useState(false);
+  const [showProfile, setShowProfile] = useState(false);
+  const { userDetail, isLogined, setIsLogined } = useContext<any>(ContextMain);
+  const navRef = useRef(null);
 
-  const { userDetail, isLogined, setIsLogined } = useContext<any>(ContextMain); // UseContext without additional import
+  const toggleShowForm = () => {
+    setShowSignup((prev) => !prev);
+  };
+
   const toggleShowNav = () => {
     setShowNav((prev) => !prev);
   };
-  const toggleShowForm = () => {
-    setShowSignup((prev) => !prev);
+
+  const toggleShowNavBar = () => {
+    setShowNavBar((prev) => !prev);
   };
 
   const toggleShowProfile = () => {
@@ -39,28 +46,52 @@ export const Navbar = () => {
     toast.success('Đăng xuất thành công nhé <3');
   };
 
-  const toggleShowMenu = () => { // Function to toggle menu display
-    setShowMenu((prev) => !prev);
-  };
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (navRef.current && !navRef.current.contains(event.target)) {
+        setShowNavBar(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <header>
       <div>
-        <button className="btn-menu" onClick={toggleShowMenu}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="menu-icon"
-            viewBox="0 0 512 512"
-          >
-            <path
-              fill="none"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeMiterlimit="10"
-              strokeWidth="32"
-              d="M80 160h352M80 256h352M80 352h352"
-            />
-          </svg>
+        <button className="btn-menu" onClick={toggleShowNavBar}>
+          {showNavBar ? (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="close-icon"
+              viewBox="0 0 24 24"
+            >
+              <path fill="none" d="M0 0h24v24H0V0z" />
+              <path
+                fill="currentColor"
+                d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+              />
+            </svg>
+          ) : (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="menu-icon"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeMiterlimit="10"
+                strokeWidth="32"
+                d="M80 160h352M80 256h352M80 352h352"
+              />
+            </svg>
+          )}
         </button>
 
         <HashLink className="logo-container" to="#headerTop">
@@ -89,8 +120,8 @@ export const Navbar = () => {
         </HashLink>
       </div>
 
-      <nav>
-        <ul className={showMenu ? "nav-items show-nav" : "nav-items"}> {/* Use showMenu state to control menu display */}
+      <nav ref={navRef}>
+        <ul className={showNavBar ? 'nav-items show-nav' : 'nav-items'}>
           <li>
             <Link className="nav-item" to="/">
               Home
@@ -128,7 +159,7 @@ export const Navbar = () => {
             >
               Hello : {userDetail?.message?.name}
             </p>
-            <MdLogout className="text-2xl cursor-pointer " onClick={logout} />
+            <MdLogout className="text-2xl cursor-pointer" onClick={logout} />
           </>
         ) : (
           <>
@@ -175,26 +206,18 @@ export const Navbar = () => {
 
               {showNav && (
                 <div className="signup-options">
-                  {
-                    <ul className="signup-buttons">
-                      <li>
-                        <button
-                          className="signup-button"
-                          onClick={toggleShowForm}
-                        >
-                          Sign up
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          className="login-button"
-                          onClick={toggleShowFormSignIn}
-                        >
-                          Sign in
-                        </button>
-                      </li>
-                    </ul>
-                  }
+                  <ul className="signup-buttons">
+                    <li>
+                      <button className="signup-button" onClick={toggleShowForm}>
+                        Sign up
+                      </button>
+                    </li>
+                    <li>
+                      <button className="login-button" onClick={toggleShowFormSignIn}>
+                        Sign in
+                      </button>
+                    </li>
+                  </ul>
                 </div>
               )}
             </div>

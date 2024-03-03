@@ -123,7 +123,39 @@
     left: 50%;
     transform: translateX(-50%);
   }
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+     background-color: #313441; 
+    position: fixed; /* Menu được cố định trên cùng của trang */
+    top: 0; /* Hiển thị ở đỉnh của trang */
+    left: -100%; /* Menu ban đầu sẽ ẩn ngoài màn hình */
+    width: 50%;  /*Chiều rộng của menu */
+    height: 100vh; /* Chiều cao của menu bằng chiều cao của trình duyệt */
+    /* transition: left 0.3s ease; Hiệu ứng chuyển động */
+    z-index: 999; /* Đảm bảo menu hiển thị trên cùng */
+    margin-left: 7%;
+  }
+  .nav-items {
+    color: ffff;
+    padding:20px
+  }
+  .close-icon{
+    display: block;
+  }
+  .nav-item :hover {
+    background-color: #eb3656; /* Màu nền khi hover */
+    color: #ffff; /* Màu chữ khi hover */
+  }
 
+  .nav-item{
+    margin-bottom: 10px;
+  }
+  
+  .show-nav {
+    left: 0;
+    /* display: block Hiển thị menu khi được kích hoạt */
+  }
   .heading-primary {
     font-size: 4.4rem;
   }
@@ -262,7 +294,7 @@
     display: block;
   }
 
-  nav,
+  /* nav, */
   .btn-signup-arrow,
   .btn-logout,
   .nav-signed-name {
@@ -283,6 +315,7 @@
   .ticket-heading {
     width: 32.5rem;
   }
+  
 }
 
 /* *************************** */
@@ -290,6 +323,37 @@
 /* *************************** */
 
 @media (max-width: 44em) {
+
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+     background-color:  #313441; 
+    position: fixed; /* Menu được cố định trên cùng của trang */
+    top: 0; /* Hiển thị ở đỉnh của trang */
+    left: -100%; /* Menu ban đầu sẽ ẩn ngoài màn hình */
+    width: 50%;  /*Chiều rộng của menu */
+    height: 100vh; /* Chiều cao của menu bằng chiều cao của trình duyệt */
+    /* transition: left 0.3s ease; Hiệu ứng chuyển động */
+    z-index: 999; /* Đảm bảo menu hiển thị trên cùng */
+    margin-left: 7%;
+  }
+  .nav-items {
+    color: ffff;
+    padding:20px
+  }
+  .nav-item :hover {
+    background-color: #eb3656; /* Màu nền khi hover */
+    color: #ffff; /* Màu chữ khi hover */
+  }
+
+  .nav-item{
+    margin-bottom: 10px;
+  }
+  
+  .show-nav {
+    left: 0;
+    /* display: block Hiển thị menu khi được kích hoạt */
+  }
   .hero-img {
     width: 65%;
   }
