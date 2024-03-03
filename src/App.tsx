@@ -75,6 +75,14 @@ function App() {
               <Route path="/showtimes" element={<ShowtimesPage />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="*" element={<NotFound />} />
+              <Route
+                path="/movies"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <MoviePage />
+                  </Suspense>
+                }
+              />
               <Route path="/purchase" element={<PurchaseLayout />}>
                 <Route
                   path="food"
@@ -109,14 +117,6 @@ function App() {
               <Route path="ui/buttons" element={<Buttons />} />
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="auth/signup" element={<SignUp />} />
-              <Route
-                path="/movies"
-                element={
-                  <Suspense fallback={<PageLoader />}>
-                    <MoviePage />
-                  </Suspense>
-                }
-              />
             </Route>
           </Routes>
         </AnimatePresence>
