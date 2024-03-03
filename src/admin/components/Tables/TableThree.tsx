@@ -1,31 +1,31 @@
-import { Package } from '../../types/package';
+import { Package } from '../../types/package'
 
 const packageData: Package[] = [
   {
     name: 'Free package',
     price: 0.0,
-    invoiceDate: `Jan 13,2023`,
-    status: 'Paid',
+    invoiceDate: 'Jan 13,2023',
+    status: 'Paid'
   },
   {
     name: 'Standard Package',
     price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: 'Paid',
+    invoiceDate: 'Jan 13,2023',
+    status: 'Paid'
   },
   {
     name: 'Business Package',
     price: 99.0,
-    invoiceDate: `Jan 13,2023`,
-    status: 'Unpaid',
+    invoiceDate: 'Jan 13,2023',
+    status: 'Unpaid'
   },
   {
     name: 'Standard Package',
     price: 59.0,
-    invoiceDate: `Jan 13,2023`,
-    status: 'Pending',
-  },
-];
+    invoiceDate: 'Jan 13,2023',
+    status: 'Pending'
+  }
+]
 
 const TableThree = () => {
   return (
@@ -68,8 +68,8 @@ const TableThree = () => {
                       packageItem.status === 'Paid'
                         ? 'bg-success text-success'
                         : packageItem.status === 'Unpaid'
-                        ? 'bg-danger text-danger'
-                        : 'bg-warning text-warning'
+                          ? 'bg-danger text-danger'
+                          : 'bg-warning text-warning'
                     }`}
                   >
                     {packageItem.status}
@@ -150,7 +150,7 @@ const TableThree = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TableThree;
+export default TableThree

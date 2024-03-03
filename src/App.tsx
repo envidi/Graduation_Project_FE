@@ -31,6 +31,7 @@ import Alerts from './admin/pages/UiElements/Alerts'
 import Buttons from './admin/pages/UiElements/Buttons'
 import Calendar from './admin/pages/Calendar'
 import Settings from './admin/pages/Settings'
+import CategoryPage from './admin/pages/Category'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -106,6 +107,7 @@ function App() {
             <Route path="/admin">
               {/* Define the routes for the admin section */}
               <Route index element={<ECommerce />} />
+              <Route path="category" element={<CategoryPage />} />
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
               <Route path="forms/form-elements" element={<FormElements />} />
