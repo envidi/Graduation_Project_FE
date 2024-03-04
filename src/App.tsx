@@ -32,6 +32,8 @@ import CategoryPage from './admin/pages/Category'
 
 import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
+import CategoryAdd from './admin/pages/Category/Add'
+import CategoryEdit from './admin/pages/Category/Edit'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -116,7 +118,11 @@ function App() {
             <Route path="/admin">
               {/* Define the routes for the admin section */}
               <Route index element={<ECommerce />} />
-              <Route path="category" element={<CategoryPage />} />
+              <Route path="category">
+                <Route index element={<CategoryPage />} />
+                <Route path="add" element={<CategoryAdd />} />
+                <Route path="edit/:id" element={<CategoryEdit />} />
+              </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
               <Route path="forms/form-elements" element={<FormElements />} />
