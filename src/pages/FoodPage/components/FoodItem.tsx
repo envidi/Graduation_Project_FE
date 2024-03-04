@@ -1,32 +1,44 @@
-import { FoodType } from '@/Interface/food'
+import { FoodCollectionType, FoodType } from '@/Interface/food'
 import { Star } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import { Minus } from 'lucide-react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { useDispatch } from 'react-redux'
-import { foodsAction } from '@/store/food'
+import { useDispatch, useSelector } from 'react-redux'
+import { FoodSelector, foodsAction } from '@/store/food'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { TicketType } from '@/store/ticket'
 
-function FoodItem({ food }: FoodType) {
+function FoodItem({ food, index }: FoodType) {
   const dispatch = useDispatch()
-
-  const handleIncrementFood = (food: any) => {
+  const foods = useSelector((state: FoodSelector) => state.foods.foods)
+  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
+  const handleIncrementFood = (food: FoodCollectionType) => {
     const newFood = {
-      name : food.name,
-      price : food.price,
-      id : food._id,
+      name: food.name,
+      price: food.price,
+      image: food.image,
+      _id: food._id,
       quantity: 1
     }
     dispatch(foodsAction.incrementFood(newFood))
   }
-  const handleDecrementFood = (food: any) => {
+  const handleDecrementFood = (food: FoodCollectionType) => {
     const newFood = {
-      name : food.name,
-      price : food.price,
-      id : food._id,
+      name: food.name,
+      price: food.price,
+      image: food.image,
+      _id: food._id,
       quantity: 1
     }
     dispatch(foodsAction.decrementFood(newFood))
   }
+
+  const valueInput =
+    foods[index]?._id === food._id && foods[index]?.quantity
+      ? foods[index]?.quantity
+      : ticket?.foods && ticket?.foods[index]?.quantity
+        ? ticket.foods[index]?.quantity
+        : 0
   return (
     <div className="showtimes-schedule md:my-8 xs:my-10">
       {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
@@ -59,17 +71,17 @@ function FoodItem({ food }: FoodType) {
               Order now
             </div> */}
           <div className="flex gap-4  ">
-            <span
+            <button
               onClick={() => handleDecrementFood(food)}
               className="border-[1px] border-primary-nameMovie flex items-center rounded-lg sm:px-2 sm:py-2 xs:px-5 xs:py-3 hover:bg-primary-movieColor hover:border-primary-movieColor hover:cursor-pointer"
             >
               <Minus size={18} />
-            </span>
+            </button>
             <input
               type="text"
               className="lg:w-20 md:w-20 sm:w-16 xs:w-20 bg-transparent border-primary-nameMovie border-[1px] rounded-lg outline-none px-3 text-2xl py-2"
               onChange={() => console.log('render input')}
-              value={0}
+              value={valueInput}
             />
             <span
               onClick={() => handleIncrementFood(food)}

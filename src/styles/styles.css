@@ -1386,7 +1386,7 @@ header {
 .ticket-container {
   display: flex;
   flex-direction: column;
-  height: 64rem;
+  /* height: 64rem; */
   background-color: #151723;
   box-shadow: 0 1.1rem 1.6rem rgba(17, 17, 17, 0.21);
   padding: 2.4rem;
@@ -1435,7 +1435,8 @@ header {
 }
 
 .ticket-info {
-  margin: 4.8rem 0;
+  margin-top: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 .ticket-info-list {

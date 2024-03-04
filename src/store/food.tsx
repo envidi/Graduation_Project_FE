@@ -1,5 +1,22 @@
+import { FoodItemState } from '@/Interface/food'
 import { createSlice } from '@reduxjs/toolkit'
 
+interface FoodAction {
+  payload: FoodItemState
+}
+interface FoodActionFetchData {
+  payload: FoodItemState[]
+}
+
+interface FoodState {
+  foods: FoodItemState[]
+}
+export interface FoodSelectorChild {
+  foods: FoodItemState[]
+}
+export interface FoodSelector {
+  foods: FoodSelectorChild
+}
 const foodInitialState = {
   foods: []
 }
@@ -8,14 +25,18 @@ const foods = createSlice({
   name: 'foods',
   initialState: foodInitialState,
   reducers: {
-    incrementFood(state: any, action: any) {
+    fetchData(state: FoodState, action: FoodActionFetchData) {
+      console.log('action.payload',action.payload)
+      state.foods = [...action.payload]
+    },
+    incrementFood(state: FoodState, action: FoodAction) {
       const existFood = state.foods.some(
-        (food: any) => food.id === action.payload.id
+        (food: FoodItemState) => food._id === action.payload._id
       )
       if (existFood) {
         state.foods = [
-          ...state.foods.map((food: any) => {
-            if (food.id === action.payload.id) {
+          ...state.foods.map((food: FoodItemState) => {
+            if (food._id === action.payload._id) {
               return {
                 ...food,
                 quantity: food.quantity + 1
@@ -28,19 +49,10 @@ const foods = createSlice({
       }
       state.foods = [...state.foods, action.payload]
     },
-    decrementFood(state: any, action: any) {
-      const existFood = state.foods.find((food) => {
-        return food.id == action.payload.id
-      })
-      if (existFood.quantity <= 1) {
-        state.foods = [
-          ...state.foods.filter((food: any) => food.id !== action.payload.id)
-        ]
-        return
-      }
+    decrementFood(state: FoodState, action: FoodAction) {
       state.foods = [
-        ...state.foods.map((food: any) => {
-          if (food.id === action.payload.id) {
+        ...state.foods.map((food: FoodItemState) => {
+          if (food._id === action.payload._id && food.quantity >= 1) {
             return {
               ...food,
               quantity: food.quantity - 1
