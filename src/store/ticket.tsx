@@ -1,3 +1,4 @@
+import { FoodItemState } from '@/Interface/food'
 import { SeatUserList } from '@/Interface/ticket'
 import { createSlice } from '@reduxjs/toolkit'
 
@@ -16,7 +17,9 @@ export interface TicketType {
   time_from?: string
   cinema_name?: string
   seat?: SeatUserList[]
-  price_movie ?: number
+  price_movie ?: number,
+  foods ?: FoodItemState[],
+  ticketAmount?: number
 }
 interface TicketState {
   ticket: TicketType
@@ -34,7 +37,9 @@ const ticketInitialState: TicketState = {
     time_from: '',
     cinema_name: '',
     seat: [],
-    price_movie: 0
+    price_movie: 0,
+    foods : [],
+    ticketAmount : 0
   }
 }
 
