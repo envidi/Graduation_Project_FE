@@ -16,9 +16,9 @@ export interface TicketType {
   duration_movie?: number
   time_from?: string
   cinema_name?: string
-  seat?: SeatUserList[]
-  price_movie ?: number,
-  foods ?: FoodItemState[],
+  seat?: SeatUserList[] | null
+  price_movie?: number
+  foods?: FoodItemState[]
   ticketAmount?: number
 }
 interface TicketState {
@@ -38,8 +38,8 @@ const ticketInitialState: TicketState = {
     cinema_name: '',
     seat: [],
     price_movie: 0,
-    foods : [],
-    ticketAmount : 0
+    foods: [],
+    ticketAmount: 0
   }
 }
 
@@ -47,6 +47,12 @@ const ticket = createSlice({
   name: 'ticket',
   initialState: ticketInitialState,
   reducers: {
+    fetchSeat(state: TicketState, action: any) {
+      state.ticket = {
+        ...state.ticket,
+        seat: [...action.payload]
+      }
+    },
     addProperties(state: TicketState, action: TicketAction) {
       state.ticket = {
         ...state.ticket,

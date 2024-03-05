@@ -1852,6 +1852,9 @@ header {
   background-color: #fbd7dd;
   color: #777;
 }
+.selected{
+  background-color: #ef5e78;
+}
 
 .seat-guide-container {
   display: flex;

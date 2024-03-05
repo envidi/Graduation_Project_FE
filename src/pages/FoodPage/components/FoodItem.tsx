@@ -11,7 +11,7 @@ import { TicketType } from '@/store/ticket'
 function FoodItem({ food, index }: FoodType) {
   const dispatch = useDispatch()
   const foods = useSelector((state: FoodSelector) => state.foods.foods)
-  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
+  const [ticket] = useLocalStorage<TicketType>('ticket')
   const handleIncrementFood = (food: FoodCollectionType) => {
     const newFood = {
       name: food.name,

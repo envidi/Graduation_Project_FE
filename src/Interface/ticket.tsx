@@ -7,7 +7,12 @@ export interface TicketSelector {
   ticket: TicketSelectorChild
 }
 export interface SeatUserList {
-    id: string
+    _id: string
     name: string
+    typeSeat : string
+    status : string
     price : number
+    selected : boolean
+    row: number,
+    column: number
   }
