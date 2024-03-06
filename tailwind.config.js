@@ -40,7 +40,8 @@ module.exports = {
         border: {
           DEFAULT: 'hsl(var(--border))',
           calendarBorder: 'var(--calendar-border)',
-          borderSocialLink: 'hsl(var(--border-social-link))'
+          borderSocialLink: 'hsl(var(--border-social-link))',
+          borderPayment: 'hsl(var(--border-payment))'
         },
         input: 'hsl(var(--input))',
         shadow: {
@@ -53,6 +54,7 @@ module.exports = {
           innerSection: 'hsl(var(--bg-section-inner))',
           card: 'hsl(var(--bg-collection-card))',
           secondary: 'hsl(var(--bg-secondary))',
+          four: 'hsl(var(--bg-third))',
           third: 'hsl(var(--bg-showtime))',
           headerShow: 'hsl(var(--bg-headerShowTime))',
           btnControllerCarousel: 'hsl(var(--button-control-carousel))',

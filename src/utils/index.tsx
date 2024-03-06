@@ -112,7 +112,7 @@ export function convertMintuteToHour(phut: number) {
 export function getFourConsecutiveDays() {
   return [...Array(4)].map((_, i) => new Date(Date.now() + i * 86400000))
 }
-export function formatVND(amount:number) {
+export function formatVND(amount: number) {
   // Chuyển số tiền thành chuỗi
   const amountStr = amount.toString()
 
@@ -137,4 +137,31 @@ export function formatVND(amount:number) {
   const formattedAmount = result.reverse().join('') + ' VND'
 
   return formattedAmount
+}
+export function getCurrentDay() {
+  const ngayHienTai = new Date()
+
+  // Tạo một mảng chứa tên các tháng
+  const thang = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]
+
+  // Lấy thông tin về ngày, tháng và năm
+  const ngay = ngayHienTai.getDate()
+  const tenThang = thang[ngayHienTai.getMonth()]
+  const nam = ngayHienTai.getFullYear()
+
+  // Định dạng ngày theo yêu cầu
+  return tenThang + ' ' + ngay + ', ' + nam
 }

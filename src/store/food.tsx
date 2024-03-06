@@ -26,7 +26,6 @@ const foods = createSlice({
   initialState: foodInitialState,
   reducers: {
     fetchData(state: FoodState, action: FoodActionFetchData) {
-      console.log('action.payload',action.payload)
       state.foods = [...action.payload]
     },
     incrementFood(state: FoodState, action: FoodAction) {
