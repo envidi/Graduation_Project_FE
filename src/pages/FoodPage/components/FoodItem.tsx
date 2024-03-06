@@ -11,7 +11,7 @@ import { TicketType } from '@/store/ticket'
 function FoodItem({ food, index }: FoodType) {
   const dispatch = useDispatch()
   const foods = useSelector((state: FoodSelector) => state.foods.foods)
-  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
+  const [ticket] = useLocalStorage<TicketType>('ticket')
   const handleIncrementFood = (food: FoodCollectionType) => {
     const newFood = {
       name: food.name,
@@ -33,12 +33,7 @@ function FoodItem({ food, index }: FoodType) {
     dispatch(foodsAction.decrementFood(newFood))
   }
 
-  const valueInput =
-    foods[index]?._id === food._id && foods[index]?.quantity
-      ? foods[index]?.quantity
-      : ticket?.foods && ticket?.foods[index]?.quantity
-        ? ticket.foods[index]?.quantity
-        : 0
+
   return (
     <div className="showtimes-schedule md:my-8 xs:my-10">
       {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
@@ -81,7 +76,7 @@ function FoodItem({ food, index }: FoodType) {
               type="text"
               className="lg:w-20 md:w-20 sm:w-16 xs:w-20 bg-transparent border-primary-nameMovie border-[1px] rounded-lg outline-none px-3 text-2xl py-2"
               onChange={() => console.log('render input')}
-              value={valueInput}
+              value={food.quantity}
             />
             <span
               onClick={() => handleIncrementFood(food)}

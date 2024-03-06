@@ -24,6 +24,8 @@ import {
 import { FoodItemState } from '@/Interface/food'
 import { FoodSelector } from '@/store/food'
 import { useLocation } from 'react-router-dom'
+import TicketItem from './Ticket/TicketItem'
+import TicketList from './Ticket/TicketList'
 
 function TicketSummary() {
   const navigate = useNavigate()
@@ -42,16 +44,33 @@ function TicketSummary() {
     duration_movie = 0,
     cinema_name = '',
     price_movie = 0,
-    seat: seatsTicket = [],
+    seat: seatStorage = [],
     foods: foodsTicket = [],
     ticketAmount = 0
   } = ticket
-  const total =
-    seat &&
-    seat.reduce((acc: number, s: SeatUserList) => {
-      return s.price + acc
-    }, 0) + price_movie
+  const totalFoodPrice = foods
+    ? foods.reduce((acc: number, s: any) => {
+        return s.price * s.quantity + acc
+      }, 0)
+    : 0
+  const totalSeatPrice =
+    seat && seat.length > 0
+      ? seat
+          .filter((s) => s.selected)
+          .reduce((acc: number, s: SeatUserList) => {
+            return s.price + acc
+          }, 0)
+      : seatStorage
+        ? seatStorage
+            .filter((s) => s.selected)
+            .reduce((acc: number, s: SeatUserList) => {
+              return s.price + acc
+            }, 0)
+        : 0
+  const total = totalSeatPrice + price_movie + totalFoodPrice
 
+
+  // console.log(total)
   // const handlePurchaseTicket = () => {
   //   if (seat.length == 0) {
   //     toast.error('Please select seat !', {
@@ -61,6 +80,11 @@ function TicketSummary() {
   //   }
   //   navigate('/purchase/food')
   // }
+  const mapData = (data: SeatUserList[]) => {
+    const filteredData = data.filter((seat: SeatUserList) => seat.selected)
+    return filteredData.map((seat: SeatUserList) => seat.name).join(', ')
+  }
+
   const handlePurchaseSeat = () => {
     if (seat.length == 0) {
       toast.error('Please select seat !', {
@@ -72,14 +96,13 @@ function TicketSummary() {
     setTicket({
       ...ticket,
       seat: [...seat],
-      ticketAmount: seat.length
+      total,
+      ticketAmount: seat.filter((s) => s.selected).length
     })
     navigate('/purchase/food')
   }
+
   const handlePurchaseFood = () => {
-    // const foodFiltered = foods.filter(
-    //   (food: FoodItemState) => food.quantity > 0
-    // )
     setTicket({
       ...ticket,
       foods: [...foods]
@@ -112,147 +135,65 @@ function TicketSummary() {
 
         <div className="ticket-info">
           <ul className="ticket-info-list">
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <Location />
-                <p>Location</p>
-              </div>
+            <TicketItem
+              icon={<Location />}
+              title={'Location'}
+              name={cinema_name}
+            />
+            <TicketItem
+              icon={<ShowDate />}
+              title={'Show Date'}
+              name={chuyenDoiNgayDauVao(getDay(time_from))}
+            />
+            <TicketItem
+              icon={<Hall />}
+              title={'Hall number'}
+              name={hall_name}
+            />
+            <TicketItem
+              icon={<ShowTime />}
+              title={'Show Time'}
+              name={convertAmPm(getHourAndMinute(time_from))}
+            />
+            <TicketItem
+              icon={<TicketAmount />}
+              title={'Ticket Amount'}
+              name={
+                seat && seat.length != 0
+                  ? seat.filter((s) => s.selected).length
+                  : ticketAmount
+                    ? ticketAmount
+                    : '--'
+              }
+            />
+            <TicketItem
+              icon={<Armchair size={16} />}
+              title={'Seats'}
+              name={
+                seat && seat.length != 0
+                  ? mapData(seat)
+                  : seatStorage && seatStorage.length > 0
+                    ? mapData(seatStorage)
+                    : '--'
+              }
+            />
 
-              <p className="ticket-info-val">
-                {/* {userLocation ? userLocation.location : '--'} */}
-                {cinema_name}
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <ShowDate />
-                <p>Show Date</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {formattedDate ? formattedDate : '--'} */}
-                {chuyenDoiNgayDauVao(getDay(time_from))}
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <Hall />
-                <p>Hall number</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {curHallObj ? curHallObj.hall_name : '--'} */}
-                {hall_name}
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <ShowTime />
-                <p>Show Time</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userHallId ? curHallObj.movie_start_time : '--'} */}
-                {convertAmPm(getHourAndMinute(time_from))}
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <TicketAmount />
-                <p>Ticket Amount</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {seat ? seat.length : ticketAmount ? ticketAmount : '--'}
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <Armchair size={16} />
-                <p>Seats</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {seat && seat.length != 0
-                  ? seat
-                      .map((seat: { id: string; name: string }) => seat.name)
-                      .join(', ')
-                  : seatsTicket && seatsTicket.length != 0
-                    ? seatsTicket
-                        .map((seat: { id: string; name: string }) => seat.name)
-                        .join(', ')
-                    : '--'}
-              </p>
-            </li>
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <Cookie size={16} />
-                <p>Food</p>
-              </div>
-
-              <div className="ticket-info-val">
-                <ul>
-                  {foodValid && foodValid.length != 0
-                    ? foodValid.map(
-                        (food: {
-                          _id: string
-                          name: string
-                          quantity: number
-                        }) => (
-                          <li className="flex justify-end" key={food._id}>
-                            {food.name} ({food.quantity})
-                          </li>
-                        )
-                      )
-                    : foodsTicket && foodsTicket.length != 0
-                      ? foodsTicket.map(
-                          (food: {
-                            _id: string
-                            name: string
-                            quantity: number
-                          }) => (
-                            <li className="flex justify-end" key={food._id}>
-                              {food.name} ({food.quantity})
-                            </li>
-                          )
-                        )
-                      : '--'}
-                </ul>
-              </div>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <PaymentMethod />
-                <p>Payment Method</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userPayMethod && userPayMethod.length > 0
-                      ? userPayMethod
-                      : '--'} */}
-                Bkash
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <PaymentMethod />
-                <p>Total Price</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userSeatPrice && userSeatListName
-                      ? `BDT ${userSeatPrice * userSeatListName.length}TK`
-                      : '--'} */}
-                {formatVND(total)}
-              </p>
-            </li>
+            <TicketList
+              icon={<Cookie size={16} />}
+              title={'Food'}
+              valueState={foodValid}
+              valueStorage={foodsTicket}
+            />
+            <TicketItem
+              icon={<PaymentMethod />}
+              title={'Payment Method'}
+              name={'Bkash'}
+            />
+            <TicketItem
+              icon={<PaymentMethod />}
+              title={'Total Price'}
+              name={formatVND(total)}
+            />
           </ul>
         </div>
         {pathname == '/purchase/food' && (

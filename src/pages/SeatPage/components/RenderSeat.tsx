@@ -1,67 +1,51 @@
-import { Seat } from '@/Interface/seat'
-import {
-  changeStatusSeat,
-  convertNumberToAlphabet
-} from '@/utils/seatAlphaIndex'
+import { changeStatusSeat } from '@/utils/seatAlphaIndex'
 import { SeatUserList } from '@/Interface/ticket'
 import { SOLD } from '@/utils/constant'
+import { useState } from 'react'
 
 interface RenderSeatType {
-  seat: Seat
+  seat: SeatUserList
   // eslint-disable-next-line no-unused-vars
   handleUserSeats: (seatId: SeatUserList) => void
   // eslint-disable-next-line no-unused-vars
-  handleSeatClick: (seat: Seat) => void
-  userSeatList: SeatUserList[]
+  handleSeatClick: (seat: SeatUserList) => void
 }
 
 function RenderSeat({
   seat,
   handleUserSeats,
-  handleSeatClick,
-  userSeatList
+  handleSeatClick
 }: RenderSeatType) {
-  // let seatStatus = seat.status === 'normal' ? 'booked' : 'available'
-
-  // let seatStatus: string
-  // if (seat.typeSeat == 'VIP') {
-  //   seatStatus = 'vip'
-  // } else {
-  //   seatStatus = 'available'
-  // }
+  const [isClick, setIsClick] = useState(false)
   const status = changeStatusSeat(seat.typeSeat)
-  // console.log(status)
   const sold = seat.status == 'Sold' ? 'sold' : ''
 
   const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
     e.preventDefault()
-    handleUserSeats({ id: seat._id, name: seat.name, price: seat.price })
+    handleUserSeats({
+      ...seat,
+      selected: true
+    })
   }
-  const seatIds = userSeatList.map((seat) => seat.id)
 
-  const handleChooseSeat = (e: React.MouseEvent<HTMLElement>) => {
-    const target = e.target as HTMLElement
+  const handleChooseSeat = () => {
+    setIsClick((prev) => !prev)
     if (seat.status !== SOLD) {
       handleUserSeats({
-        id: seat._id,
-        name: target.innerHTML.toUpperCase(),
-        price: seat.price
+        ...seat,
+        selected: isClick ? false : true
       })
       handleSeatClick(seat)
     }
   }
   return (
     <div
-      className={`seat ${status} ${sold} lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20 uppercase`}
+      className={`seat ${status} ${sold} ${seat.selected ? 'selected' : ''} lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20 uppercase`}
       onClick={handleChooseSeat}
       onTouchEnd={seat.status !== 'booked' ? handleTouchStart : undefined}
       key={seat._id}
-      style={{
-        backgroundColor: seatIds.includes(seat._id) ? '#ef5e78' : ''
-      }}
     >
-      {convertNumberToAlphabet(seat.row)}
-      {seat.column}
+      {seat.name}
     </div>
   )
 }

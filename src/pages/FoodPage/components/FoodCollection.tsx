@@ -28,8 +28,6 @@ function FoodCollection() {
 
     if (ticket.foods) {
       const combiData = [...ticket.foods]
-      console.log('...newData',...newData)
-      console.log('...ticket.foods',...ticket.foods)
       dispatch(foodsAction.fetchData(combiData))
       return
     }
@@ -50,15 +48,6 @@ function FoodCollection() {
         <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
           Menu
         </h2>
-        {/* {foods
-          ? foods?.map((food: FoodCollectionType, index: number) => {
-              return <FoodItem key={food._id} index={index} food={food} />
-            })
-          : ticket.foods
-            ? ticket.foods.map((food: any, index: number) => {
-                return <FoodItem key={food._id} index={index} food={food} />
-              })
-            : []} */}
         {foods &&
           foods?.map((food: FoodCollectionType, index: number) => {
             return <FoodItem key={food._id} index={index} food={food} />
