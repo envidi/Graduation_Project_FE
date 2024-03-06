@@ -27,6 +27,14 @@ import { useLocation } from 'react-router-dom'
 import TicketItem from './Ticket/TicketItem'
 import TicketList from './Ticket/TicketList'
 
+const filterData = (data: SeatUserList[]) => {
+  return data
+    .filter((s: SeatUserList) => s.selected)
+    .reduce((acc: number, s: SeatUserList) => {
+      return s.price + acc
+    }, 0)
+}
+
 function TicketSummary() {
   const navigate = useNavigate()
   const { pathname } = useLocation()
@@ -49,26 +57,17 @@ function TicketSummary() {
     ticketAmount = 0
   } = ticket
   const totalFoodPrice = foods
-    ? foods.reduce((acc: number, s: any) => {
-        return s.price * s.quantity + acc
-      }, 0)
+    ? foods.reduce((acc: number, s: FoodItemState) => {
+      return s.price * s.quantity + acc
+    }, 0)
     : 0
   const totalSeatPrice =
     seat && seat.length > 0
-      ? seat
-          .filter((s) => s.selected)
-          .reduce((acc: number, s: SeatUserList) => {
-            return s.price + acc
-          }, 0)
+      ? filterData(seat)
       : seatStorage
-        ? seatStorage
-            .filter((s) => s.selected)
-            .reduce((acc: number, s: SeatUserList) => {
-              return s.price + acc
-            }, 0)
+        ? filterData(seatStorage)
         : 0
   const total = totalSeatPrice + price_movie + totalFoodPrice
-
 
   // console.log(total)
   // const handlePurchaseTicket = () => {

@@ -34,6 +34,7 @@ import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
 import CategoryAdd from './admin/pages/Category/Add'
 import CategoryEdit from './admin/pages/Category/Edit'
+import Payment from './pages/Payment/Payment'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -109,6 +110,14 @@ function App() {
                   element={
                     <Suspense fallback={<PageLoader />}>
                       <SeatPage />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="payment"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <Payment />
                     </Suspense>
                   }
                 />

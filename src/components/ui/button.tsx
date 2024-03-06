@@ -20,13 +20,15 @@ const buttonVariants = cva(
           'bg-primary-movieColor border-2 border-primary-movieColor text-primary-white p-0 xs:text-xl sm:text-2xl lg:text-3xl flex items-center xs:px-5 xs:py-4 sm:px-6 md:px-8 rounded-lg py-5 gap-1 opacity-80 hover:bg-transparent hover:text-primary-movieColor hover:border-2 hover:border-primary-movieColor ',
         home_outline:
           'text-primary-white border-2 border-primary-movieColor md:px-8 sm:px-6 xs:px-5 xs:py-4 xs:text-xl py-5 flex items-center sm:text-2xl lg:text-3xl rounded-lg bg-transparent hover:opacity-70',
+        normal :
+        'bg-primary-movieColor border-2 border-primary-movieColor text-primary-white p-0 xs:text-xl sm:text-2xl lg:text-2xl flex items-center xs:px-5 xs:py-4 sm:px-6 md:px-8 rounded-lg py-5 gap-1 opacity-80 hover:bg-transparent hover:text-primary-movieColor hover:border-2 hover:border-primary-movieColor ',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline'
       },
       size: {
         default: 'text-xl px-4 py-2',
         sm: 'text-xl h-9 rounded-md px-3',
-        lg: 'text-2xl h-11 rounded-md px-8 py-7',
+        lg: 'text-2xl rounded-md px-8 py-7',
         icon: 'h-10 w-10'
       }
     },

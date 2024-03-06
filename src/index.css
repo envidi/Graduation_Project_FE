@@ -29,6 +29,7 @@
       0 4px 6px -4px rgb(0 0 0 / 0.1);
 
     --border-social-link: 0 0% 90%;
+    --border-payment: 349 82% 57%;
 
     --bg-secondary: 0 0% 90%;
     --bg-showtime: 230 26% 91%;
@@ -61,6 +62,7 @@
     --radius: 0.5rem;
   }
   .dark {
+    --bg-four: 231 25% 11;
     --bg-main: 227 27% 14%;
     --bg-collection-card: 227 27% 14%;
     --bg-secondary: 229 14% 22%;
@@ -78,6 +80,7 @@
 
     --shadow-card: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.21);
 
+    --border-payment: 349 82% 57%;
     --border-social-link: 229 14% 22%;
     --calendar-border: hsla(220, 3%, 81%, 0.3);
 
