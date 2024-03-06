@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import HashLoader from 'react-spinners/HashLoader'
 import useAllSeatByShowTime from '@/hooks/useAllSeatByShowTime'
@@ -12,7 +13,7 @@ import { Seat } from '@/Interface/seat'
 
 const SeatPage = () => {
   const dispatch = useDispatch()
-  const { seat: seatChosen } = useSelector(
+  const { seat: allSeat } = useSelector(
     (state: TicketSelector) => state.ticket.ticket
   )
   const [ticket] = useLocalStorage<TicketType | null>('ticket')
@@ -25,14 +26,13 @@ const SeatPage = () => {
   useEffect(() => {
     if (!seats || seats.length == 0) return
     const newData = seats.map((f: Seat) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { updatedAt, createdAt, ShowScheduleId, ScreeningRoomId, TimeSlotId,
+        ...seatInfo
+      } = f
       return {
-        _id: f._id,
+        ...seatInfo,
         name: convertNumberToAlphabet(f.row) + f.column,
-        typeSeat: f.typeSeat,
-        status: f.status,
-        price: f.price,
-        row: f.row,
-        column: f.column,
         selected: false
       }
     })
@@ -75,8 +75,7 @@ const SeatPage = () => {
     selected
   })
   const handleUserSeats = (seat: SeatUserList) => {
-
-    const seatResult = seatChosen.map((s: SeatUserList) =>
+    const seatResult = allSeat.map((s: SeatUserList) =>
       s._id === seat._id ? updateSeatStatus(s, seat.selected) : s
     )
     dispatch(ticketAction.addProperties({ seat: [...seatResult] }))
@@ -115,9 +114,9 @@ const SeatPage = () => {
           </div>
           <div className="theatre-screen-heading">Theatre Screen</div>
           <div className="seat-container sm:mr-16 xs:mr-16">
-            {seatChosen && seatChosen.length > 0 && (
+            {allSeat && allSeat.length > 0 && (
               <RenderSeatLayout
-                seats={seatChosen}
+                seats={allSeat}
                 handleUserSeats={handleUserSeats}
                 handleSeatClick={handleSeatClick}
               />

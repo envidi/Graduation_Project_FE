@@ -24,7 +24,8 @@ import {
 import { FoodItemState } from '@/Interface/food'
 import { FoodSelector } from '@/store/food'
 import { useLocation } from 'react-router-dom'
-import TicketItem from './TicketItem.tsx/TicketItem'
+import TicketItem from './Ticket/TicketItem'
+import TicketList from './Ticket/TicketList'
 
 function TicketSummary() {
   const navigate = useNavigate()
@@ -47,12 +48,29 @@ function TicketSummary() {
     foods: foodsTicket = [],
     ticketAmount = 0
   } = ticket
-  const total =
-    seat &&
-    seat.reduce((acc: number, s: SeatUserList) => {
-      return s.price + acc
-    }, 0) + price_movie
+  const totalFoodPrice = foods
+    ? foods.reduce((acc: number, s: any) => {
+        return s.price * s.quantity + acc
+      }, 0)
+    : 0
+  const totalSeatPrice =
+    seat && seat.length > 0
+      ? seat
+          .filter((s) => s.selected)
+          .reduce((acc: number, s: SeatUserList) => {
+            return s.price + acc
+          }, 0)
+      : seatStorage
+        ? seatStorage
+            .filter((s) => s.selected)
+            .reduce((acc: number, s: SeatUserList) => {
+              return s.price + acc
+            }, 0)
+        : 0
+  const total = totalSeatPrice + price_movie + totalFoodPrice
 
+
+  // console.log(total)
   // const handlePurchaseTicket = () => {
   //   if (seat.length == 0) {
   //     toast.error('Please select seat !', {
@@ -66,13 +84,7 @@ function TicketSummary() {
     const filteredData = data.filter((seat: SeatUserList) => seat.selected)
     return filteredData.map((seat: SeatUserList) => seat.name).join(', ')
   }
-  const mapDataFood = (data: FoodItemState[]) => {
-    return data.map((food: { _id: string; name: string; quantity: number }) => (
-      <li className="flex justify-end" key={food._id}>
-        {food.name} ({food.quantity})
-      </li>
-    ))
-  }
+
   const handlePurchaseSeat = () => {
     if (seat.length == 0) {
       toast.error('Please select seat !', {
@@ -84,15 +96,13 @@ function TicketSummary() {
     setTicket({
       ...ticket,
       seat: [...seat],
+      total,
       ticketAmount: seat.filter((s) => s.selected).length
     })
     navigate('/purchase/food')
   }
 
   const handlePurchaseFood = () => {
-    // const foodFiltered = foods.filter(
-    //   (food: FoodItemState) => food.quantity > 0
-    // )
     setTicket({
       ...ticket,
       foods: [...foods]
@@ -168,22 +178,12 @@ function TicketSummary() {
               }
             />
 
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <Cookie size={16} />
-                <p>Food</p>
-              </div>
-
-              <div className="ticket-info-val">
-                <ul>
-                  {foodValid && foodValid.length != 0
-                    ? mapDataFood(foodValid)
-                    : foodsTicket && foodsTicket.length != 0
-                      ? mapDataFood(foodsTicket)
-                      : '--'}
-                </ul>
-              </div>
-            </li>
+            <TicketList
+              icon={<Cookie size={16} />}
+              title={'Food'}
+              valueState={foodValid}
+              valueStorage={foodsTicket}
+            />
             <TicketItem
               icon={<PaymentMethod />}
               title={'Payment Method'}

@@ -1,4 +1,11 @@
-function TicketItem({ icon, title, name }: any) {
+import { ReactNode } from 'react'
+
+interface TicketItemType {
+  icon: ReactNode
+  title: string
+  name: string | number | undefined
+}
+function TicketItem({ icon, title, name }: TicketItemType) {
   return (
     <li className="ticket-info-item">
       <div className="ticket-info-category">
