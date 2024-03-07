@@ -165,3 +165,4 @@ export function getCurrentDay() {
   // Định dạng ngày theo yêu cầu
   return tenThang + ' ' + ngay + ', ' + nam
 }
+

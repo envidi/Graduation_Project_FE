@@ -14,8 +14,7 @@ function TicketItem({ icon, title, name }: TicketItemType) {
       </div>
 
       <p className="ticket-info-val">
-        {/* {userLocation ? userLocation.location : '--'} */}
-        {name}
+        {name ? name : '--'}
       </p>
     </li>
   )

@@ -274,7 +274,7 @@ export const MovieInfoSection = () => {
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <Button size="lg" variant="outline">
+                <Button size="md" variant="outline">
                   Trailer
                 </Button>
               </DialogTrigger>
