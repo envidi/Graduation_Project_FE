@@ -2,12 +2,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import FoodType from '@/Interface/food'
 import BarLoader from 'react-spinners/BarLoader'
-import HashLoader from 'react-spinners/HashLoader'
 
-export const FoodSection = ({
-    foodData,
-    handleFoodChange,
-}) => {
+export const FoodSection = () => {
     const override = {
         display: 'block',
         margin: '1.6rem auto',
@@ -31,12 +27,12 @@ export const FoodSection = ({
         fetchData()
     }, [])
 
-    const foodOptions = foodData.map((food: FoodType) => (
+    const foodOptions = foods.map((food: FoodType) => (
         <div key={food._id} className="food-item">
             <img src={food.image} alt={food.name} />
             <h3>{food.name}</h3>
             <p>{`$${food.price.toFixed(2)}`}</p>
-            <button onClick={() => handleFoodChange(food)}>Add to cart</button>
+            <button onClick={() => (food)}>Add to cart</button>
         </div>
 
 
