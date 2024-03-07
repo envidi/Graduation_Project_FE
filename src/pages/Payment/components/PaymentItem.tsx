@@ -1,12 +1,17 @@
 import { Label } from '@/components/ui/label'
 import { RadioGroupItem } from '@/components/ui/radio-group'
 import { getCurrentDay } from '@/utils'
-interface PaymentItemType {
+import { useDispatch, useSelector } from 'react-redux'
+import { PaymentSelected, TicketState, ticketAction } from '@/store/ticket'
+
+
+export interface PaymentItemType {
   method: {
     _id: number
     image: string
     cardNumber: number
     value: string
+    name: string
   }
   // eslint-disable-next-line no-unused-vars
   setCardSelected: (id: number) => void
@@ -14,17 +19,27 @@ interface PaymentItemType {
 }
 
 function PaymentItem({
-  method,
-  setCardSelected,
-  cardSelected
+  method
+  // setCardSelected,
+  // cardSelected
 }: PaymentItemType) {
+  const dispatch = useDispatch()
+  const { paymentMethod: cardSelected } = useSelector(
+    (state: { ticket: TicketState }) => state.ticket.ticket
+  )
   const selectedCss = (classCss: string) => {
-    return cardSelected == method._id ? classCss : ''
+    return cardSelected?._id == method._id ? classCss : ''
+  }
+  const choosePaymentMethod = (data: PaymentSelected) => {
+    dispatch(ticketAction.choosePayment(data))
   }
   return (
     <div
       className="flex items-center xl:basis-1/3 lg:basis-1/2"
-      onClick={() => setCardSelected(method._id)}
+      // onClick={() => setCardSelected(method._id)}
+      onClick={() =>
+        choosePaymentMethod({ _id: method._id, name: method.name })
+      }
     >
       <Label
         htmlFor={method.value}

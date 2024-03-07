@@ -27,6 +27,15 @@ import { useLocation } from 'react-router-dom'
 import TicketItem from './Ticket/TicketItem'
 import TicketList from './Ticket/TicketList'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createPayment, createPaymentMomo } from '@/api/payment'
+
+interface MutatePaymentType {
+  amount: number
+  language: string
+  bankCode: string
+}
+
 const filterData = (data: SeatUserList[]) => {
   return data
     .filter((s: SeatUserList) => s.selected)
@@ -36,10 +45,32 @@ const filterData = (data: SeatUserList[]) => {
 }
 
 function TicketSummary() {
+  const queryClient = useQueryClient()
+  const { seat, paymentMethod } = useSelector(
+    (state: TicketSelector) => state.ticket.ticket
+  )
+  const { mutate } = useMutation({
+    mutationFn: (data: MutatePaymentType) => {
+      switch (paymentMethod._id) {
+        case 1:
+          return createPayment(data)
+        case 2:
+          return createPaymentMomo(data)
+        default:
+          return createPayment(data)
+      }
+    },
+    onSuccess: (data) => {
+      if (data?.data) {
+        window.location.replace(data?.data)
+      }
+      queryClient.invalidateQueries({ queryKey: ['payment'] })
+    },
+    onError: () => {}
+  })
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
-  const { seat } = useSelector((state: TicketSelector) => state.ticket.ticket)
   const foods = useSelector((state: FoodSelector) => state.foods.foods)
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
   const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
@@ -58,8 +89,8 @@ function TicketSummary() {
   } = ticket
   const totalFoodPrice = foods
     ? foods.reduce((acc: number, s: FoodItemState) => {
-      return s.price * s.quantity + acc
-    }, 0)
+        return s.price * s.quantity + acc
+      }, 0)
     : 0
   const totalSeatPrice =
     seat && seat.length > 0
@@ -104,9 +135,24 @@ function TicketSummary() {
   const handlePurchaseFood = () => {
     setTicket({
       ...ticket,
+      total,
       foods: [...foods]
     })
-    navigate('/purchase/food')
+
+    navigate('/purchase/payment')
+  }
+  const handlePurchasePayment = () => {
+    if (paymentMethod._id == 1) {
+      mutate({
+        amount: ticket.total,
+        bankCode: 'NCB',
+        language: 'vn'
+      } as MutatePaymentType)
+    } else {
+      mutate({
+        amount: ticket.total
+      } as MutatePaymentType)
+    }
   }
 
   return (
@@ -186,7 +232,7 @@ function TicketSummary() {
             <TicketItem
               icon={<PaymentMethod />}
               title={'Payment Method'}
-              name={'Bkash'}
+              name={paymentMethod.name}
             />
             <TicketItem
               icon={<PaymentMethod />}
@@ -209,6 +255,15 @@ function TicketSummary() {
           <button
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseSeat}
+          >
+            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
+            purchase ticket
+          </button>
+        )}
+        {pathname == '/purchase/payment' && (
+          <button
+            className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
+            onClick={handlePurchasePayment}
           >
             {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket

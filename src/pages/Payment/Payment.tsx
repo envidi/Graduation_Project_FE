@@ -27,9 +27,9 @@ import PaymentItem from './components/PaymentItem'
 import { useState } from 'react'
 
 const listPaymentMethods = [
-  { _id: 1, image: vnpay, cardNumber: 1234, value: '1' },
-  { _id: 2, image: momo, cardNumber: 1234, value: '2' },
-  { _id: 3, image: mb, cardNumber: 1234, value: '3' }
+  { _id: 1, name : 'VNPay', image: vnpay, cardNumber: 1234, value: '1' },
+  { _id: 2, name : 'Momo', image: momo, cardNumber: 1234, value: '2' },
+  { _id: 3, name : 'MBBank', image: mb, cardNumber: 1234, value: '3' }
 ]
 function Payment() {
   const [cardSelected, setCardSelected] = useState<number>(1)
@@ -89,7 +89,7 @@ function Payment() {
                   </div>
 
                   <p className="ms-10 text-2xl flex items-end truncate   text-primary-movieColor text-ellipsis overflow-hidden font-semibold ">
-                    Ha NoiCity ccccccccccccccccccccccccccccccccccdvddvfvcc
+                    Nam Tu Liem Street Ha Noi City
                   </p>
                 </div>
 
