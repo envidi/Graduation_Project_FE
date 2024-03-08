@@ -112,8 +112,9 @@ export function convertMintuteToHour(phut: number) {
 export function getFourConsecutiveDays() {
   return [...Array(4)].map((_, i) => new Date(Date.now() + i * 86400000))
 }
-export function formatVND(amount: number) {
+export function formatVND(amount: number | undefined) {
   // Chuyển số tiền thành chuỗi
+  if (amount === undefined) return 0
   const amountStr = amount.toString()
 
   // Tạo một mảng để chứa các ký tự
@@ -165,4 +166,3 @@ export function getCurrentDay() {
   // Định dạng ngày theo yêu cầu
   return tenThang + ' ' + ngay + ', ' + nam
 }
-
