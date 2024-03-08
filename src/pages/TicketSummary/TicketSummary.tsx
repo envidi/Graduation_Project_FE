@@ -2,6 +2,7 @@ import { TicketType } from '@/store/ticket'
 import { useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { Armchair, Cookie } from 'lucide-react'
+
 import {
   chuyenDoiNgayDauVao,
   convertAmPm,
@@ -21,6 +22,7 @@ import {
   ShowTime,
   TicketAmount
 } from './IconTicket'
+
 import { FoodItemState } from '@/Interface/food'
 import { FoodSelector } from '@/store/food'
 import { useLocation } from 'react-router-dom'
@@ -28,7 +30,11 @@ import TicketItem from './Ticket/TicketItem'
 import TicketList from './Ticket/TicketList'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createPayment, createPaymentMomo } from '@/api/payment'
+import {
+  createPayment,
+  createPaymentMomo
+} from '@/api/payment'
+import DialogPayment from '../modals/DialogPayment'
 
 interface MutatePaymentType {
   amount: number
@@ -100,16 +106,6 @@ function TicketSummary() {
         : 0
   const total = totalSeatPrice + price_movie + totalFoodPrice
 
-  // console.log(total)
-  // const handlePurchaseTicket = () => {
-  //   if (seat.length == 0) {
-  //     toast.error('Please select seat !', {
-  //       position: 'top-right'
-  //     })
-  //     return
-  //   }
-  //   navigate('/purchase/food')
-  // }
   const mapData = (data: SeatUserList[]) => {
     const filteredData = data.filter((seat: SeatUserList) => seat.selected)
     return filteredData.map((seat: SeatUserList) => seat.name).join(', ')
@@ -148,12 +144,13 @@ function TicketSummary() {
         bankCode: 'NCB',
         language: 'vn'
       } as MutatePaymentType)
-    } else {
+    } else if (paymentMethod._id == 2) {
       mutate({
         amount: ticket.total
       } as MutatePaymentType)
     }
   }
+
 
   return (
     <div className="purchase-section-right ticket_summary ">
@@ -260,7 +257,7 @@ function TicketSummary() {
             purchase ticket
           </button>
         )}
-        {pathname == '/purchase/payment' && (
+        {pathname == '/purchase/payment' && paymentMethod._id !== 3 && (
           <button
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchasePayment}
@@ -268,6 +265,9 @@ function TicketSummary() {
             {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket
           </button>
+        )}
+        {pathname == '/purchase/payment' && paymentMethod._id == 3 && (
+          <DialogPayment />
         )}
       </div>
     </div>
