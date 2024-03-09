@@ -6,11 +6,11 @@ import { Calendar } from '@/components/ui/calendar'
 import { useEffect, useState } from 'react'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { Button } from '@/components/ui/button'
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger
-} from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { TicketType, ticketAction } from '@/store/ticket'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 import { useParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
@@ -22,10 +22,15 @@ import {
   selectCalendar
 } from '@/utils'
 import { AVAILABLE, MOVIE_DETAIL } from '@/utils/constant'
+import { useSelector } from 'react-redux'
+import { MovieType } from '@/Interface/movie'
 
 export interface ShowTime {
   _id: string
-  screenRoomId: string
+  screenRoomId: {
+    _id: string
+    name: string
+  }
   cinemaId: {
     _id: string
     CinemaName: string
@@ -38,17 +43,29 @@ export interface ShowTime {
 }
 
 export const MovieInfoSection = () => {
+  const dispatch = useDispatch()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const movies = useSelector((state: any) => state.movies.movies)
+  const [, setTicket] = useLocalStorage<TicketType | null>('ticket', null)
   const [date, setDate] = useState<Date | undefined>(new Date())
   const [currentLocation, setCurrentLocation] = useState<string>('')
-  const id = useParams()
+  const navigate = useNavigate()
+  const { slug } = useParams()
+
+  const { _id = '' } =
+    movies.length > 0 && movies.find((movie: MovieType) => movie.slug === slug)
   const { data: dataMovie, isLoading } = useQuery({
-    queryKey: [MOVIE_DETAIL, id],
-    queryFn: () => getOneMovie('65c8dc874a19975a1cc5fc7e')
+    queryKey: [MOVIE_DETAIL, _id],
+    queryFn: () => getOneMovie(_id)
   })
 
   useEffect(() => {
-    if (dataMovie && Object.keys(dataMovie).length > 0) {
-      setCurrentLocation(dataMovie.showTimeCol[0].cinemaId._id)
+    if (
+      dataMovie &&
+      Object.keys(dataMovie).length > 0 &&
+      dataMovie?.showTimeCol?.length > 0
+    ) {
+      setCurrentLocation(dataMovie?.showTimeCol[0]?.cinemaId?._id || [])
     }
   }, [dataMovie])
   const handleCurrentLocation = (locationId: string) => {
@@ -73,13 +90,14 @@ export const MovieInfoSection = () => {
     categoryCol,
     fromDate,
     desc,
-    showTimeCol
+    showTimeCol,
+    moviePriceCol
   } = dataMovie
 
   const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
 
   const showTimePerDay = showTimeCol
-    .map((showTime: ShowTime) => {
+    ?.map((showTime: ShowTime) => {
       if (
         getDay(showTime.date) === getDay(selectCalendar(date)) &&
         showTime.status === AVAILABLE &&
@@ -91,6 +109,23 @@ export const MovieInfoSection = () => {
     .filter(function (element: ShowTime) {
       return element !== undefined
     })
+  const handleChooseShowtime = (showtime: ShowTime) => {
+    const ticketObject = {
+      id_showtime: showtime._id,
+      cinema_name: showtime.cinemaId.CinemaName,
+      id_movie: _id,
+      hall_name: showtime.screenRoomId.name,
+      hall_id: showtime.screenRoomId._id,
+      image_movie: image,
+      name_movie: name,
+      duration_movie: duration,
+      price_movie: moviePriceCol[0].price,
+      time_from: showtime.timeFrom
+    }
+    dispatch(ticketAction.addProperties(ticketObject))
+    setTicket(ticketObject)
+    navigate('/purchase/seat')
+  }
 
   return (
     <div className="section-movie-info container ">
@@ -108,7 +143,7 @@ export const MovieInfoSection = () => {
           <div className="movie-info-attr-container">
             <h2 className="movie-info-name text-primary-nameMovie">{name}</h2>
 
-            <div className="movie-info-small-container ">
+            <div className="movie-info-small-container text-primary-locationMovie">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
@@ -219,7 +254,7 @@ export const MovieInfoSection = () => {
               <p className="movie-info-title text-primary-movieColor">
                 Genre:{' '}
               </p>
-              {categoryCol.map((category: { _id: string; name: string }) => (
+              {categoryCol?.map((category: { _id: string; name: string }) => (
                 <p key={category._id}>{category.name}</p>
               ))}
             </div>
@@ -239,7 +274,7 @@ export const MovieInfoSection = () => {
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <Button size="lg" variant="outline">
+                <Button size="md" variant="outline">
                   Trailer
                 </Button>
               </DialogTrigger>
@@ -273,22 +308,23 @@ export const MovieInfoSection = () => {
             mode="single"
             selected={date}
             onSelect={setDate}
-            className="rounded-md px-5 border border-border-calendarBorder mt-[3.2rem] "
+            className="rounded-md px-5 border border-border-calendarBorder shadow mt-[3.2rem] "
           />
           <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full">
             <div
-              className={`movie-info-screen-container-3d bg-background-third ${showTimePerDay.length > 0 ? 'grid' : ''}`}
+              className={`movie-info-screen-container-3d bg-background-third ${showTimePerDay?.length > 0 ? 'grid' : ''}`}
             >
-              <h2 className="showtimes-screen bg-background-headerShow">
+              <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
                 {today}
               </h2>
 
-              {showTimePerDay.length > 0 ? (
+              {showTimePerDay?.length > 0 ? (
                 showTimePerDay.map((showtime: ShowTime, index: number) => {
                   return (
                     <div
                       className="showtimes-schedule md:my-8 xs:my-10"
                       key={index}
+                      onClick={() => handleChooseShowtime(showtime)}
                     >
                       {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
                       <button className="showtimes-startime-btn border-2 border-primary-movieColor hover:bg-primary-movieColorSecond text-primary-infoMovie xs:w-52 xs:h-20 md:w-40 md:h-16">

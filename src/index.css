@@ -4,23 +4,36 @@
 
 @layer base {
   :root {
-    --text-name-movie-color: 0 0% 90%;
+    --text-name-movie-color: 0 0% 12%;
     --text-info-movie-color: 230 5% 74%;
-    --text-location-movie-color: 240 4% 91%;
-    --text-card-movie-color: 240 5% 91%;
+    --text-info-movie-color: 230 2% 29%;
+    --text-location-movie-color: 0 0% 8%;
+    --text-card-movie-color: 10 95% 9%;
+    --text-under-title: 240 3% 50%;
 
+    --bg-skeleton: rgb(71 85 105);
     --background: 230 26% 14%;
-    --foreground: 225 4% 81%;
+    --bg-section-inner: 240 5% 96%;
+    --bg-collection-card: 0 0% 100%;
+    --bg-main: 0 0% 98%;
+    --foreground: 0 0% 5%;
     --primary-color-movie: 349 82% 57%;
     --secondary-color-movie: 349 82% 65%;
-    --calendar-border: hsla(220, 3%, 81%, 0.3);
+    --calendar-border: hsla(220, 13%, 91%, 1);
     --button-control-carousel: 0 0% 25%;
-    --primary-white: white;
 
-    --bg-main: 227 27% 14%;
-    --bg-secondary: 229 14% 22%;
-    --bg-showtime: 231 25% 11%;
-    --bg-headerShowTime: 229 27% 12%;
+    --primary-title: black;
+    --copy-right-color: 234 4% 48%;
+
+    --shadow-card: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+      0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+    --border-social-link: 0 0% 90%;
+    --border-payment: 349 82% 57%;
+
+    --bg-secondary: 0 0% 90%;
+    --bg-showtime: 230 26% 91%;
+    --bg-headerShowTime: 229 27% 92%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
 
@@ -48,35 +61,43 @@
 
     --radius: 0.5rem;
   }
-
   .dark {
-    --background: 222.2 84% 4.9%;
+    --bg-four: 231 25% 11;
+    --bg-main: 227 27% 14%;
+    --bg-collection-card: 227 27% 14%;
+    --bg-secondary: 229 14% 22%;
     --foreground: 210 40% 98%;
+    --border-social-link: 0 0% 90%;
+    --bg-headerShowTime: 229 27% 12%;
+    --bg-showtime: 231 25% 11%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --primary-title: white;
+    --text-name-movie-color: 0 0% 90%;
+    --text-under-title: 210 40% 98%;
+    --text-card-movie-color: 240 5% 91%;
+    --text-location-movie-color: 240 4% 91%;
+    --text-info-movie-color: 230 5% 74%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --shadow-card: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.21);
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    --border-payment: 349 82% 57%;
+    --border-social-link: 229 14% 22%;
+    --calendar-border: hsla(220, 3%, 81%, 0.3);
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --gradient-start: rgba(0, 0, 0, 0.6000525210084033);
+    --gradient-mid1: rgba(255, 255, 255, 0);
+    --gradient-mid2: rgba(254, 254, 254, 0);
+    --gradient-mid3: rgba(255, 255, 255, 0);
+    --gradient-end: rgba(0, 0, 0, 0.5972514005602241);
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --gradient: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.6000525210084033) 0%,
+      rgba(255, 255, 255, 0) 8%,
+      rgba(254, 254, 254, 0) 48%,
+      rgba(255, 255, 255, 0) 92%,
+      rgba(0, 0, 0, 0.5972514005602241) 100%
+    );
   }
 }
 
@@ -85,6 +106,6 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background-main text-foreground;
   }
 }

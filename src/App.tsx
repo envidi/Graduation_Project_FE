@@ -1,598 +1,169 @@
 import './styles/styles.css'
 import './styles/queries.css'
-
-// import { ToastContainer, toast } from 'react-toastify'
-// import 'react-toastify/dist/ReactToastify.css'
-
-// import { useState, useEffect, lazy, Suspense } from 'react'
+import { ThemeProvider } from '@/components/theme-provider'
 import { Route, Routes } from 'react-router-dom'
 import ClientLayout from './layouts/ClientLayout'
-import MovieDetailsPage from './pages/MovieDetails/MovieDetailsPage'
-import PurchasePage from './pages/Purchase/PurchasePage'
-// import { ProtectedRoute } from './components/ProtectedRoute'
 
-// import { SignupModal } from './pages/modals/SignupModal'
-// import { LoginModal } from './pages/modals/LoginModal'
+import 'react-toastify/dist/ReactToastify.css'
+import { Bounce, ToastContainer } from 'react-toastify'
 
-import HomePage from './pages/Home/HomePage'
+import { Suspense, lazy, useEffect } from 'react'
+import { moviesAction } from './store/movie'
+import { useDispatch } from 'react-redux'
+import { AnimatePresence } from 'framer-motion'
+import { PageLoader } from './components/PageLoader'
+// import Profile from './pages/modals/Profile'
+import useAllMovie from './hooks/useAllMovie'
+
+import Profile from './admin/pages/Profile'
+// import PageTitle from './admin/components/PageTitle'
+import ECommerce from './admin/pages/Dashboard/ECommerce'
+import SignIn from './admin/pages/Authentication/SignIn'
+import SignUp from './admin/pages/Authentication/SignUp'
+import Chart from './admin/pages/Chart'
+import FormElements from './admin/pages/Form/FormElements'
+import FormLayout from './admin/pages/Form/FormLayout'
+import Tables from './admin/pages/Tables'
+import Alerts from './admin/pages/UiElements/Alerts'
+import Buttons from './admin/pages/UiElements/Buttons'
+import Calendar from './admin/pages/Calendar'
+import Settings from './admin/pages/Settings'
+import CategoryPage from './admin/pages/Category'
+
 import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
-
-// import { AnimatePresence } from 'framer-motion'
-// import { MobileNav } from './components/MobileNav'
-// import { PageLoader } from './components/PageLoader'
-
-// const PurchasePage = lazy(() => import('./pages/Purchase/PurchasePage'))
-// const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
-// const MovieDetailsPage = lazy(
-//   () => import('./pages/MovieDetails/MovieDetailsPage')
-// )
-// const AboutUsPage = lazy(() => import('./pages/AboutUs/AboutUsPage'))
-// const CustomerInfoPage = lazy(
-//   () => import('./pages/CustomerInfo/CustomerInfoPage')
-// )
-// const AdminPage = lazy(() => import('./pages/Admin/AdminPage'))
+import NotFound from './pages/NotFound/NotFound'
+import CategoryAdd from './admin/pages/Category/Add'
+import CategoryEdit from './admin/pages/Category/Edit'
+import Payment from './pages/Payment/Payment'
+const MovieDetailsPage = lazy(
+  () => import('./pages/MovieDetails/MovieDetailsPage')
+)
+const HomePage = lazy(() => import('./pages/Home/HomePage'))
+const MoviePage = lazy(() => import('./pages/MoviePage/MoviePage'))
+const FoodPage = lazy(() => import('./pages/FoodPage/FoodPage'))
+const PurchaseLayout = lazy(() => import('./layouts/PurchaseLayout'))
+const SeatPage = lazy(() => import('./pages/SeatPage/SeatPage'))
 
 function App() {
-  // //////////
-  // Variables
-  // //////////
-
-  // const [signModalState, setSignModalState] = useState(false)
-  // const [loginModalState, setLoginModalState] = useState(false)
-  // const [menuState, setMenuState] = useState(false)
-  // const menuStyle = {
-  //   opacity: '1',
-  //   pointerEvents: 'auto',
-  //   visibility: 'visible',
-  //   transform: 'translateX(0)',
-  // }
-  // const [signedPerson, setSignedPerson] = useState(
-  //   JSON.parse(window.localStorage.getItem('signedInPerson')) || {}
-  // )
-
-  // const [userLocation, setUserLocation] = useState({})
-  // const [locationData, setLocationData] = useState([])
-  // const [datesData, setDatesData] = useState([])
-  // const [movieData, setMovieData] = useState([])
-  // const [hallData, setHallData] = useState([])
-  // const [seatsData, setSeatsData] = useState([])
-
-  // const [userPurchaseInfo, setUserPurchaseInfo] = useState({})
-  // const [movieDetailsId, setMovieDetailsId] = useState(
-  //   JSON.parse(window.localStorage.getItem('selectedMovie')) || ''
-  // )
-
-  // const location = useLocation()
-
-  // const blurredStyle = {
-  //   filter: 'blur(5px)',
-  //   pointerEvents: 'none',
-  //   userSelect: 'none',
-  // }
-
-  // const toastPrimaryCategories = {
-  //   position: 'top-right',
-  //   autoClose: 3000,
-  //   closeOnClick: true,
-  //   pauseOnHover: false,
-  //   draggable: true,
-  // }
-  // const toastFontStyle = {
-  //   fontFamily: 'Inter',
-  //   fontSize: '1.6rem',
-  //   fontWeight: 500,
-  //   letterSpacing: '0.75px',
-  //   color: '#1a1d2c',
-  // }
-
-  // const currentMovieDetails = (val) => {
-  //   setMovieDetailsId(val)
-  // }
-
-  // const formattedDate =
-  //   userPurchaseInfo.showtime_date &&
-  //   new Date(userPurchaseInfo.showtime_date).toLocaleDateString('en-US', {
-  //     day: 'numeric',
-  //     month: 'short',
-  //     year: 'numeric',
-  //   })
-
-  // const currentMovie =
-  //   userPurchaseInfo.movie_id !== '' &&
-  //   movieData.find((movieObj) => movieObj.id === userPurchaseInfo.movie_id)
-
-  // const curHallObj =
-  //   userPurchaseInfo.hall_id &&
-  //   hallData.find(
-  //     (hall) =>
-  //       hall.hall_id === userPurchaseInfo.hall_id &&
-  //       userPurchaseInfo.showtime_id === hall.showtime_id
-  //   )
-
-  // const userSeatListName =
-  //   seatsData &&
-  //   seatsData.filter((seatData) =>
-  //     userPurchaseInfo.seat_id_list.includes(seatData.seat_id)
-  //   )
-
-  // // /////////////
-  // // Use Effects
-  // // /////////////
-
-  // useEffect(() => {
-  //   window.localStorage.setItem('signedInPerson', JSON.stringify(signedPerson))
-  // }, [signedPerson])
-
-  // useEffect(() => {
-  //   window.localStorage.setItem('selectedMovie', JSON.stringify(movieDetailsId))
-  // }, [movieDetailsId])
-
-  // useEffect(() => {
-  //   setUserLocation(() => locationData[0])
-  // }, [locationData])
-
-  // useEffect(() => {
-  //   handleUserPurchaseLocationInfo()
-  // }, [userLocation])
-
-  // // ////////////////////////////
-  // // Data fetching and setting
-  // // ////////////////////////////
-
-  // const getTheatreData = (val) => {
-  //   setLocationData(val)
-  // }
-
-  // const getShowDatesData = (val) => {
-  //   setDatesData(val)
-  // }
-
-  // const getMovieData = (val) => {
-  //   setMovieData(val)
-  // }
-
-  // const getHallData = (val) => {
-  //   setHallData(val)
-  // }
-
-  // const getSeatsData = (val) => {
-  //   setSeatsData(val)
-  // }
-
-  // // //////////////////
-  // // Handler Functions
-  // // //////////////////
-
-  // const handleLocationSelection = (e) => {
-  //   const selectedLocationObj = locationData.find(
-  //     (locationObj) => locationObj.location === e.target.value
-  //   )
-
-  //   e ? setUserLocation(selectedLocationObj) : setUserLocation(locationData[0])
-  // }
-
-  // const handleSignState = () => {
-  //   setSignModalState((prevState) => !prevState)
-  // }
-
-  // const handleLoginState = () => {
-  //   setLoginModalState((prevState) => !prevState)
-  // }
-
-  // const handleSignedPerson = (data) => {
-  //   setSignedPerson(data[0])
-  //   toast.success('Signed in successfully', {
-  //     ...toastPrimaryCategories,
-  //     theme: 'colored',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const handlelogout = () => {
-  //   setSignedPerson({})
-  // }
-
-  // const handleUserPurchaseLocationInfo = () => {
-  //   setUserPurchaseInfo(() => ({
-  //     theatre_id: userLocation?.id,
-  //     showtime_date: '',
-  //     movie_id: '',
-  //     hall_id: '',
-  //     showtime_id: '',
-  //     seat_id_list: [],
-  //     seat_price: '',
-  //     payment_method: '',
-  //   }))
-  // }
-
-  // const handleUserDateChange = (e) => {
-  //   setUserPurchaseInfo((prevData) => ({
-  //     ...prevData,
-  //     showtime_date: e.target.value,
-  //     movie_id: '',
-  //     hall_id: '',
-  //     showtime_id: '',
-  //     seat_id_list: [],
-  //     seat_price: '',
-  //     payment_method: '',
-  //   }))
-  // }
-
-  // const handleUserMovieChange = (e) => {
-  //   setUserPurchaseInfo((prevData) => ({
-  //     ...prevData,
-  //     movie_id: parseInt(e.target.value),
-  //     hall_id: '',
-  //     showtime_id: '',
-  //     seat_id_list: [],
-  //     seat_price: '',
-  //     payment_method: '',
-  //   }))
-  // }
-
-  // const handleUserHallShow = (e) => {
-  //   const arr = e.target.value.split(',')
-  //   setUserPurchaseInfo((prevData) => ({
-  //     ...prevData,
-  //     showtime_id: parseInt(arr[0]),
-  //     hall_id: parseInt(arr[1]),
-  //     seat_price: parseInt(arr[2]),
-  //     seat_id_list: [],
-  //     payment_method: '',
-  //   }))
-  // }
-
-  // const handleUserSeats = (seat) => {
-  //   setUserPurchaseInfo((prevData) => {
-  //     if (prevData.seat_id_list.includes(seat)) {
-  //       const tempArr = [...prevData.seat_id_list]
-  //       const newSeats = tempArr.filter((seatId) => seatId !== seat)
-
-  //       return {
-  //         ...prevData,
-  //         seat_id_list: [...newSeats],
-  //         payment_method: '',
-  //       }
-  //     }
-
-  //     return {
-  //       ...prevData,
-  //       seat_id_list: [...prevData.seat_id_list, seat],
-  //       payment_method: '',
-  //     }
-  //   })
-  // }
-
-  // const handleUserPaymentMethod = (e) => {
-  //   setUserPurchaseInfo((prevData) => {
-  //     return {
-  //       ...prevData,
-  //       payment_method: e.target.value,
-  //     }
-  //   })
-  // }
-
-  // // //////////////////
-  // // Toasts handlers
-  // // /////////////////
-  // const loginFailedToast = (msg) => {
-  //   toast.error(msg, {
-  //     ...toastPrimaryCategories,
-  //     theme: 'colored',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const signupSuccessToast = (msg) => {
-  //   toast.success(msg, {
-  //     ...toastPrimaryCategories,
-  //     theme: 'colored',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const signupFailedToast = (msg) => {
-  //   toast.error(msg, {
-  //     ...toastPrimaryCategories,
-  //     theme: 'colored',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const ticketPurchaseError = () => {
-  //   toast.error("Sorry, couldn't complete your purchase", {
-  //     ...toastPrimaryCategories,
-  //     theme: 'colored',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const purchaseCompletion = (tickets) => {
-  //   toast.success('🎉Congratulations on your purchase!', {
-  //     ...toastPrimaryCategories,
-  //     theme: 'colored',
-  //     style: toastFontStyle,
-  //   })
-
-  //   toast.success(`Your ticket ID:${tickets.join(',')}`, {
-  //     position: 'top-right',
-  //     autoClose: 8000,
-  //     closeOnClick: true,
-  //     pauseOnHover: false,
-  //     draggable: true,
-  //     theme: 'light',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const adminMovieToast = () => {
-  //   toast.success('Movie Added Successfully', {
-  //     ...toastPrimaryCategories,
-  //     theme: 'light',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const adminShowtimeToast = () => {
-  //   toast.success('Showtime Added Successfully', {
-  //     ...toastPrimaryCategories,
-  //     theme: 'light',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const adminShowninToast = () => {
-  //   toast.success('Showtime Slot updated Successfully', {
-  //     ...toastPrimaryCategories,
-  //     theme: 'light',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // const adminErrorToast = () => {
-  //   toast.error("Couldn't update. Please try again!", {
-  //     ...toastPrimaryCategories,
-  //     theme: 'colored',
-  //     style: toastFontStyle,
-  //   })
-  // }
-
-  // Ticket Info Tracker Object
-  // console.log(userPurchaseInfo);
+  const dispatch = useDispatch()
+  const { data: dataMovie, isLoading } = useAllMovie()
+  useEffect(() => {
+    if (dataMovie) {
+      // thêm global movie array
+      dispatch(moviesAction.fetchData(dataMovie))
+    }
+  }, [dataMovie, dispatch])
 
   return (
-    // <>
-    //   <div
-    //     style={
-    //       signModalState || loginModalState || menuState ? blurredStyle : {}
-    //     }
-    //   >
-    //     <ToastContainer />
-    //     <AnimatePresence wait>
-    //       <Routes key={location.pathname} location={location}>
-    //         <Route
-    //           path="/"
-    //           element={
-    //             <Suspense fallback={<PageLoader />}>
-    //               <HomePage
-    //                 signedPerson={signedPerson}
-    //                 handleSignState={handleSignState}
-    //                 handleLoginState={handleLoginState}
-    //                 handlelogout={handlelogout}
-    //                 currentMovieDetails={currentMovieDetails}
-    //                 setMenuState={setMenuState}
-    //               />
-    //             </Suspense>
-    //           }
-    //         />
-
-    //         <Route
-    //           path="/showtimes"
-    //           element={
-    //             <Suspense fallback={<PageLoader />}>
-    //               <ShowtimesPage
-    //                 signedPerson={signedPerson}
-    //                 handleSignState={handleSignState}
-    //                 handleLoginState={handleLoginState}
-    //                 handlelogout={handlelogout}
-    //                 getTheatreData={getTheatreData}
-    //                 locationData={locationData}
-    //                 userLocation={userLocation}
-    //                 handleLocationSelection={handleLocationSelection}
-    //                 currentMovieDetails={currentMovieDetails}
-    //                 setMenuState={setMenuState}
-    //               />
-    //             </Suspense>
-    //           }
-    //         />
-
-    //         <Route
-    //           element={
-    //             <ProtectedRoute
-    //               condition={
-    //                 Object.keys(signedPerson).length !== 0 &&
-    //                 signedPerson.person_type === 'Customer'
-    //               }
-    //             />
-    //           }
-    //         >
-    //           <Route
-    //             path="/purchase"
-    //             element={
-    //               <Suspense fallback={<PageLoader />}>
-    //                 <PurchasePage
-    //                   theatreId={userPurchaseInfo.theatre_id}
-    //                   userDate={userPurchaseInfo.showtime_date}
-    //                   userMovieId={userPurchaseInfo.movie_id}
-    //                   userHallId={userPurchaseInfo.hall_id}
-    //                   userShowtimeId={userPurchaseInfo.showtime_id}
-    //                   userSeatPrice={userPurchaseInfo.seat_price}
-    //                   userSeatList={userPurchaseInfo.seat_id_list}
-    //                   userPayMethod={userPurchaseInfo.payment_method}
-    //                   clearUserSelection={handleUserPurchaseLocationInfo}
-    //                   signedPerson={signedPerson}
-    //                   handleSignState={handleSignState}
-    //                   handleLoginState={handleLoginState}
-    //                   handlelogout={handlelogout}
-    //                   getTheatreData={getTheatreData}
-    //                   locationData={locationData}
-    //                   userLocation={userLocation}
-    //                   handleLocationSelection={handleLocationSelection}
-    //                   handleUserDateChange={handleUserDateChange}
-    //                   datesData={datesData}
-    //                   getMovieData={getMovieData}
-    //                   movieData={movieData}
-    //                   handleUserMovieChange={handleUserMovieChange}
-    //                   getHallData={getHallData}
-    //                   hallData={hallData}
-    //                   handleUserHallShow={handleUserHallShow}
-    //                   getShowDatesData={getShowDatesData}
-    //                   seatsData={seatsData}
-    //                   getSeatsData={getSeatsData}
-    //                   handleUserSeats={handleUserSeats}
-    //                   formattedDate={formattedDate}
-    //                   curHallObj={curHallObj}
-    //                   currentMovie={currentMovie}
-    //                   userSeatListName={userSeatListName}
-    //                   handleUserPaymentMethod={handleUserPaymentMethod}
-    //                   purchaseCompletion={purchaseCompletion}
-    //                   ticketPurchaseError={ticketPurchaseError}
-    //                   setMenuState={setMenuState}
-    //                 />
-    //               </Suspense>
-    //             }
-    //           />
-
-    //           <Route
-    //             path="/customer"
-    //             element={
-    //               <Suspense fallback={<PageLoader />}>
-    //                 <CustomerInfoPage
-    //                   signedPerson={signedPerson}
-    //                   handleSignState={handleSignState}
-    //                   handleLoginState={handleLoginState}
-    //                   handlelogout={handlelogout}
-    //                   setMenuState={setMenuState}
-    //                 />
-    //               </Suspense>
-    //             }
-    //           />
-    //         </Route>
-
-    //         <Route
-    //           element={
-    //             <ProtectedRoute
-    //               condition={
-    //                 Object.keys(signedPerson).length !== 0 &&
-    //                 signedPerson.person_type === 'Admin'
-    //               }
-    //             />
-    //           }
-    //         >
-    //           <Route
-    //             path="/admin"
-    //             element={
-    //               <Suspense fallback={<PageLoader />}>
-    //                 <AdminPage
-    //                   signedPerson={signedPerson}
-    //                   handleSignState={handleSignState}
-    //                   handleLoginState={handleLoginState}
-    //                   handlelogout={handlelogout}
-    //                   adminErrorToast={adminErrorToast}
-    //                   adminMovieToast={adminMovieToast}
-    //                   adminShowtimeToast={adminShowtimeToast}
-    //                   adminShowninToast={adminShowninToast}
-    //                   setMenuState={setMenuState}
-    //                 />
-    //               </Suspense>
-    //             }
-    //           />
-    //         </Route>
-
-    //         <Route
-    //           path="/aboutus"
-    //           element={
-    //             <Suspense fallback={<PageLoader />}>
-    //               <AboutUsPage
-    //                 signedPerson={signedPerson}
-    //                 handleSignState={handleSignState}
-    //                 handleLoginState={handleLoginState}
-    //                 handlelogout={handlelogout}
-    //                 setMenuState={setMenuState}
-    //               />
-    //             </Suspense>
-    //           }
-    //         />
-
-    //         <Route
-    //           path="/movieDetails"
-    //           element={<Navigate replace to="/movieDetails/1" />}
-    //         />
-
-    //         <Route
-    //           path="/movieDetails/:id"
-    //           element={
-    //             <Suspense fallback={<PageLoader />}>
-    //               <MovieDetailsPage
-    //                 signedPerson={signedPerson}
-    //                 handleSignState={handleSignState}
-    //                 handleLoginState={handleLoginState}
-    //                 handlelogout={handlelogout}
-    //                 getTheatreData={getTheatreData}
-    //                 locationData={locationData}
-    //                 userLocation={userLocation}
-    //                 handleLocationSelection={handleLocationSelection}
-    //                 movieDetailsId={movieDetailsId}
-    //                 currentMovieDetails={currentMovieDetails}
-    //                 setMenuState={setMenuState}
-    //               />
-    //             </Suspense>
-    //           }
-    //         />
-    //       </Routes>
-    //     </AnimatePresence>
-    //   </div>
-
-    //   {signModalState && (
-    //     <SignupModal
-    //       handleSignState={handleSignState}
-    //       signupSuccessToast={signupSuccessToast}
-    //       signupFailedToast={signupFailedToast}
-    //     />
-    //   )}
-    //   {loginModalState && (
-    //     <LoginModal
-    //       handleLoginState={handleLoginState}
-    //       handleSignedPerson={handleSignedPerson}
-    //       loginFailedToast={loginFailedToast}
-    //     />
-    //   )}
-    //   <MobileNav
-    //     menuState={menuState}
-    //     menuStyle={menuStyle}
-    //     setMenuState={setMenuState}
-    //     signedPerson={signedPerson}
-    //     handlelogout={handlelogout}
-    //     handleSignState={handleSignState}
-    //     handleLoginState={handleLoginState}
-    //   />
-    // </>
     <>
-      <Routes>
-        <Route path="/" element={<ClientLayout />}>
-          <Route index path="/" element={<HomePage />} />
-          <Route path="/movie/:id" element={<MovieDetailsPage />} />
-          <Route
-            path="/purchase"
-            element={
-              // <Suspense fallback={<PageLoader />}>
-              <PurchasePage />
-              // </Suspense>
-            }
-          />
-          <Route path="/showtimes" element={<ShowtimesPage />} />
-        </Route>
-      </Routes>
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+        <AnimatePresence>
+          <Routes>
+            <Route path="/" element={<ClientLayout />}>
+              <Route
+                index
+                path="/"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <HomePage dataMovie={dataMovie} isLoading={isLoading} />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/movie/:slug"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <MovieDetailsPage />
+                  </Suspense>
+                }
+              />
+              {/* <Route path="/purchase" element={<PurchasePage />} /> */}
+              <Route path="/showtimes" element={<ShowtimesPage />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
+              <Route
+                path="/movies"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <MoviePage />
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/purchase"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <PurchaseLayout />
+                  </Suspense>
+                }
+              >
+                <Route
+                  path="food"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <FoodPage />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="seat"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <SeatPage />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="payment"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <Payment />
+                    </Suspense>
+                  }
+                />
+              </Route>
+            </Route>
+
+            <Route path="/admin">
+              {/* Define the routes for the admin section */}
+              <Route index element={<ECommerce />} />
+              <Route path="category">
+                <Route index element={<CategoryPage />} />
+                <Route path="add" element={<CategoryAdd />} />
+                <Route path="edit/:id" element={<CategoryEdit />} />
+              </Route>
+              <Route path="calendar" element={<Calendar />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="forms/form-elements" element={<FormElements />} />
+              <Route path="forms/form-layout" element={<FormLayout />} />
+              <Route path="tables" element={<Tables />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="chart" element={<Chart />} />
+              <Route path="ui/alerts" element={<Alerts />} />
+              <Route path="ui/buttons" element={<Buttons />} />
+              <Route path="auth/signin" element={<SignIn />} />
+              <Route path="auth/signup" element={<SignUp />} />
+            </Route>
+          </Routes>
+        </AnimatePresence>
+
+        <ToastContainer
+          style={{
+            fontSize: '1.8rem'
+          }}
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+          transition={Bounce} // Sử dụng dấu '=' để gán giá trị cho thuộc tính
+        />
+      </ThemeProvider>
     </>
   )
 }

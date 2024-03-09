@@ -39,19 +39,31 @@ module.exports = {
       colors: {
         border: {
           DEFAULT: 'hsl(var(--border))',
-          calendarBorder: 'var(--calendar-border)'
+          calendarBorder: 'var(--calendar-border)',
+          borderSocialLink: 'hsl(var(--border-social-link))',
+          borderPayment: 'hsl(var(--border-payment))'
         },
         input: 'hsl(var(--input))',
+        shadow: {
+          card: 'var(--shadow-card)'
+        },
         ring: 'hsl(var(--ring))',
         background: {
           DEFAULT: 'hsl(var(--background))',
           main: 'hsl(var(--bg-main))',
+          innerSection: 'hsl(var(--bg-section-inner))',
+          card: 'hsl(var(--bg-collection-card))',
           secondary: 'hsl(var(--bg-secondary))',
+          four: 'hsl(var(--bg-third))',
           third: 'hsl(var(--bg-showtime))',
           headerShow: 'hsl(var(--bg-headerShowTime))',
-          btnControllerCarousel: 'hsl(var(--button-control-carousel))'
+          btnControllerCarousel: 'hsl(var(--button-control-carousel))',
+          skeleton: 'var(--bg-skeleton)',
+          bgAfter: 'var(--gradient)'
         },
-        foreground: 'hsl(var(--foreground))',
+        foreground: {
+          DEFAULT: 'hsl(var(--foreground))'
+        },
         primary: {
           DEFAULT: 'hsl(var(--primary))',
           foreground: 'hsl(var(--primary-foreground))',
@@ -61,7 +73,9 @@ module.exports = {
           infoMovie: 'hsl(var(--text-info-movie-color))',
           cardMovie: 'hsl(var(--text-card-movie-color))',
           locationMovie: 'hsl(var(--text-location-movie-color))',
-          white: 'hsl(var(--primary-white))'
+          white: 'var(--primary-title)',
+          textUnderTitle: 'var(--text-under-title)',
+          copyright: 'hsl(var(--copy-right-color))'
         },
         secondary: {
           DEFAULT: 'hsl(var(--secondary))',
