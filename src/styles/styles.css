@@ -1855,6 +1855,13 @@ header {
 .selected {
   background-color: #ef5e78;
 }
+.reserved {
+  background-color: #fb9f15 !important;
+  cursor: not-allowed;
+}
+.reserved:hover {
+  cursor: not-allowed;
+}
 
 .seat-guide-container {
   display: flex;
@@ -2453,7 +2460,7 @@ header {
 .sideBar_pay {
   /* height: 600px; */
   background-color: #0054a5;
-  width: 33%;
+  width: 38%;
   padding-top: 20px;
   padding-left: 5px;
 }
@@ -2479,7 +2486,7 @@ header {
   display: flex;
   flex-direction: column;
   color: var(--white);
-  padding: 18px 15px;
+  padding: 8px 15px;
   box-sizing: border-box;
 }
 .timeRestPay {

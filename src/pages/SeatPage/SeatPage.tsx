@@ -16,6 +16,7 @@ const SeatPage = () => {
   const { seat: allSeat } = useSelector(
     (state: TicketSelector) => state.ticket.ticket
   )
+
   const [ticket] = useLocalStorage<TicketType | null>('ticket')
 
   const { data: seats, isLoading: loading } = useAllSeatByShowTime({
@@ -36,7 +37,8 @@ const SeatPage = () => {
         selected: false
       }
     })
-
+    // console.log(seats)
+    // console.log('allSeat', allSeat)
     if (ticket?.seat) {
       const seatSelectedStorage = ticket.seat
         .map((seat) => (seat.selected ? seat : undefined))

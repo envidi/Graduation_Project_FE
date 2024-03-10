@@ -35,6 +35,7 @@ import NotFound from './pages/NotFound/NotFound'
 import CategoryAdd from './admin/pages/Category/Add'
 import CategoryEdit from './admin/pages/Category/Edit'
 import Payment from './pages/Payment/Payment'
+import ResultPage from './pages/ResultPage/ResultPage'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -118,6 +119,14 @@ function App() {
                   element={
                     <Suspense fallback={<PageLoader />}>
                       <Payment />
+                    </Suspense>
+                  }
+                />
+                <Route
+                  path="result"
+                  element={
+                    <Suspense fallback={<PageLoader />}>
+                      <ResultPage />
                     </Suspense>
                   }
                 />

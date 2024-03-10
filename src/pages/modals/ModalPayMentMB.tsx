@@ -2,16 +2,20 @@ import { checkPaymentMBBank } from '@/api/payment'
 import { DialogClose } from '@/components/ui/dialog'
 import { TicketType } from '@/store/ticket'
 import { formatVND } from '@/utils'
+import { getNameSeat } from '@/utils/methodArray'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { Loader2, MoveLeft } from 'lucide-react'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 function ModalPayMentMB() {
   const [isLoadingPayment, setIsLoadingPayment] = useState(true)
+  const navigate = useNavigate()
   const my_bank = { BANK_ID: 'MB', ACCOUNT_NUMBER: 9830908070605 }
   const [ticket] = useLocalStorage<TicketType>('ticket')
-  const QR = `https://img.vietqr.io/image/${my_bank.BANK_ID}-${my_bank.ACCOUNT_NUMBER}-compact2.png?amount=${ticket.total}&addInfo=${ticket.name_movie}&accountName=envidi`
+  const infoTicket = ticket.name_movie + getNameSeat(ticket.seat, '') + '1'
+  const QR = `https://img.vietqr.io/image/${my_bank.BANK_ID}-${my_bank.ACCOUNT_NUMBER}-compact2.png?amount=${ticket.total}&addInfo=${infoTicket}&accountName=envidi`
 
   useEffect(() => {
     let count = 0
@@ -19,12 +23,12 @@ function ModalPayMentMB() {
 
     const checkPayment = async () => {
       try {
-        const result = await checkPaymentMBBank(ticket.total)
+        const result = await checkPaymentMBBank(ticket.total, infoTicket)
         if (result) {
-          toast.success('Pay successfully !', {
-            position: 'top-right'
-          })
           clearInterval(idInterval)
+          setTimeout(() => {
+            navigate('/purchase/result')
+          }, 3000)
         } else {
           count++
           if (count > 10) {
@@ -42,7 +46,7 @@ function ModalPayMentMB() {
     }
     const idTimeOut = setTimeout(() => {
       idInterval = setInterval(checkPayment, 4000)
-    }, 8000)
+    }, 10000)
 
     return () => {
       clearTimeout(idTimeOut)
@@ -51,39 +55,46 @@ function ModalPayMentMB() {
   }, [ticket.total, setIsLoadingPayment])
 
   return (
-    <div className="contain-overlay-product-detail">
-      <div className="contain-product-detail">
-        <div className="sideBar_pay">
-          <div className="timePay blockPayment">
+    <div className="contain-overlay-product-detail ">
+      <div className="contain-product-detail sm:flex-row xs:flex-col ">
+        <div className="sideBar_pay xs:hidden  sm:flex sm:basis-1/3 md:w-[38%] sm:flex-col xs:flex-row">
+          <div className="timePay blockPayment ">
             <span>Đơn hàng hết hạn sau</span>
             <span className="timeRestPay">10:00</span>
           </div>
-          <div className="timePay blockPayment">
-            <span>
-              <i className="fa-solid fa-shop"></i> Nhà cung cấp
-            </span>
-            <span>Shop</span>
+          <div className="flex xs:flex-row sm:flex-col">
+            <div className="timePay blockPayment text-2xl">
+              <div className="flex  items-end">
+                <span className="flex text-2xl items-end">Thông tin phim</span>
+              </div>
+              <span className="text-xl">{ticket.name_movie}</span>
+            </div>
+            <div className="timePay blockPayment text-2xl">
+              <div className="flex  items-end">
+                <span className="flex  items-end">Thông tin ghế</span>
+              </div>
+              <span>{getNameSeat(ticket.seat, ',')}</span>
+            </div>
           </div>
-          <div className="timePay blockPayment">
-            <span>
-              <i className="fa-solid fa-money-bill"></i> Số tiền
-            </span>
+          <div className="timePay blockPayment text-2xl">
+            <div className="flex  items-end">
+              <span className="flex  items-end">Thông tin lịch chiếu </span>
+            </div>
+            <span>{ticket.time_from}</span>
+          </div>
+          <div className="timePay blockPayment text-2xl">
+            <div>Số tiền</div>
             <span>{formatVND(ticket?.total)}</span>
           </div>
-          <div className="timePay blockPayment">
-            <span>
-              <i className="fa-solid fa-circle-info"></i> Thông tin
-            </span>
+          <div className="timePay blockPayment text-2xl">
             <span>Thanh toán bằng MBbank</span>
-            <span>STK : 123456789</span>
+            <span>STK : 9086498577888</span>
           </div>
-          <div className="timePay blockPayment">
-            <span>
-              <i className="fa-solid fa-id-card-clip"></i> Mã đơn hàng
-            </span>
+          <div className="timePay blockPayment text-2xl">
+            <div>Mã đơn hàng</div>
             <span> 123</span>
           </div>
-          <div className="timePay blockPayment">
+          <div className="timePay blockPayment mt-10">
             <DialogClose asChild>
               <button className="button-back-pay bg-white text-black text-2xl flex justify-center items-center gap-2">
                 <MoveLeft size={16} className="text-black" /> Quay lại
@@ -91,14 +102,14 @@ function ModalPayMentMB() {
             </DialogClose>
           </div>
         </div>
-        <div className="contain_QR_code">
+        <div className="contain_QR_code overflow-hidden rounded-xl">
           <div className="w-100 d-f jf-e">
             <div className="close_show">
               <i className="fa-solid fa-xmark"></i>
             </div>
           </div>
 
-          <div className="contain_logo_MBbank">
+          <div className="contain_logo_MBbank ">
             <div className="logo_MBbank">
               <img
                 width="120px"
@@ -126,9 +137,6 @@ function ModalPayMentMB() {
               Sử dụng app MBBank để quét mã
             </p>
             <div>
-              <span className="loading-pay ">
-                <i className="fa-solid fa-spinner loading-pay-icon loading-pay-icon-ani"></i>
-              </span>
               <span className="processing-pay text-black text-2xl flex">
                 Đang chờ quét mã{' '}
                 {isLoadingPayment ? (
@@ -139,7 +147,7 @@ function ModalPayMentMB() {
               </span>
             </div>
           </div>
-          <div className="notePay text-black text-2xl">
+          <div className="notePay text-black text-2xl xs:mt-0">
             * Sau khi chuyển khoản hãy chờ để ngân hàng xác nhận
           </div>
         </div>

@@ -120,6 +120,7 @@ export const MovieInfoSection = () => {
       name_movie: name,
       duration_movie: duration,
       price_movie: moviePriceCol[0].price,
+      price_id: moviePriceCol[0]._id,
       time_from: showtime.timeFrom
     }
     dispatch(ticketAction.addProperties(ticketObject))
