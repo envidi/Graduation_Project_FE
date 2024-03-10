@@ -1,7 +1,8 @@
 import { changeStatusSeat } from '@/utils/seatAlphaIndex'
 import { SeatUserList } from '@/Interface/ticket'
-import { SOLD } from '@/utils/constant'
-import { useState } from 'react'
+import { RESERVED, SOLD } from '@/utils/constant'
+import { TicketType } from '@/store/ticket'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 interface RenderSeatType {
   seat: SeatUserList
@@ -16,37 +17,43 @@ function RenderSeat({
   handleUserSeats,
   handleSeatClick
 }: RenderSeatType) {
-  const [isClick, setIsClick] = useState(false)
+  const [ticket] = useLocalStorage<TicketType | null>('ticket')
   const status = changeStatusSeat(seat.typeSeat)
+  const seatSelected =
+    ticket?.seat && ticket?.seat.filter((s) => s.selected).map((s) => s._id)
+
+  const reserved =
+    seat.status == RESERVED && !seatSelected?.includes(seat._id)
+      ? 'reserved'
+      : ''
   const sold = seat.status == 'Sold' ? 'sold' : ''
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    handleUserSeats({
-      ...seat,
-      selected: true
-    })
-  }
-
+  // const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+  //   e.preventDefault()
+  //   handleUserSeats({
+  //     ...seat,
+  //     selected: true
+  //   })
+  // }
   const handleChooseSeat = () => {
-    setIsClick((prev) => !prev)
     if (seat.status !== SOLD) {
       handleUserSeats({
         ...seat,
-        selected: isClick ? false : true
+        selected: seat.selected ? false : true
       })
       handleSeatClick(seat)
     }
   }
   return (
-    <div
-      className={`seat ${status} ${sold} ${seat.selected ? 'selected' : ''} lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20 uppercase`}
+    <button
+      className={`seat ${status} ${sold} ${reserved} ${seat.selected ? 'selected' : ''} lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20 uppercase`}
       onClick={handleChooseSeat}
-      onTouchEnd={seat.status !== 'booked' ? handleTouchStart : undefined}
+      // onTouchEnd={seat.status !== 'booked' ? handleTouchStart : undefined}
+      disabled={seat.status == RESERVED && !seatSelected?.includes(seat._id)}
       key={seat._id}
     >
       {seat.name}
-    </div>
+    </button>
   )
 }
 

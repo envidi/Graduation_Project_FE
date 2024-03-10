@@ -21,3 +21,6 @@ export const UNAVAILABLE = 'Unavailable'
 export const statusSeat = [AVAILABLE, SOLD, RESERVED, UNAVAILABLE]
 export const NORMAL = 'normal'
 export const VIP = 'VIP'
+export const SEAT_STORE = 'seat'
+export const CREATE_TICKET = 'CREATE_TICKET'
+export const COMPLETE_TICKET = 'COMPLETE_TICKET'

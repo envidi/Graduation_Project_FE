@@ -22,6 +22,7 @@ export interface TicketType {
   cinema_name?: string
   seat?: SeatUserList[] | null
   price_movie?: number
+  price_id?: string
   foods?: FoodItemState[]
   ticketAmount?: number
   total?: number
@@ -29,6 +30,7 @@ export interface TicketType {
     _id: number
     name: string
   }
+  ticket_id ?: string
 }
 export interface TicketState {
   ticket: TicketType
@@ -66,7 +68,8 @@ const ticketInitialState: TicketState = {
     paymentMethod: {
       _id: 0,
       name: ''
-    }
+    },
+    ticket_id : ''
   }
 }
 

@@ -30,11 +30,16 @@ import TicketItem from './Ticket/TicketItem'
 import TicketList from './Ticket/TicketList'
 
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import {
-  createPayment,
-  createPaymentMomo
-} from '@/api/payment'
+import { createPayment, createPaymentMomo } from '@/api/payment'
 import DialogPayment from '../modals/DialogPayment'
+import {
+  filterSeat,
+  filterFood,
+  filterData,
+  mapData
+} from '@/utils/methodArray'
+import useTicket from '@/hooks/useTicket'
+import { CREATE_TICKET } from '@/utils/constant'
 
 interface MutatePaymentType {
   amount: number
@@ -42,19 +47,23 @@ interface MutatePaymentType {
   bankCode: string
 }
 
-const filterData = (data: SeatUserList[]) => {
-  return data
-    .filter((s: SeatUserList) => s.selected)
-    .reduce((acc: number, s: SeatUserList) => {
-      return s.price + acc
-    }, 0)
-}
-
 function TicketSummary() {
   const queryClient = useQueryClient()
   const { seat, paymentMethod } = useSelector(
     (state: TicketSelector) => state.ticket.ticket
   )
+  const foods = useSelector((state: FoodSelector) => state.foods.foods)
+  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
+  const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
+
+
+  const onSuccess = (data: { _id: string }) => {
+    setTicket({
+      ...ticket,
+      ticket_id: data._id
+    })
+  }
+  const { mutate: mutateTicket } = useTicket(CREATE_TICKET, onSuccess)
   const { mutate } = useMutation({
     mutationFn: (data: MutatePaymentType) => {
       switch (paymentMethod._id) {
@@ -71,15 +80,10 @@ function TicketSummary() {
         window.location.replace(data?.data)
       }
       queryClient.invalidateQueries({ queryKey: ['payment'] })
-    },
-    onError: () => {}
+    }
   })
   const navigate = useNavigate()
   const { pathname } = useLocation()
-
-  const foods = useSelector((state: FoodSelector) => state.foods.foods)
-  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
-  const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
 
   const {
     hall_name = '',
@@ -93,20 +97,22 @@ function TicketSummary() {
     foods: foodsTicket = [],
     ticketAmount = 0
   } = ticket
-  const totalFoodPrice = foods
-    ? foods.reduce((acc: number, s: FoodItemState) => {
-        return s.price * s.quantity + acc
-      }, 0)
-    : 0
+
+  const totalFoodPrice =
+    foods && foods.length != 0
+      ? filterFood(foods)
+      : ticket.foods
+        ? filterFood(ticket.foods)
+        : 0
   const totalSeatPrice =
     seat && seat.length > 0
-      ? filterData(seat)
+      ? filterSeat(seat)
       : seatStorage
-        ? filterData(seatStorage)
+        ? filterSeat(seatStorage)
         : 0
   const total = totalSeatPrice + price_movie + totalFoodPrice
 
-  const mapData = (data: SeatUserList[]) => {
+  const mapDataSeat = (data: SeatUserList[]) => {
     const filteredData = data.filter((seat: SeatUserList) => seat.selected)
     return filteredData.map((seat: SeatUserList) => seat.name).join(', ')
   }
@@ -125,9 +131,30 @@ function TicketSummary() {
       total,
       ticketAmount: seat.filter((s) => s.selected).length
     })
+    const foodObject = filterData(
+      ticket.foods,
+      (food) => food.quantity > 0
+    ).map((food) => {
+      return { foodId: food._id, quantityFood: food.quantity }
+    })
+    const newObject = {
+      priceId: ticket?.price_id,
+      seatId: mapData(seat),
+      foods: foodObject,
+      showtimeId: ticket.id_showtime
+    }
+    if (ticket.ticket_id !== '') {
+      mutateTicket({
+        ...newObject,
+        ticket_id: ticket.ticket_id
+      })
+      return navigate('/purchase/food')
+    }
+    mutateTicket({
+      ...newObject
+    })
     navigate('/purchase/food')
   }
-
   const handlePurchaseFood = () => {
     setTicket({
       ...ticket,
@@ -150,7 +177,6 @@ function TicketSummary() {
       } as MutatePaymentType)
     }
   }
-
 
   return (
     <div className="purchase-section-right ticket_summary ">
@@ -213,9 +239,9 @@ function TicketSummary() {
               title={'Seats'}
               name={
                 seat && seat.length != 0
-                  ? mapData(seat)
+                  ? mapDataSeat(seat)
                   : seatStorage && seatStorage.length > 0
-                    ? mapData(seatStorage)
+                    ? mapDataSeat(seatStorage)
                     : '--'
               }
             />

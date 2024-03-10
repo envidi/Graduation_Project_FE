@@ -9,12 +9,19 @@ export interface PaymentApi {
   bankCode: string
   language: string
 }
-export const checkPaymentMBBank = async (total: number|undefined) => {
+export const checkPaymentMBBank = async (
+  total: number | undefined,
+  content: string
+) => {
   try {
     const result = await axios.get(API_SHEET)
     const currentPayment = result.data.data[result.data.data.length - 1]
 
-    if (currentPayment['Giá trị'] == total) return true
+    if (
+      currentPayment['Giá trị'] == total &&
+      currentPayment['Mô tả'].includes(content)
+    )
+      return true
     return false
   } catch (error) {
     console.log(error)
