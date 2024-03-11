@@ -1,6 +1,8 @@
+import { ConfirmDialog } from '@/admin/components/Confirm'
 import { Category } from '@/admin/types/category'
 import { getAllCategory, removeCategory } from '@/api/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRef, useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
 import { FaPlusCircle } from 'react-icons/fa'
 import { FaRegTrashCan } from 'react-icons/fa6'
@@ -9,6 +11,9 @@ import { toast } from 'react-toastify'
 
 const TableCategory = () => {
   const queryClient = useQueryClient()
+
+  const [isOpenConfirm, setOpenConfirm] = useState(false)
+  const idDelete = useRef<string>()
 
   const navigate = useNavigate()
   // fetch category by react-query
@@ -30,8 +35,14 @@ const TableCategory = () => {
     }
   })
 
-  const handleRemoveCategory = (id: string) => {
-    mutate(id)
+  const handleRemoveCategory = () => {
+    mutate(idDelete.current!)
+    setOpenConfirm(false)
+  }
+
+  const handleShowConfirm = (id: string) => {
+    idDelete.current = id
+    setOpenConfirm(true)
   }
 
   if (isLoading || !data) {
@@ -94,7 +105,7 @@ const TableCategory = () => {
                       </button>
                       <button
                         className="hover:text-primary"
-                        onClick={() => handleRemoveCategory(cate._id)}
+                        onClick={() => handleShowConfirm(cate._id)}
                       >
                         <FaRegTrashCan size={20} />
                       </button>
@@ -106,6 +117,14 @@ const TableCategory = () => {
           </table>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={isOpenConfirm}
+        title="Ban co chac muon xoa khong"
+        subTitle="Xoa di se khong the khoi phuc"
+        onCancel={() => setOpenConfirm(false)}
+        onConfirm={handleRemoveCategory}
+      />
     </>
   )
 }
