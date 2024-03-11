@@ -36,6 +36,7 @@ import CategoryAdd from './admin/pages/Category/Add'
 import CategoryEdit from './admin/pages/Category/Edit'
 import Payment from './pages/Payment/Payment'
 import ResultPage from './pages/ResultPage/ResultPage'
+import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -101,25 +102,31 @@ function App() {
                 <Route
                   path="food"
                   element={
-                    <Suspense fallback={<PageLoader />}>
-                      <FoodPage />
-                    </Suspense>
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <FoodPage />
+                      </Suspense>
+                    </ProtectedRoutePage>
                   }
                 />
                 <Route
                   path="seat"
                   element={
-                    <Suspense fallback={<PageLoader />}>
-                      <SeatPage />
-                    </Suspense>
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <SeatPage />
+                      </Suspense>
+                    </ProtectedRoutePage>
                   }
                 />
                 <Route
                   path="payment"
                   element={
-                    <Suspense fallback={<PageLoader />}>
-                      <Payment />
-                    </Suspense>
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <Payment />
+                      </Suspense>
+                    </ProtectedRoutePage>
                   }
                 />
                 <Route

@@ -109,6 +109,7 @@ export const MovieInfoSection = () => {
     .filter(function (element: ShowTime) {
       return element !== undefined
     })
+
   const handleChooseShowtime = (showtime: ShowTime) => {
     const ticketObject = {
       id_showtime: showtime._id,
