@@ -72,7 +72,12 @@ const FormCategory = ({ typeForm }: FormCategoryProps) => {
     },
     onSubmit: async (values) => {
       try {
-        const response = await mutate(values)
+        const bodyData = {
+          isDeleteable: categoryData?.isDeleteable,
+          name: values.name,
+          products: categoryData?.products || []
+        }
+        const response = await mutate(bodyData)
         console.log('res', response)
       } catch (error) {
         console.log('error', error)
@@ -114,7 +119,7 @@ const FormCategory = ({ typeForm }: FormCategoryProps) => {
               className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 mt-4"
               type="submit"
             >
-              Add
+              {typeForm === 'ADD' ? 'Add' : 'Update'}
             </button>
           </div>
         </form>
