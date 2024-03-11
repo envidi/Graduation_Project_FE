@@ -1,11 +1,39 @@
 import useAllFood from '@/hooks/useAllFood'
 import FoodItem from './FoodItem'
 import HashLoader from 'react-spinners/HashLoader'
-import { FoodCollectionType } from '@/Interface/food'
-
+import { FoodItemState } from '@/Interface/food'
+import { useDispatch, useSelector } from 'react-redux'
+import { FoodSelector, foodsAction } from '@/store/food'
+import { useEffect } from 'react'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { TicketType } from '@/store/ticket'
 
 function FoodCollection() {
+  const dispatch = useDispatch()
   const { data, isLoading } = useAllFood()
+  const foods = useSelector((state: FoodSelector) => state.foods.foods)
+  const [ticket] = useLocalStorage<TicketType>('ticket')
+
+  useEffect(() => {
+    if (!data || data.length == 0) return
+    const newData = data.map((f: FoodItemState) => {
+      return {
+        _id: f._id,
+        name: f.name,
+        price: f.price,
+        image: f.image,
+        quantity: 0
+      }
+    })
+
+    if (ticket.foods) {
+      const combiData = [...ticket.foods]
+      dispatch(foodsAction.fetchData(combiData))
+      return
+    }
+
+    dispatch(foodsAction.fetchData(newData))
+  }, [data, dispatch])
 
   const override = {
     display: 'block',
@@ -20,8 +48,8 @@ function FoodCollection() {
         <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
           Menu
         </h2>
-        {data &&
-          data?.map((food:FoodCollectionType) => {
+        {foods &&
+          foods?.map((food: FoodItemState) => {
             return <FoodItem key={food._id} food={food} />
           })}
       </div>

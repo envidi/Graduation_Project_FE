@@ -1,11 +1,35 @@
-import { FoodType } from '@/Interface/food'
+import { FoodItemState, FoodType } from '@/Interface/food'
 import { Star } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import { Minus } from 'lucide-react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-
+import { useDispatch } from 'react-redux'
+import { foodsAction } from '@/store/food'
 
 function FoodItem({ food }: FoodType) {
+  const dispatch = useDispatch()
+
+  const handleIncrementFood = (food: FoodItemState) => {
+    const newFood = {
+      name: food.name,
+      price: food.price,
+      image: food.image,
+      _id: food._id,
+      quantity: 1
+    }
+    dispatch(foodsAction.incrementFood(newFood))
+  }
+  const handleDecrementFood = (food: FoodItemState) => {
+    const newFood = {
+      name: food.name,
+      price: food.price,
+      image: food.image,
+      _id: food._id,
+      quantity: 1
+    }
+    dispatch(foodsAction.decrementFood(newFood))
+  }
+
   return (
     <div className="showtimes-schedule md:my-8 xs:my-10">
       {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
@@ -38,15 +62,22 @@ function FoodItem({ food }: FoodType) {
               Order now
             </div> */}
           <div className="flex gap-4  ">
-            <span className="border-[1px] border-primary-nameMovie flex items-center rounded-lg sm:px-2 sm:py-2 xs:px-5 xs:py-3 hover:bg-primary-movieColor hover:border-primary-movieColor hover:cursor-pointer">
+            <button
+              onClick={() => handleDecrementFood(food)}
+              className="border-[1px] border-primary-nameMovie flex items-center rounded-lg sm:px-2 sm:py-2 xs:px-5 xs:py-3 hover:bg-primary-movieColor hover:border-primary-movieColor hover:cursor-pointer"
+            >
               <Minus size={18} />
-            </span>
+            </button>
             <input
               type="text"
               className="lg:w-20 md:w-20 sm:w-16 xs:w-20 bg-transparent border-primary-nameMovie border-[1px] rounded-lg outline-none px-3 text-2xl py-2"
-              value={1}
+              onChange={() => console.log('render input')}
+              value={food.quantity}
             />
-            <span className="border-[1px] border-primary-nameMovie flex items-center rounded-lg sm:px-2 sm:py-2 xs:px-5 xs:py-3 hover:bg-primary-movieColor hover:border-primary-movieColor hover:cursor-pointer">
+            <span
+              onClick={() => handleIncrementFood(food)}
+              className="border-[1px] border-primary-nameMovie flex items-center rounded-lg sm:px-2 sm:py-2 xs:px-5 xs:py-3 hover:bg-primary-movieColor hover:border-primary-movieColor hover:cursor-pointer"
+            >
               <Plus size={18} />
             </span>
           </div>

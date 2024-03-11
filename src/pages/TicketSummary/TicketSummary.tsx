@@ -1,4 +1,183 @@
+import { TicketType } from '@/store/ticket'
+import { useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
+import { Armchair, Cookie } from 'lucide-react'
+
+import {
+  chuyenDoiNgayDauVao,
+  convertAmPm,
+  convertMintuteToHour,
+  formatVND,
+  getDay,
+  getHourAndMinute
+} from '@/utils'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { SeatUserList, TicketSelector } from '@/Interface/ticket'
+import { useNavigate } from 'react-router-dom'
+import {
+  Hall,
+  Location,
+  PaymentMethod,
+  ShowDate,
+  ShowTime,
+  TicketAmount
+} from './IconTicket'
+
+import { FoodItemState } from '@/Interface/food'
+import { FoodSelector } from '@/store/food'
+import { useLocation } from 'react-router-dom'
+import TicketItem from './Ticket/TicketItem'
+import TicketList from './Ticket/TicketList'
+
+import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { createPayment, createPaymentMomo } from '@/api/payment'
+import DialogPayment from '../modals/DialogPayment'
+import {
+  filterSeat,
+  filterFood,
+  filterData,
+  mapData
+} from '@/utils/methodArray'
+import useTicket from '@/hooks/useTicket'
+import { CREATE_TICKET } from '@/utils/constant'
+
+interface MutatePaymentType {
+  amount: number
+  language: string
+  bankCode: string
+}
+
 function TicketSummary() {
+  const queryClient = useQueryClient()
+  const { seat, paymentMethod } = useSelector(
+    (state: TicketSelector) => state.ticket.ticket
+  )
+  const foods = useSelector((state: FoodSelector) => state.foods.foods)
+  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
+  const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
+
+
+  const onSuccess = (data: { _id: string }) => {
+    setTicket({
+      ...ticket,
+      ticket_id: data._id
+    })
+  }
+  const { mutate: mutateTicket } = useTicket(CREATE_TICKET, onSuccess)
+  const { mutate } = useMutation({
+    mutationFn: (data: MutatePaymentType) => {
+      switch (paymentMethod._id) {
+        case 1:
+          return createPayment(data)
+        case 2:
+          return createPaymentMomo(data)
+        default:
+          return createPayment(data)
+      }
+    },
+    onSuccess: (data) => {
+      if (data?.data) {
+        window.location.replace(data?.data)
+      }
+      queryClient.invalidateQueries({ queryKey: ['payment'] })
+    }
+  })
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
+
+  const {
+    hall_name = '',
+    image_movie = '',
+    time_from = '',
+    name_movie = '',
+    duration_movie = 0,
+    cinema_name = '',
+    price_movie = 0,
+    seat: seatStorage = [],
+    foods: foodsTicket = [],
+    ticketAmount = 0
+  } = ticket
+
+  const totalFoodPrice =
+    foods && foods.length != 0
+      ? filterFood(foods)
+      : ticket.foods
+        ? filterFood(ticket.foods)
+        : 0
+  const totalSeatPrice =
+    seat && seat.length > 0
+      ? filterSeat(seat)
+      : seatStorage
+        ? filterSeat(seatStorage)
+        : 0
+  const total = totalSeatPrice + price_movie + totalFoodPrice
+
+  const mapDataSeat = (data: SeatUserList[]) => {
+    const filteredData = data.filter((seat: SeatUserList) => seat.selected)
+    return filteredData.map((seat: SeatUserList) => seat.name).join(', ')
+  }
+
+  const handlePurchaseSeat = () => {
+    if (seat.length == 0) {
+      toast.error('Please select seat !', {
+        position: 'top-right'
+      })
+      return
+    }
+
+    setTicket({
+      ...ticket,
+      seat: [...seat],
+      total,
+      ticketAmount: seat.filter((s) => s.selected).length
+    })
+    const foodObject = filterData(
+      ticket.foods,
+      (food) => food.quantity > 0
+    ).map((food) => {
+      return { foodId: food._id, quantityFood: food.quantity }
+    })
+    const newObject = {
+      priceId: ticket?.price_id,
+      seatId: mapData(seat),
+      foods: foodObject,
+      showtimeId: ticket.id_showtime
+    }
+    if (ticket.ticket_id !== '') {
+      mutateTicket({
+        ...newObject,
+        ticket_id: ticket.ticket_id
+      })
+      return navigate('/purchase/food')
+    }
+    mutateTicket({
+      ...newObject
+    })
+    navigate('/purchase/food')
+  }
+  const handlePurchaseFood = () => {
+    setTicket({
+      ...ticket,
+      total,
+      foods: [...foods]
+    })
+
+    navigate('/purchase/payment')
+  }
+  const handlePurchasePayment = () => {
+    if (paymentMethod._id == 1) {
+      mutate({
+        amount: ticket.total,
+        bankCode: 'NCB',
+        language: 'vn'
+      } as MutatePaymentType)
+    } else if (paymentMethod._id == 2) {
+      mutate({
+        amount: ticket.total
+      } as MutatePaymentType)
+    }
+  }
+
   return (
     <div className="purchase-section-right ticket_summary ">
       <h2 className="ticket-container-heading">Ticket Summary</h2>
@@ -8,291 +187,114 @@ function TicketSummary() {
           <div className="ticket-movie-img-cont">
             <img
               className="ticket-movie-img"
-              src="https://res.cloudinary.com/dsmy4ogdj/image/upload/v1707899661/scarygirl_nmxrem.jpg"
+              src={image_movie}
               alt="selected movie image"
             />
           </div>
 
           <div className="ticket-primary-info">
             <p className="ticket-movie-screen">3D</p>
-            <p className="ticket-movie-name">oppenheimer</p>
-            <p className="ticket-movie-dur">1h 54m</p>
+            <p className="ticket-movie-name">{name_movie}</p>
+            <p className="ticket-movie-dur">
+              {convertMintuteToHour(duration_movie)}
+            </p>
           </div>
         </div>
 
         <div className="ticket-info">
           <ul className="ticket-info-list">
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <path
-                    d="M256 48c-79.5 0-144 61.39-144 137 0 87 96 224.87 131.25 272.49a15.77 15.77 0 0025.5 0C304 409.89 400 272.07 400 185c0-75.61-64.5-137-144-137z"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                  />
-                  <circle
-                    cx="256"
-                    cy="192"
-                    r="48"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                  />
-                </svg>
-                <p>Location</p>
-              </div>
+            <TicketItem
+              icon={<Location />}
+              title={'Location'}
+              name={cinema_name}
+            />
+            <TicketItem
+              icon={<ShowDate />}
+              title={'Show Date'}
+              name={chuyenDoiNgayDauVao(getDay(time_from))}
+            />
+            <TicketItem
+              icon={<Hall />}
+              title={'Hall number'}
+              name={hall_name}
+            />
+            <TicketItem
+              icon={<ShowTime />}
+              title={'Show Time'}
+              name={convertAmPm(getHourAndMinute(time_from))}
+            />
+            <TicketItem
+              icon={<TicketAmount />}
+              title={'Ticket Amount'}
+              name={
+                seat && seat.length != 0
+                  ? seat.filter((s) => s.selected).length
+                  : ticketAmount
+                    ? ticketAmount
+                    : '--'
+              }
+            />
+            <TicketItem
+              icon={<Armchair size={16} />}
+              title={'Seats'}
+              name={
+                seat && seat.length != 0
+                  ? mapDataSeat(seat)
+                  : seatStorage && seatStorage.length > 0
+                    ? mapDataSeat(seatStorage)
+                    : '--'
+              }
+            />
 
-              <p className="ticket-info-val">
-                {/* {userLocation ? userLocation.location : '--'} */}
-                Panthapath
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <rect
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                    x="48"
-                    y="80"
-                    width="416"
-                    height="384"
-                    rx="48"
-                  />
-                  <circle cx="296" cy="232" r="24" />
-                  <circle cx="376" cy="232" r="24" />
-                  <circle cx="296" cy="312" r="24" />
-                  <circle cx="376" cy="312" r="24" />
-                  <circle cx="136" cy="312" r="24" />
-                  <circle cx="216" cy="312" r="24" />
-                  <circle cx="136" cy="392" r="24" />
-                  <circle cx="216" cy="392" r="24" />
-                  <circle cx="296" cy="392" r="24" />
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                    strokeLinecap="round"
-                    d="M128 48v32M384 48v32"
-                  />
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                    d="M464 160H48"
-                  />
-                </svg>
-                <p>Show Date</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {formattedDate ? formattedDate : '--'} */}
-                Aug 19, 2023
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <rect
-                    x="32"
-                    y="96"
-                    width="448"
-                    height="272"
-                    rx="32.14"
-                    ry="32.14"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                  />
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeMiterlimit="10"
-                    strokeWidth="32"
-                    d="M128 416h256"
-                  />
-                </svg>
-                <p>Hall number</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {curHallObj ? curHallObj.hall_name : '--'} */}
-                Hall 2
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <path
-                    d="M112.91 128A191.85 191.85 0 0064 254c-1.18 106.35 85.65 193.8 192 194 106.2.2 192-85.83 192-192 0-104.54-83.55-189.61-187.5-192a4.36 4.36 0 00-4.5 4.37V152"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                  />
-                  <path d="M233.38 278.63l-79-113a8.13 8.13 0 0111.32-11.32l113 79a32.5 32.5 0 01-37.25 53.26 33.21 33.21 0 01-8.07-7.94z" />
-                </svg>
-                <p>Show Time</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userHallId ? curHallObj.movie_start_time : '--'} */}
-                6:00 pm
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <path d="M490.18,181.4l-44.13-44.13a20,20,0,0,0-27-1,30.81,30.81,0,0,1-41.68-1.6h0A30.81,30.81,0,0,1,375.77,93a20,20,0,0,0-1-27L330.6,21.82a19.91,19.91,0,0,0-28.13,0L232.12,92.16a39.87,39.87,0,0,0-9.57,15.5,7.71,7.71,0,0,1-4.83,4.83,39.78,39.78,0,0,0-15.5,9.58L21.82,302.47a19.91,19.91,0,0,0,0,28.13L66,374.73a20,20,0,0,0,27,1,30.69,30.69,0,0,1,43.28,43.28,20,20,0,0,0,1,27l44.13,44.13a19.91,19.91,0,0,0,28.13,0l180.4-180.4a39.82,39.82,0,0,0,9.58-15.49,7.69,7.69,0,0,1,4.84-4.84,39.84,39.84,0,0,0,15.49-9.57l70.34-70.35A19.91,19.91,0,0,0,490.18,181.4ZM261.81,151.75a16,16,0,0,1-22.63,0l-11.51-11.51a16,16,0,0,1,22.63-22.62l11.51,11.5A16,16,0,0,1,261.81,151.75Zm44,44a16,16,0,0,1-22.62,0l-11-11a16,16,0,1,1,22.63-22.63l11,11A16,16,0,0,1,305.83,195.78Zm44,44a16,16,0,0,1-22.63,0l-11-11a16,16,0,0,1,22.63-22.62l11,11A16,16,0,0,1,349.86,239.8Zm44.43,44.54a16,16,0,0,1-22.63,0l-11.44-11.5a16,16,0,1,1,22.68-22.57l11.45,11.49A16,16,0,0,1,394.29,284.34Z" />
-                </svg>
-                <p>Ticket Amount</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userSeatListName ? userSeatListName.length : '--'} */}1
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <path d="M490.18,181.4l-44.13-44.13a20,20,0,0,0-27-1,30.81,30.81,0,0,1-41.68-1.6h0A30.81,30.81,0,0,1,375.77,93a20,20,0,0,0-1-27L330.6,21.82a19.91,19.91,0,0,0-28.13,0L232.12,92.16a39.87,39.87,0,0,0-9.57,15.5,7.71,7.71,0,0,1-4.83,4.83,39.78,39.78,0,0,0-15.5,9.58L21.82,302.47a19.91,19.91,0,0,0,0,28.13L66,374.73a20,20,0,0,0,27,1,30.69,30.69,0,0,1,43.28,43.28,20,20,0,0,0,1,27l44.13,44.13a19.91,19.91,0,0,0,28.13,0l180.4-180.4a39.82,39.82,0,0,0,9.58-15.49,7.69,7.69,0,0,1,4.84-4.84,39.84,39.84,0,0,0,15.49-9.57l70.34-70.35A19.91,19.91,0,0,0,490.18,181.4ZM261.81,151.75a16,16,0,0,1-22.63,0l-11.51-11.51a16,16,0,0,1,22.63-22.62l11.51,11.5A16,16,0,0,1,261.81,151.75Zm44,44a16,16,0,0,1-22.62,0l-11-11a16,16,0,1,1,22.63-22.63l11,11A16,16,0,0,1,305.83,195.78Zm44,44a16,16,0,0,1-22.63,0l-11-11a16,16,0,0,1,22.63-22.62l11,11A16,16,0,0,1,349.86,239.8Zm44.43,44.54a16,16,0,0,1-22.63,0l-11.44-11.5a16,16,0,1,1,22.68-22.57l11.45,11.49A16,16,0,0,1,394.29,284.34Z" />
-                </svg>
-                <p>Seats</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userSeatListName && userSeatListName.length !== 0
-                      ? userSeatListName
-                          .map((seat) => seat.seat_name)
-                          .join(', ')
-                      : '--'} */}
-                C5
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <rect
-                    x="48"
-                    y="96"
-                    width="416"
-                    height="320"
-                    rx="56"
-                    ry="56"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                  />
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinejoin="round"
-                    strokeWidth="60"
-                    d="M48 192h416M128 300h48v20h-48z"
-                  />
-                </svg>
-                <p>Payment Method</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userPayMethod && userPayMethod.length > 0
-                      ? userPayMethod
-                      : '--'} */}
-                Bkash
-              </p>
-            </li>
-
-            <li className="ticket-info-item">
-              <div className="ticket-info-category">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="ticket-icon"
-                  viewBox="0 0 512 512"
-                >
-                  <rect
-                    x="48"
-                    y="96"
-                    width="416"
-                    height="320"
-                    rx="56"
-                    ry="56"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="32"
-                  />
-                  <path
-                    fill="none"
-                    stroke="currentColor"
-                    strokeLinejoin="round"
-                    strokeWidth="60"
-                    d="M48 192h416M128 300h48v20h-48z"
-                  />
-                </svg>
-                <p>Total Price</p>
-              </div>
-
-              <p className="ticket-info-val">
-                {/* {userSeatPrice && userSeatListName
-                      ? `BDT ${userSeatPrice * userSeatListName.length}TK`
-                      : '--'} */}
-                BDT 450TK
-              </p>
-            </li>
+            <TicketList
+              icon={<Cookie size={16} />}
+              title={'Food'}
+              valueState={foodValid}
+              valueStorage={foodsTicket}
+            />
+            <TicketItem
+              icon={<PaymentMethod />}
+              title={'Payment Method'}
+              name={paymentMethod.name}
+            />
+            <TicketItem
+              icon={<PaymentMethod />}
+              title={'Total Price'}
+              name={formatVND(total)}
+            />
           </ul>
         </div>
-        <button className="ticket-btn">
-          {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
-          purchase ticket
-        </button>
+        {pathname == '/purchase/food' && (
+          <button
+            className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
+            onClick={handlePurchaseFood}
+          >
+            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
+            purchase ticket
+          </button>
+        )}
+
+        {pathname == '/purchase/seat' && (
+          <button
+            className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
+            onClick={handlePurchaseSeat}
+          >
+            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
+            purchase ticket
+          </button>
+        )}
+        {pathname == '/purchase/payment' && paymentMethod._id !== 3 && (
+          <button
+            className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
+            onClick={handlePurchasePayment}
+          >
+            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
+            purchase ticket
+          </button>
+        )}
+        {pathname == '/purchase/payment' && paymentMethod._id == 3 && (
+          <DialogPayment />
+        )}
       </div>
     </div>
   )

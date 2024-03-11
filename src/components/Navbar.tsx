@@ -142,6 +142,7 @@ export const Navbar = () => {
               About Us
             </Link>
           </li>
+
           <li className="relative">
             <SearchBar />
           </li>

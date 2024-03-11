@@ -1,51 +1,59 @@
-import { Seat } from '@/Interface/seat'
-import { convertNumberToAlphabet } from '@/utils/seatAlphaIndex'
+import { changeStatusSeat } from '@/utils/seatAlphaIndex'
+import { SeatUserList } from '@/Interface/ticket'
+import { RESERVED, SOLD } from '@/utils/constant'
+import { TicketType } from '@/store/ticket'
+import { useLocalStorage } from '@uidotdev/usehooks'
 
 interface RenderSeatType {
-  seat: Seat
+  seat: SeatUserList
   // eslint-disable-next-line no-unused-vars
-  handleUserSeats: (seatId: string) => void
+  handleUserSeats: (seatId: SeatUserList) => void
   // eslint-disable-next-line no-unused-vars
-  handleSeatClick: (seat: Seat) => void
-  userSeatList: string[]
+  handleSeatClick: (seat: SeatUserList) => void
 }
 
 function RenderSeat({
   seat,
   handleUserSeats,
-  handleSeatClick,
-  userSeatList
+  handleSeatClick
 }: RenderSeatType) {
-  // let seatStatus = seat.status === 'normal' ? 'booked' : 'available'
-  let seatStatus: string
-  if (seat.typeSeat == 'VIP') {
-    seatStatus = 'vip'
-  } else {
-    seatStatus = 'available'
-  }
+  const [ticket] = useLocalStorage<TicketType | null>('ticket')
+  const status = changeStatusSeat(seat.typeSeat)
+  const seatSelected =
+    ticket?.seat && ticket?.seat.filter((s) => s.selected).map((s) => s._id)
 
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
-    e.preventDefault()
-    handleUserSeats(seat._id)
+  const reserved =
+    seat.status == RESERVED && !seatSelected?.includes(seat._id)
+      ? 'reserved'
+      : ''
+  const sold = seat.status == 'Sold' ? 'sold' : ''
+
+  // const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+  //   e.preventDefault()
+  //   handleUserSeats({
+  //     ...seat,
+  //     selected: true
+  //   })
+  // }
+  const handleChooseSeat = () => {
+    if (seat.status !== SOLD) {
+      handleUserSeats({
+        ...seat,
+        selected: seat.selected ? false : true
+      })
+      handleSeatClick(seat)
+    }
   }
   return (
-    <div
-      className={`seat ${seatStatus} lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20`}
-      onClick={() => {
-        if (seatStatus !== 'booked') {
-          handleUserSeats(seat._id)
-          handleSeatClick(seat)
-        }
-      }}
-      onTouchEnd={seatStatus !== 'booked' ? handleTouchStart : undefined}
+    <button
+      className={`seat ${status} ${sold} ${reserved} ${seat.selected ? 'selected' : ''} lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20 uppercase`}
+      onClick={handleChooseSeat}
+      // onTouchEnd={seat.status !== 'booked' ? handleTouchStart : undefined}
+      disabled={seat.status == RESERVED && !seatSelected?.includes(seat._id)}
       key={seat._id}
-      style={{
-        backgroundColor: userSeatList.includes(seat._id) ? '#ef5e78' : ''
-      }}
     >
-      <span className="uppercase">{convertNumberToAlphabet(seat.row)}</span>
-      {seat.column}
-    </div>
+      {seat.name}
+    </button>
   )
 }
 

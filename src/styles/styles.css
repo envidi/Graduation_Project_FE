@@ -1379,14 +1379,14 @@ header {
   font-weight: 600;
   letter-spacing: 0.75px;
   color: #eb3656;
-  margin-bottom: 3.2rem;
+  margin-bottom: 1.2rem;
   padding-left: 2.4rem;
 }
 
 .ticket-container {
   display: flex;
   flex-direction: column;
-  height: 64rem;
+  /* height: 64rem; */
   background-color: #151723;
   box-shadow: 0 1.1rem 1.6rem rgba(17, 17, 17, 0.21);
   padding: 2.4rem;
@@ -1435,7 +1435,8 @@ header {
 }
 
 .ticket-info {
-  margin: 4.8rem 0;
+  margin-top: 1.8rem;
+  margin-bottom: 2rem;
 }
 
 .ticket-info-list {
@@ -1832,11 +1833,6 @@ header {
   margin-left: 4rem;
 }
 
-.booked {
-  background-color: #fbd7dd;
-  color: #777;
-}
-
 .seat:not(.booked) {
   cursor: pointer;
 }
@@ -1846,8 +1842,25 @@ header {
   background-color: #ef5e78;
   box-shadow: 0 1rem 1.8rem 0 rgba(235, 54, 87, 0.16);
 }
-.vip{
-  background-color: #b30000;
+.vip {
+  background-color: #db1f1f;
+}
+.vip:hover {
+  background-color: #ef5e78;
+}
+.sold {
+  background-color: #fbd7dd;
+  color: #777;
+}
+.selected {
+  background-color: #ef5e78;
+}
+.reserved {
+  background-color: #fb9f15 !important;
+  cursor: not-allowed;
+}
+.reserved:hover {
+  cursor: not-allowed;
 }
 
 .seat-guide-container {
@@ -2425,4 +2438,67 @@ header {
     grid-template-rows: auto 1fr;
     row-gap: 10px;
   }
+}
+
+/* --------------------Payment------------------ */
+.contain-overlay-product-detail {
+  /* position: fixed;
+  top: 0; */
+
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  display: block;
+  justify-content: center;
+  align-items: center;
+}
+.contain-product-detail {
+  width: 100%;
+  display: flex;
+  background-color: var(--white);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.sideBar_pay {
+  /* height: 600px; */
+  background-color: #0054a5;
+  width: 38%;
+  padding-top: 20px;
+  padding-left: 5px;
+}
+.contain_QR_code {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 15px 20px;
+  padding-top: 5px;
+}
+.contain_logo_MBbank {
+  display: flex;
+  justify-content: space-between;
+}
+.line_pay {
+  width: 100%;
+  height: 1px;
+  background-color: #e3e3e3;
+  margin-top: 10px;
+}
+.blockPayment {
+  display: flex;
+  flex-direction: column;
+  color: var(--white);
+  padding: 8px 15px;
+  box-sizing: border-box;
+}
+.timeRestPay {
+  font-size: 2.8rem;
+}
+.notePay {
+  margin-top: 12%;
+}
+.button-back-pay {
+  padding: 10px 0px;
+}
+.button-back-pay:hover {
+  opacity: 0.9;
+  cursor: pointer;
 }

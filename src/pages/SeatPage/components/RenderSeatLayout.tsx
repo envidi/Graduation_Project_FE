@@ -1,23 +1,21 @@
 import { convertNumberToAlphabet } from '@/utils/seatAlphaIndex'
 import { useEffect, useState } from 'react'
 import RenderSeatRow from './RenderSeatRow'
-import { Seat } from '@/Interface/seat'
+import { SeatUserList } from '@/Interface/ticket'
 interface RenderSeatLayoutType {
-  seats: Seat[]
+  seats: SeatUserList[]
   // eslint-disable-next-line no-unused-vars
-  handleUserSeats: (seatId: string) => void
+  handleUserSeats: (seat: SeatUserList) => void
   // eslint-disable-next-line no-unused-vars
-  handleSeatClick: (seat: Seat) => void
-  userSeatList: string[]
+  handleSeatClick: (seat: SeatUserList) => void
 }
 
 function RenderSeatLayout({
   seats,
   handleUserSeats,
-  handleSeatClick,
-  userSeatList
+  handleSeatClick
 }: RenderSeatLayoutType) {
-  const [rows, setRows] = useState<Seat[][]>([])
+  const [rows, setRows] = useState<SeatUserList[][]>([])
 
   useEffect(() => {
     if (seats) {
@@ -30,8 +28,7 @@ function RenderSeatLayout({
       setRows(updatedRows)
     }
   }, [seats])
-  return rows.map((row: Seat[], index: number) => {
-
+  return rows.map((row: SeatUserList[], index: number) => {
     return (
       <div key={index} className="flex items-center w-full">
         <div className="text-3xl uppercase mr-10 text-primary-movieColor font-semibold">
@@ -42,7 +39,6 @@ function RenderSeatLayout({
           rowSeats={row}
           handleUserSeats={handleUserSeats}
           handleSeatClick={handleSeatClick}
-          userSeatList={userSeatList}
         />
       </div>
     )

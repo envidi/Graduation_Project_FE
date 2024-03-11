@@ -1,9 +1,10 @@
 export interface FoodType {
   food: {
-    _id:string
+    _id: string
     name: string
-    image: string
+    quantity: number
     price: number
+    image?: string
   }
 }
 export interface FoodCollectionType {
@@ -11,4 +12,11 @@ export interface FoodCollectionType {
   name: string
   image: string
   price: number
+}
+export interface FoodItemState {
+  _id: string
+  name: string
+  quantity: number
+  price: number
+  image?: string
 }

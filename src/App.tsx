@@ -6,7 +6,7 @@ import ClientLayout from './layouts/ClientLayout'
 
 import 'react-toastify/dist/ReactToastify.css'
 import { Bounce, ToastContainer } from 'react-toastify'
-import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
+
 import { Suspense, lazy, useEffect } from 'react'
 import { moviesAction } from './store/movie'
 import { useDispatch } from 'react-redux'
@@ -14,15 +14,37 @@ import { AnimatePresence } from 'framer-motion'
 import { PageLoader } from './components/PageLoader'
 // import Profile from './pages/modals/Profile'
 import useAllMovie from './hooks/useAllMovie'
+
+import Profile from './admin/pages/Profile'
+// import PageTitle from './admin/components/PageTitle'
+import ECommerce from './admin/pages/Dashboard/ECommerce'
+import SignIn from './admin/pages/Authentication/SignIn'
+import SignUp from './admin/pages/Authentication/SignUp'
+import Chart from './admin/pages/Chart'
+import FormElements from './admin/pages/Form/FormElements'
+import FormLayout from './admin/pages/Form/FormLayout'
+import Tables from './admin/pages/Tables'
+import Alerts from './admin/pages/UiElements/Alerts'
+import Buttons from './admin/pages/UiElements/Buttons'
+import Calendar from './admin/pages/Calendar'
+import Settings from './admin/pages/Settings'
+import CategoryPage from './admin/pages/Category'
+
+import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
-import PurchaseLayout from './layouts/PurchaseLayout'
-import SeatPage from './pages/SeatPage/SeatPage'
+import CategoryAdd from './admin/pages/Category/Add'
+import CategoryEdit from './admin/pages/Category/Edit'
+import Payment from './pages/Payment/Payment'
+import ResultPage from './pages/ResultPage/ResultPage'
+import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
 const HomePage = lazy(() => import('./pages/Home/HomePage'))
 const MoviePage = lazy(() => import('./pages/MoviePage/MoviePage'))
 const FoodPage = lazy(() => import('./pages/FoodPage/FoodPage'))
+const PurchaseLayout = lazy(() => import('./layouts/PurchaseLayout'))
+const SeatPage = lazy(() => import('./pages/SeatPage/SeatPage'))
 
 function App() {
   const dispatch = useDispatch()
@@ -59,6 +81,8 @@ function App() {
               />
               {/* <Route path="/purchase" element={<PurchasePage />} /> */}
               <Route path="/showtimes" element={<ShowtimesPage />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="*" element={<NotFound />} />
               <Route
                 path="/movies"
                 element={
@@ -67,30 +91,82 @@ function App() {
                   </Suspense>
                 }
               />
-
-              <Route path="*" element={<NotFound />} />
-              <Route path="/purchase" element={<PurchaseLayout />}>
+              <Route
+                path="/purchase"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <PurchaseLayout />
+                  </Suspense>
+                }
+              >
                 <Route
                   path="food"
                   element={
-                    <Suspense fallback={<PageLoader />}>
-                      <FoodPage />
-                    </Suspense>
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <FoodPage />
+                      </Suspense>
+                    </ProtectedRoutePage>
                   }
                 />
                 <Route
                   path="seat"
                   element={
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <SeatPage />
+                      </Suspense>
+                    </ProtectedRoutePage>
+                  }
+                />
+                <Route
+                  path="payment"
+                  element={
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <Payment />
+                      </Suspense>
+                    </ProtectedRoutePage>
+                  }
+                />
+                <Route
+                  path="result"
+                  element={
                     <Suspense fallback={<PageLoader />}>
-                      <SeatPage />
+                      <ResultPage />
                     </Suspense>
                   }
                 />
               </Route>
             </Route>
+
+            <Route path="/admin">
+              {/* Define the routes for the admin section */}
+              <Route index element={<ECommerce />} />
+              <Route path="category">
+                <Route index element={<CategoryPage />} />
+                <Route path="add" element={<CategoryAdd />} />
+                <Route path="edit/:id" element={<CategoryEdit />} />
+              </Route>
+              <Route path="calendar" element={<Calendar />} />
+              <Route path="profile" element={<Profile />} />
+              <Route path="forms/form-elements" element={<FormElements />} />
+              <Route path="forms/form-layout" element={<FormLayout />} />
+              <Route path="tables" element={<Tables />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="chart" element={<Chart />} />
+              <Route path="ui/alerts" element={<Alerts />} />
+              <Route path="ui/buttons" element={<Buttons />} />
+              <Route path="auth/signin" element={<SignIn />} />
+              <Route path="auth/signup" element={<SignUp />} />
+            </Route>
           </Routes>
         </AnimatePresence>
+
         <ToastContainer
+          style={{
+            fontSize: '1.8rem'
+          }}
           position="top-right"
           autoClose={5000}
           hideProgressBar={false}
