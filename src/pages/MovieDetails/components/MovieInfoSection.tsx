@@ -95,20 +95,21 @@ export const MovieInfoSection = () => {
   } = dataMovie
 
   const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
-
-  const showTimePerDay = showTimeCol
-    ?.map((showTime: ShowTime) => {
-      if (
-        getDay(showTime.date) === getDay(selectCalendar(date)) &&
-        showTime.status === AVAILABLE &&
-        showTime.cinemaId._id.toString() === currentLocation.toString()
-      ) {
-        return showTime
-      }
-    })
-    .filter(function (element: ShowTime) {
-      return element !== undefined
-    })
+  const showTimePerDay =
+    showTimeCol &&
+    showTimeCol
+      ?.map((showTime: ShowTime) => {
+        if (
+          getDay(showTime.date) === getDay(selectCalendar(date)) &&
+          showTime.status === AVAILABLE &&
+          showTime.cinemaId._id.toString() === currentLocation.toString()
+        ) {
+          return showTime
+        }
+      })
+      .filter(function (element: ShowTime) {
+        return element !== undefined
+      })
 
   const handleChooseShowtime = (showtime: ShowTime) => {
     const ticketObject = {

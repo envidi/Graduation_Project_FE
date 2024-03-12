@@ -12,15 +12,20 @@ import Carousel from '@/components/CardCarousel/CardCarousel'
 import HashLoader from 'react-spinners/HashLoader'
 import { MovieType } from '@/Interface/movie'
 import SwiperSlider from '@/components/SwiperSlide/SwiperSlider'
+import { useSelector } from 'react-redux'
 // import axios from 'axios'
 // import HashLoader from 'react-spinners/HashLoader'
 // import { useParams } from 'react-router-dom'
 
 export const MovieInfoCollection = () => {
-  const id = useParams()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const movies = useSelector((state: any) => state.movies.movies)
+  const { slug } = useParams()
+  const { _id = '' } =
+  movies.length > 0 && movies.find((movie: MovieType) => movie.slug === slug)
   const { data: dataMovie, isLoading } = useQuery({
-    queryKey: ['MOVIE_RELATED', id],
-    queryFn: () => getRelateMovie('65c8dc874a19975a1cc5fc7e')
+    queryKey: ['MOVIE_RELATED', _id],
+    queryFn: () => getRelateMovie(_id)
   })
   const override = {
     display: 'block',

@@ -1,4 +1,5 @@
 import { getAllSeat } from '@/api/seat'
+import { SEAT_STORE } from '@/utils/constant'
 import { useQuery } from '@tanstack/react-query'
 
 function useAllSeatByShowTime(id_show_hall: {
@@ -6,8 +7,9 @@ function useAllSeatByShowTime(id_show_hall: {
   _showId: string
 }) {
   return useQuery({
-    queryKey: ['seat', id_show_hall],
+    queryKey: [SEAT_STORE, id_show_hall],
     queryFn: () => getAllSeat(id_show_hall)
+    // refetchInterval: 10000
   })
 }
 
