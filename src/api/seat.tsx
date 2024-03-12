@@ -11,3 +11,4 @@ export const getAllSeat = async (id: { _hallId: string; _showId: string }) => {
   )
   return result.data.datas.docs
 }
+
