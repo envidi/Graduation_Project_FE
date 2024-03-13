@@ -383,7 +383,6 @@ header {
   position: fixed;
   width: 44.8rem;
   background-color: #fff;
-  top: 8.6rem;
   left: 50%;
   transform: translateX(-50%);
   padding: 3.2rem;
@@ -426,7 +425,7 @@ header {
 .signup-form-body {
   display: flex;
   flex-direction: column;
-  gap: 1.6rem;
+  gap: 1rem;
   font-size: 1.4rem;
   color: #1a1d2c;
   font-weight: 600;
