@@ -1,22 +1,21 @@
+import { CSSProperties } from 'react'
 import { useNavigate } from 'react-router-dom'
+interface MobileNav {
+  menuState: boolean
+  menuStyle: CSSProperties
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+  setMenuState: (state: any) => void
+}
 
-export const MobileNav = ({
-  menuState,
-  menuStyle,
-  setMenuState,
-  signedPerson,
-  handlelogout,
-  handleSignState,
-  handleLoginState
-}: any) => {
+const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
   const navigate = useNavigate()
 
   return (
     <>
-      <div className="mobile-nav-menu" style={menuState ? menuStyle : {}}>
+      <div className="mobile-nav-menu z-50" style={menuState ? menuStyle : {}}>
         <button
           className="btn-menu-close"
-          onClick={() => setMenuState((prev: any) => !prev)}
+          onClick={() => setMenuState((state: boolean) => !state)}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +38,7 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
+                setMenuState((prev: boolean) => !prev)
                 navigate('/')
               }}
             >
@@ -50,7 +49,7 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
+                setMenuState((prev: boolean) => !prev)
                 navigate('/showtimes')
               }}
             >
@@ -61,7 +60,7 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
+                setMenuState((prev: boolean) => !prev)
                 navigate('/aboutus')
               }}
             >
@@ -87,8 +86,7 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
-                handleSignState()
+                setMenuState((prev: boolean) => !prev)
               }}
             >
               Sign Up
@@ -98,15 +96,14 @@ export const MobileNav = ({
             <button
               className="mobile-nav-item"
               onClick={() => {
-                setMenuState((prev: any) => !prev)
-                handleLoginState()
+                setMenuState((prev: boolean) => !prev)
               }}
             >
               Sign in
             </button>
           </li>
 
-          {Object.keys(signedPerson).length > 0 && (
+          {/* {Object.keys(signedPerson).length > 0 && (
             <li className="mobile-nav-list-item">
               <button
                 className="mobile-nav-item"
@@ -118,15 +115,16 @@ export const MobileNav = ({
                 Log out
               </button>
             </li>
-          )}
+          )} */}
         </ul>
 
-        {Object.keys(signedPerson).length !== 0 && (
+        {/* {Object.keys(signedPerson).length !== 0 && (
           <p className="mobile-nav-name">
             Signed in as ({signedPerson.first_name})
           </p>
-        )}
+        )} */}
       </div>
     </>
   )
 }
+export default MobileNav

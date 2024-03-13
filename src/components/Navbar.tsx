@@ -7,15 +7,18 @@ import { SignupModal } from '@/pages/modals/SignupModal'
 import { ContextMain } from '@/context/Context'
 import { LoginModal } from '@/pages/modals/LoginModal'
 import Profile from '@/pages/modals/Profile'
-import { MdLogout } from 'react-icons/md'
+// import { MdLogout } from 'react-icons/md'
 import { toast } from 'react-toastify'
-import { ModeToggle } from './mode-toggle'
+import DropDownMenu from './DropDownMenu'
+import { Bell } from 'lucide-react'
+import { Separator } from './ui/separator'
 
-export const Navbar = () => {
+export const Navbar = ({ setMenuState }: any) => {
   const [showSignup, setShowSignup] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [showNav, setShowNav] = useState(false)
-  const [showProfile, setShowProfile] = useState(false)
+  // const [showProfile, setShowProfile] = useState(false)
+  const [showProfile] = useState(false)
   // const [signUpState, setSignUpState] = useState(false)
   // const navigate = useNavigate()
   const { userDetail, isLogined, setIsLogined } = useContext<any>(ContextMain)
@@ -25,9 +28,9 @@ export const Navbar = () => {
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
   }
-  const toggleShowProfile = () => {
-    setShowProfile((pre) => !pre)
-  }
+  // const toggleShowProfile = () => {
+  //   setShowProfile((pre) => !pre)
+  // }
 
   const toggleShowFormSignIn = () => {
     setShowSignIn((pre) => !pre)
@@ -41,7 +44,10 @@ export const Navbar = () => {
   return (
     <header>
       <div>
-        <button className="btn-menu">
+        <button
+          className="btn-menu"
+          onClick={() => setMenuState((prevState: any) => !prevState)}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="menu-icon"
@@ -114,17 +120,20 @@ export const Navbar = () => {
       </nav>
 
       <div className="nav-signup ml-[75%]">
-        <ModeToggle />
-
+        <div className="relative">
+          <Bell size={20} className="text-primary-locationMovie" />
+          <span className="w-7 h-7 rounded-full flex justify-center items-center  bg-primary-movieColor absolute top-[-8px] right-[-5px]">
+            2
+          </span>
+        </div>
+        <Separator
+          className="bg-border-borderSocialLink h-9 ms-8 mr-4"
+          orientation="vertical"
+        />
         {isLogined ? (
           <>
-            <p
-              className="nav-signed-name text-xl hover:text-gray-400 cursor-pointer"
-              onClick={toggleShowProfile}
-            >
-              Hello : {userDetail?.message?.name}
-            </p>
-            <MdLogout className="text-2xl cursor-pointer " onClick={logout} />
+            <DropDownMenu userDetail={userDetail} logout={logout} />
+            {/* <MdLogout className="text-2xl cursor-pointer " onClick={logout} /> */}
           </>
         ) : (
           <>

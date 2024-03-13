@@ -7,7 +7,7 @@ import ClientLayout from './layouts/ClientLayout'
 import 'react-toastify/dist/ReactToastify.css'
 import { Bounce, ToastContainer } from 'react-toastify'
 
-import { Suspense, lazy, useEffect } from 'react'
+import { Suspense, lazy, useEffect, useState } from 'react'
 import { moviesAction } from './store/movie'
 import { useDispatch } from 'react-redux'
 import { AnimatePresence } from 'framer-motion'
@@ -37,6 +37,11 @@ import CategoryEdit from './admin/pages/Category/Edit'
 import Payment from './pages/Payment/Payment'
 import ResultPage from './pages/ResultPage/ResultPage'
 import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
+import SettingsLayout from './pages/Profile/layout'
+import SettingsProfilePage from './pages/Profile/page'
+import { AccountForm } from './pages/Profile/account/account-form'
+import SettingsAppearancePage from './pages/Profile/Appearence/page'
+import MobileNav from './components/MobileNav'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -48,6 +53,13 @@ const SeatPage = lazy(() => import('./pages/SeatPage/SeatPage'))
 
 function App() {
   const dispatch = useDispatch()
+  const [menuState, setMenuState] = useState(false)
+  const menuStyle = {
+    opacity: '1',
+    pointerEvents: 'auto',
+    visibility: 'visible',
+    transform: 'translateX(0)'
+  }
   const { data: dataMovie, isLoading } = useAllMovie()
   useEffect(() => {
     if (dataMovie) {
@@ -61,7 +73,10 @@ function App() {
       <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <AnimatePresence>
           <Routes>
-            <Route path="/" element={<ClientLayout />}>
+            <Route
+              path="/"
+              element={<ClientLayout setMenuState={setMenuState} />}
+            >
               <Route
                 index
                 path="/"
@@ -81,7 +96,30 @@ function App() {
               />
               {/* <Route path="/purchase" element={<PurchasePage />} /> */}
               <Route path="/showtimes" element={<ShowtimesPage />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route
+                path="/profile/forms"
+                element={
+                  <SettingsLayout>
+                    <SettingsProfilePage />
+                  </SettingsLayout>
+                }
+              />
+              <Route
+                path="/profile/forms/account"
+                element={
+                  <SettingsLayout>
+                    <AccountForm />
+                  </SettingsLayout>
+                }
+              />
+              <Route
+                path="/profile/forms/appearance"
+                element={
+                  <SettingsLayout>
+                    <SettingsAppearancePage />
+                  </SettingsLayout>
+                }
+              />
               <Route path="*" element={<NotFound />} />
               <Route
                 path="/movies"
@@ -178,6 +216,11 @@ function App() {
           pauseOnHover
           theme="light"
           transition={Bounce} // Sử dụng dấu '=' để gán giá trị cho thuộc tính
+        />
+        <MobileNav
+          menuState={menuState}
+          menuStyle={menuStyle}
+          setMenuState={setMenuState}
         />
       </ThemeProvider>
     </>
