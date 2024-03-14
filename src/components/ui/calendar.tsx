@@ -55,6 +55,7 @@ function Calendar({
       components={{
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         IconLeft: ({ ...props }) => <ChevronLeft className="h-20 w-20" />,
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         IconRight: ({ ...props }) => <ChevronRight className="h-20 w-20" />
       }}
       {...props}

@@ -27,24 +27,38 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
+import TooltipComponent from './TooltipComponent'
+interface DropDownMenuType{
+  userDetail : {
+    message : {
+      name : string
+    }
+  }
+  logout: ()=>void
+}
 
-function DropDownMenu({ userDetail, logout }: any) {
+function DropDownMenu({ userDetail, logout }: DropDownMenuType) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button>
-          <p
-            className="nav-signed-name flex items-center gap-2 text-2xl hover:text-gray-400 cursor-pointer"
-            // onClick={toggleShowProfile}
-          >
-            <Avatar className="w-10 h-10">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>{' '}
-            {userDetail?.message?.name}
-          </p>
-        </Button>
-      </DropdownMenuTrigger>
+      <TooltipComponent tooltip={'Your account'}>
+        <DropdownMenuTrigger asChild>
+          <Button>
+            <p
+              className="nav-signed-name flex items-center gap-2 text-2xl hover:text-gray-400 cursor-pointer"
+              // onClick={toggleShowProfile}
+            >
+              <Avatar className="w-10 h-10">
+                <AvatarImage
+                  src="https://github.com/shadcn.png"
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>{' '}
+              {userDetail?.message?.name}
+            </p>
+          </Button>
+        </DropdownMenuTrigger>
+      </TooltipComponent>
       <DropdownMenuContent className="w-72">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
