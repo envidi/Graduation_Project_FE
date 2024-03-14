@@ -12,6 +12,7 @@ import { toast } from 'react-toastify'
 import DropDownMenu from './DropDownMenu'
 import { Bell } from 'lucide-react'
 import { Separator } from './ui/separator'
+import TooltipComponent from './TooltipComponent'
 
 export const Navbar = ({ setMenuState }: any) => {
   const [showSignup, setShowSignup] = useState(false)
@@ -119,12 +120,16 @@ export const Navbar = ({ setMenuState }: any) => {
         </ul>
       </nav>
 
-      <div className="nav-signup ml-[75%]">
+      <div className="nav-signup">
         <div className="relative">
-          <Bell size={20} className="text-primary-locationMovie" />
-          <span className="w-7 h-7 rounded-full flex justify-center items-center  bg-primary-movieColor absolute top-[-8px] right-[-5px]">
-            2
-          </span>
+          <TooltipComponent tooltip={'Notify'}>
+            <div>
+              <Bell size={20} className="text-primary-locationMovie" />
+              <span className="w-7 h-7 rounded-full flex justify-center items-center  bg-primary-movieColor absolute top-[-8px] right-[-5px]">
+                2
+              </span>
+            </div>
+          </TooltipComponent>
         </div>
         <Separator
           className="bg-border-borderSocialLink h-9 ms-8 mr-4"
@@ -207,13 +212,13 @@ export const Navbar = ({ setMenuState }: any) => {
         )}
       </div>
 
-      <div>
+      <>
         {showSignup && <SignupModal />}
 
         {showSignIn && <LoginModal />}
 
         {showProfile && <Profile />}
-      </div>
+      </>
     </header>
   )
 }

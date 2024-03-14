@@ -7,7 +7,7 @@ import ClientLayout from './layouts/ClientLayout'
 import 'react-toastify/dist/ReactToastify.css'
 import { Bounce, ToastContainer } from 'react-toastify'
 
-import { Suspense, lazy, useEffect, useState } from 'react'
+import { CSSProperties, Suspense, lazy, useEffect, useState } from 'react'
 import { moviesAction } from './store/movie'
 import { useDispatch } from 'react-redux'
 import { AnimatePresence } from 'framer-motion'
@@ -15,7 +15,7 @@ import { PageLoader } from './components/PageLoader'
 // import Profile from './pages/modals/Profile'
 import useAllMovie from './hooks/useAllMovie'
 
-import Profile from './admin/pages/Profile'
+
 // import PageTitle from './admin/components/PageTitle'
 import ECommerce from './admin/pages/Dashboard/ECommerce'
 import SignIn from './admin/pages/Authentication/SignIn'
@@ -30,17 +30,18 @@ import Calendar from './admin/pages/Calendar'
 import Settings from './admin/pages/Settings'
 import CategoryPage from './admin/pages/Category'
 
-import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
+import Profile from './admin/pages/Profile'
+// import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
 import CategoryAdd from './admin/pages/Category/Add'
 import CategoryEdit from './admin/pages/Category/Edit'
-import Payment from './pages/Payment/Payment'
+// import Payment from './pages/Payment/Payment'
 import ResultPage from './pages/ResultPage/ResultPage'
 import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
-import SettingsLayout from './pages/Profile/layout'
-import SettingsProfilePage from './pages/Profile/page'
-import { AccountForm } from './pages/Profile/account/account-form'
-import SettingsAppearancePage from './pages/Profile/Appearence/page'
+// import SettingsLayout from './pages/Profile/layout'
+// import SettingsProfilePage from './pages/Profile/page'
+import SettingsAccountPage from './pages/Profile/account/page' 
+// import SettingsAppearancePage from './pages/Profile/Appearence/page'
 import MobileNav from './components/MobileNav'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
@@ -50,11 +51,20 @@ const MoviePage = lazy(() => import('./pages/MoviePage/MoviePage'))
 const FoodPage = lazy(() => import('./pages/FoodPage/FoodPage'))
 const PurchaseLayout = lazy(() => import('./layouts/PurchaseLayout'))
 const SeatPage = lazy(() => import('./pages/SeatPage/SeatPage'))
+const SettingsProfilePage = lazy(() => import('./pages/Profile/page'))
+const SettingsAppearancePage = lazy(
+  () => import('./pages/Profile/Appearence/page')
+)
+const SettingsLayout = lazy(() => import('./pages/Profile/layout'))
+const Payment = lazy(() => import('./pages/Payment/Payment'))
+const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
+const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
+
 
 function App() {
   const dispatch = useDispatch()
   const [menuState, setMenuState] = useState(false)
-  const menuStyle = {
+  const menuStyle: CSSProperties = {
     opacity: '1',
     pointerEvents: 'auto',
     visibility: 'visible',
@@ -99,25 +109,41 @@ function App() {
               <Route
                 path="/profile/forms"
                 element={
-                  <SettingsLayout>
-                    <SettingsProfilePage />
-                  </SettingsLayout>
+                  <Suspense fallback={<PageLoader />}>
+                    <SettingsLayout>
+                      <SettingsProfilePage />
+                    </SettingsLayout>
+                  </Suspense>
+                }
+              />
+              <Route
+                path="/profile/bill"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <SettingsLayout>
+                      <ProfileBillPage />
+                    </SettingsLayout>
+                  </Suspense>
                 }
               />
               <Route
                 path="/profile/forms/account"
                 element={
-                  <SettingsLayout>
-                    <AccountForm />
-                  </SettingsLayout>
+                  <Suspense fallback={<PageLoader />}>
+                    <SettingsLayout>
+                      <SettingsAccountPage />
+                    </SettingsLayout>
+                  </Suspense>
                 }
               />
               <Route
                 path="/profile/forms/appearance"
                 element={
-                  <SettingsLayout>
-                    <SettingsAppearancePage />
-                  </SettingsLayout>
+                  <Suspense fallback={<PageLoader />}>
+                    <SettingsLayout>
+                      <SettingsAppearancePage />
+                    </SettingsLayout>
+                  </Suspense>
                 }
               />
               <Route path="*" element={<NotFound />} />
