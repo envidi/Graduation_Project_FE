@@ -8,7 +8,11 @@ export const signin = (user: any) => {
 }
 
 export const updateUser = (user: any) => {
-  return InsanceToken.put('/updateUser', user)
+  return InsanceToken.patch('/updateUser', user)
+}
+export const updateClient = (user: any) => {
+  if (!user) return {}
+  return InsanceToken.patch('/updateClient', user)
 }
 
 export const forgotPassword = (email: string) => {
