@@ -12,13 +12,13 @@ function TimeCountDown() {
   const mutation = useTicket(DELETE_TICKET)
   const [countdown, setCountdown] = useLocalStorage<number | null>('countdown')
   const [count, { startCountdown, stopCountdown }] = useCountdown({
-    countStart: countdown ? countdown : 60,
+    countStart: countdown ? countdown : 600,
     intervalMs: intervalValue
   })
   useEffect(() => {
     startCountdown()
     setCountdown(count)
-    if (count == 25) {
+    if (count == 1) {
       stopCountdown()
       mutation.mutate({
         ticket_id: ticket.ticket_id

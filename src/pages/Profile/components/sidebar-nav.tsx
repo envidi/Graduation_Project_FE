@@ -1,8 +1,11 @@
 import { Link, useLocation } from 'react-router-dom'
-import { PenLine } from 'lucide-react'
+
 import { cn } from '@/lib/utils'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { buttonVariants } from '@/components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { ContextAuth, ContextMain } from '@/context/Context'
+import { useContext } from 'react'
+import UploadImage from './UploadImage'
 
 interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
   items: {
@@ -13,19 +16,51 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   const { pathname } = useLocation()
+  const { userDetail } = useContext<ContextAuth>(ContextMain)
+  // const [file, setFiles] = useState<File[]>([])
+
+  // const userUpdate = useMutation({
+  //   mutationFn: async (user: any) => await updateClient(user),
+  //   onSuccess() {
+  //     toast.success('Update Successfully ')
+  //   },
+  //   onError() {
+  //     toast.error('Update faile, try again !')
+  //   }
+  // })
+
+  // const form = useForm({
+  //   resolver: joiResolver(imageSchema),
+  //   defaultValues: {
+  //     avatar: ''
+  //   },
+  //   mode: 'onChange'
+  // })
+
+  // const onSubmit = () => {
+  //   const data = new FormData()
+
+  //   if (!file || file.length == 0) {
+  //     toast.error('Please select a image!', {
+  //       position: 'top-right'
+  //     })
+  //     return
+  //   }
+  //   data.set('avatar', file[0])
+  //   userUpdate.mutate(data)
+  // }
+  // const handleChangeFile = (e: any) => {
+  //   setFiles(e.target.files)
+  // }
 
   return (
     <>
       <div className="flex lg:flex-col  lg:items-center md:flex-row xs:flex-col xs:items-center md:space-x-5 lg:space-x-0 space-y-4 md:mb-5 xs:mb-5 lg:mt-3">
         <Avatar className="lg:w-40 lg:h-40 xs:w-48 xs:h-48">
-          <AvatarImage src="https://github.com/shadcn.png" />
+          <AvatarImage src={userDetail.message.avatar} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-
-        <Button className="border-primary-movieColor text-primary-locationMovie border-2 text-2xl space-x-2 rounded-lg px-5">
-          <PenLine size={12} />
-          <span>Edit</span>
-        </Button>
+        <UploadImage />
       </div>
       <nav
         className={cn(
