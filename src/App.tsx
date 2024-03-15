@@ -34,6 +34,7 @@ import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
 import CategoryAdd from './admin/pages/Category/Add'
 import CategoryEdit from './admin/pages/Category/Edit'
+import Users from './admin/pages/Users'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -125,13 +126,14 @@ function App() {
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="users" element={<Users />} />
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />
               <Route path="tables" element={<Tables />} />
               <Route path="settings" element={<Settings />} />
               <Route path="chart" element={<Chart />} />
               <Route path="ui/alerts" element={<Alerts />} />
-              <Route path="ui/buttons" element={<Buttons />} />
+              <Route path="ui/buttons" element={<Buttons />} /> 
               <Route path="auth/signin" element={<SignIn />} />
               <Route path="auth/signup" element={<SignUp />} />
             </Route>

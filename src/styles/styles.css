@@ -328,6 +328,12 @@ header {
   list-style: none;
   flex-direction: column;
 }
+.box{
+  box-shadow: 0px 1px 1px -1px #7f7e7e;
+}
+
+
+
 
 .mobile-nav-item {
   width: 100%;

@@ -1,11 +1,12 @@
-import { getDetailUser, updateUser } from '@/api/auth'
+import { deleteUser, getDetailUser, updateUser, updateUserId } from '@/api/auth'
 import React, { createContext, useState } from 'react'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { InvalidateQueryFilters, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 
 export const ContextMain = createContext({})
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
+  const queryClient = useQueryClient()
   const [isLogined, setIsLogined] = useState(
     !!localStorage.getItem('Accesstoken')
   )
@@ -21,6 +22,19 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       return token
     }
   })
+  
+
+  const removeUser = useMutation({
+    mutationFn: async (id: any) => await deleteUser(id),
+    onSuccess (){
+      console.log("Deleting User was successful");
+      queryClient.invalidateQueries(["USERS"] as InvalidateQueryFilters)
+      toast.success("Delete User thành công")
+  },
+  onError(){
+      toast.error("Delete User thất bại")
+  }   
+  }) 
 
   const userUpdate = useMutation({
     mutationFn: async (user) => await updateUser(user),
@@ -32,7 +46,16 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  const values = { isLogined, setIsLogined, userDetail, userUpdate }
+  const userUpdateId = useMutation({
+    mutationFn: async (user) => await updateUserId(user),
+    onSuccess() {
+      toast.success('Update Successfully <3 ')
+    },
+    onError() {
+      toast.error('Update faile, try again !!!!!!!')
+    }
+  })
+  const values = { isLogined, setIsLogined, userDetail, userUpdate, removeUser, updateUserId, userUpdateId }
   return <ContextMain.Provider value={values}>{children}</ContextMain.Provider>
 }
 

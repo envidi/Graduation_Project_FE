@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
 import SidebarLinkGroup from './SidebarLinkGroup'
 import Logo from '../../images/logo/logo.svg'
-
+import { FaUserCircle } from "react-icons/fa";
 interface SidebarProps {
   sidebarOpen: boolean
   setSidebarOpen: (arg: boolean) => void
@@ -96,7 +96,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         {/* <!-- Sidebar Menu --> */}
         <nav className="mt-5 py-4 px-4 lg:mt-9 lg:px-6">
           {/* <!-- Menu Group --> */}
-          <div>
+          <div className='text-white'>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
               MENU
             </h3>
@@ -271,6 +271,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     />
                   </svg>
                   Profile
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="/admin/users"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
+                  }`}
+                >
+                 <FaUserCircle className='text-lg' style={{fontSize:"18px"}} />
+
+                  Users
                 </NavLink>
               </li>
               {/* <!-- Menu Item Profile --> */}
