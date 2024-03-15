@@ -40,9 +40,12 @@ import ResultPage from './pages/ResultPage/ResultPage'
 import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
 // import SettingsLayout from './pages/Profile/layout'
 // import SettingsProfilePage from './pages/Profile/page'
-import SettingsAccountPage from './pages/Profile/account/page' 
+import SettingsAccountPage from './pages/Profile/account/page'
 // import SettingsAppearancePage from './pages/Profile/Appearence/page'
 import MobileNav from './components/MobileNav'
+import FoodAdminPage from './admin/pages/Food'
+import FoodAdd from './admin/pages/Food/Add'
+import FoodEdit from './admin/pages/Food/Edit'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -211,6 +214,11 @@ function App() {
                 <Route index element={<CategoryPage />} />
                 <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} />
+              </Route>
+              <Route path='food'>
+                <Route index element={<FoodAdminPage />} />
+                <Route path="add" element={<FoodAdd />} />
+                <Route path="edit/:id" element={<FoodEdit />} />
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
