@@ -9,6 +9,10 @@ export interface TicketCreateType {
   seatId?: string[] | undefined
   foods?: FoodTicket[] | undefined
   showtimeId?: string | undefined
+  userId?: string
+  typeBank?:string| false | null,
+  typePayment?: string| false | null
+  amount?: string| false | null
 }
 export const checkoutTicket = async (data: TicketCreateType) => {
   const result = await instance.post('/ticket', data)

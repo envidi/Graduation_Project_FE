@@ -22,6 +22,7 @@ const movies = createSlice({
   initialState: moviesInitialState,
   reducers: {
     fetchData(state: MovieStore, action: MovieAction) {
+      
       state.movies = [...action.payload]
     }
   }

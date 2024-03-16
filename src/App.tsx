@@ -15,7 +15,6 @@ import { PageLoader } from './components/PageLoader'
 // import Profile from './pages/modals/Profile'
 import useAllMovie from './hooks/useAllMovie'
 
-
 // import PageTitle from './admin/components/PageTitle'
 import ECommerce from './admin/pages/Dashboard/ECommerce'
 import SignIn from './admin/pages/Authentication/SignIn'
@@ -62,7 +61,6 @@ const SettingsLayout = lazy(() => import('./pages/Profile/layout'))
 const Payment = lazy(() => import('./pages/Payment/Payment'))
 const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
-
 
 function App() {
   const dispatch = useDispatch()
@@ -159,6 +157,14 @@ function App() {
                 }
               />
               <Route
+                path="result"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <ResultPage />
+                  </Suspense>
+                }
+              />
+              <Route
                 path="/purchase"
                 element={
                   <Suspense fallback={<PageLoader />}>
@@ -196,14 +202,6 @@ function App() {
                     </ProtectedRoutePage>
                   }
                 />
-                <Route
-                  path="result"
-                  element={
-                    <Suspense fallback={<PageLoader />}>
-                      <ResultPage />
-                    </Suspense>
-                  }
-                />
               </Route>
             </Route>
 
@@ -215,7 +213,7 @@ function App() {
                 <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} />
               </Route>
-              <Route path='food'>
+              <Route path="food">
                 <Route index element={<FoodAdminPage />} />
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
