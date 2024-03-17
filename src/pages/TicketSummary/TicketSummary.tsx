@@ -155,7 +155,10 @@ function TicketSummary() {
       seatId: mapData(seat),
       foods: foodObject,
       showtimeId: ticket.id_showtime,
-      userId: userDetail?.message?._id || '1'
+      userId: userDetail?.message?._id || '1',
+      movieId : ticket.id_movie,
+      screenRoomId : ticket.hall_id,
+      cinemaId : ticket.cinemaId
     }
     if (ticket.ticket_id !== '') {
       mutateTicket({

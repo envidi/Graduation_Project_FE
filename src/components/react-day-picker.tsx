@@ -1,9 +1,5 @@
-'use client'
-
-import * as React from 'react'
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
-import { addDays, format } from 'date-fns'
-import { DateRange } from 'react-day-picker'
+import { format } from 'date-fns'
 
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -13,15 +9,19 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover'
+import { DateRange } from 'react-day-picker'
+interface CalendarType {
+  className: string
+  date: DateRange | undefined
+  // eslint-disable-next-line no-unused-vars
+  setDate: (date: DateRange | undefined) => void
+}
 
 export function CalendarDateRangePicker({
+  date,
+  setDate,
   className
-}: React.HTMLAttributes<HTMLDivElement>) {
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2023, 0, 20),
-    to: addDays(new Date(2023, 0, 20), 20)
-  })
-
+}: CalendarType) {
   return (
     <div className={cn('grid gap-2', className)}>
       <Popover>
@@ -30,7 +30,7 @@ export function CalendarDateRangePicker({
             id="date"
             variant={'outline'}
             className={cn(
-              'w-[260px] justify-start text-left font-normal',
+              'md:w-[260px] sm:w-[200px]  justify-start text-left font-normal',
               !date && 'text-muted-foreground'
             )}
           >
@@ -59,9 +59,9 @@ export function CalendarDateRangePicker({
             numberOfMonths={2}
             classNames={{
               head_cell:
-                'lg:w-16 md:w-16 md:h-16 sm:w-20 xs:w-20 sm:text-3xl xs:text-2xl font-normal md:text-2xl',
-              cell: 'lg:h-16 lg:w-16 md:w-16 md:h-16 sm:h-24 sm:w-24 xs:h-20 xs:w-20 text-center rounded-md text-xl p-0 ',
-              day: 'lg:h-16 lg:w-16 md:w-16 md:h-16 sm:h-24 sm:w-24 xs:h-20 xs:w-20 sm:text-3xl xs:text-2xl p-0 md:text-2xl font-normal',
+                'lg:w-16 md:w-16 md:h-16 sm:w-16 xs:w-16 sm:text-3xl xs:text-2xl font-normal md:text-2xl',
+              cell: 'lg:h-16 lg:w-16 md:w-16 md:h-16 sm:h-16 sm:w-16 xs:h-16 xs:w-16 text-center rounded-md text-xl p-0 ',
+              day: 'lg:h-16 lg:w-16 md:w-16 md:h-16 sm:h-16 sm:w-16 xs:h-16 xs:w-16 sm:text-2xl xs:text-2xl p-0 md:text-2xl font-normal',
               nav_button: 'text-black h-8 w-8'
             }}
             components={{

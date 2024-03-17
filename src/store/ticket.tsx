@@ -30,7 +30,8 @@ export interface TicketType {
     _id: number
     name: string
   }
-  ticket_id ?: string
+  ticket_id ?: string,
+  cinemaId ?: string
 }
 export interface TicketState {
   ticket: TicketType
@@ -69,7 +70,8 @@ const ticketInitialState: TicketState = {
       _id: 0,
       name: ''
     },
-    ticket_id : ''
+    ticket_id : '',
+    cinemaId : ''
   }
 }
 

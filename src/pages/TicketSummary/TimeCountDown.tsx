@@ -33,7 +33,7 @@ function TimeCountDown() {
 
   return (
     <>
-      <p className="text-3xl">
+      <p className="text-3xl text-primary-movieColor">
         {minutes}:{remainingSeconds < 10 ? '0' : ''}
         {remainingSeconds}
       </p>
