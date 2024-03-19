@@ -7,8 +7,9 @@ import { FaRegTrashCan } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { ConfirmDialog } from '@/admin/components/Confirm'
-import { useState, useRef, SetStateAction } from 'react'
+import { useState, useRef } from 'react'
 import Loader from '@/admin/common/Loader'
+
 
 const ITEMS_PER_PAGE = 10
 // ...rest of your imports and TableFood component
@@ -25,12 +26,12 @@ const TableFood = () => {
     const startIndex = endIndex - itemsPerPage
     const currentItems = (data && data.slice(startIndex, endIndex)) || []
     // Tính số trang
-    const pageCount = data ? Math.floor(data.length / itemsPerPage) : 0
+    const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0
+
     //phương thức chuyển trang
     const setPage = (page: number) => {
         setCurrentPage(page)
     }
-    console.log(pageCount)
 
     /*------------------------------------------------- */
     const queryClient = useQueryClient()
