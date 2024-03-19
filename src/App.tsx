@@ -210,8 +210,8 @@ function App() {
               <Route index element={<ECommerce />} />
               <Route path="category">
                 <Route index element={<CategoryPage />} />
-                <Route path="add" element={<CategoryAdd />} />
-                <Route path="edit/:id" element={<CategoryEdit />} />
+                {/* <Route path="add" element={<CategoryAdd />} />
+                <Route path="edit/:id" element={<CategoryEdit />} /> */}
               </Route>
               <Route path="food">
                 <Route index element={<FoodAdminPage />} />
