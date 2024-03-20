@@ -166,3 +166,26 @@ export function getCurrentDay() {
   // Định dạng ngày theo yêu cầu
   return tenThang + ' ' + ngay + ', ' + nam
 }
+export function addCommasToNumber(number:number) {
+  // Chuyển số thành chuỗi
+  const numStr = String(number)
+
+  // Tách phần nguyên và phần thập phân (nếu có)
+  const parts = numStr.split('.')
+  const integerPart = parts[0]
+  const decimalPart = parts.length > 1 ? '.' + parts[1] : ''
+
+  // Thêm dấu phẩy vào phần nguyên
+  let result = ''
+  let count = 0
+  for (let i = integerPart.length - 1; i >= 0; i--) {
+    result = integerPart[i] + result
+    count++
+    if (count % 3 === 0 && i > 0) {
+      result = ',' + result
+    }
+  }
+
+  // Kết hợp phần nguyên và phần thập phân
+  return result + decimalPart
+}

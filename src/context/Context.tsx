@@ -20,9 +20,11 @@ export interface ContextAuth {
       __v: number
       _id: string
       address: string
-      mobile : number
+      mobile: number
     }
   }
+  isLogined: boolean
+  setIsLogined: (state:boolean) => void
 }
 
 export const ContextMain = createContext<ContextAuth>({
@@ -41,10 +43,12 @@ export const ContextMain = createContext<ContextAuth>({
       wishlist: [],
       __v: 0,
       _id: '',
-      address : '',
-      mobile : 0
+      address: '',
+      mobile: 0
     }
-  }
+  },
+  isLogined: false,
+  setIsLogined: () => {}
 })
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {

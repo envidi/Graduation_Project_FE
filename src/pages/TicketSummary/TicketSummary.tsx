@@ -43,6 +43,8 @@ import { CREATE_TICKET, FULL_SCHEDULE } from '@/utils/constant'
 import { useShowtime } from '@/hooks/useShowtime'
 import TimeCountDown from './TimeCountDown'
 import BarLoader from 'react-spinners/BarLoader'
+import { useContext } from 'react'
+import { ContextMain } from '@/context/Context'
 
 interface MutatePaymentType {
   amount: number
@@ -51,13 +53,17 @@ interface MutatePaymentType {
 }
 
 function TicketSummary() {
+  const { userDetail } = useContext(ContextMain)
   const queryClient = useQueryClient()
   const { seat, paymentMethod } = useSelector(
     (state: TicketSelector) => state.ticket.ticket
   )
+
   const foods = useSelector((state: FoodSelector) => state.foods.foods)
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
-  const { isLoading, data: dataShowtime } = useShowtime(ticket?.id_showtime || '')
+  const { isLoading, data: dataShowtime } = useShowtime(
+    ticket?.id_showtime || ''
+  )
   const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
 
   const onSuccess = (data: { _id: string }) => {
@@ -67,7 +73,6 @@ function TicketSummary() {
     })
     navigate('/purchase/food')
   }
-
   const { mutate: mutateTicket, isPending } = useTicket(
     CREATE_TICKET,
     onSuccess
@@ -149,7 +154,11 @@ function TicketSummary() {
       priceId: ticket?.price_id,
       seatId: mapData(seat),
       foods: foodObject,
-      showtimeId: ticket.id_showtime
+      showtimeId: ticket.id_showtime,
+      userId: userDetail?.message?._id || '1',
+      movieId : ticket.id_movie,
+      screenRoomId : ticket.hall_id,
+      cinemaId : ticket.cinemaId
     }
     if (ticket.ticket_id !== '') {
       mutateTicket({
@@ -157,7 +166,6 @@ function TicketSummary() {
         ticket_id: ticket.ticket_id
       })
       return
-      // return navigate('/purchase/food')
     }
     mutateTicket({
       ...newObject
@@ -287,7 +295,6 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseFood}
           >
-            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket
           </button>
         )}
@@ -305,7 +312,6 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchasePayment}
           >
-            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket
           </button>
         )}

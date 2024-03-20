@@ -12,13 +12,13 @@ function TimeCountDown() {
   const mutation = useTicket(DELETE_TICKET)
   const [countdown, setCountdown] = useLocalStorage<number | null>('countdown')
   const [count, { startCountdown, stopCountdown }] = useCountdown({
-    countStart: countdown ? countdown : 600,
+    countStart: countdown ? countdown : 60,
     intervalMs: intervalValue
   })
   useEffect(() => {
     startCountdown()
     setCountdown(count)
-    if (count == 1) {
+    if (count == 10) {
       stopCountdown()
       mutation.mutate({
         ticket_id: ticket.ticket_id
@@ -28,11 +28,15 @@ function TimeCountDown() {
       setTicket({})
     }
   }, [count])
+  const minutes = Math.floor(count / 60)
+  const remainingSeconds = count % 60
 
   return (
     <>
-      {' '}
-      <p className="text-3xl">{count} </p>
+      <p className="text-3xl text-primary-movieColor">
+        {minutes}:{remainingSeconds < 10 ? '0' : ''}
+        {remainingSeconds}
+      </p>
     </>
   )
 }

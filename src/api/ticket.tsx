@@ -9,9 +9,25 @@ export interface TicketCreateType {
   seatId?: string[] | undefined
   foods?: FoodTicket[] | undefined
   showtimeId?: string | undefined
+  userId?: string
+  typeBank?: string | false | null
+  typePayment?: string | false | null
+  amount?: string | false | null
 }
 export const checkoutTicket = async (data: TicketCreateType) => {
   const result = await instance.post('/ticket', data)
+  return result.data.data
+}
+export const getAllTicketByUser = async (query: {
+  _id: string
+  from?: Date|undefined
+  to?: Date|undefined
+  _q?:string|''
+}) => {
+  if (!query._id) return []
+  const result = await instance.get(
+    '/ticket/user?_userId=' + query._id + '&_start='+query.from+'&_end='+query.to+'&_q='+query._q
+  )
   return result.data.data
 }
 

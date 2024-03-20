@@ -28,13 +28,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
 import TooltipComponent from './TooltipComponent'
-interface DropDownMenuType{
-  userDetail : {
-    message : {
-      name : string
+interface DropDownMenuType {
+  userDetail: {
+    message: {
+      name: string
+      avatar : string
     }
   }
-  logout: ()=>void
+  logout: () => void
 }
 
 function DropDownMenu({ userDetail, logout }: DropDownMenuType) {
@@ -49,7 +50,9 @@ function DropDownMenu({ userDetail, logout }: DropDownMenuType) {
             >
               <Avatar className="w-10 h-10">
                 <AvatarImage
-                  src="https://github.com/shadcn.png"
+                  src={
+                    userDetail?.message.avatar || 'https://github.com/shadcn.png'
+                  }
                   alt="@shadcn"
                 />
                 <AvatarFallback>CN</AvatarFallback>

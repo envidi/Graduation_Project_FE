@@ -5,19 +5,19 @@ import { signin } from '@/api/auth'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
 import ForgotPassword from './FogotPassword'
-import { ContextMain } from '@/context/Context'
+import { ContextAuth, ContextMain } from '@/context/Context'
 interface FormValues {
   email: string
   password: string
 }
 
 export const LoginModal = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const [passViewState, setPassViewState] = useState(false)
   const [showForm, setShowForm] = useState(true)
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   // const [isLogined, setIsLogined] = useState(false)
-  const { setIsLogined, isLogined } = useContext(ContextMain)
+  const { setIsLogined } = useContext<ContextAuth>(ContextMain)
   const togglePassState = (e: any) => {
     e.preventDefault()
     setPassViewState((prevState) => !prevState)

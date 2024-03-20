@@ -115,6 +115,7 @@ export const MovieInfoSection = () => {
     const ticketObject = {
       id_showtime: showtime._id,
       cinema_name: showtime.cinemaId.CinemaName,
+      cinemaId: showtime.cinemaId._id,
       id_movie: _id,
       hall_name: showtime.screenRoomId.name,
       hall_id: showtime.screenRoomId._id,
