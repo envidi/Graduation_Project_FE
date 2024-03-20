@@ -9,11 +9,13 @@ import { toast } from 'react-toastify'
 type FormFoodProps = {
     typeForm: 'ADD' | 'EDIT'
 }
-
 const FormFood = ({ typeForm }: FormFoodProps) => {
     const navigate = useNavigate()
-    const { id } = useParams()
+    const handleBack = () => {
+        navigate(-1)
+    }
 
+    const { id } = useParams()
     const { data: foodData, isLoading } = useQuery<Food>({
         queryKey: ['FOOD', id],
         queryFn: async () => {
@@ -76,14 +78,6 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
             }
             return errors
         },
-        // onSubmit: async (values) => {
-        //     try {
-        //         const response = await mutate(values)
-        //         console.log('res', response)
-        //     } catch (error) {
-        //         console.log('error')
-        //     }
-        // }
         onSubmit: async (values) => {
             const formData = new FormData()
             formData.append('name', values.name)
@@ -100,12 +94,8 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
             }
         }
     })
-    const handleBack = () => {
-        navigate(-1)
-    }
 
     if (isLoading) return <Loader />
-
     return (
         <div className="flex flex-col gap-9 items-center justify-center p-8">
             <button

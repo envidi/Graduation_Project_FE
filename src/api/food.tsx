@@ -6,7 +6,6 @@ import { Food } from '@/admin/types/food'
 // }
 export const getAllFood = async () => {
   const result = await instance.get('/food')
-
   return result.data.datas
 }
 

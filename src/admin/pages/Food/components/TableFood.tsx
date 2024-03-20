@@ -9,6 +9,14 @@ import { toast } from 'react-toastify'
 import { ConfirmDialog } from '@/admin/components/Confirm'
 import { useState, useRef } from 'react'
 import Loader from '@/admin/common/Loader'
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious
+} from '@/components/ui/pagination'
 
 
 const ITEMS_PER_PAGE = 10
@@ -30,7 +38,37 @@ const TableFood = () => {
 
     //phương thức chuyển trang
     const setPage = (page: number) => {
-        setCurrentPage(page)
+        const newPage = Math.max(1, Math.min(page, pageCount))
+        setCurrentPage(newPage)
+    }
+
+    const renderPagination = () => {
+        const pages = Array.from({ length: pageCount }, (_, i) => i + 1)
+        return (
+            <Pagination>
+                <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious
+                            onClick={() => setPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        />
+                    </PaginationItem>
+                    {pages.map(page => (
+                        <PaginationItem key={page} active={currentPage === page}>
+                            <PaginationLink onClick={() => setPage(page)}>
+                                {page}
+                            </PaginationLink>
+                        </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                        <PaginationNext
+                            onClick={() => setPage(currentPage + 1)}
+                            disabled={currentPage === pageCount}
+                        />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
+        )
     }
 
     /*------------------------------------------------- */
@@ -38,7 +76,6 @@ const TableFood = () => {
     const [isOpenConfirm, setOpenConfirm] = useState(false)
     const idDelete = useRef<string>()
     const navigate = useNavigate()
-
 
 
     const { mutate } = useMutation({
@@ -65,7 +102,6 @@ const TableFood = () => {
     if (isLoading || !data) {
         return <Loader />
     }
-
     if (isError) {
         return <div>Error</div>
     }
@@ -146,21 +182,21 @@ const TableFood = () => {
                     </table>
                 </div>
             </div>
-            <div className='pagination-controls'>
-                {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-                    <button
-                        key={page}
-                        disabled={currentPage === page}
-                        onClick={() => setPage(page)}
-                    // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
-                    >
-                        {page}
-                    </button>
-                ))}
-            </div>
 
+            {/* <div className='pagination-controls'>
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            disabled={currentPage === page}
+            onClick={() => setPage(page)}
+            // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
+          >
+            {page}
+          </button>
+        ))}
+      </div> */}
 
-
+            {renderPagination()}
             <ConfirmDialog
                 open={isOpenConfirm}
                 title='Are you sure you want to delete it?'
