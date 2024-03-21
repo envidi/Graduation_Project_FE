@@ -1,6 +1,6 @@
 import { ConfirmDialog } from '@/admin/components/Confirm'
-import { Category } from '@/admin/types/category'
-import { getAllCategory, removeCategory } from '@/api/category'
+import { Cinema } from '@/admin/types/cenima'
+import { getAllCinema, removeCinema } from '@/api/cinema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRef, useState } from 'react'
 import { FaEdit } from 'react-icons/fa'
@@ -9,33 +9,35 @@ import { FaRegTrashCan } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-const TableCategory = () => {
+const TableCinema = () => {
   const queryClient = useQueryClient()
-
+  
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
 
   const navigate = useNavigate()
   // fetch category by react-query
-  const { data, isLoading, isError } = useQuery<Category[]>({
-    queryKey: ['CATEGORY'],
-    queryFn: getAllCategory
+  const { data, isLoading, isError } = useQuery<Cinema[]>({
+    queryKey: ['CINEMA'],
+    queryFn: getAllCinema
   })
-console.log('data category:',data)
+
+  console.log('data:', data)
+
   // delete category by mutation react-query
   const { mutate } = useMutation({
-    mutationFn: removeCategory,
+    mutationFn: removeCinema,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
+      queryClient.invalidateQueries({ queryKey: ['CINEMA'] })
       toast.success('Xoa thành công')
     },
     onError: (error) => {
       console.log(error)
-      toast.error('Xoa that bai')
+      toast.error('Xóa thất bại')
     }
   })
 
-  const handleRemoveCategory = () => {
+  const handleRemoveCinema = () => {
     mutate(idDelete.current!)
     setOpenConfirm(false)
   }
@@ -59,7 +61,7 @@ console.log('data category:',data)
       <div className="text-center mb-2 flex items-center justify-start">
         <button
           onClick={() => {
-            navigate('/admin/category/add')
+            navigate('/admin/cinema/add')
           }}
           className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full"
         >
@@ -75,7 +77,11 @@ console.log('data category:',data)
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  Category Name
+                  Cinema Name
+                </th>                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                  Cinema address
+                </th>                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                  ScreeningRoomId
                 </th>
                 <th className="py-4 px-4 font-medium text-primary-white">
                   Actions
@@ -84,21 +90,27 @@ console.log('data category:',data)
             </thead>
             <tbody>
               {data.map((cate, index) => (
-                <tr key={cate.name}>
+                <tr key={cate.CinemaName}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <p className="text-sm font-medium text-primary-white">
                       {index}
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{cate.name}</p>
+                    <p className="text-primary-white">{cate.CinemaName}</p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-primary-white">{cate.CinemaAdress}</p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-primary-white">{cate.ScreeningRoomId}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
                       <button
                         className="hover:text-primary"
                         onClick={() => {
-                          navigate(`/admin/category/edit/${cate._id}`)
+                          navigate(`/admin/cinema/edit/${cate._id}`)
                         }}
                       >
                         <FaEdit size={20} />
@@ -123,10 +135,10 @@ console.log('data category:',data)
         title="Ban co chac muon xoa khong"
         subTitle="Xoa di se khong the khoi phuc"
         onCancel={() => setOpenConfirm(false)}
-        onConfirm={handleRemoveCategory}
+        onConfirm={handleRemoveCinema}
       />
     </>
   )
 }
 
-export default TableCategory
+export default TableCinema

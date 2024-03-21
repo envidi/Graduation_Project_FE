@@ -42,6 +42,9 @@ import SettingsProfilePage from './pages/Profile/page'
 import { AccountForm } from './pages/Profile/account/account-form'
 import SettingsAppearancePage from './pages/Profile/Appearence/page'
 import MobileNav from './components/MobileNav'
+import CinemaPage from './admin/pages/Cinema'
+import CinemaAdd from './admin/pages/Cinema/Add'
+import CinemaEdit from './admin/pages/Cinema/Edit'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -185,6 +188,11 @@ function App() {
                 <Route index element={<CategoryPage />} />
                 <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} />
+              </Route>
+              <Route path="cinema">
+                <Route index element={<CinemaPage />} />
+                <Route path="add" element={<CinemaAdd />} />
+                <Route path="edit/:id" element={<CinemaEdit />} />
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
