@@ -4,8 +4,8 @@ import instance from "./config"
 
 export const getAllTikets = async () => {
     const result = await instance.get('/ticket')
-    
-    return result.data.datas.docs
+    console.log(result)
+    return result.data.data.docs
     
 }
 export const deleteTicket  = async (id: string) => {

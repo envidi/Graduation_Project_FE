@@ -69,7 +69,7 @@ const FormRooms = ({ typeForm }: FormCURDProps) => {
       mutate(data)
       alert("Chỉnh sửa thành công ");
       console.log(data)
-      // navigate('/admin/screeningrooms')
+      navigate('/admin/screeningrooms')
     }
   };
 

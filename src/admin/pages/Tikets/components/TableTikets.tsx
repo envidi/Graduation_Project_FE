@@ -17,7 +17,7 @@ const TableTicket = () => {
     queryFn:()=> getAllTikets()
     
   })
-  
+  console.log(data)
   // delete tickets mutation react-query
   const { mutate } = useMutation({
     mutationFn: deleteTicket,
@@ -65,10 +65,28 @@ const TableTicket = () => {
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  Category Name
+                  Price
                 </th>
                 <th className="py-4 px-4 font-medium text-primary-white">
-                  Actions
+                  Seat
+                </th>
+                <th className="py-4 px-4 font-medium text-primary-white">
+                  Movie Name
+                </th>
+                <th className="py-4 px-4 font-medium text-primary-white">
+                  Cinema Name
+                </th>
+                <th className="py-4 px-4 font-medium text-primary-white">
+                  Cinema Adress
+                </th>
+                <th className="py-4 px-4 font-medium text-primary-white">
+                 screenRoom
+                </th>
+                <th className="py-4 px-4 font-medium text-primary-white">
+                 Food
+                </th>
+                <th className="py-4 px-4 font-medium text-primary-white">
+                 S
                 </th>
               </tr>
             </thead>
