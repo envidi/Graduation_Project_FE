@@ -54,9 +54,9 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   // }
 
   return (
-    <>
-      <div className="flex lg:flex-col  lg:items-center md:flex-row xs:flex-col xs:items-center md:space-x-5 lg:space-x-0 space-y-4 md:mb-5 xs:mb-5 lg:mt-3">
-        <Avatar className="lg:w-40 lg:h-40 xs:w-48 xs:h-48">
+    <div className="sticky top-0 ">
+      <div className="flex lg:flex-col  lg:items-center md:flex-row xs:flex-col xs:items-center md:space-x-5 lg:space-x-0 space-y-4 md:mb-5 xs:mb-5 lg:mt-3 pt-16">
+        <Avatar className="lg:w-40 lg:h-40 xs:w-48 xs:h-48 ">
           <AvatarImage src={userDetail.message.avatar} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
@@ -64,7 +64,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
       </div>
       <nav
         className={cn(
-          'flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-2 flex-wrap',
+          'flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-2 flex-wrap ',
           className
         )}
         {...props}
@@ -87,6 +87,6 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
           )
         })}
       </nav>
-    </>
+    </div>
   )
 }

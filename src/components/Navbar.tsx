@@ -15,14 +15,19 @@ import { Separator } from './ui/separator'
 import TooltipComponent from './TooltipComponent'
 
 // eslint-disable-next-line no-unused-vars
-export const Navbar = ({ setMenuState }: { setMenuState: (state:(prevState: boolean) => boolean) => boolean }) => {
+export const Navbar = ({
+  setMenuState
+}: {
+  setMenuState: (state: (prevState: boolean) => boolean) => boolean
+}) => {
   const [showSignup, setShowSignup] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [showNav, setShowNav] = useState(false)
   // const [showProfile, setShowProfile] = useState(false)
   const [showProfile] = useState(false)
   // const [signUpState, setSignUpState] = useState(false)
-  const { userDetail, isLogined, setIsLogined } = useContext<ContextAuth>(ContextMain)
+  const { userDetail, isLogined, setIsLogined } =
+    useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
     setShowSignup((pre) => !pre)
   }

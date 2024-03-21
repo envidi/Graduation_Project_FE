@@ -24,7 +24,7 @@ export interface ContextAuth {
     }
   }
   isLogined: boolean
-  setIsLogined: (state:boolean) => void
+  setIsLogined: (state: boolean) => void
 }
 
 export const ContextMain = createContext<ContextAuth>({
@@ -52,6 +52,7 @@ export const ContextMain = createContext<ContextAuth>({
 })
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
+  // const [accessToken, setAccessToken] = useLocalStorage<any>('Accesstoken')
   const [isLogined, setIsLogined] = useState(
     !!localStorage.getItem('Accesstoken')
   )
