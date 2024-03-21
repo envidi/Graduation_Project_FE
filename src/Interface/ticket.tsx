@@ -1,3 +1,8 @@
+import Showtimes from "./Showtimes"
+import Cinema from "./cinema"
+import { MovieType } from "./movie"
+import { Screeningrooms } from "./screeningrooms"
+
 export interface PaymentType {
   _id: number
   image: string
@@ -25,3 +30,23 @@ export interface SeatUserList {
     row: number,
     column: number
   }
+
+export interface Ticket{  
+    _id:string,
+    priceId:string,
+    seatId:string[],
+    userId:string,
+    movieId:MovieType,
+    cinemaId:Cinema,
+    screenRoomId:Screeningrooms,
+    foods:string,
+    showtimeId:Showtimes[],
+    quantity:number,
+    totalPrice:number,
+    status:string,
+    isDeleted:boolean,
+    paymentId:string,
+    createdAt:string,
+    updatedAt:string
+
+}
