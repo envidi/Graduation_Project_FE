@@ -139,10 +139,10 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
               <TableBody>
                 <TableRow>
                   <TableCell className="sm:text-[14px] xs:text-[12px]">
-                    {data.paymentId.typeBank}
+                    {data?.paymentId?.typeBank || 'Bank'}
                   </TableCell>
                   <TableCell className="sm:text-[14px] xs:text-[12px]">
-                    {data.priceId.price}
+                    {data?.priceId?.price || 'Price'}
                   </TableCell>
                   <TableCell className="sm:text-[14px] xs:text-[12px]">
                     {data.seatId.reduce(
