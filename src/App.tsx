@@ -15,7 +15,6 @@ import { PageLoader } from './components/PageLoader'
 // import Profile from './pages/modals/Profile'
 import useAllMovie from './hooks/useAllMovie'
 
-// import PageTitle from './admin/components/PageTitle'
 import ECommerce from './admin/pages/Dashboard/ECommerce'
 import SignIn from './admin/pages/Authentication/SignIn'
 import SignUp from './admin/pages/Authentication/SignUp'
@@ -62,6 +61,7 @@ const Payment = lazy(() => import('./pages/Payment/Payment'))
 const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
 import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
+import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -104,13 +104,22 @@ function App() {
               <Route
                 path="/movie/:slug"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <MovieDetailsPage />
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <MovieDetailsPage />
+                    </Suspense>
+                  </ProtectedAuthorized>
                 }
               />
               {/* <Route path="/purchase" element={<PurchasePage />} /> */}
-              <Route path="/showtimes" element={<ShowtimesPage />} />
+              <Route
+                path="/showtimes"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <ShowtimesPage />
+                  </Suspense>
+                }
+              />
               <Route
                 path="/profile/forms"
                 element={
@@ -186,18 +195,24 @@ function App() {
                 path="result"
                 element={
                   <ProtectedAuthorized>
-                    <Suspense fallback={<PageLoader />}>
-                      <ResultPage />
-                    </Suspense>
+                    <ProtectedConfirm>
+                      <Suspense fallback={<PageLoader />}>
+                        <ResultPage />
+                      </Suspense>
+                    </ProtectedConfirm>
                   </ProtectedAuthorized>
                 }
               />
               <Route
                 path="/purchase"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <PurchaseLayout />
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <PurchaseLayout />
+                      </Suspense>
+                    </ProtectedRoutePage>
+                  </ProtectedAuthorized>
                 }
               >
                 <Route

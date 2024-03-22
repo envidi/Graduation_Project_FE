@@ -30,17 +30,12 @@ import { Link } from 'react-router-dom'
 import TooltipComponent from './TooltipComponent'
 import { useContext } from 'react'
 interface DropDownMenuType {
-  userDetail: {
-    message: {
-      name: string
-      avatar: string
-    }
-  }
   logout: () => void
 }
 
 function DropDownMenu({ logout }: DropDownMenuType) {
   const { userDetail } = useContext<ContextAuth>(ContextMain)
+
   return (
     <DropdownMenu>
       <TooltipComponent tooltip={'Your account'}>

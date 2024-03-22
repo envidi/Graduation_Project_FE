@@ -36,7 +36,6 @@ export const LoginModal = () => {
       setIsLogined(true)
       const { Accesstoken } = response.data
       localStorage.setItem('Accesstoken', Accesstoken)
-      // setAccessToken(Accesstoken)
       queryClient.invalidateQueries({
         queryKey: [USERDETAIL]
       })

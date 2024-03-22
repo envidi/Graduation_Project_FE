@@ -20,8 +20,11 @@ import {
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
+import { ContextMain } from '@/context/Context'
+import { useContext } from 'react'
 
 function UserConfirmPayment() {
+  const { userDetail } = useContext(ContextMain)
   return (
     <Accordion
       type="single"
@@ -46,7 +49,7 @@ function UserConfirmPayment() {
                 </div>
 
                 <span className="ms-10 text-2xl flex items-end text-primary-movieColor truncate font-semibold overflow-hidden">
-                  Envidi
+                  {userDetail.message.name}
                 </span>
               </div>
 
@@ -60,7 +63,7 @@ function UserConfirmPayment() {
                   </span>
                 </div>
                 <span className="ms-10 text-2xl flex items-end text-primary-movieColor truncate font-semibold overflow-hidden">
-                  Envidi
+                  {userDetail.message.email}
                 </span>
               </div>
             </div>
@@ -77,7 +80,7 @@ function UserConfirmPayment() {
                 </div>
 
                 <p className="ms-10 text-2xl flex items-end truncate   text-primary-movieColor text-ellipsis overflow-hidden font-semibold ">
-                  Nam Tu Liem Street Ha Noi City
+                  {userDetail?.message?.address ?? 'No address'}
                 </p>
               </div>
 
@@ -91,7 +94,7 @@ function UserConfirmPayment() {
                   </span>
                 </div>
                 <span className="ms-10 text-2xl flex items-end text-primary-movieColor font-semibold">
-                  0987654321
+                  {userDetail?.message?.mobile ?? 'No phone'}
                 </span>
               </div>
             </div>

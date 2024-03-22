@@ -1,9 +1,9 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getOneMovie } from '@/api/movie'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { LocationSelector } from '../../../components/LocationSelector'
 import { Calendar } from '@/components/ui/calendar'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
@@ -21,9 +21,14 @@ import {
   getHourAndMinute,
   selectCalendar
 } from '@/utils'
-import { AVAILABLE, MOVIE_DETAIL } from '@/utils/constant'
+import { AVAILABLE, MOVIE_DETAIL, WATCHLIST } from '@/utils/constant'
 import { useSelector } from 'react-redux'
 import { MovieType } from '@/Interface/movie'
+import { Plus, Loader } from 'lucide-react'
+import { addWatchList } from '@/api/watchList'
+import { ContextMain } from '@/context/Context'
+import { toast } from 'react-toastify'
+import useWatchList from '@/hooks/useWatchList'
 
 export interface ShowTime {
   _id: string
@@ -44,6 +49,14 @@ export interface ShowTime {
 
 export const MovieInfoSection = () => {
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
+  const { userDetail } = useContext(ContextMain)
+  const { data: dataWatchList } = useWatchList(userDetail)
+  const watchListId = dataWatchList
+    ? dataWatchList.map(
+        (watchId: { movieId: { _id: string } }) => watchId.movieId._id
+      )
+    : []
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movies = useSelector((state: any) => state.movies.movies)
   const [, setTicket] = useLocalStorage<TicketType | null>('ticket', null)
@@ -54,6 +67,18 @@ export const MovieInfoSection = () => {
 
   const { _id = '' } =
     movies.length > 0 && movies.find((movie: MovieType) => movie.slug === slug)
+  const { mutate: mutateWatchlist, isPending } = useMutation({
+    mutationFn: (data: { userId: string; movieId: string }) =>
+      addWatchList(data),
+    onSuccess: () => {
+      toast.success('success', {
+        position: 'top-right'
+      })
+      queryClient.invalidateQueries({
+        queryKey: [WATCHLIST]
+      })
+    }
+  })
   const { data: dataMovie, isLoading } = useQuery({
     queryKey: [MOVIE_DETAIL, _id],
     queryFn: () => getOneMovie(_id)
@@ -80,6 +105,7 @@ export const MovieInfoSection = () => {
   }
 
   const {
+    _id: movieId,
     name,
     image,
     rate,
@@ -90,6 +116,7 @@ export const MovieInfoSection = () => {
     categoryCol,
     fromDate,
     desc,
+    trailer,
     showTimeCol,
     moviePriceCol
   } = dataMovie
@@ -129,6 +156,10 @@ export const MovieInfoSection = () => {
     dispatch(ticketAction.addProperties(ticketObject))
     setTicket(ticketObject)
     navigate('/purchase/seat')
+  }
+
+  const handleAddWatchList = () => {
+    mutateWatchlist({ movieId: movieId, userId: userDetail.message._id })
   }
 
   return (
@@ -181,7 +212,7 @@ export const MovieInfoSection = () => {
               >
                 <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
               </svg>
-              <p>{rate}/10</p>
+              <p>{rate}/5</p>
             </div>
 
             <div className="movie-info-small-container ">
@@ -276,22 +307,42 @@ export const MovieInfoSection = () => {
               </p>
               <p>{actor}</p>
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button size="md" variant="outline">
-                  Trailer
+            <div className="flex gap-3">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button size="md" variant="outline">
+                    Trailer
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="p-0 w-fit">
+                  <iframe
+                    width="917"
+                    height="516"
+                    src={trailer}
+                    title="Một video hạnh phúc để gửi lời chúc Valentine | Review Xàm: Gara Hạnh Phúc"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  ></iframe>
+                </DialogContent>
+              </Dialog>
+              {!watchListId.includes(_id) ? (
+                <Button
+                  onClick={handleAddWatchList}
+                  className="bg-primary-movieColor text-2xl flex items-center border-transparent hover:text-primary-movieColor hover:bg-transparent border hover:border-primary-movieColor"
+                >
+                  {isPending ? (
+                    <div className="px-10">
+                      <Loader className="animate-spin" />
+                    </div>
+                  ) : (
+                    <>
+                      <Plus size={20} /> Watchlist
+                    </>
+                  )}
                 </Button>
-              </DialogTrigger>
-              <DialogContent className="p-0 w-fit">
-                <iframe
-                  width="917"
-                  height="516"
-                  src="https://www.youtube.com/embed/RemcgXjZEHM"
-                  title="Một video hạnh phúc để gửi lời chúc Valentine | Review Xàm: Gara Hạnh Phúc"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                ></iframe>
-              </DialogContent>
-            </Dialog>
+              ) : (
+                ''
+              )}
+            </div>
           </div>
         </div>
 
