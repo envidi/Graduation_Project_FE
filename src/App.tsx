@@ -45,6 +45,9 @@ import MobileNav from './components/MobileNav'
 import FoodAdminPage from './admin/pages/Food'
 import FoodAdd from './admin/pages/Food/Add'
 import FoodEdit from './admin/pages/Food/Edit'
+import SeatAdminPage from './admin/pages/Seat/Index'
+import SeatAdd from './admin/pages/Seat/Add'
+import SeatEdit from './admin/pages/Seat/Edit'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -217,6 +220,11 @@ function App() {
                 <Route index element={<FoodAdminPage />} />
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
+              </Route>
+              <Route path="seat">
+                <Route index element={<SeatAdminPage />} />
+                <Route path="add" element={<SeatAdd />} />
+                <Route path="edit/:id" element={<SeatEdit />} />
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
