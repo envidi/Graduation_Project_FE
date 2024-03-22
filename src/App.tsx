@@ -29,13 +29,13 @@ import Calendar from './admin/pages/Calendar'
 import Settings from './admin/pages/Settings'
 import CategoryPage from './admin/pages/Category'
 import Users from './admin/pages/Users'
-import ResultPage from './pages/ResultPage/ResultPage'
-import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
+// import ResultPage from './pages/ResultPage/ResultPage'
+// import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
 // import SettingsLayout from './pages/Profile/layout'
 // import SettingsProfilePage from './pages/Profile/page'
 import SettingsAccountPage from './pages/Profile/account/page'
 // import SettingsAppearancePage from './pages/Profile/Appearence/page'
-import MobileNav from './components/MobileNav'
+// import MobileNav from './components/MobileNav'
 import FoodAdminPage from './admin/pages/Food'
 import FoodAdd from './admin/pages/Food/Add'
 import FoodEdit from './admin/pages/Food/Edit'
@@ -46,10 +46,16 @@ import NotFound from './pages/NotFound/NotFound'
 import CategoryAdd from './admin/pages/Category/Add'
 import CategoryEdit from './admin/pages/Category/Edit'
 // import Payment from './pages/Payment/Payment'
-import RoomsPage from './admin/pages/Rooms'
-import AddRooms from './admin/pages/Rooms/AddRooms'
-import EditRooms from './admin/pages/Rooms/EditRooms'
-import TicketsPage from './admin/pages/Tikets'
+import ResultPage from './pages/ResultPage/ResultPage'
+import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
+// import SettingsLayout from './pages/Profile/layout'
+// import SettingsProfilePage from './pages/Profile/page'
+import { AccountForm } from './pages/Profile/account/account-form'
+// import SettingsAppearancePage from './pages/Profile/Appearence/page'
+import MobileNav from './components/MobileNav'
+import CinemaPage from './admin/pages/Cinema'
+import CinemaAdd from './admin/pages/Cinema/Add'
+import CinemaEdit from './admin/pages/Cinema/Edit'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -68,6 +74,10 @@ const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
 import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
 import Showtimes from './admin/pages/Showtimes/Showtimes'
+import RoomsPage from './admin/pages/Rooms'
+import AddRooms from './admin/pages/Rooms/AddRooms'
+import EditRooms from './admin/pages/Rooms/EditRooms'
+import TicketsPage from './admin/pages/Tikets'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -262,6 +272,11 @@ function App() {
                 <Route index element={<TicketsPage />} />
                 <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} />
+              </Route>
+              <Route path="cinema">
+                <Route index element={<CinemaPage />} />
+                <Route path="add" element={<CinemaAdd />} />
+                <Route path="edit/:id" element={<CinemaEdit />} />
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
