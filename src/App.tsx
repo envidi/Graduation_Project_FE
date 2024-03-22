@@ -45,6 +45,11 @@ import Profile from './admin/pages/Profile'
 import NotFound from './pages/NotFound/NotFound'
 import CategoryAdd from './admin/pages/Category/Add'
 import CategoryEdit from './admin/pages/Category/Edit'
+// import Payment from './pages/Payment/Payment'
+import RoomsPage from './admin/pages/Rooms'
+import AddRooms from './admin/pages/Rooms/AddRooms'
+import EditRooms from './admin/pages/Rooms/EditRooms'
+import TicketsPage from './admin/pages/Tikets'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -239,6 +244,7 @@ function App() {
               <Route index element={<ECommerce />} />
               <Route path="category">
                 <Route index element={<CategoryPage />} />
+
                 {/* <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} /> */}
               </Route>
@@ -246,6 +252,16 @@ function App() {
                 <Route index element={<FoodAdminPage />} />
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
+              </Route>
+               <Route path="screeningrooms">
+                <Route index element={<RoomsPage />} />
+                <Route path="add" element={<AddRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} />
+              </Route>
+              <Route path="tickets">
+                <Route index element={<TicketsPage />} />
+                <Route path="add" element={<AddRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} />
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />

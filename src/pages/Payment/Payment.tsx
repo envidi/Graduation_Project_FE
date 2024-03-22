@@ -12,7 +12,7 @@ const listPaymentMethods = [
   { _id: 2, name: 'Momo', image: momo, cardNumber: 1234, value: '2' },
   { _id: 3, name: 'MBBank', image: mb, cardNumber: 1234, value: '3' }
 ]
-function Payment() {
+export const Payment = () =>  {
   const [cardSelected, setCardSelected] = useState<number>(1)
   return (
     <div className="">

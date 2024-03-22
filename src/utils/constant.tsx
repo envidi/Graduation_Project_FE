@@ -4,7 +4,7 @@ export const AVAILABLE = 'Available'
 export const COMING_SOON_MOVIE = 'COMING_SOON'
 
 export const FOOD = 'FOOD'
-
+export const ROOMS='SCREENINGROOMS'
 export const AVAILABLE_SEAT = 'Available'
 
 // Ghế đã được người dùng chọn, đặt và thanh toán thành công.
