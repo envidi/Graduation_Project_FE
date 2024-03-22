@@ -17,16 +17,31 @@ const TableRooms: React.FC<Props> = () => {
   // fetch rooms by react-query
   const [roomData, setRoomData] = useState<Screeningrooms[]>([])
 
-  useEffect(()=>{
-    const fetchData = async () => {
-      const data = await getAllRooms()
-      console.log(data)
-      if(data){
-        setRoomData(data)
+  // useEffect(()=>{
+  //   const fetchData = async () => {
+  //     const data = await getAllRooms()
+  //     console.log(data)
+  //     if(data){
+  //       setRoomData(data)
+  //     }
+  //   }
+  //   fetchData()
+  // }, [])
+  const {data :allRoom} = useQuery({
+    queryKey: ["ALLROOM"],
+    queryFn: async () =>{
+      try {
+        const res = await getAllRooms()
+        return res
+        console.log("res", res);
+        
+      } catch (error) {
+        
       }
     }
-    fetchData()
-  }, [])
+  })
+  console.log("data", allRoom);
+  
 
   // console.log(roomData)
   // delete rooms by mutation react-query
@@ -96,7 +111,7 @@ const TableRooms: React.FC<Props> = () => {
               </tr>
             </thead>
             <tbody>
-              {roomData?.map((rooms, index) => (
+              {allRoom?.docs?.map((rooms:any, index:any) => (
                 <tr key={rooms._id}>
       
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
