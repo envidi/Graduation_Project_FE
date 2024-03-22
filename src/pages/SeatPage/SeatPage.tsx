@@ -16,12 +16,14 @@ const SeatPage = () => {
   const { seat: allSeat } = useSelector(
     (state: TicketSelector) => state.ticket.ticket
   )
+
   const [ticket] = useLocalStorage<TicketType | null>('ticket')
 
   const { data: seats, isLoading: loading } = useAllSeatByShowTime({
     _hallId: ticket?.hall_id || '',
     _showId: ticket?.id_showtime || ''
   })
+
   const [, setSelectedSeat] = useState<SeatUserList | null>(null)
   useEffect(() => {
     if (!seats || seats.length == 0) return
@@ -36,7 +38,8 @@ const SeatPage = () => {
         selected: false
       }
     })
-
+    // console.log(seats)
+    // console.log('allSeat', allSeat)
     if (ticket?.seat) {
       const seatSelectedStorage = ticket.seat
         .map((seat) => (seat.selected ? seat : undefined))

@@ -3,6 +3,9 @@ import instance from './config'
 export interface QueryMovie {
   status: string
   order: string
+  country: string
+  rate: string
+  age: string
 }
 
 export const getOneMovie = async (id: string) => {
@@ -16,11 +19,13 @@ export const getAllMovieHome = async () => {
 export const getMovieStatus = async (query: QueryMovie) => {
   let result
   if (query.status == '') {
-    result = await instance.get('/movie/sta?_order=' + query.order)
+    result = await instance.get(
+      `/movie/sta?_order=${query.order}&_country=${query.country}&_rate=${query.rate}&_age=${query.age}`
+    )
     return result.data.data.docs
   } else {
     result = await instance.get(
-      `/movie/sta?status=${query.status}&_order=${query.order}`
+      `/movie/sta?status=${query.status}&_order=${query.order}&_country=${query.country}&_rate=${query.rate}&_age=${query.age}`
     )
     return result.data.data.docs
   }

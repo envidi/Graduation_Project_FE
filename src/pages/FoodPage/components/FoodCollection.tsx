@@ -1,9 +1,9 @@
 import useAllFood from '@/hooks/useAllFood'
 import FoodItem from './FoodItem'
 import HashLoader from 'react-spinners/HashLoader'
-import { FoodCollectionType } from '@/Interface/food'
+import { FoodItemState } from '@/Interface/food'
 import { useDispatch, useSelector } from 'react-redux'
-import { foodsAction } from '@/store/food'
+import { FoodSelector, foodsAction } from '@/store/food'
 import { useEffect } from 'react'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { TicketType } from '@/store/ticket'
@@ -11,12 +11,12 @@ import { TicketType } from '@/store/ticket'
 function FoodCollection() {
   const dispatch = useDispatch()
   const { data, isLoading } = useAllFood()
-  const foods = useSelector((state: any) => state.foods.foods)
-  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
+  const foods = useSelector((state: FoodSelector) => state.foods.foods)
+  const [ticket] = useLocalStorage<TicketType>('ticket')
 
   useEffect(() => {
     if (!data || data.length == 0) return
-    const newData = data.map((f: any) => {
+    const newData = data.map((f: FoodItemState) => {
       return {
         _id: f._id,
         name: f.name,
@@ -49,8 +49,8 @@ function FoodCollection() {
           Menu
         </h2>
         {foods &&
-          foods?.map((food: FoodCollectionType, index: number) => {
-            return <FoodItem key={food._id} index={index} food={food} />
+          foods?.map((food: FoodItemState) => {
+            return <FoodItem key={food._id} food={food} />
           })}
       </div>
     </div>

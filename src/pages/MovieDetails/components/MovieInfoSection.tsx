@@ -95,24 +95,27 @@ export const MovieInfoSection = () => {
   } = dataMovie
 
   const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
+  const showTimePerDay =
+    showTimeCol &&
+    showTimeCol
+      ?.map((showTime: ShowTime) => {
+        if (
+          getDay(showTime.date) === getDay(selectCalendar(date)) &&
+          showTime.status === AVAILABLE &&
+          showTime.cinemaId._id.toString() === currentLocation.toString()
+        ) {
+          return showTime
+        }
+      })
+      .filter(function (element: ShowTime) {
+        return element !== undefined
+      })
 
-  const showTimePerDay = showTimeCol
-    ?.map((showTime: ShowTime) => {
-      if (
-        getDay(showTime.date) === getDay(selectCalendar(date)) &&
-        showTime.status === AVAILABLE &&
-        showTime.cinemaId._id.toString() === currentLocation.toString()
-      ) {
-        return showTime
-      }
-    })
-    .filter(function (element: ShowTime) {
-      return element !== undefined
-    })
   const handleChooseShowtime = (showtime: ShowTime) => {
     const ticketObject = {
       id_showtime: showtime._id,
       cinema_name: showtime.cinemaId.CinemaName,
+      cinemaId: showtime.cinemaId._id,
       id_movie: _id,
       hall_name: showtime.screenRoomId.name,
       hall_id: showtime.screenRoomId._id,
@@ -120,6 +123,7 @@ export const MovieInfoSection = () => {
       name_movie: name,
       duration_movie: duration,
       price_movie: moviePriceCol[0].price,
+      price_id: moviePriceCol[0]._id,
       time_from: showtime.timeFrom
     }
     dispatch(ticketAction.addProperties(ticketObject))
@@ -274,7 +278,7 @@ export const MovieInfoSection = () => {
             </div>
             <Dialog>
               <DialogTrigger asChild>
-                <Button size="lg" variant="outline">
+                <Button size="md" variant="outline">
                   Trailer
                 </Button>
               </DialogTrigger>

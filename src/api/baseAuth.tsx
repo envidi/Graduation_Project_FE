@@ -9,3 +9,8 @@ export const InsanceToken = axios.create({
 
   headers: { Authorization: `Bearer ${token}` }
 })
+
+
+export const baseShowtimes = axios.create({
+  baseURL: 'http://localhost:8080/api/showtimes'
+})

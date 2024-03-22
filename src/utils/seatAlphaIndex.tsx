@@ -36,7 +36,7 @@ export function convertNumberToAlphabet(num: number) {
   }
 }
 export const changeStatusSeat = (status: string) => {
-  const objectStatus: { [key:string] : string} = {
+  const objectStatus: { [key: string]: string } = {
     VIP: 'vip',
     available: 'available'
   }

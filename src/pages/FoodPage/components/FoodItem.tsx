@@ -1,18 +1,15 @@
-import { FoodCollectionType, FoodType } from '@/Interface/food'
+import { FoodItemState, FoodType } from '@/Interface/food'
 import { Star } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import { Minus } from 'lucide-react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { useDispatch, useSelector } from 'react-redux'
-import { FoodSelector, foodsAction } from '@/store/food'
-import { useLocalStorage } from '@uidotdev/usehooks'
-import { TicketType } from '@/store/ticket'
+import { useDispatch } from 'react-redux'
+import { foodsAction } from '@/store/food'
 
-function FoodItem({ food, index }: FoodType) {
+function FoodItem({ food }: FoodType) {
   const dispatch = useDispatch()
-  const foods = useSelector((state: FoodSelector) => state.foods.foods)
-  const [ticket] = useLocalStorage<TicketType>('ticket')
-  const handleIncrementFood = (food: FoodCollectionType) => {
+
+  const handleIncrementFood = (food: FoodItemState) => {
     const newFood = {
       name: food.name,
       price: food.price,
@@ -22,7 +19,7 @@ function FoodItem({ food, index }: FoodType) {
     }
     dispatch(foodsAction.incrementFood(newFood))
   }
-  const handleDecrementFood = (food: FoodCollectionType) => {
+  const handleDecrementFood = (food: FoodItemState) => {
     const newFood = {
       name: food.name,
       price: food.price,
@@ -32,7 +29,6 @@ function FoodItem({ food, index }: FoodType) {
     }
     dispatch(foodsAction.decrementFood(newFood))
   }
-
 
   return (
     <div className="showtimes-schedule md:my-8 xs:my-10">

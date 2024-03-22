@@ -27,11 +27,13 @@ export const SignupModal = () => {
   const CreateUser = useMutation({
     mutationFn: async (user: any) => await signup(user),
     onSuccess() {
-      toast.success('Đăng ký thành công')
+      toast.success('Đăng ký thành công', {
+        position: 'top-right'
+      })
     },
     onError() {
       toast.error('Đăng ký thất bại, kiểm tra lại thông tin giúp tớ điii <3')
-    },
+    }
   })
 
   const formikValidate = useFormik<FormValues>({
@@ -41,23 +43,21 @@ export const SignupModal = () => {
       password: '',
       address: '',
       mobile: '',
-      confirmPassword: '',
+      confirmPassword: ''
     },
 
     validate: (values) => {
-      console.log('values :  ', values)
-
       const errors: Partial<FormValues> = {}
 
       if (!values.name || values.name.length <= 6) {
-        errors.name = 'Name required and length > 6 '
+        errors.name = 'Must contain at least 6 character '
       }
-      if (!values.address || values.address.length <= 6) {
-        errors.address = 'Address required and length > 6 '
-      }
-      if (!values.mobile || values.mobile.length <= 6) {
-        errors.mobile = 'Mobile required and length > 6 '
-      }
+      // if (!values.address || values.address.length <= 6) {
+      //   errors.address = 'Address required and length > 6 '
+      // }
+      // if (!values.mobile || values.mobile.length <= 6) {
+      //   errors.mobile = 'Mobile required and length > 6 '
+      // }
       if (!values.email) {
         errors.email = 'Required email'
       } else if (
@@ -81,13 +81,12 @@ export const SignupModal = () => {
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value check ', values)
       const data = new FormData()
       data.set('name', values.name)
       data.set('email', values.email)
       data.set('password', values.password)
-      data.set('mobile', values.mobile)
-      data.set('address', values.address)
+      // data.set('mobile', values.mobile)
+      // data.set('address', values.address)
       data.set('confirmPassword', values.confirmPassword)
 
       if (files.length > 0) {
@@ -99,27 +98,20 @@ export const SignupModal = () => {
         ) // hoặc giá trị mặc định khác tùy thuộc vào logic của bạn
       }
 
-      console.log('checkl', Object.fromEntries(data))
       try {
-        const response = await CreateUser.mutateAsync(data)
-        console.log('res', response)
+        await CreateUser.mutateAsync(data)
       } catch (error) {
         console.error('Lỗi khi gọi API:', error)
       }
-    },
+    }
   })
   const togglePassState = (e: any) => {
     e.preventDefault()
     setPassViewState((prevState) => !prevState)
   }
-  const handleChangeFiles = (e: any) => {
-    setFiles(e.target.files)
-    console.log('file ', files)
-  }
+ 
 
   const resetFormik = () => {
-    console.log('reset')
-
     formikValidate.resetForm({
       values: {
         name: '',
@@ -127,8 +119,8 @@ export const SignupModal = () => {
         address: '',
         mobile: '',
         password: '',
-        confirmPassword: '',
-      },
+        confirmPassword: ''
+      }
     })
   }
 
@@ -137,7 +129,7 @@ export const SignupModal = () => {
       {showForm && (
         <div className="signup-form2  overflow-y-hidden  ">
           <div
-            className="overflow-y-scroll hide-scroll-bar h-[51rem] "
+            className=" hide-scroll-bar  "
             style={{ borderRadius: 'inherit' }}
           >
             <form
@@ -171,24 +163,8 @@ export const SignupModal = () => {
               </div>
 
               <div className="signup-form-body">
-                <div className="flex justify-between items-center">
-                  {formikValidate.touched.name &&
-                    formikValidate.errors.name && (
-                      <span className="text-red-500 text-base">
-                        {formikValidate.errors.name}
-                      </span>
-                    )}
-
-                  {formikValidate.touched.address &&
-                    formikValidate.errors.address && (
-                      <div className="text-red-500 text-base mr-[3rem]">
-                        {formikValidate.errors.address}
-                      </div>
-                    )}
-                </div>
-
                 <div className="signup-form-category-sp">
-                  <div className="signup-form-category">
+                  <div className="signup-form-category w-full ">
                     <label>
                       Name: <span>*</span>
                     </label>
@@ -201,58 +177,16 @@ export const SignupModal = () => {
                       name="name"
                     />
                   </div>
-
-                  <div className="signup-form-category">
-                    <label>
-                      Address: <span>*</span>
-                    </label>
-                    <input
-                      type="text"
-                      placeholder="Enter Your address"
-                      onChange={formikValidate.handleChange}
-                      defaultValue={formikValidate.values.address}
-                      onBlur={formikValidate.handleBlur}
-                      name="address"
-                    />
-                  </div>
+                </div>
+                <div className="flex justify-between items-center">
+                  {formikValidate.touched.name &&
+                    formikValidate.errors.name && (
+                      <span className="text-red-500 text-base">
+                        {formikValidate.errors.name}
+                      </span>
+                    )}
                 </div>
 
-                <div className="signup-form-category">
-                  <label>Avatar:</label>
-                  <input
-                    type="file"
-                    onChange={handleChangeFiles}
-                    placeholder="Choose Avatar"
-                    className="p-[6px]"
-                  />
-                </div>
-
-                {formikValidate.touched.mobile &&
-                  formikValidate.errors.mobile && (
-                    <div className="text-red-500 text-base">
-                      {formikValidate.errors.mobile}
-                    </div>
-                  )}
-                <div className="signup-form-category">
-                  <label>
-                    Phone Number(Must contain 11 digits): <span>*</span>
-                  </label>
-                  <input
-                    name="mobile"
-                    type="text"
-                    placeholder="Enter Phone No."
-                    onChange={formikValidate.handleChange}
-                    defaultValue={formikValidate.values.mobile}
-                    onBlur={formikValidate.handleBlur}
-                  />
-                </div>
-
-                {formikValidate.touched.email &&
-                  formikValidate.errors.email && (
-                    <div className="text-red-500 text-base">
-                      {formikValidate.errors.email}
-                    </div>
-                  )}
                 <div className="signup-form-category">
                   <label>
                     Email: <span>*</span>
@@ -266,13 +200,13 @@ export const SignupModal = () => {
                     onBlur={formikValidate.handleBlur}
                   />
                 </div>
-
-                {formikValidate.touched.password &&
-                  formikValidate.errors.password && (
+                {formikValidate.touched.email &&
+                  formikValidate.errors.email && (
                     <div className="text-red-500 text-base">
-                      {formikValidate.errors.password}
+                      {formikValidate.errors.email}
                     </div>
                   )}
+
                 <div className="signup-form-category">
                   <label>
                     Password(Must contain at least 8 digits): <span>*</span>
@@ -328,13 +262,13 @@ export const SignupModal = () => {
                     </button>
                   </div>
                 </div>
-
-                {formikValidate.touched.confirmPassword &&
-                  formikValidate.errors.confirmPassword && (
+                {formikValidate.touched.password &&
+                  formikValidate.errors.password && (
                     <div className="text-red-500 text-base">
-                      {formikValidate.errors.confirmPassword}
+                      {formikValidate.errors.password}
                     </div>
                   )}
+
                 <div className="signup-form-category">
                   <label>
                     Confirm Password(Must contain at least 8 digits):{' '}
@@ -391,6 +325,12 @@ export const SignupModal = () => {
                     </button>
                   </div>
                 </div>
+                {formikValidate.touched.confirmPassword &&
+                  formikValidate.errors.confirmPassword && (
+                    <div className="text-red-500 text-base">
+                      {formikValidate.errors.confirmPassword}
+                    </div>
+                  )}
 
                 <button
                   type="submit"

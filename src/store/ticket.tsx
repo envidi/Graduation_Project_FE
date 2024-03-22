@@ -5,6 +5,10 @@ import { createSlice } from '@reduxjs/toolkit'
 interface TicketAction {
   payload: TicketType
 }
+export interface PaymentSelected{
+  _id : number
+  name : string
+}
 
 export interface TicketType {
   id_showtime?: string
@@ -18,25 +22,32 @@ export interface TicketType {
   cinema_name?: string
   seat?: SeatUserList[] | null
   price_movie?: number
+  price_id?: string
   foods?: FoodItemState[]
   ticketAmount?: number
-  total ?: number
+  total?: number
+  paymentMethod?: {
+    _id: number
+    name: string
+  }
+  ticket_id ?: string,
+  cinemaId ?: string
 }
-interface TicketState {
+export interface TicketState {
   ticket: TicketType
 }
-interface TicketSeatItemType{
-  name : string
-  _id : string
-  price : number
-  typeSeat : string
-  status : string
-  row : number
-  column : number
-  selected : boolean
+interface TicketSeatItemType {
+  name: string
+  _id: string
+  price: number
+  typeSeat: string
+  status: string
+  row: number
+  column: number
+  selected: boolean
 }
-interface TicketSeatType{
-  payload : TicketSeatItemType[]
+interface TicketSeatType {
+  payload: TicketSeatItemType[]
 }
 
 const ticketInitialState: TicketState = {
@@ -54,7 +65,13 @@ const ticketInitialState: TicketState = {
     price_movie: 0,
     foods: [],
     ticketAmount: 0,
-    total : 0
+    total: 0,
+    paymentMethod: {
+      _id: 0,
+      name: ''
+    },
+    ticket_id : '',
+    cinemaId : ''
   }
 }
 
@@ -66,6 +83,15 @@ const ticket = createSlice({
       state.ticket = {
         ...state.ticket,
         seat: [...action.payload]
+      }
+    },
+    choosePayment(
+      state: TicketState,
+      action: { payload: PaymentSelected }
+    ) {
+      state.ticket = {
+        ...state.ticket,
+        paymentMethod: { ...action.payload }
       }
     },
     addProperties(state: TicketState, action: TicketAction) {

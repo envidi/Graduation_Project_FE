@@ -8,11 +8,13 @@ interface TicketListType {
 }
 
 const mapDataFood = (data: FoodItemState[]) => {
-  return data.map((food: { _id: string; name: string; quantity: number }) => (
-    <li className="flex justify-end" key={food._id}>
-      {food.name} ({food.quantity})
-    </li>
-  ))
+  return data
+    .filter((food) => food.quantity > 0)
+    .map((food: { _id: string; name: string; quantity: number }) => (
+      <li className="flex justify-end" key={food._id}>
+        {food.name} ({food.quantity})
+      </li>
+    ))
 }
 function TicketList({ icon, title, valueState, valueStorage }: TicketListType) {
   return (

@@ -11,7 +11,11 @@ export const getUser = () => {
 }
 
 export const updateUser = (user: any) => {
-  return InsanceToken.put('/updateUser', user)
+  return InsanceToken.patch('/updateUser', user)
+}
+export const updateClient = (user: any) => {
+  if (!user) return {}
+  return InsanceToken.patch('/updateClient', user)
 }
 export const updateUserId = (user: any) => {
   return baseAuth.put(`/${user._id}`, user)

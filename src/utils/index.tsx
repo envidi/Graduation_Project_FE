@@ -112,8 +112,9 @@ export function convertMintuteToHour(phut: number) {
 export function getFourConsecutiveDays() {
   return [...Array(4)].map((_, i) => new Date(Date.now() + i * 86400000))
 }
-export function formatVND(amount:number) {
+export function formatVND(amount: number | undefined) {
   // Chuyển số tiền thành chuỗi
+  if (amount === undefined) return 0
   const amountStr = amount.toString()
 
   // Tạo một mảng để chứa các ký tự
@@ -137,4 +138,54 @@ export function formatVND(amount:number) {
   const formattedAmount = result.reverse().join('') + ' VND'
 
   return formattedAmount
+}
+export function getCurrentDay() {
+  const ngayHienTai = new Date()
+
+  // Tạo một mảng chứa tên các tháng
+  const thang = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]
+
+  // Lấy thông tin về ngày, tháng và năm
+  const ngay = ngayHienTai.getDate()
+  const tenThang = thang[ngayHienTai.getMonth()]
+  const nam = ngayHienTai.getFullYear()
+
+  // Định dạng ngày theo yêu cầu
+  return tenThang + ' ' + ngay + ', ' + nam
+}
+export function addCommasToNumber(number:number) {
+  // Chuyển số thành chuỗi
+  const numStr = String(number)
+
+  // Tách phần nguyên và phần thập phân (nếu có)
+  const parts = numStr.split('.')
+  const integerPart = parts[0]
+  const decimalPart = parts.length > 1 ? '.' + parts[1] : ''
+
+  // Thêm dấu phẩy vào phần nguyên
+  let result = ''
+  let count = 0
+  for (let i = integerPart.length - 1; i >= 0; i--) {
+    result = integerPart[i] + result
+    count++
+    if (count % 3 === 0 && i > 0) {
+      result = ',' + result
+    }
+  }
+
+  // Kết hợp phần nguyên và phần thập phân
+  return result + decimalPart
 }
