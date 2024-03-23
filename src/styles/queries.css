@@ -91,9 +91,11 @@
     padding: 1.4rem 3rem;
   }
 
-  .signup-form,
-  .login-form {
+  .signup-form {
     top: 1.6rem;
+  }
+  .login-form {
+    /* top: 1.6rem; */
   }
 
   .signup-form {
@@ -120,6 +122,7 @@
 @media (max-width: 52em) {
   .logo-container {
     position: absolute;
+    top: 15px;
     left: 50%;
     transform: translateX(-50%);
   }
@@ -623,5 +626,14 @@
 @media ((max-width: 600px) and (min-width: 410px)) {
   .movie-info-screen-container-3d {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 600px) and (max-width: 1280px) {
+  .stepper-item.completed::after {
+    /* position: absolute;
+    content: ''; */
+    /* border-bottom: 10px solid #4bb543; */
+    top: 15px;
+    /* z-index: 3; */
   }
 }

@@ -1,4 +1,4 @@
-import { InsanceToken, baseAuth } from './baseAuth'
+import { InsanceToken, InsanceTokenFn, baseAuth } from './baseAuth'
 
 export const signup = (user: any) => {
   return baseAuth.post('/register', user)
@@ -24,5 +24,6 @@ export const resetPassword = (user: any) => {
 }
 
 export const getDetailUser = () => {
-  return InsanceToken.get('/userDetail')
+  const instanceToken = InsanceTokenFn()
+  return instanceToken.get('/userDetail')
 }

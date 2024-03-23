@@ -10,7 +10,7 @@ import {
   Settings,
   User
 } from 'lucide-react'
-
+import { ContextAuth, ContextMain } from '@/context/Context'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -28,17 +28,14 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
 import TooltipComponent from './TooltipComponent'
+import { useContext } from 'react'
 interface DropDownMenuType {
-  userDetail: {
-    message: {
-      name: string
-      avatar : string
-    }
-  }
   logout: () => void
 }
 
-function DropDownMenu({ userDetail, logout }: DropDownMenuType) {
+function DropDownMenu({ logout }: DropDownMenuType) {
+  const { userDetail } = useContext<ContextAuth>(ContextMain)
+
   return (
     <DropdownMenu>
       <TooltipComponent tooltip={'Your account'}>
@@ -51,7 +48,8 @@ function DropDownMenu({ userDetail, logout }: DropDownMenuType) {
               <Avatar className="w-10 h-10">
                 <AvatarImage
                   src={
-                    userDetail?.message.avatar || 'https://github.com/shadcn.png'
+                    userDetail?.message.avatar ||
+                    'https://github.com/shadcn.png'
                   }
                   alt="@shadcn"
                 />

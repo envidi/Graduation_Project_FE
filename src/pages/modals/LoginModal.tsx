@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import BarLoader from 'react-spinners/BarLoader'
 import { useMutation } from '@tanstack/react-query'
 import { signin } from '@/api/auth'
@@ -6,15 +6,19 @@ import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
 import ForgotPassword from './FogotPassword'
 import { ContextAuth, ContextMain } from '@/context/Context'
+import { useQueryClient } from '@tanstack/react-query'
+import { USERDETAIL } from '@/utils/constant'
 interface FormValues {
   email: string
   password: string
 }
 
 export const LoginModal = () => {
+  const queryClient = useQueryClient()
   const [loading] = useState(false)
   const [passViewState, setPassViewState] = useState(false)
   const [showForm, setShowForm] = useState(true)
+  // const [accessToken, setAccessToken] = useLocalStorage<any>('Accesstoken')
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   // const [isLogined, setIsLogined] = useState(false)
   const { setIsLogined } = useContext<ContextAuth>(ContextMain)
@@ -32,6 +36,9 @@ export const LoginModal = () => {
       setIsLogined(true)
       const { Accesstoken } = response.data
       localStorage.setItem('Accesstoken', Accesstoken)
+      queryClient.invalidateQueries({
+        queryKey: [USERDETAIL]
+      })
       toast.success('Đăng nhập thành công')
     },
     onError() {

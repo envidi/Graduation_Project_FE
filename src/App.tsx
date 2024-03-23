@@ -15,7 +15,6 @@ import { PageLoader } from './components/PageLoader'
 // import Profile from './pages/modals/Profile'
 import useAllMovie from './hooks/useAllMovie'
 
-// import PageTitle from './admin/components/PageTitle'
 import ECommerce from './admin/pages/Dashboard/ECommerce'
 import SignIn from './admin/pages/Authentication/SignIn'
 import SignUp from './admin/pages/Authentication/SignUp'
@@ -64,6 +63,11 @@ const SettingsLayout = lazy(() => import('./pages/Profile/layout'))
 const Payment = lazy(() => import('./pages/Payment/Payment'))
 const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
+import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
+import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
+const ProfileWatchListPage = lazy(
+  () => import('./pages/Profile/WatchList/page')
+)
 
 function App() {
   const dispatch = useDispatch()
@@ -103,76 +107,115 @@ function App() {
               <Route
                 path="/movie/:slug"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <MovieDetailsPage />
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <MovieDetailsPage />
+                    </Suspense>
+                  </ProtectedAuthorized>
                 }
               />
               {/* <Route path="/purchase" element={<PurchasePage />} /> */}
-              <Route path="/showtimes" element={<ShowtimesPage />} />
+              <Route
+                path="/showtimes"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <ShowtimesPage />
+                  </Suspense>
+                }
+              />
               <Route
                 path="/profile/forms"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <SettingsLayout>
-                      <SettingsProfilePage />
-                    </SettingsLayout>
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <SettingsLayout>
+                        <SettingsProfilePage />
+                      </SettingsLayout>
+                    </Suspense>
+                  </ProtectedAuthorized>
+                }
+              />
+              <Route
+                path="/profile/watchlist"
+                element={
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <SettingsLayout>
+                        <ProfileWatchListPage />
+                      </SettingsLayout>
+                    </Suspense>
+                  </ProtectedAuthorized>
                 }
               />
               <Route
                 path="/profile/bill"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <SettingsLayout>
-                      <ProfileBillPage />
-                    </SettingsLayout>
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <SettingsLayout>
+                        <ProfileBillPage />
+                      </SettingsLayout>
+                    </Suspense>
+                  </ProtectedAuthorized>
                 }
               />
               <Route
                 path="/profile/forms/account"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <SettingsLayout>
-                      <SettingsAccountPage />
-                    </SettingsLayout>
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <SettingsLayout>
+                        <SettingsAccountPage />
+                      </SettingsLayout>
+                    </Suspense>
+                  </ProtectedAuthorized>
                 }
               />
               <Route
                 path="/profile/forms/appearance"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <SettingsLayout>
-                      <SettingsAppearancePage />
-                    </SettingsLayout>
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <SettingsLayout>
+                        <SettingsAppearancePage />
+                      </SettingsLayout>
+                    </Suspense>
+                  </ProtectedAuthorized>
                 }
               />
               <Route path="*" element={<NotFound />} />
               <Route
                 path="/movies"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <MoviePage />
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <Suspense fallback={<PageLoader />}>
+                      <MoviePage />
+                    </Suspense>
+                  </ProtectedAuthorized>
                 }
               />
               <Route
                 path="result"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <ResultPage />
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <ProtectedConfirm>
+                      <Suspense fallback={<PageLoader />}>
+                        <ResultPage />
+                      </Suspense>
+                    </ProtectedConfirm>
+                  </ProtectedAuthorized>
                 }
               />
               <Route
                 path="/purchase"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <PurchaseLayout />
-                  </Suspense>
+                  <ProtectedAuthorized>
+                    <ProtectedRoutePage>
+                      <Suspense fallback={<PageLoader />}>
+                        <PurchaseLayout />
+                      </Suspense>
+                    </ProtectedRoutePage>
+                  </ProtectedAuthorized>
                 }
               >
                 <Route
