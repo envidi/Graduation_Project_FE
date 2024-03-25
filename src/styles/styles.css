@@ -1212,7 +1212,7 @@ header {
 }
 
 .showtimes-screen-container {
-  display: grid;
+  /* display: grid; */
   background-color: #171a28;
 }
 

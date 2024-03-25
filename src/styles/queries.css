@@ -420,7 +420,7 @@
     grid-template-columns: 0.45fr 0.55fr;
   }
   .showtimes-screen-container {
-    display: grid;
+    /* display: grid; */
   }
 
   /* .showtimes-schedule-container-3d, */
