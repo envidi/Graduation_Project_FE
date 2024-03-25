@@ -106,14 +106,12 @@ function DropDownMenu({ logout }: DropDownMenuType) {
             </DropdownMenuPortal>
           </DropdownMenuSub>
         </DropdownMenuGroup>
-        <DropdownMenuItem>
-          <Github className="mr-2 h-6 w-6" />
-          <span>GitHub</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <LifeBuoy className="mr-2 h-6 w-6" />
-          <span>Support</span>
-        </DropdownMenuItem>
+        <Link to={'/admin'}>
+          <DropdownMenuItem>
+            <LifeBuoy className="mr-2 h-6 w-6" />
+            <span>Admin</span>
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem disabled>
           <Cloud className="mr-2 h-6 w-6" />
           <span>API</span>

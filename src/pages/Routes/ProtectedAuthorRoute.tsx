@@ -14,7 +14,7 @@ function ProtectedAuthorized({
   if (isLoading) {
     return false
   }
-  console.log(1)
+
   if (
     userDetail &&
     userDetail.message &&

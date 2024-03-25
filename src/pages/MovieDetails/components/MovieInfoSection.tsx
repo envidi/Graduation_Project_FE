@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getOneMovie } from '@/api/movie'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { LocationSelector } from '../../../components/LocationSelector'
-import { Calendar } from '@/components/ui/calendar'
-import { useEffect, useState, useContext } from 'react'
+// import { LocationSelector } from '../../../components/LocationSelector'
+// import { Calendar } from '@/components/ui/calendar'
+import { useContext } from 'react'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
@@ -14,14 +14,8 @@ import { useLocalStorage } from '@uidotdev/usehooks'
 
 import { useParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
-import {
-  chuyenDoiNgayDauVao,
-  convertAmPm,
-  getDay,
-  getHourAndMinute,
-  selectCalendar
-} from '@/utils'
-import { AVAILABLE, MOVIE_DETAIL, WATCHLIST } from '@/utils/constant'
+import { chuyenDoiNgay, getDay } from '@/utils'
+import { MOVIE_DETAIL, WATCHLIST } from '@/utils/constant'
 import { useSelector } from 'react-redux'
 import { MovieType } from '@/Interface/movie'
 import { Plus, Loader } from 'lucide-react'
@@ -29,6 +23,7 @@ import { addWatchList } from '@/api/watchList'
 import { ContextMain } from '@/context/Context'
 import { toast } from 'react-toastify'
 import useWatchList from '@/hooks/useWatchList'
+import MovieShowtimeSection from './MovieShowtimeSection'
 
 export interface ShowTime {
   _id: string
@@ -60,8 +55,10 @@ export const MovieInfoSection = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movies = useSelector((state: any) => state.movies.movies)
   const [, setTicket] = useLocalStorage<TicketType | null>('ticket', null)
-  const [date, setDate] = useState<Date | undefined>(new Date())
-  const [currentLocation, setCurrentLocation] = useState<string>('')
+  // const [date] = useState<Date | undefined>(new Date())
+  // const [currentLocation, setCurrentLocation] = useState<string>(
+  //   '65d30a80a047aeebd3c78c72'
+  // )
   const navigate = useNavigate()
   const { slug } = useParams()
 
@@ -84,18 +81,18 @@ export const MovieInfoSection = () => {
     queryFn: () => getOneMovie(_id)
   })
 
-  useEffect(() => {
-    if (
-      dataMovie &&
-      Object.keys(dataMovie).length > 0 &&
-      dataMovie?.showTimeCol?.length > 0
-    ) {
-      setCurrentLocation(dataMovie?.showTimeCol[0]?.cinemaId?._id || [])
-    }
-  }, [dataMovie])
-  const handleCurrentLocation = (locationId: string) => {
-    setCurrentLocation(locationId)
-  }
+  // useEffect(() => {
+  //   if (
+  //     dataMovie &&
+  //     Object.keys(dataMovie).length > 0 &&
+  //     dataMovie?.showTimeCol?.length > 0
+  //   ) {
+  //     setCurrentLocation(dataMovie?.showTimeCol[0]?.cinemaId?._id || [])
+  //   }
+  // }, [dataMovie])
+  // const handleCurrentLocation = (locationId: string) => {
+  //   setCurrentLocation(locationId)
+  // }
   const override = {
     display: 'block',
     margin: '9.6rem auto'
@@ -117,26 +114,27 @@ export const MovieInfoSection = () => {
     fromDate,
     desc,
     trailer,
-    showTimeCol,
-    moviePriceCol
+    // showTimeCol,
+    moviePriceCol,
+    showTimeDimension
   } = dataMovie
 
-  const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
-  const showTimePerDay =
-    showTimeCol &&
-    showTimeCol
-      ?.map((showTime: ShowTime) => {
-        if (
-          getDay(showTime.date) === getDay(selectCalendar(date)) &&
-          showTime.status === AVAILABLE &&
-          showTime.cinemaId._id.toString() === currentLocation.toString()
-        ) {
-          return showTime
-        }
-      })
-      .filter(function (element: ShowTime) {
-        return element !== undefined
-      })
+  // const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
+  // const showTimePerDay =
+  //   showTimeCol &&
+  //   showTimeCol
+  //     ?.map((showTime: ShowTime) => {
+  //       if (
+  //         getDay(showTime.date) === getDay(selectCalendar(date)) &&
+  //         showTime.status === AVAILABLE &&
+  //         showTime.cinemaId._id.toString() === currentLocation.toString()
+  //       ) {
+  //         return showTime
+  //       }
+  //     })
+  //     .filter(function (element: ShowTime) {
+  //       return element !== undefined
+  //     })
 
   const handleChooseShowtime = (showtime: ShowTime) => {
     const ticketObject = {
@@ -287,7 +285,7 @@ export const MovieInfoSection = () => {
 
             <div className="movie-info-genre-container text-primary-infoMovie">
               <p className="movie-info-title text-primary-movieColor">
-                Genre:{' '}
+                Thể loại:{' '}
               </p>
               {categoryCol?.map((category: { _id: string; name: string }) => (
                 <p key={category._id}>{category.name}</p>
@@ -351,50 +349,40 @@ export const MovieInfoSection = () => {
           <p className="movie-info-description">{desc}</p>
         </div>
 
-        <div className="movie-info-location-container">
+        {/* <div className="movie-info-location-container">
           <LocationSelector handleCurrentLocation={handleCurrentLocation} />
-        </div>
+        </div> */}
 
         <h3 className="movie-info-screen-heading border-b-4 border-primary-movieColor text-primary-movieColor w-fit mb-10">
           Showtimes
         </h3>
-        <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center ">
-          <Calendar
+        <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center gap-10 ">
+          {/* <Calendar
             mode="single"
             selected={date}
             onSelect={setDate}
             className="rounded-md px-5 border border-border-calendarBorder shadow mt-[3.2rem] "
-          />
-          <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full">
-            <div
-              className={`movie-info-screen-container-3d bg-background-third ${showTimePerDay?.length > 0 ? 'grid' : ''}`}
-            >
-              <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
-                {today}
-              </h2>
+          /> */}
+          {showTimeDimension && showTimeDimension.length > 0 && (
+            <MovieShowtimeSection
+              handleChooseShowtime={handleChooseShowtime}
+              showTimeDimension={showTimeDimension}
+            />
+          )}
+          {!showTimeDimension ||
+            (showTimeDimension.length == 0 && (
+              <div className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full">
+                <div className="movie-info-screen-container-3d bg-background-third ">
+                  <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
+                    {chuyenDoiNgay(new Date())}
+                  </h2>
 
-              {showTimePerDay?.length > 0 ? (
-                showTimePerDay.map((showtime: ShowTime, index: number) => {
-                  return (
-                    <div
-                      className="showtimes-schedule md:my-8 xs:my-10"
-                      key={index}
-                      onClick={() => handleChooseShowtime(showtime)}
-                    >
-                      {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
-                      <button className="showtimes-startime-btn border-2 border-primary-movieColor hover:bg-primary-movieColorSecond text-primary-infoMovie xs:w-52 xs:h-20 md:w-40 md:h-16">
-                        {convertAmPm(getHourAndMinute(showtime.timeFrom))}
-                      </button>
-                    </div>
-                  )
-                })
-              ) : (
-                <div className="h-32 text-3xl flex items-center justify-center w-full">
-                  No showtime in this day
+                  <div className="h-32 text-3xl flex items-center justify-center w-full">
+                    No showtime in this day
+                  </div>
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>

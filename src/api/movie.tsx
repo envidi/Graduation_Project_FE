@@ -34,6 +34,10 @@ export const getAllMovie = async () => {
   const result = await instance.get('/movie')
   return result.data.data.docs
 }
+export const getAllHasShow = async (_cate: string) => {
+  const result = await instance.get('/movie/showtime?_cate=' + _cate)
+  return result.data.data.docs
+}
 export const searchMovie = async (search: string) => {
   try {
     const result = await instance.get('/movie/search?q=' + search)
