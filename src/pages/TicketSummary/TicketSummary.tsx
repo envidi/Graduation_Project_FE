@@ -39,7 +39,12 @@ import {
   mapData
 } from '@/utils/methodArray'
 import useTicket from '@/hooks/useTicket'
-import { CREATE_TICKET } from '@/utils/constant'
+import { CREATE_TICKET, FULL_SCHEDULE } from '@/utils/constant'
+import { useShowtime } from '@/hooks/useShowtime'
+import TimeCountDown from './TimeCountDown'
+import BarLoader from 'react-spinners/BarLoader'
+import { useContext } from 'react'
+import { ContextMain } from '@/context/Context'
 
 interface MutatePaymentType {
   amount: number
@@ -48,22 +53,30 @@ interface MutatePaymentType {
 }
 
 function TicketSummary() {
+  const { userDetail } = useContext(ContextMain)
   const queryClient = useQueryClient()
   const { seat, paymentMethod } = useSelector(
     (state: TicketSelector) => state.ticket.ticket
   )
+
   const foods = useSelector((state: FoodSelector) => state.foods.foods)
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
+  const { isLoading, data: dataShowtime } = useShowtime(
+    ticket?.id_showtime || ''
+  )
   const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
-
 
   const onSuccess = (data: { _id: string }) => {
     setTicket({
       ...ticket,
       ticket_id: data._id
     })
+    navigate('/purchase/food')
   }
-  const { mutate: mutateTicket } = useTicket(CREATE_TICKET, onSuccess)
+  const { mutate: mutateTicket, isPending } = useTicket(
+    CREATE_TICKET,
+    onSuccess
+  )
   const { mutate } = useMutation({
     mutationFn: (data: MutatePaymentType) => {
       switch (paymentMethod._id) {
@@ -141,19 +154,22 @@ function TicketSummary() {
       priceId: ticket?.price_id,
       seatId: mapData(seat),
       foods: foodObject,
-      showtimeId: ticket.id_showtime
+      showtimeId: ticket.id_showtime,
+      userId: userDetail?.message?._id || '1',
+      movieId : ticket.id_movie,
+      screenRoomId : ticket.hall_id,
+      cinemaId : ticket.cinemaId
     }
     if (ticket.ticket_id !== '') {
       mutateTicket({
         ...newObject,
         ticket_id: ticket.ticket_id
       })
-      return navigate('/purchase/food')
+      return
     }
     mutateTicket({
       ...newObject
     })
-    navigate('/purchase/food')
   }
   const handlePurchaseFood = () => {
     setTicket({
@@ -165,6 +181,13 @@ function TicketSummary() {
     navigate('/purchase/payment')
   }
   const handlePurchasePayment = () => {
+    const showtime = dataShowtime[0]
+    if (showtime.status == FULL_SCHEDULE || showtime.destroy) {
+      toast.error('Showtime is not available', {
+        position: 'top-right'
+      })
+      return
+    }
     if (paymentMethod._id == 1) {
       mutate({
         amount: ticket.total,
@@ -193,7 +216,10 @@ function TicketSummary() {
           </div>
 
           <div className="ticket-primary-info">
-            <p className="ticket-movie-screen">3D</p>
+            <div className="flex items-center justify-between w-full">
+              <p className="ticket-movie-screen">3D </p>
+              {ticket && ticket.ticket_id && <TimeCountDown />}
+            </div>
             <p className="ticket-movie-name">{name_movie}</p>
             <p className="ticket-movie-dur">
               {convertMintuteToHour(duration_movie)}
@@ -269,7 +295,6 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseFood}
           >
-            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket
           </button>
         )}
@@ -279,8 +304,7 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseSeat}
           >
-            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
-            purchase ticket
+            {isPending ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'}
           </button>
         )}
         {pathname == '/purchase/payment' && paymentMethod._id !== 3 && (
@@ -288,12 +312,11 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchasePayment}
           >
-            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket
           </button>
         )}
         {pathname == '/purchase/payment' && paymentMethod._id == 3 && (
-          <DialogPayment />
+          <DialogPayment isLoading={isLoading} dataShowtime={dataShowtime} />
         )}
       </div>
     </div>

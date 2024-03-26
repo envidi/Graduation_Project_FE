@@ -56,7 +56,7 @@ const TableTwo = () => {
             </p>
           </div>
           <div className="col-span-1 flex items-center" style={{color:'black '}}>
-            <p className="text-sm text-black dark:text-white" style={{color:'black '}}>${product.price}</p>
+            <p className="text-sm text-black dark:text-white">${product.price}</p>
           </div>
           <div className="col-span-1 flex items-center">
             <p className="text-sm text-black dark:text-white">{product.sold}</p>

@@ -1,20 +1,30 @@
 import {
   TicketCreateType,
   checkoutTicket,
+  deleteTicket,
   updateTicket,
   updateTicketSeat
 } from '@/api/ticket'
 import { TicketType } from '@/store/ticket'
-import { COMPLETE_TICKET, CREATE_TICKET, SEAT_STORE } from '@/utils/constant'
+import {
+  COMPLETE_TICKET,
+  CREATE_TICKET,
+  DELETE_TICKET,
+  SEAT_STORE
+} from '@/utils/constant'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { toast } from 'react-toastify'
 
-// eslint-disable-next-line no-unused-vars
-function useTicket(action: string, onSuccess: (data: { _id: string }) => void) {
+function useTicket(
+  action: string,
+  // eslint-disable-next-line no-unused-vars
+  onSuccess?: (data: { _id: string }) => void,
+  onError?: () => void
+) {
   const queryClient = useQueryClient()
   const [ticket] = useLocalStorage<TicketType>('ticket')
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: (newTodo: TicketCreateType) => {
       switch (action) {
         case CREATE_TICKET:
@@ -24,21 +34,27 @@ function useTicket(action: string, onSuccess: (data: { _id: string }) => void) {
           return checkoutTicket(newTodo)
         case COMPLETE_TICKET:
           return updateTicket(newTodo)
+        case DELETE_TICKET:
+          return deleteTicket(newTodo)
         default:
           return checkoutTicket(newTodo)
       }
     },
     onSuccess: (data) => {
       onSuccess && onSuccess(data)
-      queryClient.invalidateQueries({ queryKey: [`${SEAT_STORE}`] })
+
+      queryClient.invalidateQueries({
+        queryKey: [SEAT_STORE]
+      })
     },
-    onError: () => {
-      toast.error('Cannot select this seat!', {
+    onError: (err: { response: { data: { message: string } } }) => {
+      onError && onError()
+      toast.error(err?.response.data.message || 'Cannot select seat', {
         position: 'top-right'
       })
     }
   })
-  return { mutate }
+  return { mutate, isPending }
 }
 
 export default useTicket

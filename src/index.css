@@ -12,7 +12,7 @@
     --text-under-title: 240 3% 50%;
 
     --bg-skeleton: rgb(71 85 105);
-    --background: 230 26% 14%;
+    --background: 0 0% 93%;
     --bg-section-inner: 240 5% 96%;
     --bg-collection-card: 0 0% 100%;
     --bg-main: 0 0% 98%;
@@ -30,6 +30,8 @@
 
     --border-social-link: 0 0% 90%;
     --border-payment: 349 82% 57%;
+    /* profile */
+    --border-profile-container: 240 6% 90%;
 
     --bg-secondary: 0 0% 90%;
     --bg-showtime: 230 26% 91%;
@@ -83,6 +85,8 @@
     --border-payment: 349 82% 57%;
     --border-social-link: 229 14% 22%;
     --calendar-border: hsla(220, 3%, 81%, 0.3);
+    /* profile */
+    --border-profile-container: 240 4% 22%;
 
     --gradient-start: rgba(0, 0, 0, 0.6000525210084033);
     --gradient-mid1: rgba(255, 255, 255, 0);
@@ -90,6 +94,7 @@
     --gradient-mid3: rgba(255, 255, 255, 0);
     --gradient-end: rgba(0, 0, 0, 0.5972514005602241);
 
+    --background: 230 26% 14%;
     --gradient: linear-gradient(
       90deg,
       rgba(0, 0, 0, 0.6000525210084033) 0%,

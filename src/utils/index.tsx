@@ -62,6 +62,43 @@ export function chuyenDoiNgayDauVao(inputDate: string | undefined) {
 
   return ngayDinhDang
 }
+
+export function chuyenDoiNgay(dateString: Date | string) {
+  if (dateString == '') return
+  const ngay = new Date(dateString)
+
+  const ngayTrongTuan = [
+    'Chủ Nhật',
+    'Thứ Hai',
+    'Thứ Ba',
+    'Thứ Tư',
+    'Thứ Năm',
+    'Thứ Sáu',
+    'Thứ Bảy'
+  ]
+  const thu = ngayTrongTuan[ngay.getDay()]
+
+  const ngayTrongThang = ngay.getDate()
+
+  const thangTrongNam = ngay.getMonth() + 1 // Lưu ý: Tháng trong JavaScript bắt đầu từ 0
+  const tenThang = [
+    'tháng 1',
+    'tháng 2',
+    'tháng 3',
+    'tháng 4',
+    'tháng 5',
+    'tháng 6',
+    'tháng 7',
+    'tháng 8',
+    'tháng 9',
+    'tháng 10',
+    'tháng 11',
+    'tháng 12'
+  ]
+  const tenThangHienThi = tenThang[thangTrongNam - 1]
+
+  return `${thu}, ${ngayTrongThang} ${tenThangHienThi}`
+}
 // Lấy ngày theo lịch
 export function selectCalendar(inputDate: Date | undefined) {
   if (inputDate === undefined) return
@@ -165,4 +202,27 @@ export function getCurrentDay() {
 
   // Định dạng ngày theo yêu cầu
   return tenThang + ' ' + ngay + ', ' + nam
+}
+export function addCommasToNumber(number: number) {
+  // Chuyển số thành chuỗi
+  const numStr = String(number)
+
+  // Tách phần nguyên và phần thập phân (nếu có)
+  const parts = numStr.split('.')
+  const integerPart = parts[0]
+  const decimalPart = parts.length > 1 ? '.' + parts[1] : ''
+
+  // Thêm dấu phẩy vào phần nguyên
+  let result = ''
+  let count = 0
+  for (let i = integerPart.length - 1; i >= 0; i--) {
+    result = integerPart[i] + result
+    count++
+    if (count % 3 === 0 && i > 0) {
+      result = ',' + result
+    }
+  }
+
+  // Kết hợp phần nguyên và phần thập phân
+  return result + decimalPart
 }

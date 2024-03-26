@@ -2,12 +2,12 @@ import { Outlet } from 'react-router-dom'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
 
-function ClientLayout() {
+function ClientLayout({ setMenuState }: any) {
   return (
     <div>
-      <Navbar />
+      <Navbar setMenuState={setMenuState} />
       <Outlet />
-      <Footer/>
+      <Footer />
     </div>
   )
 }

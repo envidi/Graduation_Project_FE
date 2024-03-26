@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react'
 import HashLoader from 'react-spinners/HashLoader'
@@ -23,12 +24,17 @@ const SeatPage = () => {
     _hallId: ticket?.hall_id || '',
     _showId: ticket?.id_showtime || ''
   })
+
   const [, setSelectedSeat] = useState<SeatUserList | null>(null)
   useEffect(() => {
     if (!seats || seats.length == 0) return
     const newData = seats.map((f: Seat) => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { updatedAt, createdAt, ShowScheduleId, ScreeningRoomId, TimeSlotId,
+      const {
+        updatedAt,
+        createdAt,
+        ShowScheduleId,
+        ScreeningRoomId,
+        TimeSlotId,
         ...seatInfo
       } = f
       return {
@@ -37,8 +43,7 @@ const SeatPage = () => {
         selected: false
       }
     })
-    // console.log(seats)
-    // console.log('allSeat', allSeat)
+
     if (ticket?.seat) {
       const seatSelectedStorage = ticket.seat
         .map((seat) => (seat.selected ? seat : undefined))
@@ -92,22 +97,27 @@ const SeatPage = () => {
       <div className="form-item-heading">Select Seat</div>
       {!loading && (
         <>
-          <div className="seat-guide-container lg:gap-20 xs:gap-16 xl:max-w-7xl lg:max-w-7xl md:max-w-7xl sm:max-w-5xl  xs:max-w-4xl flex-wrap">
+          <div className="seat-guide-container lg:gap-2 xs:gap-16 xl:max-w-7xl lg:max-w-7xl md:max-w-7xl sm:max-w-5xl  xs:max-w-4xl flex-wrap">
             <div className="flex items-center">
               <div className="seat-available-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
               <p className="seat-status-details">Available</p>
             </div>
-            <div className="flex items-center">
-              <div className="seat-booked-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
-              <p className="seat-status-details">Booked</p>
-            </div>
+
             <div className="flex items-center">
               <div className="seat-selected-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
               <p className="seat-status-details">Selected</p>
             </div>
-            <div className="flex items-center">
+            <div className="flex items-center mx-2">
               <div className="seat-selected-demo bg-[#db1f1f] lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
-              <p className="seat-status-details">Vip</p>
+              <p className="seat-status-details">VIP</p>
+            </div>
+            <div className="flex items-center">
+              <div className="seat-booked-demo bg-[#fb9f15] lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
+              <p className="seat-status-details">Reserved</p>
+            </div>
+            <div className="flex items-center">
+              <div className="seat-booked-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
+              <p className="seat-status-details">Booked</p>
             </div>
           </div>
           <div className="theatre-screen lg:w-[48rem] lg:h-[18rem]  md:h-[15rem] sm:w-[52rem] sm:h-[16rem] ">

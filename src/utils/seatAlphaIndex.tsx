@@ -1,5 +1,3 @@
-
-
 export function convertNumberToAlphabet(num: number) {
   const alphabetArray = [
     'A',

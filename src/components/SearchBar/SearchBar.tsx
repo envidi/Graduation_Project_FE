@@ -1,13 +1,10 @@
-import {
-  ChangeEventHandler,
-  MouseEventHandler,
-  useState
-} from 'react'
+import { ChangeEventHandler, MouseEventHandler, useState } from 'react'
 import './search.css'
 import { Loader2 } from 'lucide-react'
 import { X } from 'lucide-react'
 import DropdownSearchItem from './DropdownSearchItem'
 import useDebounceCustom from '@/hooks/useDebounceCustom'
+import TooltipComponent from '../TooltipComponent'
 
 function SearchBar() {
   const [showSearch, setShowSearch] = useState<boolean>(false)
@@ -78,13 +75,15 @@ function SearchBar() {
             />
           )}
         </div>
-        <div
-          className="search__button bg-primary-movieColor"
-          id="search-button"
-        >
-          <i className="ri-search-2-line search__icon"></i>
-          <i className="ri-close-line search__close"></i>
-        </div>
+        <TooltipComponent tooltip={'Search'}>
+          <div
+            className="search__button bg-primary-movieColor"
+            id="search-button"
+          >
+            <i className="ri-search-2-line search__icon"></i>
+            <i className="ri-close-line search__close"></i>
+          </div>
+        </TooltipComponent>
         {searchTerm !== '' && (
           <DropdownSearchItem
             results={results}
