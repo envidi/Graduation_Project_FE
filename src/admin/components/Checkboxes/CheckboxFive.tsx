@@ -23,7 +23,7 @@ const CheckboxFive = () => {
               isChecked && '!border-4'
             }`}
           >
-            <span className="h-2.5 w-2.5 rounded-full bg-white dark:bg-transparent"></span>
+            <span className="h-2.5 w-2.5 rounded-full text-black bg-white dark:bg-transparent"></span>
           </div>
         </div>
         Checkbox Text

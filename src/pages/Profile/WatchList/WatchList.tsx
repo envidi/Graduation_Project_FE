@@ -39,7 +39,7 @@ function WatchList() {
       })
     }
   })
- 
+
   const { data: dataWatchList, isLoading } = useWatchList(userDetail)
   const override = {
     display: 'block',

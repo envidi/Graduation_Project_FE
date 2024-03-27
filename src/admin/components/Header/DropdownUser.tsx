@@ -44,10 +44,10 @@ const DropdownUser = () => {
         to="#"
       >
         <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
+          <span className="block   text-black text-xl">
             Thomas Anree
           </span>
-          <span className="block text-xs">UX Designer</span>
+          <span className="block  text-xl text-gray-400">UX Designer</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">
@@ -76,15 +76,14 @@ const DropdownUser = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute right-0 mt-4 flex w-62.5 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
-          dropdownOpen === true ? 'block' : 'hidden'
-        }`}
+        className={`absolute  flex w-62.5 flex-col   bg-white   ${dropdownOpen === true ? 'block' : 'hidden'
+          }`}
       >
         <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
           <li>
             <Link
               to="/profile"
-              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base text-black"
             >
               <svg
                 className="fill-current"
@@ -109,7 +108,7 @@ const DropdownUser = () => {
           <li>
             <Link
               to="#"
-              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base text-black"
             >
               <svg
                 className="fill-current"
@@ -130,7 +129,7 @@ const DropdownUser = () => {
           <li>
             <Link
               to="/pages/settings"
-              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base text-black"
             >
               <svg
                 className="fill-current"
@@ -153,7 +152,7 @@ const DropdownUser = () => {
             </Link>
           </li>
         </ul>
-        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+        <button className="flex items-center gap-3.5 px-6 py-4 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base text-black">
           <svg
             className="fill-current"
             width="22"

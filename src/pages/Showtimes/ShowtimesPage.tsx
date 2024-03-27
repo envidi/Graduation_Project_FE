@@ -6,15 +6,15 @@ import { ShowtimeContextProvider } from './contexts'
 
 const ShowtimesPage = () => {
   const [currentLocation, setCurrentLocation] = useState<string>('')
-  const [filterMovieByCategory, setFilterMovieByCategory] = useState<string[]>(
-    []
+  const [filterMovieByCategory, setFilterMovieByCategory] = useState<string>(
+    ''
   )
 
   const handleCurrentLocation = (locationId: string) => {
     setCurrentLocation(locationId)
   }
 
-  const handleFilterMovieByCategory = (filterMovie: string[]) => {
+  const handleFilterMovieByCategory = (filterMovie: string) => {
     setFilterMovieByCategory(filterMovie)
   }
 
