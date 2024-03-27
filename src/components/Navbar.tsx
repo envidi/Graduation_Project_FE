@@ -27,8 +27,9 @@ export const Navbar = ({
   // const [signUpState, setSignUpState] = useState(false)
   const { isLogined, logout } = useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
-    setShowSignup((pre) => !pre)
-  }
+    setShowSignup((prev) => !prev);
+  };
+
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
   }
