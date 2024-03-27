@@ -22,7 +22,7 @@ export const LocationSelector = ({
   handleCurrentLocation: (location: string) => void
 }) => {
   const [locationTheater, setLocationTheater] = useState<string>(
-    '65ab4469b0b5038ee5248f2a'
+    '65d30a80a047aeebd3c78c72'
   )
   const { data: dataCinema, isLoading } = useQuery({
     queryKey: ['CINEMA'],

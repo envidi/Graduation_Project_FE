@@ -1,7 +1,9 @@
+import { ConfirmDialog } from '@/admin/components/Confirm'
+import { DialogCategory } from '@/admin/pages/Category/components/DialogCategory'
 import { Category } from '@/admin/types/category'
 import { getAllCategory, removeCategory } from '@/api/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { FaEdit } from 'react-icons/fa'
+import { useRef, useState } from 'react'
 import { FaPlusCircle } from 'react-icons/fa'
 import { FaRegTrashCan } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
@@ -9,6 +11,9 @@ import { toast } from 'react-toastify'
 
 const TableCategory = () => {
   const queryClient = useQueryClient()
+
+  const [isOpenConfirm, setOpenConfirm] = useState(false)
+  const idDelete = useRef<string>()
 
   const navigate = useNavigate()
   // fetch category by react-query
@@ -24,14 +29,20 @@ const TableCategory = () => {
       queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
       toast.success('Xoa thành công')
     },
-    onError: (error) => {
+    onError: (error: unknown) => {
       console.log(error)
       toast.error('Xoa that bai')
     }
   })
 
-  const handleRemoveCategory = (id: string) => {
-    mutate(id)
+  const handleRemoveCategory = () => {
+    mutate(idDelete.current!)
+    setOpenConfirm(false)
+  }
+
+  const handleShowConfirm = (id: string) => {
+    idDelete.current = id
+    setOpenConfirm(true)
   }
 
   if (isLoading || !data) {
@@ -45,16 +56,7 @@ const TableCategory = () => {
   // render
   return (
     <>
-      <div className="text-center mb-2 flex items-center justify-start">
-        <button
-          onClick={() => {
-            navigate('/admin/category/add')
-          }}
-          className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full"
-        >
-          Add <FaPlusCircle size={20} className="ml-4" />
-        </button>
-      </div>
+      <DialogCategory typeForm="ADD" />
       <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -84,17 +86,11 @@ const TableCategory = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
+                      <DialogCategory typeForm="EDIT" id={cate._id} />
+
                       <button
                         className="hover:text-primary"
-                        onClick={() => {
-                          navigate(`/admin/category/edit/${cate._id}`)
-                        }}
-                      >
-                        <FaEdit size={20} />
-                      </button>
-                      <button
-                        className="hover:text-primary"
-                        onClick={() => handleRemoveCategory(cate._id)}
+                        onClick={() => handleShowConfirm(cate._id)}
                       >
                         <FaRegTrashCan size={20} />
                       </button>
@@ -106,6 +102,14 @@ const TableCategory = () => {
           </table>
         </div>
       </div>
+
+      <ConfirmDialog
+        open={isOpenConfirm}
+        title="Ban co chac muon xoa khong"
+        subTitle="Xoa di se khong the khoi phuc"
+        onCancel={() => setOpenConfirm(false)}
+        onConfirm={handleRemoveCategory}
+      />
     </>
   )
 }

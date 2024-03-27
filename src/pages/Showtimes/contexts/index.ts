@@ -3,8 +3,8 @@ import { createContext, useContext } from 'react'
 type ShowtimeContextType = {
   currentLocation: string
   handleCurrentLocation: (locationId: string) => void
-  filterMovieByCategory: string[]
-  handleFilterMovieByCategory: (filterMovie: any[]) => void
+  filterMovieByCategory: string
+  handleFilterMovieByCategory: (filterMovie: string) => void
 }
 
 const ShowtimeContext = createContext<ShowtimeContextType>(

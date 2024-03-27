@@ -91,10 +91,12 @@ html {
   padding: 1.4rem 3rem;
 }
 
-.signup-form,
-.login-form {
-  top: 1.6rem;
-}
+  .signup-form {
+    top: 1.6rem;
+  }
+  .login-form {
+    /* top: 1.6rem; */
+  }
 
 .signup-form {
   padding: 1.4rem 2.4rem;
@@ -118,11 +120,12 @@ html {
 /* *************************** */
 
 @media (max-width: 52em) {
-.logo-container {
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-}
+  .logo-container {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 
 .nav-items {
   display: flex;
@@ -482,12 +485,12 @@ left: -100%;
   grid-template-columns: repeat(2, 1fr);
 }
 
-.showtimes-card {
-  grid-template-columns: 0.45fr 0.55fr;
-}
-.showtimes-screen-container {
-  display: grid;
-}
+  .showtimes-card {
+    grid-template-columns: 0.45fr 0.55fr;
+  }
+  .showtimes-screen-container {
+    /* display: grid; */
+  }
 
 /* .showtimes-schedule-container-3d, */
 .showtimes-schedule-container {
@@ -690,7 +693,16 @@ left: -100%;
 }
 }
 @media ((max-width: 600px) and (min-width: 410px)) {
-.movie-info-screen-container-3d {
-  grid-template-columns: repeat(2, 1fr);
+  .movie-info-screen-container-3d {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
+@media (min-width: 600px) and (max-width: 1280px) {
+  .stepper-item.completed::after {
+    /* position: absolute;
+    content: ''; */
+    /* border-bottom: 10px solid #4bb543; */
+    top: 15px;
+    /* z-index: 3; */
+  }
 }
