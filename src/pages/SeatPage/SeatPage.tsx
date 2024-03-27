@@ -11,6 +11,13 @@ import { ticketAction } from '@/store/ticket'
 import { SeatUserList, TicketSelector } from '@/Interface/ticket'
 import { convertNumberToAlphabet } from '@/utils/seatAlphaIndex'
 import { Seat } from '@/Interface/seat'
+import { toast } from 'react-toastify'
+
+interface SeatSelectedType {
+  _id: string
+  row: number
+  column: number
+}
 
 const SeatPage = () => {
   const dispatch = useDispatch()
@@ -25,7 +32,7 @@ const SeatPage = () => {
     _showId: ticket?.id_showtime || ''
   })
 
-  const [, setSelectedSeat] = useState<SeatUserList | null>(null)
+  const [, setSelectedSeat] = useState<SeatUserList>()
   useEffect(() => {
     if (!seats || seats.length == 0) return
     const newData = seats.map((f: Seat) => {
@@ -81,10 +88,59 @@ const SeatPage = () => {
     ...seat,
     selected
   })
+  const getMaxRowCol = (
+    seatSelecteds: SeatSelectedType[],
+    seat: { _id: string },
+    property: keyof SeatSelectedType
+  ) => {
+    return seatSelecteds
+      .filter((seatSel: { _id: string }) => seatSel._id != seat._id)
+      .reduce((maxObj, currentObj) => {
+        return currentObj[property] > maxObj[property] ? currentObj : maxObj
+      })
+  }
   const handleUserSeats = (seat: SeatUserList) => {
     const seatResult = allSeat.map((s: SeatUserList) =>
       s._id === seat._id ? updateSeatStatus(s, seat.selected) : s
     )
+    const seatSelecteds = seatResult
+      .filter((seatSelected) => seatSelected.selected)
+      .map((seatSelected) => {
+        return {
+          _id: seatSelected._id,
+          row: seatSelected.row,
+          column: seatSelected.column
+        }
+      })
+    if (seatSelecteds.length > 7) {
+      toast.error(
+        'Chỉ có thể chọn tối đa 7 ghế',
+        {
+          position: 'top-center'
+        }
+      )
+      return
+    }
+    const maxCol =
+      seatSelecteds.length > 1
+        ? getMaxRowCol(seatSelecteds, seat, 'column')
+        : null
+    const maxRow =
+      seatSelecteds.length > 1 ? getMaxRowCol(seatSelecteds, seat, 'row') : null
+
+    if (
+      (maxRow && seat.row - maxRow.row > 1) ||
+      (maxCol && seat.column - maxCol.column > 1)
+    ) {
+      toast.error(
+        'Quý khách nên chọn ghế bên cạnh. Không được để trống ghế ở giữa',
+        {
+          position: 'top-center'
+        }
+      )
+      return
+    }
+    // console.log(seat.row - maxRow.row)
     dispatch(ticketAction.addProperties({ seat: [...seatResult] }))
   }
 

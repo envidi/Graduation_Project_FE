@@ -66,11 +66,12 @@ function TicketSummary() {
   )
   const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
 
-  const onSuccess = (data: { _id: string }) => {
+  const onSuccess = (data: { _id: string; paymentToken: string }) => {
     setTicket({
       ...ticket,
       ticket_id: data._id
     })
+    localStorage.setItem('paymentToken', data.paymentToken)
     navigate('/purchase/food')
   }
   const { mutate: mutateTicket, isPending } = useTicket(
@@ -156,10 +157,11 @@ function TicketSummary() {
       foods: foodObject,
       showtimeId: ticket.id_showtime,
       userId: userDetail?.message?._id || '1',
-      movieId : ticket.id_movie,
-      screenRoomId : ticket.hall_id,
-      cinemaId : ticket.cinemaId
+      movieId: ticket.id_movie,
+      screenRoomId: ticket.hall_id,
+      cinemaId: ticket.cinemaId
     }
+
     if (ticket.ticket_id !== '') {
       mutateTicket({
         ...newObject,

@@ -26,7 +26,7 @@ function useQuery() {
 function ResultPage() {
   const {
     userDetail: {
-      message: { _id }
+      message: { _id } 
     }
   } = useContext(ContextMain)
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
@@ -47,10 +47,13 @@ function ResultPage() {
       setToastShown(true)
       setTicket({})
       setCountdown(null)
+      localStorage.removeItem('paymentToken')
     }
   }
   const onError = () => {
     setCountdown(null)
+    setTicket({})
+    localStorage.removeItem('paymentToken')
   }
   const { mutate: mutateTicket } = useTicket(
     COMPLETE_TICKET,

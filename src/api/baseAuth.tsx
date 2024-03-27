@@ -9,12 +9,14 @@ export const InsanceToken = axios.create({
 
   headers: { Authorization: `Bearer ${token}` }
 })
-export const InsanceTokenFn = () => {
-  const accessToken = localStorage.getItem('Accesstoken')
+export const InsanceTokenFn = (token:string, endPoint:string) => {
+  const accessToken = localStorage.getItem(token)
+  const API_URL = 'http://localhost:8080/api'
   const InsanceTokenAccess = axios.create({
-    baseURL: 'http://localhost:8080/api/user',
+    baseURL: `${API_URL}/${endPoint}`,
 
     headers: { Authorization: `Bearer ${accessToken}` }
   })
   return InsanceTokenAccess
 }
+

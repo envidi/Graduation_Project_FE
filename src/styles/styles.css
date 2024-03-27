@@ -66,6 +66,11 @@ body {
   font-weight: 400;
   color: #cccdd0;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 ::-webkit-scrollbar {
   width: 4px;
 }

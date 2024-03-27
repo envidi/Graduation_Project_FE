@@ -79,8 +79,6 @@ export function ProfileForm() {
     mode: 'onChange'
   })
 
-
-
   const onSubmit: SubmitHandler<{
     name: string
     email: string
