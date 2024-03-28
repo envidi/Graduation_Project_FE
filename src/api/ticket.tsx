@@ -3,11 +3,24 @@ import instance from './config'
 interface FoodTicket {
   foodId: string
   quantityFood: string
+  name: string
+  price: number
+}
+interface SeatTicketType {
+  _id: string
+  typeSeat: string
+  price: number
+  row: number
+  column: number
+}
+interface PriceTicketType {
+  _id: string|undefined
+  price: number|undefined
 }
 export interface TicketCreateType {
   ticket_id?: string | undefined
-  priceId?: string | undefined
-  seatId?: string[] | undefined
+  priceId?: PriceTicketType | undefined
+  seatId?: SeatTicketType[] | undefined
   foods?: FoodTicket[] | undefined
   showtimeId?: string | undefined
   userId?: string

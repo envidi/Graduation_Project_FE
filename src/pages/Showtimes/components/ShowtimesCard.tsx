@@ -37,7 +37,6 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
     queryKey: [MOVIE_DETAIL, movieId],
     queryFn: () => getOneMovie(movieId)
   })
-  console.log(dataMovie)
   const override = {
     display: 'block',
     margin: '4.8rem auto'

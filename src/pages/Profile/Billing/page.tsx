@@ -5,9 +5,9 @@ export default function ProfileBillPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-[19px] font-medium">Your Bill</h3>
+        <h3 className="text-[19px] font-medium">Lịch sử mua</h3>
         <p className="text-2xl text-muted-foreground ">
-            You can view all your transactions here
+          Bạn có thể xem tất cả các giao dịch của bạn tại đây
         </p>
       </div>
       <Separator className="bg-border-borderProfileContain mt-2" />

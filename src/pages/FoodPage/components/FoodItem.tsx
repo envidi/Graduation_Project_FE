@@ -91,7 +91,7 @@ function FoodItem({ food }: FoodType) {
               type="number"
               className="lg:w-20 md:w-20 sm:w-16 xs:w-20 bg-transparent border-primary-nameMovie border-[1px] rounded-lg outline-none px-3 text-2xl py-2"
               onChange={handleChangeQuantity}
-              value={inputValue}
+              value={food.quantity}
             />
             <span
               onClick={() => handleIncrementFood(food)}

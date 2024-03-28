@@ -27,8 +27,8 @@ export const Navbar = ({
   // const [signUpState, setSignUpState] = useState(false)
   const { isLogined, logout } = useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
-    setShowSignup((prev) => !prev);
-  };
+    setShowSignup((prev) => !prev)
+  }
 
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
@@ -95,22 +95,22 @@ export const Navbar = ({
           <ul className="nav-items">
             <li>
               <Link className="nav-item" to="/">
-                Home
+                Trang chủ
               </Link>
             </li>
             <li>
               <Link className="nav-item" to="/showtimes">
-                Showtimes
+                Lịch chiếu
               </Link>
             </li>
             <li>
               <Link className="nav-item" to="/movies">
-                Movies
+                Phim
               </Link>
             </li>
             <li>
               <Link className="nav-item" to="/aboutus">
-                About Us
+                Quy định
               </Link>
             </li>
 

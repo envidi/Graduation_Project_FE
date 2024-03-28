@@ -30,13 +30,13 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
               value="account"
               className="data-[state=active]:bg-background-secondary data-[state=active]:text-primary-movieColor text-2xl font-semibold"
             >
-              Info movie
+              Thông tin
             </TabsTrigger>
             <TabsTrigger
               className="data-[state=active]:bg-background-secondary text-2xl data-[state=active]:text-primary-movieColor font-semibold"
               value="password"
             >
-              Payment
+              Thanh toán
             </TabsTrigger>
           </TabsList>
           <TabsContent value="account">
@@ -55,19 +55,19 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
 
             <div className="flex my-5 w-full justify-between py-3 px-4 border-t border-b border-dashed border-t-primary-movieColor border-b-primary-movieColor">
               <div className="flex flex-col items-center">
-                <span className="text-2xl">Room</span>
+                <span className="text-2xl">Phòng</span>
                 <div className="text-xl flex gap-2">
                   {data.screenRoomId.name}
                 </div>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-2xl">TIME</span>
+                <span className="text-2xl">Giờ chiếu</span>
                 <span className="text-xl">
                   {convertAmPm(getHourAndMinute(data.showtimeId.timeFrom))}
                 </span>
               </div>
               <div className="flex flex-col items-center">
-                <span className="text-2xl">Date</span>
+                <span className="text-2xl">Ngày chiếu</span>
                 <span className="text-xl">
                   {chuyenDoiNgayDauVao(getDay(data.showtimeId.timeFrom))}
                 </span>
@@ -76,7 +76,7 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
             <div>
               <ul className="space-y-3">
                 <li className="flex justify-between">
-                  <span className="text-2xl">Seat</span>
+                  <span className="text-2xl">Ghế</span>
                   <span className="text-2xl">
                     {data.seatId.map((seat: TicketSeatBill) => {
                       const row = convertNumberToAlphabet(seat.row)
@@ -91,7 +91,7 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
                   </span>
                 </li>
                 <li className="flex justify-between">
-                  <span className="text-2xl">Food</span>
+                  <span className="text-2xl">Đồ ăn</span>
                   <span className="text-2xl">
                     {data.foods.map((food: TicketFoodBill) => {
                       return (
@@ -108,11 +108,11 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
           <TabsContent value="password">
             <ul className="px-4">
               <li className="text-2xl flex justify-between mb-3 mt-8">
-                <span>Ticket</span>
+                <span>Mã vé</span>
                 <span>{data._id}</span>
               </li>
               <li className="text-2xl flex justify-between  mt-5">
-                <span>Date</span>
+                <span>Ngày thanh toán</span>
                 <span>{data.createdAt}</span>
               </li>
             </ul>
@@ -120,19 +120,19 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
               <TableHeader>
                 <TableRow>
                   <TableHead className="text-primary-movieColor py-4 sm:text-[14px] xs:text-[12px]">
-                    Card
+                    Thẻ
                   </TableHead>
                   <TableHead className="text-primary-movieColor py-4 sm:text-[14px] xs:text-[12px]">
-                    Movie
+                    Phim
                   </TableHead>
                   <TableHead className="text-primary-movieColor py-4 sm:text-[14px] xs:text-[12px]">
-                    Seat
+                    Ghế
                   </TableHead>
                   <TableHead className="text-primary-movieColor py-4 sm:text-[14px] xs:text-[12px]">
-                    Food
+                    Đồ ăn
                   </TableHead>
                   <TableHead className="text-right text-primary-movieColor py-4 sm:text-[14px] xs:text-[12px]">
-                    Total
+                    Tổng
                   </TableHead>
                 </TableRow>
               </TableHeader>
@@ -171,7 +171,7 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
                     colSpan={4}
                     className="rounded-bl-xl sm:text-[14px] xs:text-[12px]"
                   >
-                    Total
+                    Tổng tiền
                   </TableCell>
                   <TableCell className="text-right rounded-br-xl sm:text-[14px] xs:text-[12px]">
                     {addCommasToNumber(data.totalPrice)}

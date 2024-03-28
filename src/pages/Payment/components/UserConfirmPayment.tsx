@@ -33,7 +33,7 @@ function UserConfirmPayment() {
     >
       <AccordionItem value="item-1" className="shadow-xl">
         <AccordionTrigger className="px-10 py-5 border-[1px] border-primary-movieColor  text-2xl rounded-t-lg">
-          User Information
+          Thông tin người dùng
         </AccordionTrigger>
         <AccordionContent className="overflow-hidden border-[1px] rounded-b-lg border-primary-movieColor border-t-transparent">
           <div className="flex flex-col w-full items-start  px-10 py-10">
@@ -44,7 +44,7 @@ function UserConfirmPayment() {
                     <User size={16} />{' '}
                   </span>
                   <span className="text-2xl ms-2 flex items-end min-w-32">
-                    Name :
+                    Tên :
                   </span>
                 </div>
 
@@ -75,7 +75,7 @@ function UserConfirmPayment() {
                     <Building size={16} />{' '}
                   </span>
                   <span className=" text-2xl ms-2 flex items-end min-w-32">
-                    Address :
+                    Địa chỉ :
                   </span>
                 </div>
 
@@ -90,7 +90,7 @@ function UserConfirmPayment() {
                     <Phone size={16} />{' '}
                   </span>
                   <span className="text-2xl ms-2 flex items-end min-w-32">
-                    Phone :
+                    Số điện thoại :
                   </span>
                 </div>
                 <span className="ms-10 text-2xl flex items-end text-primary-movieColor font-semibold">
@@ -102,13 +102,13 @@ function UserConfirmPayment() {
               <DialogTrigger asChild>
                 <Button className="bg-primary-movieColor px-7 py-3 mt-2 text-2xl">
                   <PenLine size={16} className="mr-3" />
-                  Edit
+                  Chỉnh sửa
                 </Button>
               </DialogTrigger>
               <DialogContent className="xs:max-w-[415px]  md:max-w-[435px] lg:max-w-[455px] xl:max-w-[475px] p-10">
                 <DialogHeader>
                   <DialogTitle className="text-3xl text-primary-movieColor">
-                    Edit profile
+                    Chỉnh sửa thông tin
                   </DialogTitle>
                   <DialogDescription className="text-2xl">
                     Make changes to your profile here. Click save when youre
@@ -121,7 +121,7 @@ function UserConfirmPayment() {
                       htmlFor="name"
                       className="text-right text-2xl text-primary-movieColor font-semibold"
                     >
-                      Name
+                      Tên
                     </Label>
                     <Input
                       id="name"
@@ -142,12 +142,12 @@ function UserConfirmPayment() {
                       className="col-span-3 text-2xl py-8 px-6 focus-visible:border-primary-movieColor focus-visible:outline-none "
                     />
                   </div>
-                  <div className="grid grid-cols-4 items-center gap-4 my-1    ">
+                  <div className="grid grid-cols-4 items-center gap-4 my-1">
                     <Label
                       htmlFor="username"
                       className="text-right text-2xl text-primary-movieColor font-semibold"
                     >
-                      Phone
+                      Điện thoại
                     </Label>
                     <Input
                       id="username"
@@ -160,7 +160,7 @@ function UserConfirmPayment() {
                       htmlFor="username"
                       className="text-right text-2xl text-primary-movieColor font-semibold"
                     >
-                      Address
+                      Địa chỉ
                     </Label>
                     <Input
                       id="username"
@@ -172,7 +172,7 @@ function UserConfirmPayment() {
                 <DialogFooter>
                   <DialogClose asChild>
                     <Button type="submit" variant={'normal'}>
-                      Save changes
+                      Lưu
                     </Button>
                   </DialogClose>
                 </DialogFooter>
