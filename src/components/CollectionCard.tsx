@@ -24,7 +24,6 @@ export const CollectionCard = ({
   const navigate = useNavigate()
   const { slug, name, image, rate, categoryId, fromDate, duration, age_limit } =
     movie
-
   const categorySection = categoryId?.map((category, index) => {
     return (
       <span className="mr-2" key={index}>

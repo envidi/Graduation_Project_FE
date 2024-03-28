@@ -1,7 +1,7 @@
 import { TicketType } from '@/store/ticket'
 import { filterData, mapData } from '@/utils/methodArray'
 import { useLocalStorage } from '@uidotdev/usehooks'
-import React, { useContext, useLayoutEffect, useState } from 'react'
+import React, { useLayoutEffect, useState } from 'react'
 import { toast } from 'react-toastify'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { COMPLETE_TICKET } from '@/utils/constant'
@@ -16,7 +16,7 @@ import {
   Popcorn
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { ContextMain } from '@/context/Context'
+import { useBeforeUnload } from 'react-router-dom'
 // import successfulImage from './Images/customers/successfull-payment.png'
 function useQuery() {
   const { search } = useLocation()
@@ -24,11 +24,6 @@ function useQuery() {
   return React.useMemo(() => new URLSearchParams(search), [search])
 }
 function ResultPage() {
-  const {
-    userDetail: {
-      message: { _id } 
-    }
-  } = useContext(ContextMain)
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
   const [, setCountdown] = useLocalStorage<number | null>('countdown')
   const navigate = useNavigate()
@@ -45,15 +40,16 @@ function ResultPage() {
         position: 'top-right'
       })
       setToastShown(true)
-      setTicket({})
-      setCountdown(null)
-      localStorage.removeItem('paymentToken')
+      // setTicket({})
+      // setCountdown(null)
+      // localStorage.removeItem('paymentToken')
     }
   }
   const onError = () => {
     setCountdown(null)
     setTicket({})
     localStorage.removeItem('paymentToken')
+    navigate('/')
   }
   const { mutate: mutateTicket } = useTicket(
     COMPLETE_TICKET,
@@ -66,22 +62,41 @@ function ResultPage() {
       ticket.foods,
       (food) => food.quantity > 0
     ).map((food) => {
-      return { foodId: food._id, quantityFood: food.quantity }
+      return {
+        foodId: food._id,
+        quantityFood: food.quantity,
+        name: food.name,
+        price: food.price
+      }
     })
 
     mutateTicket({
       typeBank: typeBank,
       typePayment,
       amount,
-      userId: _id,
+      userId: ticket.userId,
       ticket_id: ticket.ticket_id,
-      priceId: ticket.price_id,
+      priceId: {
+        _id: ticket?.price_id,
+        price: ticket.price_movie
+      },
       seatId: mapData(ticket.seat),
       foods: foodObject,
       showtimeId: ticket.id_showtime
     })
   }, [])
-  
+  const handleNavigateBill = () => {
+    setTicket({})
+    setCountdown(null)
+    localStorage.removeItem('paymentToken')
+    navigate('/profile/bill')
+  }
+  const handleNavigateHome = () => {
+    setTicket({})
+    setCountdown(null)
+    localStorage.removeItem('paymentToken')
+    navigate('/profile/bill')
+  }
 
   return (
     <AnimatedPage>
@@ -91,10 +106,9 @@ function ResultPage() {
             <div className="purchase-heading mt-20"></div>
             <div className="flex w-full bg-background-secondary px-7  ps-10 py-10 rounded-xl lg:flex-row  xs:flex-col-reverse">
               <div className="flex flex-col lg:basis-7/12 xs:basis-full">
-                <h3 className="text-5xl">Payment successful</h3>
+                <h3 className="text-5xl">Thanh toán thành công </h3>
                 <h6 className="text-2xl  mt-4 mb-10">
-                  Thank you for choosing DreamCinema . Your custom report will
-                  be generated within two business days
+                  Cảm ơn bạn đã chọn DreamCinema . Chúc bạn xem phim vui vẻ
                 </h6>
                 <div className="stepper-wrapper  xs:ms-[-9vw] sm:ms-[-10vw] md:ms-[-11vw] lg:ms-[-6vw] ">
                   <div className="stepper-item completed  ">
@@ -131,8 +145,11 @@ function ResultPage() {
                   </div>
                 </div>
                 <div className="flex mt-4 gap-7">
-                  <Button className="bg-[#4bb543] text-white text-3xl px-8 py-4 rounded-2xl">
-                    <Link to={'/profile/bill'}>Go to bill</Link>
+                  <Button
+                    onClick={handleNavigateBill}
+                    className="bg-[#4bb543] text-white text-3xl px-8 py-4 rounded-2xl"
+                  >
+                    Go to bill
                   </Button>
                   <Button className="border-[#4bb543] text-[#4bb543] border text-3xl px-8 py-4 rounded-2xl">
                     <Link to={'/'}>Back to home</Link>

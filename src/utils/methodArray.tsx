@@ -41,5 +41,13 @@ export const getNameSeat = (
 export const mapData = (data: SeatUserList[] | null | undefined) => {
   if (!data) return
   const filteredData = data.filter((seat: SeatUserList) => seat.selected)
-  return filteredData.map((seat: SeatUserList) => seat._id)
+  return filteredData.map((seat: SeatUserList) => {
+    return {
+      _id: seat._id,
+      typeSeat: seat.typeSeat,
+      price: seat.price,
+      row: seat.row,
+      column: seat.column
+    }
+  })
 }

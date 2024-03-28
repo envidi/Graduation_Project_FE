@@ -1,35 +1,17 @@
 import { CollectionCard } from '../../../components/CollectionCard'
-import { useState, useEffect } from 'react';
 import HashLoader from 'react-spinners/HashLoader'
 import { MovieType } from '@/Interface/movie'
-
+// import { MOVIES } from '../../../apis/mock-data'
 export interface MoviePropsType {
   dataMovie: MovieType[]
   isLoading: boolean
 }
-
 export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
-  const [currentMovieIndex, setCurrentMovieIndex] = useState(0); // Chỉ số của phim hiện đang được hiển thị
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      // Kiểm tra nếu không có phim nào hoặc chỉ có một phim trong danh sách, không làm gì cả
-      if (!dataMovie || dataMovie.length <= 1) return;
-
-      // Tăng chỉ số của phim hiện tại lên 1, nếu đã ở phim cuối cùng, quay lại phim đầu tiên
-      setCurrentMovieIndex((prevIndex) => (prevIndex + 1) % dataMovie.length);
-    }, 3000); // Thời gian chuyển đổi giữa các phim (đơn vị: ms), ở đây là 3 giây
-
-    // Xóa interval khi component bị unmounted hoặc effect thay đổi
-    return () => clearInterval(interval);
-  }, [dataMovie]); // Chạy lại effect khi danh sách phim thay đổi
-
   const override = {
     display: 'block',
     marginLeft: 'auto',
     marginRight: 'auto'
   }
-
   if (isLoading) {
     return <HashLoader cssOverride={override} color="#eb3656" />
   }
@@ -43,31 +25,10 @@ export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
       </div>
 
       <div className="home-collection-container">
-        {dataMovie && dataMovie.map((movie: MovieType, idx: number) => {
-          // Kiểm tra xem phim này có phải là phim đang được hiển thị không, nếu có thì hiển thị, ngược lại ẩn đi
-          const isVisible = idx >= currentMovieIndex && idx < currentMovieIndex + getNumberOfMoviesToDisplay();
-          return (
-            <div key={idx} style={{ display: isVisible ? 'block' : 'none' }}>
-              <CollectionCard className="" movie={movie} />
-            </div>
-          );
+        {dataMovie?.map((latestMovie: MovieType, idx: number) => {
+          return <CollectionCard key={idx} className="" movie={latestMovie} />
         })}
       </div>
     </section>
   )
-}
-
-// Hàm để lấy số lượng phim cần hiển thị dựa vào kích thước màn hình
-const getNumberOfMoviesToDisplay = () => {
-  // Kiểm tra kích thước màn hình và trả về số lượng phim tương ứng
-  if (window.innerWidth >= 1024) {
-    // Máy tính
-    return 3;
-  } else if (window.innerWidth >= 768) {
-    // iPad
-    return 2;
-  } else {
-    // Màn hình nhỏ hơn iPad, có thể điều chỉnh tùy theo yêu cầu
-    return 1;
-  }
 }

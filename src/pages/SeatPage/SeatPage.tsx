@@ -156,12 +156,12 @@ const SeatPage = () => {
           <div className="seat-guide-container lg:gap-2 xs:gap-16 xl:max-w-7xl lg:max-w-7xl md:max-w-7xl sm:max-w-5xl  xs:max-w-4xl flex-wrap">
             <div className="flex items-center">
               <div className="seat-available-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
-              <p className="seat-status-details">Available</p>
+              <p className="seat-status-details">Trống</p>
             </div>
 
             <div className="flex items-center">
               <div className="seat-selected-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
-              <p className="seat-status-details">Selected</p>
+              <p className="seat-status-details">Đã chọn</p>
             </div>
             <div className="flex items-center mx-2">
               <div className="seat-selected-demo bg-[#db1f1f] lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
@@ -169,18 +169,18 @@ const SeatPage = () => {
             </div>
             <div className="flex items-center">
               <div className="seat-booked-demo bg-[#fb9f15] lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
-              <p className="seat-status-details">Reserved</p>
+              <p className="seat-status-details">Đã đặt</p>
             </div>
             <div className="flex items-center">
               <div className="seat-booked-demo lg:w-16 lg:h-16 md:w-18 md:h-18 sm:w-20 sm:h-20"></div>
-              <p className="seat-status-details">Booked</p>
+              <p className="seat-status-details">Đã bán</p>
             </div>
           </div>
           <div className="theatre-screen lg:w-[48rem] lg:h-[18rem]  md:h-[15rem] sm:w-[52rem] sm:h-[16rem] ">
             <div className="screen-1"></div>
             <div className="screen-2"></div>
           </div>
-          <div className="theatre-screen-heading">Theatre Screen</div>
+          <div className="theatre-screen-heading">Màn hình</div>
           <div className="seat-container sm:mr-16 xs:mr-16">
             {allSeat && allSeat.length > 0 && (
               <RenderSeatLayout

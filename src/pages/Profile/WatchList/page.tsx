@@ -5,9 +5,9 @@ function ProfileWatchListPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-[19px] font-medium">Your Watch List</h3>
+        <h3 className="text-[19px] font-medium">Xem sau</h3>
         <p className="text-2xl text-muted-foreground ">
-          You can view all your watch list here
+          Bạn có thể xem danh sách xem sau ở đây
         </p>
       </div>
       <Separator className="bg-border-borderProfileContain mt-2" />
