@@ -197,13 +197,13 @@ function App() {
               <Route
                 path="result"
                 element={
-                  <ProtectedAuthorized>
+                  
                     <ProtectedConfirm>
                       <Suspense fallback={<PageLoader />}>
                         <ResultPage />
                       </Suspense>
                     </ProtectedConfirm>
-                  </ProtectedAuthorized>
+                  
                 }
               />
               <Route

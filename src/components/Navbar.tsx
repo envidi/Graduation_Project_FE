@@ -22,10 +22,12 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
   // const [showProfile, setShowProfile] = useState(false)
   const [showProfile] = useState(false)
   // const [signUpState, setSignUpState] = useState(false)
-  const { userDetail, isLogined, setIsLogined } = useContext<ContextAuth>(ContextMain)
+  const { isLogined, logout } = useContext<ContextAuth>(ContextMain)
+    >>>>>>>>> Temporary merge branch 2
   const toggleShowForm = () => {
-    setShowSignup((pre) => !pre)
-  }
+    setShowSignup((prev) => !prev);
+  };
+
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
   }
@@ -96,22 +98,22 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
           <ul className="nav-items">
             <li>
               <Link className="nav-item" to="/">
-                Home
+                Trang chủ
               </Link>
             </li>
             <li>
               <Link className="nav-item" to="/showtimes">
-                Showtimes
+                Lịch chiếu
               </Link>
             </li>
             <li>
               <Link className="nav-item" to="/movies">
-                Movies
+                Phim
               </Link>
             </li>
             <li>
               <Link className="nav-item" to="/aboutus">
-                About Us
+                Quy định
               </Link>
             </li>
 

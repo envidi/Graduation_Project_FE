@@ -37,7 +37,6 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
     queryKey: [MOVIE_DETAIL, movieId],
     queryFn: () => getOneMovie(movieId)
   })
-
   const override = {
     display: 'block',
     margin: '4.8rem auto'
@@ -50,7 +49,7 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
     dataMovie?.showTimeCol
       ?.map((showTime: ShowTime) => {
         if (
-          getDay(showTime.date) === getDay(selectCalendar(currentDay)) &&
+          getDay(showTime.timeFrom) == getDay(selectCalendar(currentDay)) &&
           showTime.status === AVAILABLE
         ) {
           return showTime
@@ -106,8 +105,9 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
                         </AlertDialogTitle>
                         <AlertDialogDescription className="text-2xl">
                           Phim này chỉ dành cho trẻ em trên
-                          {dataMovie?.age_limit||'10'} tuổi. Vui lòng cân nhắc khi mua
-                          vé. BQL Rạp sẽ phải từ chối cho vào nếu sai quy định.
+                          {dataMovie?.age_limit || '10'} tuổi. Vui lòng cân nhắc
+                          khi mua vé. BQL Rạp sẽ phải từ chối cho vào nếu sai
+                          quy định.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

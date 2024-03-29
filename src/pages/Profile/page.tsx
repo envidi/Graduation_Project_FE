@@ -5,9 +5,9 @@ export default function SettingsProfilePage() {
   return (
     <div className="space-y-11">
       <div>
-        <h3 className="text-[19px] font-medium">Profile</h3>
+        <h3 className="text-[19px] font-medium">Thông tin cá nhân</h3>
         <p className=" text-muted-foreground text-2xl">
-          This is how others will see you on the site.
+          Đây là những thông tin mà người khác sẽ nhìn thấy bạn trên trang web.
         </p>
       </div>
       <Separator className="bg-border-borderProfileContain mt-2" />

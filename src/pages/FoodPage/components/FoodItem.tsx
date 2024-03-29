@@ -5,9 +5,24 @@ import { Minus } from 'lucide-react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useDispatch } from 'react-redux'
 import { foodsAction } from '@/store/food'
+import { ChangeEventHandler, useState } from 'react'
 
 function FoodItem({ food }: FoodType) {
   const dispatch = useDispatch()
+  const [inputValue, setInputValue] = useState(food.quantity)
+
+  const handleChangeQuantity: ChangeEventHandler<HTMLInputElement> = (
+    e
+  ): void => {
+    const target = e.target as HTMLInputElement
+
+    const newFood = {
+      ...food,
+      quantity: parseInt(target.value)
+    }
+    setInputValue(parseInt(target.value))
+    dispatch(foodsAction.onChangeFood(newFood))
+  }
 
   const handleIncrementFood = (food: FoodItemState) => {
     const newFood = {
@@ -17,6 +32,9 @@ function FoodItem({ food }: FoodType) {
       _id: food._id,
       quantity: 1
     }
+    setInputValue((prev) => {
+      return prev + 1
+    })
     dispatch(foodsAction.incrementFood(newFood))
   }
   const handleDecrementFood = (food: FoodItemState) => {
@@ -27,6 +45,10 @@ function FoodItem({ food }: FoodType) {
       _id: food._id,
       quantity: 1
     }
+    setInputValue((prev) => {
+      if (prev == 0) return 0
+      return prev - 1
+    })
     dispatch(foodsAction.decrementFood(newFood))
   }
 
@@ -58,9 +80,6 @@ function FoodItem({ food }: FoodType) {
           </div>
         </div>
         <div className="flex justify-end mt-5">
-          {/* <div className="border-2 border-primary-movieColor rounded-lg bg-transparent text-2xl px-3 py-2 text-primary-movieColor">
-              Order now
-            </div> */}
           <div className="flex gap-4  ">
             <button
               onClick={() => handleDecrementFood(food)}
@@ -69,9 +88,9 @@ function FoodItem({ food }: FoodType) {
               <Minus size={18} />
             </button>
             <input
-              type="text"
+              type="number"
               className="lg:w-20 md:w-20 sm:w-16 xs:w-20 bg-transparent border-primary-nameMovie border-[1px] rounded-lg outline-none px-3 text-2xl py-2"
-              onChange={() => console.log('render input')}
+              onChange={handleChangeQuantity}
               value={food.quantity}
             />
             <span

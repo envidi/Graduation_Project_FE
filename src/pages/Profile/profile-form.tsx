@@ -79,8 +79,6 @@ export function ProfileForm() {
     mode: 'onChange'
   })
 
-
-
   const onSubmit: SubmitHandler<{
     name: string
     email: string
@@ -98,7 +96,7 @@ export function ProfileForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-2xl">Username</FormLabel>
+              <FormLabel className="text-2xl">Tên:</FormLabel>
               <FormControl>
                 <Input
                   placeholder="shadcn"
@@ -107,8 +105,8 @@ export function ProfileForm() {
                 />
               </FormControl>
               <FormDescription className="text-xl">
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
+                Cái này là tên hiển thị công khai của bạn. Nó có thể là tên thật
+                của bạn hoặc một bút danh
               </FormDescription>
               <FormMessage className="text-xl" />
             </FormItem>
@@ -128,8 +126,7 @@ export function ProfileForm() {
                 />
               </FormControl>
               <FormDescription className="text-xl">
-                This is your public display email. It can be your email or a
-                pseudonym. You can only change this once every 30 days.
+                Cái này là email hiển thị công khai của bạn
               </FormDescription>
               <FormMessage className="text-xl" />
             </FormItem>
@@ -149,9 +146,7 @@ export function ProfileForm() {
                 />
               </FormControl>
               <FormDescription className="text-xl">
-                This is your public display your address. It can be your real
-                name or a pseudonym. You can only change this once every 30
-                days.
+                Cái này là địa chỉ hiển thị công khai của bạn
               </FormDescription>
               <FormMessage className="text-xl" />
             </FormItem>
@@ -171,9 +166,7 @@ export function ProfileForm() {
                 />
               </FormControl>
               <FormDescription className="text-xl">
-                This is your public display your number phone. It can be your
-                real name or a pseudonym. You can only change this once every 30
-                days.
+                Cái này là số điện thoại hiển thị công khai của bạn
               </FormDescription>
               <FormMessage className="text-xl" />
             </FormItem>

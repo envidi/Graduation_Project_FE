@@ -13,7 +13,7 @@ export const getOneMovie = async (id: string) => {
   return result.data.data
 }
 export const getAllMovieHome = async () => {
-  const result = await instance.get('/movie')
+  const result = await instance.get('/movie/home')
   return result.data.data.docs
 }
 export const getMovieStatus = async (query: QueryMovie) => {

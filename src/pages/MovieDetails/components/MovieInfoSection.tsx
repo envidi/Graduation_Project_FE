@@ -25,6 +25,12 @@ import { toast } from 'react-toastify'
 import useWatchList from '@/hooks/useWatchList'
 import MovieShowtimeSection from './MovieShowtimeSection'
 
+export interface ShowTimeType {
+  screenRoomId: string
+  _id: string
+  timeFrom: string
+  date: string
+}
 export interface ShowTime {
   _id: string
   screenRoomId: {
@@ -81,18 +87,6 @@ export const MovieInfoSection = () => {
     queryFn: () => getOneMovie(_id)
   })
 
-  // useEffect(() => {
-  //   if (
-  //     dataMovie &&
-  //     Object.keys(dataMovie).length > 0 &&
-  //     dataMovie?.showTimeCol?.length > 0
-  //   ) {
-  //     setCurrentLocation(dataMovie?.showTimeCol[0]?.cinemaId?._id || [])
-  //   }
-  // }, [dataMovie])
-  // const handleCurrentLocation = (locationId: string) => {
-  //   setCurrentLocation(locationId)
-  // }
   const override = {
     display: 'block',
     margin: '9.6rem auto'
@@ -119,31 +113,20 @@ export const MovieInfoSection = () => {
     showTimeDimension
   } = dataMovie
 
-  // const today = chuyenDoiNgayDauVao(getDay(selectCalendar(date)))
-  // const showTimePerDay =
-  //   showTimeCol &&
-  //   showTimeCol
-  //     ?.map((showTime: ShowTime) => {
-  //       if (
-  //         getDay(showTime.date) === getDay(selectCalendar(date)) &&
-  //         showTime.status === AVAILABLE &&
-  //         showTime.cinemaId._id.toString() === currentLocation.toString()
-  //       ) {
-  //         return showTime
-  //       }
-  //     })
-  //     .filter(function (element: ShowTime) {
-  //       return element !== undefined
-  //     })
+  const handleChooseShowtime = (showtime: ShowTimeType) => {
+    const screenRoom = dataMovie.showTimeCol.find(
+      (screen: { screenRoomId: { _id: string } }) => {
+        return screen.screenRoomId._id == showtime.screenRoomId
+      }
+    )
 
-  const handleChooseShowtime = (showtime: ShowTime) => {
     const ticketObject = {
       id_showtime: showtime._id,
-      cinema_name: showtime.cinemaId.CinemaName,
-      cinemaId: showtime.cinemaId._id,
+      cinema_name: screenRoom.cinemaId.CinemaName,
+      cinemaId: screenRoom.cinemaId._id,
       id_movie: _id,
-      hall_name: showtime.screenRoomId.name,
-      hall_id: showtime.screenRoomId._id,
+      hall_name: screenRoom.screenRoomId.name,
+      hall_id: screenRoom.screenRoomId._id,
       image_movie: image,
       name_movie: name,
       duration_movie: duration,
@@ -349,20 +332,10 @@ export const MovieInfoSection = () => {
           <p className="movie-info-description">{desc}</p>
         </div>
 
-        {/* <div className="movie-info-location-container">
-          <LocationSelector handleCurrentLocation={handleCurrentLocation} />
-        </div> */}
-
         <h3 className="movie-info-screen-heading border-b-4 border-primary-movieColor text-primary-movieColor w-fit mb-10">
           Showtimes
         </h3>
         <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center gap-10 ">
-          {/* <Calendar
-            mode="single"
-            selected={date}
-            onSelect={setDate}
-            className="rounded-md px-5 border border-border-calendarBorder shadow mt-[3.2rem] "
-          /> */}
           {showTimeDimension && showTimeDimension.length > 0 && (
             <MovieShowtimeSection
               handleChooseShowtime={handleChooseShowtime}

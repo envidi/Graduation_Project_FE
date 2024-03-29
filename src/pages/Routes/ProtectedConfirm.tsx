@@ -10,9 +10,9 @@ function ProtectedConfirm({
   children: React.ReactNode
 }) {
   const [ticket] = useLocalStorage<TicketType>('ticket')
+  const paymentToken = localStorage.getItem('paymentToken')
 
-  console.log(ticket)
-  if (ticket && Object.keys(ticket).length > 5) {
+  if (ticket && Object.keys(ticket).length > 5 && paymentToken) {
     return children
   }
 

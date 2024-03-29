@@ -1,17 +1,17 @@
 import { chuyenDoiNgay, convertAmPm, getHourAndMinute } from '@/utils'
-import { ShowTime } from './MovieInfoSection'
+import { ShowTimeType } from './MovieInfoSection'
 
 interface MovieShowtimeSectionType {
-  showTimeDimension: ShowTime[][]
+  showTimeDimension: ShowTimeType[][]
   // eslint-disable-next-line no-unused-vars
-  handleChooseShowtime: (state: ShowTime) => void
+  handleChooseShowtime: (state: ShowTimeType) => void
 }
 
 function MovieShowtimeSection({
   showTimeDimension,
   handleChooseShowtime
 }: MovieShowtimeSectionType) {
-  return showTimeDimension.map((showTimeDay: ShowTime[], index: number) => {
+  return showTimeDimension.map((showTimeDay: ShowTimeType[], index: number) => {
     return (
       <div
         key={index}
@@ -25,7 +25,7 @@ function MovieShowtimeSection({
           </h2>
 
           {showTimeDay?.length > 0 ? (
-            showTimeDay.map((showtime: ShowTime, index: number) => {
+            showTimeDay.map((showtime: ShowTimeType, index: number) => {
               return (
                 <div
                   className="showtimes-schedule md:my-8 xs:my-10"

@@ -24,6 +24,6 @@ export const resetPassword = (user: any) => {
 }
 
 export const getDetailUser = () => {
-  const instanceToken = InsanceTokenFn()
+  const instanceToken = InsanceTokenFn('Accesstoken', 'user')
   return instanceToken.get('/userDetail')
 }

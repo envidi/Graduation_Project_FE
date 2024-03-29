@@ -66,11 +66,12 @@ function TicketSummary() {
   )
   const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
 
-  const onSuccess = (data: { _id: string }) => {
+  const onSuccess = (data: { _id: string; paymentToken: string }) => {
     setTicket({
       ...ticket,
       ticket_id: data._id
     })
+    localStorage.setItem('paymentToken', data.paymentToken)
     navigate('/purchase/food')
   }
   const { mutate: mutateTicket, isPending } = useTicket(
@@ -142,24 +143,34 @@ function TicketSummary() {
       ...ticket,
       seat: [...seat],
       total,
+      userId: userDetail?.message?._id || '1',
       ticketAmount: seat.filter((s) => s.selected).length
     })
     const foodObject = filterData(
       ticket.foods,
       (food) => food.quantity > 0
     ).map((food) => {
-      return { foodId: food._id, quantityFood: food.quantity }
+      return {
+        foodId: food._id,
+        quantityFood: food.quantity,
+        name: food.name,
+        price: food.price
+      }
     })
     const newObject = {
-      priceId: ticket?.price_id,
+      priceId: {
+        _id: ticket?.price_id,
+        price: ticket.price_movie
+      },
       seatId: mapData(seat),
       foods: foodObject,
       showtimeId: ticket.id_showtime,
       userId: userDetail?.message?._id || '1',
-      movieId : ticket.id_movie,
-      screenRoomId : ticket.hall_id,
-      cinemaId : ticket.cinemaId
+      movieId: ticket.id_movie,
+      screenRoomId: ticket.hall_id,
+      cinemaId: ticket.cinemaId
     }
+
     if (ticket.ticket_id !== '') {
       mutateTicket({
         ...newObject,
@@ -203,7 +214,7 @@ function TicketSummary() {
 
   return (
     <div className="purchase-section-right ticket_summary ">
-      <h2 className="ticket-container-heading">Ticket Summary</h2>
+      <h2 className="ticket-container-heading">Tổng hợp vé</h2>
 
       <div className="ticket-container md:sticky md:top-0">
         <div className="ticket-heading">
@@ -231,27 +242,27 @@ function TicketSummary() {
           <ul className="ticket-info-list">
             <TicketItem
               icon={<Location />}
-              title={'Location'}
+              title={'Địa chỉ'}
               name={cinema_name}
             />
             <TicketItem
               icon={<ShowDate />}
-              title={'Show Date'}
+              title={'Ngày chiếu'}
               name={chuyenDoiNgayDauVao(getDay(time_from))}
             />
             <TicketItem
               icon={<Hall />}
-              title={'Hall number'}
+              title={'Phòng chiếu'}
               name={hall_name}
             />
             <TicketItem
               icon={<ShowTime />}
-              title={'Show Time'}
+              title={'Giờ chiếu'}
               name={convertAmPm(getHourAndMinute(time_from))}
             />
             <TicketItem
               icon={<TicketAmount />}
-              title={'Ticket Amount'}
+              title={'Số lượng vé'}
               name={
                 seat && seat.length != 0
                   ? seat.filter((s) => s.selected).length
@@ -262,7 +273,7 @@ function TicketSummary() {
             />
             <TicketItem
               icon={<Armchair size={16} />}
-              title={'Seats'}
+              title={'Ghế'}
               name={
                 seat && seat.length != 0
                   ? mapDataSeat(seat)
@@ -274,18 +285,18 @@ function TicketSummary() {
 
             <TicketList
               icon={<Cookie size={16} />}
-              title={'Food'}
+              title={'Đồ ăn'}
               valueState={foodValid}
               valueStorage={foodsTicket}
             />
             <TicketItem
               icon={<PaymentMethod />}
-              title={'Payment Method'}
+              title={'Phương thức thanh toán'}
               name={paymentMethod.name}
             />
             <TicketItem
               icon={<PaymentMethod />}
-              title={'Total Price'}
+              title={'Tổng tiền'}
               name={formatVND(total)}
             />
           </ul>
