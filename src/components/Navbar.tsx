@@ -22,12 +22,10 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
   // const [showProfile, setShowProfile] = useState(false)
   const [showProfile] = useState(false)
   // const [signUpState, setSignUpState] = useState(false)
-  const { isLogined, logout } = useContext<ContextAuth>(ContextMain)
-    >>>>>>>>> Temporary merge branch 2
+  const { userDetail, isLogined, setIsLogined } = useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
-    setShowSignup((prev) => !prev);
-  };
-
+    setShowSignup((pre) => !pre)
+  }
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
   }
