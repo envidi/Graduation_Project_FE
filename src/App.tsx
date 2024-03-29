@@ -62,6 +62,10 @@ const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
 import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
 import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
+import Users from './admin/pages/Users'
+import Showtimes from './admin/pages/Showtimes/ShowTimes'
+import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
+import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -263,6 +267,16 @@ function App() {
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="users" element={<Users />} />
+              
+              <Route path="showtimes" >
+
+              <Route index element={< Showtimes/>} />
+              <Route path="create" element={<CreateShowtimes />} />
+              <Route path="update/:id" element={<UpdateShowtimes />} />
+
+              </Route>
+
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />
               <Route path="tables" element={<Tables />} />
