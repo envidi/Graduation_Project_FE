@@ -58,7 +58,7 @@ export const updateTicket = async (data: TicketCreateType) => {
     `/status/${ticket_id}`,
     other
   )
-  return result.data.data
+  return result.data.datas
 }
 export const updateTicketSeat = async (data: TicketCreateType) => {
   const { ticket_id, ...other } = data

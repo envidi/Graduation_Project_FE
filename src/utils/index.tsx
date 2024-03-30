@@ -99,6 +99,24 @@ export function chuyenDoiNgay(dateString: Date | string) {
 
   return `${thu}, ${ngayTrongThang} ${tenThangHienThi}`
 }
+export function formatDateToISOString(dateString: string) {
+  // Phân tách ngày và giờ từ chuỗi đầu vào
+  const [datePart, timePart] = dateString.split(' ')
+
+  // Phân tách ngày thành các phần riêng biệt (ngày, tháng, năm)
+  const [day, month, year] = datePart.split('-').map(Number)
+
+  // Phân tách giờ thành các phần riêng biệt (giờ, phút)
+  const [hour, minute] = timePart.split(':').map(Number)
+
+  // Tạo đối tượng Date mới từ các phần được phân tách
+  const date = new Date(year, month - 1, day, hour, minute)
+
+  // Chuyển đổi đối tượng Date sang định dạng ISO 8601
+  const isoString = date.toISOString()
+
+  return isoString
+}
 // Lấy ngày theo lịch
 export function selectCalendar(inputDate: Date | undefined) {
   if (inputDate === undefined) return

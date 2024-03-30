@@ -62,6 +62,8 @@ const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
 import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
 import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
+import PendingResult from './pages/ResultPage/PendingResult'
+import ProtectedResultPage from './pages/Routes/ProtectedResultPage'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -194,13 +196,19 @@ function App() {
               <Route
                 path="result"
                 element={
-                  
-                    <ProtectedConfirm>
-                      <Suspense fallback={<PageLoader />}>
-                        <ResultPage />
-                      </Suspense>
-                    </ProtectedConfirm>
-                  
+                  <ProtectedResultPage>
+                    <Suspense fallback={<PageLoader />}>
+                      <ResultPage />
+                    </Suspense>
+                  </ProtectedResultPage>
+                }
+              />
+              <Route
+                path="pending"
+                element={
+                  <Suspense fallback={<PageLoader />}>
+                    <PendingResult />
+                  </Suspense>
                 }
               />
               <Route

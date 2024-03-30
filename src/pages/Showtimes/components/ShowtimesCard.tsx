@@ -5,6 +5,7 @@ import { ShowTime } from '@/pages/MovieDetails/components/MovieInfoSection'
 import {
   chuyenDoiNgay,
   convertAmPm,
+  formatDateToISOString,
   getDay,
   getHourAndMinute,
   selectCalendar
@@ -37,6 +38,7 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
     queryKey: [MOVIE_DETAIL, movieId],
     queryFn: () => getOneMovie(movieId)
   })
+
   const override = {
     display: 'block',
     margin: '4.8rem auto'
@@ -101,27 +103,36 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
                     <AlertDialogContent>
                       <AlertDialogHeader>
                         <AlertDialogTitle className="text-3xl mb-4 mt-2">
-                          Xác nhận mua vé?
+                          {new Date().toISOString() <
+                          formatDateToISOString(showTime.timeFrom)
+                            ? 'Xác nhận mua vé?'
+                            : 'Đã quá giờ chiếu'}
                         </AlertDialogTitle>
                         <AlertDialogDescription className="text-2xl">
-                          Phim này chỉ dành cho trẻ em trên
-                          {dataMovie?.age_limit || '10'} tuổi. Vui lòng cân nhắc
+                          {new Date().toISOString() <
+                          formatDateToISOString(showTime.timeFrom)
+                            ? `Phim này chỉ dành cho trẻ em trên
+                          ${dataMovie?.age_limit || '10'} tuổi. Vui lòng cân nhắc
                           khi mua vé. BQL Rạp sẽ phải từ chối cho vào nếu sai
-                          quy định.
+                          quy định.`
+                            : 'Đã quá thời gian chọn suất chiếu này. Vui lòng chọn suất chiếu khác'}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel className="text-2xl px-9 py-3">
                           Cancel
                         </AlertDialogCancel>
-                        <AlertDialogAction
-                          onClick={() => {
-                            navigate('/movie/' + dataMovie?.slug)
-                          }}
-                          className="bg-primary-movieColor text-2xl px-9 py-3"
-                        >
-                          Continue
-                        </AlertDialogAction>
+                        {new Date().toISOString() <
+                          formatDateToISOString(showTime.timeFrom) && (
+                          <AlertDialogAction
+                            onClick={() => {
+                              navigate('/movie/' + dataMovie?.slug)
+                            }}
+                            className="bg-primary-movieColor text-2xl px-9 py-3"
+                          >
+                            Continue
+                          </AlertDialogAction>
+                        )}
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>
