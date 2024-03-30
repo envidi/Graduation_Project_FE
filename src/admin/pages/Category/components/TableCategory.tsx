@@ -26,14 +26,14 @@ const TableCategory = () => {
   const { mutate } = useMutation({
     mutationFn: removeCategory,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
-      toast.success('Xoa thành công')
+      queryClient.invalidateQueries({ queryKey: ['CATEGORY', searchTerm] }); // Updated queryKey
+      toast.success('Xoa thành công');
     },
     onError: (error: unknown) => {
-      console.log(error)
-      toast.error('Xoa that bai')
-    }
-  })
+      console.log(error);
+      toast.error('Xoa that bai');
+    },
+  });
 
   const handleRemoveCategory = () => {
     mutate(idDelete.current!)
@@ -44,7 +44,10 @@ const TableCategory = () => {
     idDelete.current = id
     setOpenConfirm(true)
   }
-
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+  };
   if (isLoading || !data) {
     return <div>Loading...</div>
   }
@@ -52,6 +55,10 @@ const TableCategory = () => {
   if (isError) {
     return <div>Error</div>
   }
+  const filteredData = data.filter((cate) =>
+  cate.name.toLowerCase().includes(searchTerm.toLowerCase())
+);
+
 
   // render
   return (
@@ -59,6 +66,12 @@ const TableCategory = () => {
       <DialogCategory typeForm="ADD" />
       <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
+          <div className="search">
+            <input type="text" style={{width:'100px', border:'1px solid #cdcd', color:'black'}}
+             placeholder="Search categories..."
+             value={searchTerm}
+             onChange={handleSearchChange} />
+          </div>
           <table className="w-full table-auto">
             <thead>
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
@@ -74,7 +87,7 @@ const TableCategory = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((cate, index) => (
+            {filteredData.map((cate, index) => (
                 <tr key={cate.name}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <p className="text-sm font-medium text-primary-white">
