@@ -31,8 +31,8 @@ import CategoryPage from './admin/pages/Category'
 import Profile from './admin/pages/Profile'
 // import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
-import CategoryAdd from './admin/pages/Category/Add'
-import CategoryEdit from './admin/pages/Category/Edit'
+// import CategoryAdd from './admin/pages/Category/Add'
+// import CategoryEdit from './admin/pages/Category/Edit'
 // import Payment from './pages/Payment/Payment'
 import ResultPage from './pages/ResultPage/ResultPage'
 import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
@@ -64,6 +64,10 @@ import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
 import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
 import PendingResult from './pages/ResultPage/PendingResult'
 import ProtectedResultPage from './pages/Routes/ProtectedResultPage'
+import Users from './admin/pages/Users'
+import Showtimes from './admin/pages/Showtimes/ShowTimes'
+import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
+import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -206,9 +210,11 @@ function App() {
               <Route
                 path="pending"
                 element={
-                  <Suspense fallback={<PageLoader />}>
-                    <PendingResult />
-                  </Suspense>
+                  <ProtectedConfirm>
+                    <Suspense fallback={<PageLoader />}>
+                      <PendingResult />
+                    </Suspense>
+                  </ProtectedConfirm>
                 }
               />
               <Route
@@ -271,6 +277,14 @@ function App() {
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="users" element={<Users />} />
+
+              <Route path="showtimes">
+                <Route index element={<Showtimes />} />
+                <Route path="create" element={<CreateShowtimes />} />
+                <Route path="update/:id" element={<UpdateShowtimes />} />
+              </Route>
+
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />
               <Route path="tables" element={<Tables />} />
