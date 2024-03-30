@@ -116,10 +116,10 @@ export const ShowTimesCollection = () => {
             </Select>
           </div>
         </div>
-        {listDataMovieId ? listDataMovieId.map((movieId: string) => {
+        {listDataMovieId ? listDataMovieId.map((movieId: string, index : number) => {
           return (
             <ShowtimesCard
-              key={movieId}
+              key={index}
               movieId={movieId}
               currentDay={daySelect.currentDay}
             />

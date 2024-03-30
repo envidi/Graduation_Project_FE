@@ -31,8 +31,8 @@ import CategoryPage from './admin/pages/Category'
 import Profile from './admin/pages/Profile'
 // import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
-import CategoryAdd from './admin/pages/Category/Add'
-import CategoryEdit from './admin/pages/Category/Edit'
+// import CategoryAdd from './admin/pages/Category/Add'
+// import CategoryEdit from './admin/pages/Category/Edit'
 // import Payment from './pages/Payment/Payment'
 import ResultPage from './pages/ResultPage/ResultPage'
 import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
@@ -62,6 +62,8 @@ const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
 import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
 import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
+import PendingResult from './pages/ResultPage/PendingResult'
+import ProtectedResultPage from './pages/Routes/ProtectedResultPage'
 import Users from './admin/pages/Users'
 import Showtimes from './admin/pages/Showtimes/ShowTimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
@@ -198,13 +200,21 @@ function App() {
               <Route
                 path="result"
                 element={
-                  
-                    <ProtectedConfirm>
-                      <Suspense fallback={<PageLoader />}>
-                        <ResultPage />
-                      </Suspense>
-                    </ProtectedConfirm>
-                  
+                  <ProtectedResultPage>
+                    <Suspense fallback={<PageLoader />}>
+                      <ResultPage />
+                    </Suspense>
+                  </ProtectedResultPage>
+                }
+              />
+              <Route
+                path="pending"
+                element={
+                  <ProtectedConfirm>
+                    <Suspense fallback={<PageLoader />}>
+                      <PendingResult />
+                    </Suspense>
+                  </ProtectedConfirm>
                 }
               />
               <Route
@@ -268,13 +278,11 @@ function App() {
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
               <Route path="users" element={<Users />} />
-              
-              <Route path="showtimes" >
 
-              <Route index element={< Showtimes/>} />
-              <Route path="create" element={<CreateShowtimes />} />
-              <Route path="update/:id" element={<UpdateShowtimes />} />
-
+              <Route path="showtimes">
+                <Route index element={<Showtimes />} />
+                <Route path="create" element={<CreateShowtimes />} />
+                <Route path="update/:id" element={<UpdateShowtimes />} />
               </Route>
 
               <Route path="forms/form-elements" element={<FormElements />} />

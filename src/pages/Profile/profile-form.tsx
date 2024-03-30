@@ -24,7 +24,7 @@ import { ContextAuth, ContextMain } from '@/context/Context'
 import { useContext } from 'react'
 import { useMutation } from '@tanstack/react-query'
 
-interface UserUpdateType {
+export interface UserUpdateType {
   name: string
   email: string
   address: string
@@ -53,8 +53,6 @@ const profileFormSchema = Joi.object({
   //   'string.empty': 'Required bio'
   // })
 })
-
-// This can come from your database or API.
 
 export function ProfileForm() {
   const { userDetail } = useContext<ContextAuth>(ContextMain)
@@ -172,28 +170,6 @@ export function ProfileForm() {
             </FormItem>
           )}
         />
-
-        {/* <FormField
-          control={form.control}
-          name="bio"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-2xl">Bio</FormLabel>
-              <FormControl>
-                <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none py-7 text-2xl border-border-borderProfileContain"
-                  {...field}
-                />
-              </FormControl>
-              <FormDescription className="text-2xl">
-                You can <span>@mention</span> other users and organizations to
-                link to them.
-              </FormDescription>
-              <FormMessage className="text-xl" />
-            </FormItem>
-          )}
-        /> */}
 
         <Button
           type="submit"

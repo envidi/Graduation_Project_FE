@@ -27,7 +27,7 @@ function ModalPayMentMB() {
         if (result) {
           clearInterval(idInterval)
           setTimeout(() => {
-            navigate(`/result?partnerCode=MBBank&amount=${ticket.total}`)
+            navigate(`/pending?partnerCode=MBBank&amount=${ticket.total}`)
           }, 3000)
         } else {
           count++
