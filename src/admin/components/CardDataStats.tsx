@@ -18,29 +18,27 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   children,
 }) => {
   return (
-    <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
-      <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
+    <div className=" border border-stroke bg-white py-6 px-7.5 shadow-default   text-black justify-items-center rounded-2xl" style={{margin:'20px'}}>
+      <div className="flex h-11.5 w-11.5 items-center justify-center  bg-meta-2 dark:bg-meta-4 text-black " style={{minWidth:'180px', minHeight:'50px'}}>
         {children}
       </div>
-
       <div className="mt-4 flex items-end justify-between">
         <div>
-          <h4 className="text-title-md font-bold text-black dark:text-white">
+          <h4 className="text-title-md font-bold text-black m-7 text-2xl">
             {total}
           </h4>
-          <span className="text-sm font-medium">{title}</span>
+          <span className="text-2xl font-medium text-black m-7">{title}</span>
         </div>
 
         <span
-          className={`flex items-center gap-1 text-sm font-medium ${
-            levelUp && 'text-meta-3'
-          } ${levelDown && 'text-meta-5'} `}
+          className={`flex items-center gap-1 text-sm font-medium   text-green-500 ${levelUp && 'text-meta-3'
+            } ${levelDown && 'text-meta-5'} `}
         >
           {rate}
 
           {levelUp && (
             <svg
-              className="fill-meta-3"
+              className="fill-meta-3 text-black"
               width="10"
               height="11"
               viewBox="0 0 10 11"
@@ -55,7 +53,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           )}
           {levelDown && (
             <svg
-              className="fill-meta-5"
+              className="fill-meta-5="
               width="10"
               height="11"
               viewBox="0 0 10 11"
