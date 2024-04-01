@@ -1,6 +1,10 @@
-import { deleteUser, getDetailUser, updateUser, updateUserId } from '@/api/auth'
+import { deleteUser, getDetailUserClient, updateUser, updateUserId } from '@/api/auth'
 import React, { createContext, useState } from 'react'
-import { InvalidateQueryFilters, useMutation, useQuery } from '@tanstack/react-query'
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQuery
+} from '@tanstack/react-query'
 import { toast } from 'react-toastify'
 import { USERDETAIL } from '@/utils/constant'
 import { useQueryClient } from '@tanstack/react-query'
@@ -8,7 +12,12 @@ import { TicketType } from '@/store/ticket'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { DELETE_TICKET } from '@/utils/constant'
 import useTicket from '@/hooks/useTicket'
-import { CreateShowtimes, DeleteShowtimes, DetailShowtimes, getAllShowTimes } from '@/api/showtime'
+import {
+  CreateShowtimes,
+  DeleteShowtimes,
+  DetailShowtimes,
+  getAllShowTimes
+} from '@/api/showtime'
 
 export interface ContextAuth {
   userDetail: {
@@ -74,7 +83,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     queryFn: async () => {
       const token = localStorage.getItem('Accesstoken')
       if (token) {
-        const { data } = await getDetailUser()
+        const { data } = await getDetailUserClient()
 
         return data
       }
@@ -113,16 +122,14 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   })
   const removeUser = useMutation({
     mutationFn: async (id: any) => await deleteUser(id),
-    onSuccess (){
-      console.log("Deleting User was successful");
-      queryClient.invalidateQueries(["USERS"] as InvalidateQueryFilters)
-      toast.success("Delete User thành công")
-  },
-  onError(){
-      toast.error("Delete User thất bại")
-  }   
-  }) 
-
+    onSuccess() {
+      queryClient.invalidateQueries(['USERS'] as InvalidateQueryFilters)
+      toast.success('Xóa người dùng thành công')
+    },
+    onError() {
+      toast.error('Xóa người dùng thất bại')
+    }
+  })
 
   const userUpdateId = useMutation({
     mutationFn: async (user) => await updateUserId(user),
@@ -134,24 +141,20 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-
-  const {data : allShowTimes} = useQuery({
-    queryKey: ["SHOWTIMES"],
-    queryFn : async () => {
+  const { data: allShowTimes } = useQuery({
+    queryKey: ['SHOWTIMES'],
+    queryFn: async () => {
       try {
         const response = await getAllShowTimes()
         return response.data.response.docs
-        
-      } catch (error) {
-        
-      }
+      } catch (error) {}
     }
   })
 
   const addShowtime = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
     onSuccess() {
-      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
+      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
 
       toast.success('Tạo lịch chiếu thành công <3 ')
     },
@@ -163,10 +166,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const removeShowtime = useMutation({
     mutationFn: async (id) => await DeleteShowtimes(id),
     onSuccess() {
-      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
+      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
       toast.success('Xóa lịch chiếu thành công <3 ')
-
-
     },
     onError() {
       toast.error('Xóa faile, try again !')
@@ -177,14 +178,11 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     mutationFn: async (id) => await DetailShowtimes(id),
     onSuccess() {
       toast.success('Update lịch chiếu thành công <3 ')
-
-
     },
     onError() {
       toast.error('Update faile, try again !')
     }
   })
-
 
   const values = {
     isLogined,

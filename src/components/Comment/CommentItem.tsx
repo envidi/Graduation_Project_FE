@@ -1,4 +1,5 @@
 /* eslint-disable quotes */
+import { format } from 'timeago.js'
 import { ChevronRight, ChevronDown, ThumbsUp } from 'lucide-react'
 import Action from '../Action/Action'
 import { MyObjectComment } from '@/hooks/useNode'
@@ -8,7 +9,8 @@ interface CommentItemType {
   handleNewComment: () => void
   toggleReply: () => void
   // eslint-disable-next-line no-unused-vars
-  handleEditNode: (folderId: number, item: string, like: number) => void
+  handleEditNode: (folderId: string | undefined, item: string, like: number
+  ) => void
   expand: boolean
 }
 
@@ -19,18 +21,17 @@ function CommentItem({
   handleEditNode,
   expand
 }: CommentItemType) {
-  const [isLike, setIsLike] = useState<boolean|undefined>(undefined)
+  const [isLike, setIsLike] = useState<boolean | undefined>(undefined)
   const likeCount = !isLike ? comment.like + 1 : comment.like - 1
-
   const handleLike = () => {
-    handleEditNode(comment.id, comment.content, likeCount)
+    handleEditNode(comment._id, comment.content, likeCount)
     setIsLike(!isLike)
   }
   return (
     <>
       <div className="group relative flex flex-shrink-0 self-start cursor-pointer">
         <img
-          src="https://images.unsplash.com/photo-1507965613665-5fbb4cbb8399?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDQzfHRvd0paRnNrcEdnfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+          src={comment?.userId?.avatar}
           alt=""
           className="h-8 w-8 md:h-20 md:w-20 xs:h-16 xs:w-16 object-fill rounded-full"
         />
@@ -45,11 +46,11 @@ function CommentItem({
                   href="#"
                   className="hover:underline xs:text-4xl font-semibold"
                 >
-                  <small>Ganendra</small>
+                  <small>{comment?.userId?.name||'No name'}</small>
                 </a>
               </div>
               <div className="sm:text-2xl xs:text-3xl font-thin">
-                {comment.content}
+                {comment?.content}
               </div>
             </div>
           </div>
@@ -63,7 +64,7 @@ function CommentItem({
                   >
                     <ThumbsUp size={20} className="mb-2" />
                     <span className="flex items-center mt-1 ms-2">
-                      {comment.like}
+                      {comment?.like || 0}
                     </span>
                   </small>
                 </a>
@@ -79,10 +80,10 @@ function CommentItem({
                 </a>
                 <small className="self-center">.</small>
                 <a href="#" className="hover:underline">
-                  <small>15 hour</small>
+                  <small>{format(comment?.createdAt|| new Date())}</small>
                 </a>
               </div>
-              {comment?.items?.length > 0 && (
+              {comment?.comments?.length > 0 && (
                 <a className="hover:underline">
                   <small
                     className="flex items-center text-primary-movieColor"
@@ -93,7 +94,7 @@ function CommentItem({
                     ) : (
                       <ChevronRight size={15} />
                     )}{' '}
-                    {comment.items.length} Reply
+                    {comment.comments.length} Reply
                   </small>
                 </a>
               )}

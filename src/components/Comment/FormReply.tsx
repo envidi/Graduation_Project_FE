@@ -1,10 +1,14 @@
-import { SendHorizontal, X } from 'lucide-react'
-import { useState } from 'react'
+import { Loader, SendHorizontal, X } from 'lucide-react'
+import { useContext, useState } from 'react'
 import { Button } from '../ui/button'
 import { MyObjectComment } from '@/hooks/useNode'
+import { useMutationComment } from '@/hooks/useComment'
+import { REPLY_COMMENT } from '@/utils/constant'
+import { ContextMain } from '@/context/Context'
 
 type ChangeEvent = React.ChangeEvent<HTMLTextAreaElement>
 interface MyComponentProps {
+  movieId: string
   // eslint-disable-next-line no-unused-vars
   comment: MyObjectComment
   // eslint-disable-next-line no-unused-vars
@@ -12,7 +16,11 @@ interface MyComponentProps {
   // eslint-disable-next-line no-unused-vars
   setShowInput: (arg0: boolean) => void
   // eslint-disable-next-line no-unused-vars
-  handleInsertNode: (folderId: number, item: string, like: number) => void
+  handleInsertNode: (
+    folderId: string | undefined,
+    item: string,
+    like: number
+  ) => void
   cancleReply: () => void
 }
 const FormReply = ({
@@ -20,10 +28,11 @@ const FormReply = ({
   comment,
   setExpand,
   setShowInput,
-  handleInsertNode
+  movieId
 }: MyComponentProps) => {
+  const { userDetail } = useContext(ContextMain)
   const [inputState, setInputState] = useState('')
-
+  const { mutate, isPending } = useMutationComment(REPLY_COMMENT)
   const handleChange = (e: ChangeEvent) => {
     const target = e.target
     const value = target.value
@@ -31,7 +40,14 @@ const FormReply = ({
   }
   const handleClick = () => {
     setExpand(true)
-    handleInsertNode(comment.id, inputState, 0)
+    // handleInsertNode(comment._id, inputState, 0)
+    mutate({
+      movieId,
+      parentId: comment._id,
+      content: inputState,
+      like: 0,
+      userId: userDetail.message._id
+    })
     setShowInput(false)
     setInputState('')
   }
@@ -39,7 +55,7 @@ const FormReply = ({
     <div className="flex flex-row h-full  space-x-2 space-y-2 mt-1 mb-5">
       <div className="group relative flex flex-shrink-0 self-start cursor-pointer pt-2">
         <img
-          src="https://images.unsplash.com/photo-1610156830615-2eb9732de349?ixid=MXwxMjA3fDB8MHx0b3BpYy1mZWVkfDExfHJuU0tESHd3WVVrfHxlbnwwfHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+          src={userDetail.message.avatar}
           alt=""
           className="h-8 w-8 md:w-20 md:h-20 xs:h-16 xs:w-16 object-fill rounded-full"
         />
@@ -49,7 +65,7 @@ const FormReply = ({
           <div className="bg-background-secondary  rounded-xl px-5 py-6 w-full">
             <div className="flex  w-full">
               <small className="hover:underline xs:text-3xl font-semibold mr-3">
-                Ganendra
+                {comment?.userId?.name || 'No name'}
               </small>
               <div className="sm:text-2xl xs:text-3xl font-thin w-full flex items-center break-all">
                 <textarea
@@ -60,12 +76,21 @@ const FormReply = ({
                   rows={2}
                 ></textarea>
               </div>
-              <button
-                className="px-5 flex items-center hover:cursor-pointer hover:opacity-60 disabled:opacity-45 disabled:cursor-not-allowed"
-                onClick={handleClick}
-              >
-                <SendHorizontal className="text-primary-movieColor" size={20} />
-              </button>
+              {isPending ? (
+                <button className="px-5 flex items-center hover:cursor-pointer hover:opacity-60 disabled:opacity-45 disabled:cursor-not-allowed">
+                  <Loader className="animate-spin" />
+                </button>
+              ) : (
+                <button
+                  className="px-5 flex items-center hover:cursor-pointer hover:opacity-60 disabled:opacity-45 disabled:cursor-not-allowed"
+                  onClick={handleClick}
+                >
+                  <SendHorizontal
+                    className="text-primary-movieColor"
+                    size={20}
+                  />
+                </button>
+              )}
             </div>
           </div>
         </div>

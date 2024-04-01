@@ -135,25 +135,9 @@ export const CollectionCard = ({
         </div>
       </div>
 
-      {/* <button
-        className="book-btn btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          Object.keys(signedPerson).length !== 0 &&
-          signedPerson.person_type === "Customer"
-            ? navigate("/purchase")
-            : handleLoginState();
-        }}
-      >
-        Get ticket
-      </button> */}
-
       <AlertDialog>
         <AlertDialogTrigger asChild>
-          <button
-            className="book-btn bg-primary-movieColor hover:bg-primary-movieColorSecond btn"
-           
-          >
+          <button className="book-btn bg-primary-movieColor hover:bg-primary-movieColorSecond btn">
             Get ticket
           </button>
         </AlertDialogTrigger>

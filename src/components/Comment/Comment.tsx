@@ -1,29 +1,38 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './comment.css'
 import CommentList from './CommentList'
 import useNode from '@/hooks/useNode'
 import { countComments } from '@/utils'
 import { MyObjectComment } from '@/hooks/useNode'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { MovieType } from '@/Interface/movie'
+import useComment from '@/hooks/useComment'
+import FormComment from './FormComment'
+import { ContextMain } from '@/context/Context'
+import { Button } from '../ui/button'
 const comments: MyObjectComment = {
   id: 1,
+  _id: '1',
   content: '',
   like: 1,
-  items: [
+  comments: [
     {
+      _id: '2',
       id: 2,
       content: 'John',
       like: 1,
-      items: [
+      comments: [
         {
           id: 3,
           content: 'Envidi',
           like: 2,
-          items: [
+          comments: [
             {
               id: 4,
               content: 'JohnCena',
               like: 3,
-              items: []
+              comments: []
             }
           ]
         }
@@ -33,16 +42,34 @@ const comments: MyObjectComment = {
 }
 function Comment() {
   const [commentData, setCommentData] = useState(comments)
-  const commentCount = countComments(commentData) - 1
+  const { userDetail } = useContext(ContextMain)
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const movies = useSelector((state: any) => state.movies.movies)
+  const { slug } = useParams()
+  const { _id = '' } =
+    movies.length > 0 && movies.find((movie: MovieType) => movie.slug === slug)
+  const { data, isLoading } = useComment(_id)
+
+  const highestCommentId = data && data._id
+  const commentCount = countComments(data) == 0 ? 0 : countComments(data) - 1
+
   const { insertNode, editNode } = useNode()
 
-  const handleInsertNode = (folderId: number, item: string, like: number) => {
+  const handleInsertNode = (
+    folderId: string | undefined = '1',
+    item: string,
+    like: number
+  ) => {
     const finalStructure = insertNode(commentData, folderId, like, item)
     setCommentData((prev: MyObjectComment) => {
       return { ...prev, ...finalStructure }
     })
   }
-  const handleEditNode = (folderId: number, item: string, like: number) => {
+  const handleEditNode = (
+    folderId: string | undefined = '1',
+    item: string,
+    like: number
+  ) => {
     const finalStructure = editNode(commentData, folderId, like, item)
     setCommentData(finalStructure)
   }
@@ -54,11 +81,32 @@ function Comment() {
       </h2>
       <div className="bg-background-main flex  flex-col">
         <div className="w-full md:w-100 h-auto shadow py-2 flex flex-col space-y-2">
-          <CommentList
-            handleInsertNode={handleInsertNode}
-            handleEditNode={handleEditNode}
-            comment={commentData}
-          />
+          {userDetail ? (
+            <div
+              className={
+                'w-full md:w-100 h-auto shadow py-2 flex flex-col space-y-2'
+              }
+            >
+              <FormComment movieId={_id} commentCount={commentCount} />
+            </div>
+          ) : (
+            <Button className="text-2xl">Đăng nhập để bình luận</Button>
+          )}
+          {data && Object.keys(data).length > 0 ? (
+            <CommentList
+              movieId={_id}
+              isLoading={isLoading}
+              highestCommentId={highestCommentId}
+              handleInsertNode={handleInsertNode}
+              handleEditNode={handleEditNode}
+              commentCount={commentCount}
+              comment={data}
+            />
+          ) : (
+            <div className="ms-24 text-2xl text-primary-movieColor">
+              Không có bình luận
+            </div>
+          )}
         </div>
       </div>
     </div>
