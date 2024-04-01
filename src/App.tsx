@@ -65,7 +65,7 @@ import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
 import PendingResult from './pages/ResultPage/PendingResult'
 import ProtectedResultPage from './pages/Routes/ProtectedResultPage'
 import Users from './admin/pages/Users'
-import Showtimes from './admin/pages/Showtimes/ShowTimes'
+import Showtimes from './admin/pages/Showtimes/Showtimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
 import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 const ProfileWatchListPage = lazy(
