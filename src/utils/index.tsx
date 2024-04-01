@@ -1,14 +1,15 @@
 import { MovieType } from '@/Interface/movie'
 import { MyObjectComment } from '@/hooks/useNode'
 
-export function countComments(comment: MyObjectComment): number {
+export function countComments(comment: MyObjectComment | undefined): number {
+  if (comment && Object.keys(comment).length == 0) return 0
   let count = 1 // Bắt đầu từ 1 để tính cả chính đối tượng cha
-  if (comment.items) {
-    for (const subComment of comment.items) {
+  if (comment?.comments) {
+    for (const subComment of comment.comments) {
       count += countComments(subComment) // Đệ quy cho từng phần tử con
     }
   }
-  return count
+  return count 
 }
 // Lấy giờ không lấy ngày VD 19:30
 export const getHourAndMinute = (date: string) => {

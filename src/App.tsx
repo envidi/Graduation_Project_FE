@@ -110,11 +110,9 @@ function App() {
               <Route
                 path="/movie/:slug"
                 element={
-                  <ProtectedAuthorized>
-                    <Suspense fallback={<PageLoader />}>
-                      <MovieDetailsPage />
-                    </Suspense>
-                  </ProtectedAuthorized>
+                  <Suspense fallback={<PageLoader />}>
+                    <MovieDetailsPage />
+                  </Suspense>
                 }
               />
               {/* <Route path="/purchase" element={<PurchasePage />} /> */}
@@ -190,11 +188,9 @@ function App() {
               <Route
                 path="/movies"
                 element={
-                  <ProtectedAuthorized>
-                    <Suspense fallback={<PageLoader />}>
-                      <MoviePage />
-                    </Suspense>
-                  </ProtectedAuthorized>
+                  <Suspense fallback={<PageLoader />}>
+                    <MoviePage />
+                  </Suspense>
                 }
               />
               <Route
