@@ -42,16 +42,16 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
     onSuccess: () => {
       if (typeForm === 'EDIT') {
         toast.success('Sua cinema thanh cong')
-        setTimeout(() => {
-          navigate('/admin/cinema')
-        }, 500);
+        // setTimeout(() => {
+        //   navigate('/admin/cinema')
+        // }, 500);
         return
       }
       toast.success('Them cinema thanh cong')
       // navigate('/admin/cinema')
-      setTimeout(() => {
-        navigate('/admin/cinema')
-      }, 500);
+      // setTimeout(() => {
+      //   navigate('/admin/cinema')
+      // }, 500);
     },
     onError: () => {
       if (typeForm === 'EDIT') {
