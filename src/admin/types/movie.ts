@@ -38,6 +38,7 @@ export interface Movie {
     rate: number
     categoryId: string[] | string
     showTimes: string[] | string
+    prices: string[] | string
     fromDate: string
     toDate: string
   }

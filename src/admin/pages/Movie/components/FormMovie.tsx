@@ -93,13 +93,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       trailer: id ? (movieData?.trailer as string) : '',
       fromDate: id ? (movieData?.fromDate as string) : '',
       toDate: id ? (movieData?.toDate as string) : '',
-      // fromDate: id ? (movieData?.fromDate as string) : '',
-      // toDate: id ? (movieData?.toDate as string) : '',
       desc: id ? (movieData?.desc as string) : '',
       country: id ? (movieData?.country as string) : '',
-      // if(id : any){
-      //   duration: movieData?.duration as number
-      // }
       duration: id ? (movieData?.duration as number | undefined) : undefined,
       status: id ? (movieData?.status as string) : '',
       age_limit: id ? (movieData?.age_limit as number | undefined) : undefined,
@@ -120,11 +115,85 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.image.length < 3) {
         errors.image = 'image must be at least 3 characters long'
       }
-      if (!values.image) {
-        errors.image = 'Required image'
+      if (!values.author ) {
+        errors.author = 'Required author'
+      } else if (values.author.length < 3) {
+        errors.author = 'author must be at least 3 characters long'
       }
-      if (!values.trailer) {
+      if (!values.language ) {
+        errors.language = 'Required language'
+      } else if (values.language.length < 3) {
+        errors.language = 'language must be at least 3 characters long'
+      }
+      if (!values.actor ) {
+        errors.actor = 'Required actor'
+      } else if (values.actor.length < 3) {
+        errors.actor = 'actor must be at least 3 characters long'
+      }
+      if (!values.trailer ) {
         errors.trailer = 'Required trailer'
+      } else if (values.trailer.length < 3) {
+        errors.trailer = 'trailer must be at least 3 characters long'
+      }
+      if (!values.fromDate ) {
+        errors.fromDate = 'Required fromDate'
+      } else if (values.fromDate.length < 3) {
+        errors.fromDate = 'fromDate must be at least 3 characters long'
+      }
+      if (!values.toDate ) {
+        errors.toDate = 'Required toDate'
+      } else if (values.toDate.length < 3) {
+        errors.toDate = 'toDate must be at least 3 characters long'
+      }
+      if (!values.country ) {
+        errors.country = 'Required country'
+      } else if (values.country.length < 3) {
+        errors.country = 'country must be at least 3 characters long'
+      }
+      if (!values.duration) {
+        errors.duration = 'Required duration'
+      } else if (isNaN(values.duration) || Number(values.duration) <= 30) {
+        errors.duration = 'Duration must be a number and greater than 30'
+      }
+      if (!values.age_limit) {
+        errors.age_limit = 'Required age_limit'
+      } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 30) {
+        errors.age_limit = 'age_limit must be a number and greater than 30'
+      }
+      if (!values.rate) {
+        errors.rate = 'Required rate'
+      } else if (isNaN(values.rate) || Number(values.rate) <= 30) {
+        errors.rate = 'rate must be a number and greater than 30'
+      }
+      if (!values.status ) {
+        errors.status = 'Required status'
+      } else if (values.status.length < 3) {
+        errors.status = 'status must be at least 3 characters long'
+      }
+      // if (!values.country ) {
+      //   errors.country = 'Required country'
+      // } else if (values.country.length < 3) {
+      //   errors.country = 'country must be at least 3 characters long'
+      // }
+      // if (!values.country ) {
+      //   errors.country = 'Required country'
+      // } else if (values.country.length < 3) {
+      //   errors.country = 'country must be at least 3 characters long'
+      // }
+      if (!values.categoryId ) {
+        errors.categoryId = 'Required categoryId'
+      } else if (values.categoryId.length < 3) {
+        errors.categoryId = 'categoryId must be at least 3 characters long'
+      }
+      if (!values.showTimes ) {
+        errors.showTimes = 'Required showTimes'
+      } else if (values.showTimes.length < 3) {
+        errors.showTimes = 'showTimes must be at least 3 characters long'
+      }
+      if (!values.prices ) {
+        errors.prices = 'Required prices'
+      } else if (values.prices.length < 3) {
+        errors.prices = 'prices must be at least 3 characters long'
       }
       return errors
     },
