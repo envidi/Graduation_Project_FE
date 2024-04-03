@@ -1,10 +1,18 @@
 import {
   CommentService,
+  deleteComment,
   getCommentByMovie,
+  likeComment,
   postCommentByMovie,
   replyCommentByMovie
 } from '@/api/comment'
-import { COMMENT, CREATE_COMMENT, REPLY_COMMENT } from '@/utils/constant'
+import {
+  COMMENT,
+  CREATE_COMMENT,
+  DELETE_COMMENT,
+  LIKE_COMMENT,
+  REPLY_COMMENT
+} from '@/utils/constant'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
 function useComment(id: string) {
@@ -26,6 +34,10 @@ export function useMutationComment(
           return postCommentByMovie(data)
         case REPLY_COMMENT:
           return replyCommentByMovie(data)
+        case LIKE_COMMENT:
+          return likeComment(data)
+        case DELETE_COMMENT:
+          return deleteComment(data)
         default:
           return replyCommentByMovie(data)
       }
