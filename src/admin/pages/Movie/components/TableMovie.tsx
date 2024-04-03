@@ -22,6 +22,21 @@ const TableMovie = () => {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
+  // page
+  const ITEMS_PER_PAGE = 10
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(ITEMS_PER_PAGE)
+  //tính mục phân trang
+  const endIndex = currentPage * itemsPerPage
+  const startIndex = endIndex - itemsPerPage
+  const currentItems = (data && data.slice(startIndex, endIndex)) || []
+  // Tính số trang
+  const pageCount = data ? Math.floor(data.length / itemsPerPage) : 0
+  //phương thức chuyển trang
+  const setPage = (page: number) => {
+      setCurrentPage(page)
+  }
+  console.log(pageCount)
 
   console.log('data:', data)
 
@@ -134,7 +149,7 @@ const TableMovie = () => {
               </tr>
             </thead>
             <tbody>
-              {data.map((movie, index) => (
+              {currentItems.map((movie, index) => (
                 <tr key={movie.name}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <p className="text-sm font-medium text-primary-white">
@@ -216,6 +231,19 @@ const TableMovie = () => {
           </table>
         </div>
       </div>
+      <div className='pagination-controls'>
+                {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
+                    <button
+                        key={page}
+                        disabled={currentPage === page}
+                        onClick={() => setPage(page)}
+                    // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
+                    className='mg-2 border border-[#eee] py-6 px-5 dark:border-strokedark hover:bg-red-400'
+                    >
+                        {page}
+                    </button>
+                ))}
+            </div>
 
       <ConfirmDialog
         open={isOpenConfirm}

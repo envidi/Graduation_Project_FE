@@ -110,8 +110,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     },
     validate: (values) => {
       const errors: Partial<FormMovieAdd> = {}
-      if (!values.name) {
+      if (!values.name ) {
         errors.name = 'Required name'
+      } else if (values.name.length < 3) {
+        errors.name = 'Name must be at least 3 characters long'
+      }
+      if (!values.image ) {
+        errors.image = 'Required image'
+      } else if (values.image.length < 3) {
+        errors.image = 'image must be at least 3 characters long'
       }
       if (!values.image) {
         errors.image = 'Required image'
@@ -163,7 +170,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <form onSubmit={handleSubmit}>
           <div className="p-6.5">
-            <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+            <div className="mb-4.5  flex-col gap-6 xl:flex-row">
               {/* name */}
               <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
