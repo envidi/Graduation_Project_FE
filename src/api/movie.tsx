@@ -1,3 +1,4 @@
+import { FormMovieAdd } from '@/admin/types/movie'
 import instance from './config'
 
 export interface QueryMovie {
@@ -13,7 +14,7 @@ export const getOneMovie = async (id: string) => {
   return result.data.data
 }
 export const getAllMovieHome = async () => {
-  const result = await instance.get('/movie/home')
+  const result = await instance.get('/movie')
   return result.data.data.docs
 }
 export const getMovieStatus = async (query: QueryMovie) => {
@@ -49,4 +50,29 @@ export const searchMovie = async (search: string) => {
 export const getRelateMovie = async (id: string) => {
   const result = await instance.get('/movie/movieByCate/' + id)
   return result.data.data
+}
+
+// admin
+// get all m
+export const getAllMovie = async () => {
+  const result = await instance.get('/movie')
+  return result.data.data.docs
+}
+
+//remove Movie
+export const removeMovie = async (id: string) => {
+  const result = await instance.delete(`/movie/${id}`)
+  return result.data
+}
+
+//add Movie
+export const addMovie = async (Movie: FormMovieAdd) => {
+  const result = await instance.post('/movie', Movie)
+  return result.data
+}
+
+//edit cinema
+export const editMovie = async (cinema: FormMovieAdd, id: string) => {
+  const result = await instance.patch(`/movie/${id}`, cinema)
+  return result.data
 }

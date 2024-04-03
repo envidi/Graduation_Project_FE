@@ -41,6 +41,12 @@ import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
 import SettingsAccountPage from './pages/Profile/account/page'
 // import SettingsAppearancePage from './pages/Profile/Appearence/page'
 import MobileNav from './components/MobileNav'
+import CinemaPage from './admin/pages/Cinema'
+import CinemaAdd from './admin/pages/Cinema/Add'
+import CinemaEdit from './admin/pages/Cinema/Edit'
+import MovieEdit from './admin/pages/Movie/Edit'
+import MovieAdd from './admin/pages/Movie/Add'
+import MoviePageadmin from './admin/pages/Movie'
 import FoodAdminPage from './admin/pages/Food'
 import FoodAdd from './admin/pages/Food/Add'
 import FoodEdit from './admin/pages/Food/Edit'
@@ -270,6 +276,16 @@ function App() {
                 <Route index element={<FoodAdminPage />} />
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
+              </Route>
+              <Route path="cinema">
+                <Route index element={<CinemaPage />} />
+                <Route path="add" element={<CinemaAdd />} />
+                <Route path="edit/:id" element={<CinemaEdit />} />
+              </Route>
+              <Route path="movie">
+                <Route index element={<MoviePageadmin />} />
+                <Route path="add" element={<MovieAdd />} />
+                <Route path="edit/:id" element={<MovieEdit />} />
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
