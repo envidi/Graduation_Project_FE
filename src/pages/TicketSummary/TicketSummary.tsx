@@ -43,6 +43,8 @@ import { CREATE_TICKET, FULL_SCHEDULE } from '@/utils/constant'
 import { useShowtime } from '@/hooks/useShowtime'
 import TimeCountDown from './TimeCountDown'
 import BarLoader from 'react-spinners/BarLoader'
+import { useContext } from 'react'
+import { ContextMain } from '@/context/Context'
 
 interface MutatePaymentType {
   amount: number
@@ -51,23 +53,27 @@ interface MutatePaymentType {
 }
 
 function TicketSummary() {
+  const { userDetail } = useContext(ContextMain)
   const queryClient = useQueryClient()
   const { seat, paymentMethod } = useSelector(
     (state: TicketSelector) => state.ticket.ticket
   )
+
   const foods = useSelector((state: FoodSelector) => state.foods.foods)
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
-  const { isLoading, data: dataShowtime } = useShowtime(ticket?.id_showtime || '')
+  const { isLoading, data: dataShowtime } = useShowtime(
+    ticket?.id_showtime || ''
+  )
   const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
 
-  const onSuccess = (data: { _id: string }) => {
+  const onSuccess = (data: { _id: string; paymentToken: string }) => {
     setTicket({
       ...ticket,
       ticket_id: data._id
     })
+    localStorage.setItem('paymentToken', data.paymentToken)
     navigate('/purchase/food')
   }
-
   const { mutate: mutateTicket, isPending } = useTicket(
     CREATE_TICKET,
     onSuccess
@@ -137,27 +143,40 @@ function TicketSummary() {
       ...ticket,
       seat: [...seat],
       total,
+      userId: userDetail?.message?._id || '1',
       ticketAmount: seat.filter((s) => s.selected).length
     })
     const foodObject = filterData(
       ticket.foods,
       (food) => food.quantity > 0
     ).map((food) => {
-      return { foodId: food._id, quantityFood: food.quantity }
+      return {
+        foodId: food._id,
+        quantityFood: food.quantity,
+        name: food.name,
+        price: food.price
+      }
     })
     const newObject = {
-      priceId: ticket?.price_id,
+      priceId: {
+        _id: ticket?.price_id,
+        price: ticket.price_movie
+      },
       seatId: mapData(seat),
       foods: foodObject,
-      showtimeId: ticket.id_showtime
+      showtimeId: ticket.id_showtime,
+      userId: userDetail?.message?._id || '1',
+      movieId: ticket.id_movie,
+      screenRoomId: ticket.hall_id,
+      cinemaId: ticket.cinemaId
     }
+
     if (ticket.ticket_id !== '') {
       mutateTicket({
         ...newObject,
         ticket_id: ticket.ticket_id
       })
       return
-      // return navigate('/purchase/food')
     }
     mutateTicket({
       ...newObject
@@ -195,7 +214,7 @@ function TicketSummary() {
 
   return (
     <div className="purchase-section-right ticket_summary ">
-      <h2 className="ticket-container-heading">Ticket Summary</h2>
+      <h2 className="ticket-container-heading">Tổng hợp vé</h2>
 
       <div className="ticket-container md:sticky md:top-0">
         <div className="ticket-heading">
@@ -223,27 +242,27 @@ function TicketSummary() {
           <ul className="ticket-info-list">
             <TicketItem
               icon={<Location />}
-              title={'Location'}
+              title={'Địa chỉ'}
               name={cinema_name}
             />
             <TicketItem
               icon={<ShowDate />}
-              title={'Show Date'}
+              title={'Ngày chiếu'}
               name={chuyenDoiNgayDauVao(getDay(time_from))}
             />
             <TicketItem
               icon={<Hall />}
-              title={'Hall number'}
+              title={'Phòng chiếu'}
               name={hall_name}
             />
             <TicketItem
               icon={<ShowTime />}
-              title={'Show Time'}
+              title={'Giờ chiếu'}
               name={convertAmPm(getHourAndMinute(time_from))}
             />
             <TicketItem
               icon={<TicketAmount />}
-              title={'Ticket Amount'}
+              title={'Số lượng vé'}
               name={
                 seat && seat.length != 0
                   ? seat.filter((s) => s.selected).length
@@ -254,7 +273,7 @@ function TicketSummary() {
             />
             <TicketItem
               icon={<Armchair size={16} />}
-              title={'Seats'}
+              title={'Ghế'}
               name={
                 seat && seat.length != 0
                   ? mapDataSeat(seat)
@@ -266,18 +285,18 @@ function TicketSummary() {
 
             <TicketList
               icon={<Cookie size={16} />}
-              title={'Food'}
+              title={'Đồ ăn'}
               valueState={foodValid}
               valueStorage={foodsTicket}
             />
             <TicketItem
               icon={<PaymentMethod />}
-              title={'Payment Method'}
+              title={'Phương thức thanh toán'}
               name={paymentMethod.name}
             />
             <TicketItem
               icon={<PaymentMethod />}
-              title={'Total Price'}
+              title={'Tổng tiền'}
               name={formatVND(total)}
             />
           </ul>
@@ -287,7 +306,6 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseFood}
           >
-            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket
           </button>
         )}
@@ -305,7 +323,6 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchasePayment}
           >
-            {/* {loading ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'} */}
             purchase ticket
           </button>
         )}

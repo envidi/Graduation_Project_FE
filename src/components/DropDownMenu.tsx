@@ -10,7 +10,7 @@ import {
   Settings,
   User
 } from 'lucide-react'
-
+import { ContextAuth, ContextMain } from '@/context/Context'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -27,24 +27,39 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
+import TooltipComponent from './TooltipComponent'
+import { useContext } from 'react'
+interface DropDownMenuType {
+  logout: () => void
+}
 
-function DropDownMenu({ userDetail, logout }: any) {
+function DropDownMenu({ logout }: DropDownMenuType) {
+  const { userDetail } = useContext<ContextAuth>(ContextMain)
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button>
-          <p
-            className="nav-signed-name flex items-center gap-2 text-2xl hover:text-gray-400 cursor-pointer"
-            // onClick={toggleShowProfile}
-          >
-            <Avatar className="w-10 h-10">
-              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>{' '}
-            {userDetail?.message?.name}
-          </p>
-        </Button>
-      </DropdownMenuTrigger>
+      <TooltipComponent tooltip={'Your account'}>
+        <DropdownMenuTrigger asChild>
+          <Button>
+            <p
+              className="nav-signed-name flex items-center gap-2 text-2xl hover:text-gray-400 cursor-pointer"
+              // onClick={toggleShowProfile}
+            >
+              <Avatar className="w-10 h-10">
+                <AvatarImage
+                  src={
+                    userDetail?.message.avatar ||
+                    'https://github.com/shadcn.png'
+                  }
+                  alt="@shadcn"
+                />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>{' '}
+              {userDetail?.message?.name}
+            </p>
+          </Button>
+        </DropdownMenuTrigger>
+      </TooltipComponent>
       <DropdownMenuContent className="w-72">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
@@ -91,14 +106,12 @@ function DropDownMenu({ userDetail, logout }: any) {
             </DropdownMenuPortal>
           </DropdownMenuSub>
         </DropdownMenuGroup>
-        <DropdownMenuItem>
-          <Github className="mr-2 h-6 w-6" />
-          <span>GitHub</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <LifeBuoy className="mr-2 h-6 w-6" />
-          <span>Support</span>
-        </DropdownMenuItem>
+        <Link to={'/admin'}>
+          <DropdownMenuItem>
+            <LifeBuoy className="mr-2 h-6 w-6" />
+            <span>Admin</span>
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem disabled>
           <Cloud className="mr-2 h-6 w-6" />
           <span>API</span>

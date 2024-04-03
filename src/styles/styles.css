@@ -66,6 +66,11 @@ body {
   font-weight: 400;
   color: #cccdd0;
 }
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -377,7 +382,7 @@ header {
   transform: translateX(-50%);
   padding: 3.2rem;
   border-radius: 11px;
-  z-index: 2;
+  z-index: 100;
 }
 .signup-form2 {
   position: fixed;
@@ -387,7 +392,7 @@ header {
   transform: translateX(-50%);
   padding: 3.2rem;
   border-radius: 11px;
-  z-index: 2;
+  z-index: 100;
 }
 .login-form2 {
   position: fixed;
@@ -1212,7 +1217,7 @@ header {
 }
 
 .showtimes-screen-container {
-  display: grid;
+  /* display: grid; */
   background-color: #171a28;
 }
 
@@ -1349,6 +1354,9 @@ header {
   display: grid;
   grid-template-columns: 1fr 33.8rem;
   gap: 4.8rem;
+}
+.result-container {
+  display: flex;
 }
 
 .purchase-section-left,
@@ -2500,4 +2508,171 @@ header {
 .button-back-pay:hover {
   opacity: 0.9;
   cursor: pointer;
+}
+
+/* -------------------------Step progress bar--------------------- */
+.stepper-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+.stepper-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+}
+
+.stepper-item::before {
+  position: absolute;
+  content: '';
+  border-bottom: 10px solid transparent;
+  width: 100%;
+  top: 11px;
+  left: -50%;
+  z-index: 2;
+}
+
+.stepper-item::after {
+  position: absolute;
+  content: '';
+  border-bottom: 10px solid transparent;
+  width: 100%;
+  top: 11px;
+  left: 50%;
+  z-index: 2;
+}
+
+.stepper-item .step-counter {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 30px;
+  height: 30px; */
+  border-radius: 50%;
+  background: #ccc;
+  margin-bottom: 6px;
+}
+
+.stepper-item.active {
+  font-weight: bold;
+}
+
+.stepper-item.completed .step-counter {
+  background-color: #4bb543;
+}
+
+.stepper-item.completed::after {
+  position: absolute;
+  content: '';
+  border-bottom: 10px solid #4bb543;
+  width: 100%;
+  top: 7px;
+  left: 50%;
+  z-index: 3;
+}
+
+.stepper-item:first-child::before {
+  content: none;
+}
+.stepper-item:last-child::after {
+  content: none;
+}
+
+/* ---------------------------------------------------------------- */
+.rating-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row-reverse;
+  padding: 4px 2px;
+  gap: 1px;
+  padding-right: 10px;
+  /* border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px; */
+  border-radius: 50px;
+  border: none;
+  position: relative;
+  background: #eb3758;
+  box-shadow:
+    0 1px 1px hsl(0deg 0% 0%/0.075),
+    0 2px 2px hsl(0deg 0% 0%/0.075),
+    0 4px 4px hsl(0deg 0% 0%/0.075),
+    0 8px 8px hsl(0deg 0% 0%/0.075),
+    0 16px 16px hsl(0deg 0% 0%/0.075);
+}
+.rating-container .rating-value {
+  /* position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: -10px;
+  border-radius: 50%;
+  height: 29px;
+  width: 29px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #ffbb00;
+  box-shadow:
+    0 1px 1px hsl(0deg 0% 0%/0.075),
+    0 2px 2px hsl(0deg 0% 0%/0.075),
+    0 4px 4px hsl(0deg 0% 0%/0.075),
+    0 8px 8px hsl(0deg 0% 0%/0.075),
+    0 16px 16px hsl(0deg 0% 0%/0.075),
+    inset 0 0 10px #f7db5e,
+    0 0 10px #f7db5e; */
+}
+.rating-container .rating-value:before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  /* margin: auto; */
+  text-align: center;
+  line-height: 29px;
+  font-size: 16px;
+  color: #2b2b2b;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  /* content: '10'; */
+  transform-origin: center center;
+  transition: all 0.25s ease 0s;
+}
+/* .rating-container .rating-value:after {
+  content: '';
+  position: absolute;
+  height: 29px;
+  width: 29px;
+  top: -1px;
+  left: -1px;
+  margin: auto;
+  border: 1px solid #ffbb00;
+  border-radius: 50%;
+  transition: all 0.4s ease-in;
+} */
+.rating-container input {
+  display: none;
+}
+.rating-container label {
+  /* height: 22px;
+  width: 22px; */
+  transform-origin: center center;
+}
+.rating-container label svg {
+  transition: transform 0.4s ease-in-out;
+  opacity: 0.5;
+}
+.rating-container label:hover svg {
+  transform: scale(1.25) rotate(10deg);
 }

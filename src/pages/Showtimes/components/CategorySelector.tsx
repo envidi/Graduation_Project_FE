@@ -12,7 +12,7 @@ export const CategorySelector = () => {
 
   const handleSelectedCategoryId = (cate: { _id:string, name: string, products: [] }) => {
     setSearchParams({ category: cate.name })
-    handleFilterMovieByCategory(cate.products)
+    handleFilterMovieByCategory(cate._id)
   }
 
   if (isLoading) {

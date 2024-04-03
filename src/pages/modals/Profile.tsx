@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import BarLoader from 'react-spinners/BarLoader'
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { getDetailUser, updateUser } from '@/api/auth'
+import { useMutation } from '@tanstack/react-query'
+import { updateUser } from '@/api/auth'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
 import { ContextMain } from '@/context/Context'
@@ -24,7 +24,7 @@ const Profile = () => {
   const [files, setFiles] = useState<File[]>([])
 
   // const [isLogined, setIsLogined] = useState(false)
-  const { setIsLogined, isLogined,userDetail } = useContext(ContextMain)
+  const { setIsLogined, isLogined, userDetail } = useContext(ContextMain)
 
   const togglePassState = (e: any) => {
     e.preventDefault()
@@ -38,7 +38,7 @@ const Profile = () => {
     },
     onError() {
       toast.error('Update faile, try again !!!!!!!')
-    },
+    }
   })
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const Profile = () => {
         address: userDetail?.message?.address[0],
         mobile: userDetail?.message?.mobile,
         password: userDetail?.message?.password,
-        confirmPassword: userDetail?.message?.confirmPassword,
+        confirmPassword: userDetail?.message?.confirmPassword
       })
   }, [userDetail])
 
@@ -62,12 +62,10 @@ const Profile = () => {
       mobile: userDetail?.message?.mobile || '',
       name: userDetail?.message?.name || '',
       confirmPassword: '',
-      avatar: '',
+      avatar: ''
       // oldPassword: ''
     },
     validate: (values) => {
-      console.log(' check value', values)
-
       const errors: Partial<FormValues> = {}
       if (!values.name || values.name.length <= 6) {
         errors.name = 'Bắt buộc phải nhập name và phải lớn hơn 6 ký tự '
@@ -85,27 +83,25 @@ const Profile = () => {
       ) {
         errors.email = 'Chưa nhập địa chỉ email'
       }
-      
+
       if (!values.password) {
         errors.password = 'Hãy nhập  password'
       } else if (values.password.length < 8) {
         errors.password = 'Password phải lớn hơn 8 ký tự'
       }
-     
 
       if (!values.confirmPassword) {
         errors.confirmPassword = 'Bắt buộc phải nhập confirmPassword'
       } else if (values.confirmPassword.length < 6) {
         errors.confirmPassword = 'confirmPassword phải lớn hơn 6 ký tự'
       } else if (values.confirmPassword !== values.password) {
-        errors.confirmPassword = 'Hãy nhập Password và giống nhau, thử lại đi !!!!!'
+        errors.confirmPassword =
+          'Hãy nhập Password và giống nhau, thử lại đi !!!!!'
       }
 
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value', values)
-  
       const data = new FormData()
       data.set('name', values.name)
       data.set('email', values.email)
@@ -116,7 +112,7 @@ const Profile = () => {
 
       if (files.length > 0) {
         data.set('avatar', files[0])
-      } 
+      }
 
       try {
         const response = await userUpdate.mutateAsync(data)
@@ -124,7 +120,7 @@ const Profile = () => {
       } catch (error) {
         console.error('Lỗi khi gọi API:', error)
       }
-    },
+    }
   })
 
   const handleShow = () => {
@@ -132,8 +128,6 @@ const Profile = () => {
   }
   const handleChangeFiles = (e: any) => {
     setFiles(e.target.files)
-    console.log('File', files);
-    
   }
 
   return (
@@ -181,7 +175,7 @@ const Profile = () => {
                 </span>
               )}
               <div className="signup-form-category">
-                <label className='text-[#1a1d2c] text-2xl font-bold'>
+                <label className="text-[#1a1d2c] text-2xl font-bold">
                   Name: <span>*</span>
                 </label>
                 <input
@@ -190,7 +184,7 @@ const Profile = () => {
                   value={formikValidate.values.name}
                   onChange={formikValidate.handleChange}
                   name="name"
-                  className='text-[#1a1d2c]'
+                  className="text-[#1a1d2c]"
                 />
               </div>
 

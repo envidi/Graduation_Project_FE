@@ -1,4 +1,4 @@
-import { InsanceToken, baseAuth } from './baseAuth'
+import { InsanceToken, InsanceTokenFn, baseAuth } from './baseAuth'
 
 export const signup = (user: any) => {
   return baseAuth.post('/register', user)
@@ -6,9 +6,22 @@ export const signup = (user: any) => {
 export const signin = (user: any) => {
   return baseAuth.post('/login', user)
 }
+export const getUser = () => {
+  return baseAuth.get('/')
+}
 
 export const updateUser = (user: any) => {
-  return InsanceToken.put('/updateUser', user)
+  return InsanceToken.patch('/updateUser', user)
+}
+export const updateClient = (user: any) => {
+  if (!user) return {}
+  return InsanceToken.patch('/updateClient', user)
+}
+export const updateUserId = (user: any) => {
+  return baseAuth.put(`/${user._id}`, user)
+}
+export const deleteUser = (id : string |number) => {
+  return InsanceToken.delete(`/${id}` )
 }
 
 export const forgotPassword = (email: string) => {
@@ -21,4 +34,8 @@ export const resetPassword = (user: any) => {
 
 export const getDetailUser = () => {
   return InsanceToken.get('/userDetail')
+}
+export const getDetailUserClient = () => {
+  const instanceToken = InsanceTokenFn('Accesstoken', 'user')
+  return instanceToken.get('/userDetail')
 }

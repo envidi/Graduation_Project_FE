@@ -19,7 +19,7 @@ function Payment() {
       <UserConfirmPayment />
       <div className="flex flex-col shadow-xl">
         <div className="border-[1px] border-border-borderPayment border-b-transparent rounded-t-xl px-10 py-5 text-2xl">
-          Payment method
+          Phương thức thanh toán
         </div>
         <div className="flex  px-10 py-10 border-[1px] rounded-b-xl  border-border-borderPayment">
           <RadioGroup

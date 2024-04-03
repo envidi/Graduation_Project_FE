@@ -1,14 +1,15 @@
 import { MovieType } from '@/Interface/movie'
 import { MyObjectComment } from '@/hooks/useNode'
 
-export function countComments(comment: MyObjectComment): number {
+export function countComments(comment: MyObjectComment | undefined): number {
+  if (comment && Object.keys(comment).length == 0) return 0
   let count = 1 // Bắt đầu từ 1 để tính cả chính đối tượng cha
-  if (comment.items) {
-    for (const subComment of comment.items) {
+  if (comment?.comments) {
+    for (const subComment of comment.comments) {
       count += countComments(subComment) // Đệ quy cho từng phần tử con
     }
   }
-  return count
+  return count 
 }
 // Lấy giờ không lấy ngày VD 19:30
 export const getHourAndMinute = (date: string) => {
@@ -61,6 +62,61 @@ export function chuyenDoiNgayDauVao(inputDate: string | undefined) {
   })
 
   return ngayDinhDang
+}
+
+export function chuyenDoiNgay(dateString: Date | string) {
+  if (dateString == '') return
+  const ngay = new Date(dateString)
+
+  const ngayTrongTuan = [
+    'Chủ Nhật',
+    'Thứ Hai',
+    'Thứ Ba',
+    'Thứ Tư',
+    'Thứ Năm',
+    'Thứ Sáu',
+    'Thứ Bảy'
+  ]
+  const thu = ngayTrongTuan[ngay.getDay()]
+
+  const ngayTrongThang = ngay.getDate()
+
+  const thangTrongNam = ngay.getMonth() + 1 // Lưu ý: Tháng trong JavaScript bắt đầu từ 0
+  const tenThang = [
+    'tháng 1',
+    'tháng 2',
+    'tháng 3',
+    'tháng 4',
+    'tháng 5',
+    'tháng 6',
+    'tháng 7',
+    'tháng 8',
+    'tháng 9',
+    'tháng 10',
+    'tháng 11',
+    'tháng 12'
+  ]
+  const tenThangHienThi = tenThang[thangTrongNam - 1]
+
+  return `${thu}, ${ngayTrongThang} ${tenThangHienThi}`
+}
+export function formatDateToISOString(dateString: string) {
+  // Phân tách ngày và giờ từ chuỗi đầu vào
+  const [datePart, timePart] = dateString.split(' ')
+
+  // Phân tách ngày thành các phần riêng biệt (ngày, tháng, năm)
+  const [day, month, year] = datePart.split('-').map(Number)
+
+  // Phân tách giờ thành các phần riêng biệt (giờ, phút)
+  const [hour, minute] = timePart.split(':').map(Number)
+
+  // Tạo đối tượng Date mới từ các phần được phân tách
+  const date = new Date(year, month - 1, day, hour, minute)
+
+  // Chuyển đổi đối tượng Date sang định dạng ISO 8601
+  const isoString = date.toISOString()
+
+  return isoString
 }
 // Lấy ngày theo lịch
 export function selectCalendar(inputDate: Date | undefined) {
@@ -165,4 +221,27 @@ export function getCurrentDay() {
 
   // Định dạng ngày theo yêu cầu
   return tenThang + ' ' + ngay + ', ' + nam
+}
+export function addCommasToNumber(number: number) {
+  // Chuyển số thành chuỗi
+  const numStr = String(number)
+
+  // Tách phần nguyên và phần thập phân (nếu có)
+  const parts = numStr.split('.')
+  const integerPart = parts[0]
+  const decimalPart = parts.length > 1 ? '.' + parts[1] : ''
+
+  // Thêm dấu phẩy vào phần nguyên
+  let result = ''
+  let count = 0
+  for (let i = integerPart.length - 1; i >= 0; i--) {
+    result = integerPart[i] + result
+    count++
+    if (count % 3 === 0 && i > 0) {
+      result = ',' + result
+    }
+  }
+
+  // Kết hợp phần nguyên và phần thập phân
+  return result + decimalPart
 }

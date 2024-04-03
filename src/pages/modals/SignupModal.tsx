@@ -1,5 +1,4 @@
-import axios from 'axios'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { ToastContainer, toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BarLoader from 'react-spinners/BarLoader'
@@ -10,8 +9,6 @@ interface FormValues {
   name: string
   email: string
   password: string
-  address: string
-  mobile: string
   confirmPassword: string
 }
 export const SignupModal = () => {
@@ -41,8 +38,6 @@ export const SignupModal = () => {
       name: '',
       email: '',
       password: '',
-      address: '',
-      mobile: '',
       confirmPassword: ''
     },
 
@@ -109,15 +104,13 @@ export const SignupModal = () => {
     e.preventDefault()
     setPassViewState((prevState) => !prevState)
   }
- 
 
   const resetFormik = () => {
     formikValidate.resetForm({
       values: {
         name: '',
         email: '',
-        address: '',
-        mobile: '',
+
         password: '',
         confirmPassword: ''
       }
@@ -127,7 +120,7 @@ export const SignupModal = () => {
   return (
     <div>
       {showForm && (
-        <div className="signup-form2  overflow-y-hidden  ">
+        <div className="signup-form2  overflow-y-hidden  mt-20">
           <div
             className=" hide-scroll-bar  "
             style={{ borderRadius: 'inherit' }}
