@@ -157,12 +157,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.age_limit) {
         errors.age_limit = 'Required age_limit'
-      } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 30) {
+      } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 0) {
         errors.age_limit = 'age_limit must be a number and greater than 30'
       }
       if (!values.rate) {
         errors.rate = 'Required rate'
-      } else if (isNaN(values.rate) || Number(values.rate) <= 30) {
+      } else if (isNaN(values.rate) || Number(values.rate) <=0) {
         errors.rate = 'rate must be a number and greater than 30'
       }
       if (!values.status ) {
@@ -273,9 +273,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   // onChange={(event) => {
                   //   setFieldValue('image', event.currentTarget.files[0]);
                   // }}
+                  // type="file"
+
                   onChange={handleChange}
-                  onBlur={handleBlur}
                   type="text"
+                  onBlur={handleBlur}
                   placeholder="Enter movie image URL"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
