@@ -1,16 +1,25 @@
 /* eslint-disable quotes */
 import { format } from 'timeago.js'
-import { ChevronRight, ChevronDown, ThumbsUp } from 'lucide-react'
+import { ChevronRight, ChevronDown, ThumbsUp, Trash } from 'lucide-react'
 import Action from '../Action/Action'
 import { MyObjectComment } from '@/hooks/useNode'
-import { useState } from 'react'
+import { useContext } from 'react'
+import { useMutationComment } from '@/hooks/useComment'
+import { DELETE_COMMENT, LIKE_COMMENT } from '@/utils/constant'
+import { ContextMain } from '@/context/Context'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger
+} from '@/components/ui/popover'
+import { Button } from '../ui/button'
+import { FaEllipsisVertical } from 'react-icons/fa6'
 interface CommentItemType {
   comment: MyObjectComment
   handleNewComment: () => void
   toggleReply: () => void
   // eslint-disable-next-line no-unused-vars
-  handleEditNode: (folderId: string | undefined, item: string, like: number
-  ) => void
+
   expand: boolean
 }
 
@@ -18,14 +27,21 @@ function CommentItem({
   comment,
   handleNewComment,
   toggleReply,
-  handleEditNode,
   expand
 }: CommentItemType) {
-  const [isLike, setIsLike] = useState<boolean | undefined>(undefined)
-  const likeCount = !isLike ? comment.like + 1 : comment.like - 1
+  const { userDetail } = useContext(ContextMain)
+  const { mutate } = useMutationComment(LIKE_COMMENT)
+  const { mutate: mutateDelete } = useMutationComment(DELETE_COMMENT)
   const handleLike = () => {
-    handleEditNode(comment._id, comment.content, likeCount)
-    setIsLike(!isLike)
+    mutate({
+      _id: comment._id,
+      userId: userDetail.message._id
+    })
+  }
+  const handleDeleteComment = () => {
+    mutateDelete({
+      _id: comment._id
+    })
   }
   return (
     <>
@@ -40,18 +56,30 @@ function CommentItem({
       <div className="flex items-center justify-start space-x-2 w-full">
         <div className="block w-full">
           <div className="flex justify-center items-center space-x-2 w-full">
-            <div className="bg-background-secondary rounded-xl px-5 py-5 pt-4 w-full">
+            <div className="bg-background-secondary relative rounded-xl px-5 py-5 pt-4 w-full">
               <div className="font-medium">
                 <a
                   href="#"
                   className="hover:underline xs:text-4xl font-semibold"
                 >
-                  <small>{comment?.userId?.name||'No name'}</small>
+                  <small>{comment?.userId?.name || 'No name'}</small>
                 </a>
               </div>
               <div className="sm:text-2xl xs:text-3xl font-thin">
                 {comment?.content}
               </div>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button className="hover:bg-background-main absolute top-1 right-1">
+                    <FaEllipsisVertical />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-fit">
+                  <Button onClick={handleDeleteComment} className="bg-transparent flex items-center text-background-main p-0">
+                    <Trash size={16} />
+                  </Button>
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
           <div className="flex justify-start items-center sm:text-3xl  xs:text-4xl w-full my-3">
@@ -59,12 +87,12 @@ function CommentItem({
               <div className="font-semibold text-[#babbc0] gap-4 px-2 flex items-center justify-center space-x-1">
                 <a className="hover:underline">
                   <small
-                    className={`flex ${isLike ? 'text-primary-movieColor' : ''}`}
+                    className={`flex ${comment?.like && comment?.like.includes(userDetail.message._id) ? 'text-primary-movieColor' : ''}`}
                     onClick={handleLike}
                   >
                     <ThumbsUp size={20} className="mb-2" />
                     <span className="flex items-center mt-1 ms-2">
-                      {comment?.like || 0}
+                      {comment?.like?.length || 0}
                     </span>
                   </small>
                 </a>
@@ -72,7 +100,7 @@ function CommentItem({
                 <a className="hover:underline hover:cursor-pointer flex items-center flex-row">
                   <small className="flex items-center">
                     <Action
-                      type={<div className="flex items-center">Reply</div>}
+                      type={<div className="flex items-center">Phản hồi</div>}
                       className="flex items-center"
                       handleClick={handleNewComment}
                     />
@@ -80,7 +108,7 @@ function CommentItem({
                 </a>
                 <small className="self-center">.</small>
                 <a href="#" className="hover:underline">
-                  <small>{format(comment?.createdAt|| new Date())}</small>
+                  <small>{format(comment?.createdAt || new Date())}</small>
                 </a>
               </div>
               {comment?.comments?.length > 0 && (
@@ -94,7 +122,7 @@ function CommentItem({
                     ) : (
                       <ChevronRight size={15} />
                     )}{' '}
-                    {comment.comments.length} Reply
+                    {comment.comments.length} Phản hồi
                   </small>
                 </a>
               )}

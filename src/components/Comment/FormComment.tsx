@@ -21,9 +21,10 @@ const FormComment = ({ movieId, commentCount }: MyComponentProps) => {
       content: input,
       userId: userDetail.message._id,
       movieId: movieId,
-      like: 0,
+      like: [],
       empty: commentCount <= 0 ? true : false
     })
+    setInput('')
   }
   const handleChange = (e: ChangeEvent): void => {
     const target = e.target as HTMLInputElement

@@ -8,9 +8,7 @@ import Comment from '@/components/Comment/Comment'
 import '@/components/Comment/comment.css'
 
 const MovieDetailsPage = () => {
-  // useEffect(() => {
-  //   window.scrollTo({ top: 0, behavior: 'smooth' })
-  // }, [movieDetailsId])
+ 
 
   return (
     <AnimatedPage>
