@@ -1,8 +1,9 @@
-import useColorMode from '../../hooks/useColorMode';
+import { useTheme } from '@/components/theme-provider'
+import useColorMode from '../../hooks/useColorMode'
 
 const DarkModeSwitcher = () => {
-  const [colorMode, setColorMode] = useColorMode();
-
+  const [colorMode, setColorMode] = useColorMode()
+  const { setTheme } = useTheme()
   return (
     <li>
       <label
@@ -14,7 +15,8 @@ const DarkModeSwitcher = () => {
           type="checkbox"
           onChange={() => {
             if (typeof setColorMode === 'function') {
-              setColorMode(colorMode === 'light' ? 'dark' : 'light');
+              setColorMode(colorMode === 'light' ? 'dark' : 'light')
+              setTheme(colorMode === 'light' ? 'dark' : 'light')
             }
           }}
           className="dur absolute top-0 z-50 m-0 h-full w-full cursor-pointer opacity-0"
@@ -59,7 +61,7 @@ const DarkModeSwitcher = () => {
         </span>
       </label>
     </li>
-  );
-};
+  )
+}
 
-export default DarkModeSwitcher;
+export default DarkModeSwitcher

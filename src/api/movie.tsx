@@ -52,12 +52,8 @@ export const getRelateMovie = async (id: string) => {
   return result.data.data
 }
 
-// admin
-// get all m
-export const getAllMovie = async () => {
-  const result = await instance.get('/movie')
-  return result.data.data.docs
-}
+
+
 
 //remove Movie
 export const removeMovie = async (id: string) => {
