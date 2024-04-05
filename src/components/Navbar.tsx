@@ -8,28 +8,24 @@ import { ContextAuth, ContextMain } from '@/context/Context'
 import { LoginModal } from '@/pages/modals/LoginModal'
 import Profile from '@/pages/modals/Profile'
 // import { MdLogout } from 'react-icons/md'
+import { toast } from 'react-toastify'
 import DropDownMenu from './DropDownMenu'
 import { Bell } from 'lucide-react'
 import { Separator } from './ui/separator'
 import TooltipComponent from './TooltipComponent'
 
 // eslint-disable-next-line no-unused-vars
-export const Navbar = ({
-  setMenuState
-}: {
-  setMenuState: (state: (prevState: boolean) => boolean) => boolean
-}) => {
+export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boolean) => boolean) => boolean }) => {
   const [showSignup, setShowSignup] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [showNav, setShowNav] = useState(false)
   // const [showProfile, setShowProfile] = useState(false)
   const [showProfile] = useState(false)
   // const [signUpState, setSignUpState] = useState(false)
-  const { isLogined, logout } = useContext<ContextAuth>(ContextMain)
+  const { userDetail, isLogined, setIsLogined } = useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
-    setShowSignup((prev) => !prev)
+    setShowSignup((pre) => !pre)
   }
-
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
   }
@@ -39,6 +35,11 @@ export const Navbar = ({
 
   const toggleShowFormSignIn = () => {
     setShowSignIn((pre) => !pre)
+  }
+  const logout = () => {
+    localStorage.removeItem('Accesstoken')
+    setIsLogined(false)
+    toast.success('Login successful')
   }
 
   return (
@@ -137,7 +138,7 @@ export const Navbar = ({
           />
           {isLogined ? (
             <>
-              <DropDownMenu logout={logout} />
+              <DropDownMenu userDetail={userDetail} logout={logout} />
               {/* <MdLogout className="text-2xl cursor-pointer " onClick={logout} /> */}
             </>
           ) : (

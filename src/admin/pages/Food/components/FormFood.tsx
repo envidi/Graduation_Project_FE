@@ -9,11 +9,13 @@ import { toast } from 'react-toastify'
 type FormFoodProps = {
     typeForm: 'ADD' | 'EDIT'
 }
-
 const FormFood = ({ typeForm }: FormFoodProps) => {
     const navigate = useNavigate()
-    const { id } = useParams()
+    const handleBack = () => {
+        navigate(-1)
+    }
 
+    const { id } = useParams()
     const { data: foodData, isLoading } = useQuery<Food>({
         queryKey: ['FOOD', id],
         queryFn: async () => {
@@ -77,33 +79,36 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
             return errors
         },
         onSubmit: async (values) => {
+            const formData = new FormData()
+            formData.append('name', values.name)
+            formData.append('price', values.price)
+            if (values.image) {
+                formData.append('image', values.image)
+            }
+
             try {
-                const response = await mutate(values)
+                const response = await mutate(formData) // Sử dụng formData thay vì values JSON
                 console.log('res', response)
             } catch (error) {
-                console.log('error')
+                console.log('error', error)
             }
         }
     })
-    const handleBack = () => {
-        navigate(-1)
-    }
 
     if (isLoading) return <Loader />
-
     return (
-        <div className="flex flex-col gap-9">
+        <div className="flex flex-col gap-9 items-center justify-center p-8">
             <button
                 onClick={handleBack}
-                className="mb-4 flex items-center text-gray-700 dark:text-gray-200 hover:text-gray-500 dark:hover:text-gray-400"
+                className="self-start mb-4 flex items-center text-lg text-gray-700 dark:text-gray-200 hover:text-gray-500 dark:hover:text-gray-400"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
                 Go Back
             </button>
-            <div className="rounded-lg shadow-lg overflow-hidden">
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-8">
+            <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
+                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6" encType='multipart/form-data'>
                     <div className="mb-6">
                         <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
                             Food name
@@ -115,7 +120,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                             onBlur={handleBlur}
                             type="text"
                             placeholder="Enter food name"
-                            className="w-full rounded-md border-gray-300 shadow-sm py-2 px-4 text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
                         />
                         {touched.name && errors.name && (
                             <div className="mt-2 text-sm text-red-600 dark:text-red-400">
@@ -131,12 +136,12 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                         </label>
                         <input
                             name="image"
-                            type="text"
-                            value={values.image}
-                            onChange={handleChange}
+                            type="file"
+                            onChange={(event) => {
+                                setFieldValue('image', event.currentTarget.files[0]);
+                            }}
                             onBlur={handleBlur}
-                            placeholder="Enter image URL from Cloudinary"
-                            className="w-full rounded-md border-gray-300 shadow-sm py-2 px-4 text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" />
+                            className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150" />
                         {touched.image && errors.image && (
                             <div className="mt-2 text-sm text-red-600 dark:text-red-400">
                                 {errors.image}
@@ -159,7 +164,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                             onBlur={handleBlur}
                             type="number"
                             placeholder="Enter food price"
-                            className="w-full rounded-md border-gray-300 shadow-sm py-2 px-4 text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
                         />
                         {touched.price && errors.price && (
                             <div className="mt-2 text-sm text-red-600 dark:text-red-400">
@@ -169,11 +174,12 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                     </div>
 
                     <button
-                        className="w-full flex justify-center items-center rounded-md bg-indigo-600 py-3 px-6 text-lg font-medium text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-200"
+                        className="w-full flex justify-center items-center rounded-md bg-indigo-600 py-3 px-6 text-xl font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300"
                         type="submit"
                     >
-                        {typeForm === 'ADD' ? 'Add' : 'Update'}
+                        {typeForm === 'ADD' ? 'Add Food' : 'Update Food'}
                     </button>
+
                 </form>
             </div>
         </div>

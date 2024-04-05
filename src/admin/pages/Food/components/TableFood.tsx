@@ -7,8 +7,17 @@ import { FaRegTrashCan } from 'react-icons/fa6'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { ConfirmDialog } from '@/admin/components/Confirm'
-import { useState, useRef, SetStateAction } from 'react'
+import { useState, useRef } from 'react'
 import Loader from '@/admin/common/Loader'
+import {
+    Pagination,
+    PaginationContent,
+    PaginationItem,
+    PaginationLink,
+    PaginationNext,
+    PaginationPrevious
+} from '@/components/ui/pagination'
+
 
 const ITEMS_PER_PAGE = 10
 // ...rest of your imports and TableFood component
@@ -25,19 +34,48 @@ const TableFood = () => {
     const startIndex = endIndex - itemsPerPage
     const currentItems = (data && data.slice(startIndex, endIndex)) || []
     // Tính số trang
-    const pageCount = data ? Math.floor(data.length / itemsPerPage) : 0
+    const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0
+
     //phương thức chuyển trang
     const setPage = (page: number) => {
-        setCurrentPage(page)
+        const newPage = Math.max(1, Math.min(page, pageCount))
+        setCurrentPage(newPage)
     }
-    console.log(pageCount)
+
+    const renderPagination = () => {
+        const pages = Array.from({ length: pageCount }, (_, i) => i + 1)
+        return (
+            <Pagination>
+                <PaginationContent>
+                    <PaginationItem>
+                        <PaginationPrevious
+                            onClick={() => setPage(currentPage - 1)}
+                            disabled={currentPage === 1}
+                        />
+                    </PaginationItem>
+                    {pages.map(page => (
+                        <PaginationItem key={page} {...(currentPage === page && { active: "true" })}>
+                            <PaginationLink onClick={() => setPage(page)}>
+                                {page}
+                            </PaginationLink>
+                        </PaginationItem>
+                    ))}
+                    <PaginationItem>
+                        <PaginationNext
+                            onClick={() => setPage(currentPage + 1)}
+                            disabled={currentPage === pageCount}
+                        />
+                    </PaginationItem>
+                </PaginationContent>
+            </Pagination>
+        )
+    }
 
     /*------------------------------------------------- */
     const queryClient = useQueryClient()
     const [isOpenConfirm, setOpenConfirm] = useState(false)
     const idDelete = useRef<string>()
     const navigate = useNavigate()
-
 
 
     const { mutate } = useMutation({
@@ -64,7 +102,6 @@ const TableFood = () => {
     if (isLoading || !data) {
         return <Loader />
     }
-
     if (isError) {
         return <div>Error</div>
     }
@@ -145,21 +182,21 @@ const TableFood = () => {
                     </table>
                 </div>
             </div>
-            <div className='pagination-controls'>
-                {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-                    <button
-                        key={page}
-                        disabled={currentPage === page}
-                        onClick={() => setPage(page)}
-                    // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
-                    >
-                        {page}
-                    </button>
-                ))}
-            </div>
 
+            {/* <div className='pagination-controls'>
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            disabled={currentPage === page}
+            onClick={() => setPage(page)}
+            // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
+          >
+            {page}
+          </button>
+        ))}
+      </div> */}
 
-
+            {renderPagination()}
             <ConfirmDialog
                 open={isOpenConfirm}
                 title='Are you sure you want to delete it?'
