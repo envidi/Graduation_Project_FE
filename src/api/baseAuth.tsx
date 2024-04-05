@@ -4,6 +4,10 @@ export const baseAuth = axios.create({
   baseURL: 'http://localhost:8080/api/user'
 })
 
+export const baseShowtimes = axios.create({
+  baseURL: 'http://localhost:8080/api/showtimes'
+})
+
 export const InsanceToken = axios.create({
   baseURL: 'http://localhost:8080/api/user',
 

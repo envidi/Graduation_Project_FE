@@ -12,7 +12,7 @@ function TimeCountDown() {
   const mutation = useTicket(DELETE_TICKET)
   const [countdown, setCountdown] = useLocalStorage<number | null>('countdown')
   const [count, { startCountdown, stopCountdown }] = useCountdown({
-    countStart: countdown ? countdown : 120,
+    countStart: countdown ? countdown : 300,
     intervalMs: intervalValue
   })
   useEffect(() => {

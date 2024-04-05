@@ -1,28 +1,32 @@
-import { useContext, useState } from 'react'
+import { MouseEventHandler, useContext, useState } from 'react'
 import BarLoader from 'react-spinners/BarLoader'
-import { useMutation } from '@tanstack/react-query'
-import { signin } from '@/api/auth'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
 import ForgotPassword from './FogotPassword'
 import { ContextAuth, ContextMain } from '@/context/Context'
-import { useQueryClient } from '@tanstack/react-query'
-import { USERDETAIL } from '@/utils/constant'
-interface FormValues {
+import { SIGN_IN, SIGN_IN_GOOGLE } from '@/utils/constant'
+import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
+import { JwtPayload, jwtDecode } from 'jwt-decode'
+import useMutationSign, { ErrorMutation, MutationSign } from '@/hooks/useSignIn'
+export interface FormValues {
   email: string
-  password: string
+  name?: string | undefined
+  password: string | undefined
+  avatar?: string | undefined
+}
+interface IJwtPayload extends JwtPayload {
+  email: string
+  name: string
+  picture: string
 }
 
 export const LoginModal = () => {
-  const queryClient = useQueryClient()
   const [loading] = useState(false)
   const [passViewState, setPassViewState] = useState(false)
   const [showForm, setShowForm] = useState(true)
-  // const [accessToken, setAccessToken] = useLocalStorage<any>('Accesstoken')
   const [showForgotPassword, setShowForgotPassword] = useState(false)
-  // const [isLogined, setIsLogined] = useState(false)
   const { setIsLogined } = useContext<ContextAuth>(ContextMain)
-  const togglePassState = (e: any) => {
+  const togglePassState: MouseEventHandler<HTMLButtonElement> = (e) => {
     e.preventDefault()
     setPassViewState((prevState) => !prevState)
   }
@@ -30,21 +34,21 @@ export const LoginModal = () => {
     setShowForgotPassword(true)
   }
 
-  const LoginUser = useMutation({
-    mutationFn: async (user: FormValues) => await signin(user),
-    onSuccess(response) {
-      setIsLogined(true)
-      const { Accesstoken } = response.data
-      localStorage.setItem('Accesstoken', Accesstoken)
-      queryClient.invalidateQueries({
-        queryKey: [USERDETAIL]
-      })
-      toast.success('Đăng nhập thành công')
-    },
-    onError() {
-      toast.error('Đăng nhập thất bại, kiểm tra lại password hoặc email')
-    }
-  })
+  const onSuccessSign = (response: MutationSign) => {
+    setIsLogined(true)
+    const { Accesstoken } = response.data
+    localStorage.setItem('Accesstoken', Accesstoken)
+    toast.success('Đăng nhập thành công')
+  }
+  const onErrorSign = (err: ErrorMutation) => {
+    toast.error(err?.response?.data?.message)
+  }
+  const { mutateAsync: mutateSign } = useMutationSign(
+    SIGN_IN,
+    onSuccessSign,
+    onErrorSign
+  )
+  const { mutate } = useMutationSign(SIGN_IN_GOOGLE, onSuccessSign, onErrorSign)
 
   const formikValidate = useFormik<FormValues>({
     initialValues: {
@@ -71,7 +75,7 @@ export const LoginModal = () => {
     },
     onSubmit: async (values) => {
       try {
-        await LoginUser.mutateAsync(values)
+        await mutateSign(values)
       } catch (error) {
         console.error('Lỗi khi gọi API:', error)
       }
@@ -81,6 +85,19 @@ export const LoginModal = () => {
   const handleLoginState = () => {
     setShowForm((prevShowForm) => !prevShowForm) // Cập nhật trạng thái để ẩn/hiển thị form
   }
+  const handleLoginGoogleSucess = (credentialResponse: CredentialResponse) => {
+    const credential = jwtDecode<IJwtPayload>(credentialResponse.credential!)
+
+    mutate({
+      email: credential.email,
+      name: credential.name,
+      password: credential.sub,
+      avatar: credential.picture
+    })
+  }
+  const handleLoginGoogleError = () => {
+    toast.error('Đăng nhập Google thất bại!')
+  }
 
   return (
     <div>
@@ -89,7 +106,7 @@ export const LoginModal = () => {
           <form onSubmit={formikValidate.handleSubmit}>
             <div className="signup-form-heading">
               <h2 className="signup-form-heading-text">
-                Log Into Your ASHO DEKHI Account
+                Log Into Your DREAM CINEMA Account
               </h2>
               <button
                 type="button"
@@ -155,7 +172,7 @@ export const LoginModal = () => {
                   <button
                     type="button"
                     className="pass-icon-btn"
-                    onClick={(e) => togglePassState(e)}
+                    onClick={togglePassState}
                   >
                     {passViewState ? (
                       <svg
@@ -194,7 +211,12 @@ export const LoginModal = () => {
                   </button>
                 </div>
               </div>
-
+              <div className="flex justify-center w-full">
+                <GoogleLogin
+                  onSuccess={handleLoginGoogleSucess}
+                  onError={handleLoginGoogleError}
+                />
+              </div>
               <div className="flex justify-between">
                 <a
                   type="button"

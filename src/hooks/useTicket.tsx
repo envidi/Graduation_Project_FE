@@ -18,8 +18,8 @@ import { toast } from 'react-toastify'
 
 function useTicket(
   action: string,
-  // eslint-disable-next-line no-unused-vars
-  onSuccess?: (data: { _id: string, paymentToken: string }) => void,
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
+  onSuccess?: (data: any) => void,
   onError?: () => void
 ) {
   const queryClient = useQueryClient()
