@@ -1,3 +1,4 @@
+import { FormValues } from '@/pages/modals/LoginModal'
 import { InsanceToken, InsanceTokenFn, baseAuth } from './baseAuth'
 
 export const signup = (user: any) => {
@@ -6,6 +7,12 @@ export const signup = (user: any) => {
 export const signin = (user: any) => {
   return baseAuth.post('/login', user)
 }
+export const signinWithGoogle = (user: FormValues) => {
+  return baseAuth.post('/googleSign', user)
+}
+export const getUser = () => {
+  return baseAuth.get('/')
+}
 
 export const updateUser = (user: any) => {
   return InsanceToken.patch('/updateUser', user)
@@ -13,6 +20,12 @@ export const updateUser = (user: any) => {
 export const updateClient = (user: any) => {
   if (!user) return {}
   return InsanceToken.patch('/updateClient', user)
+}
+export const updateUserId = (user: any) => {
+  return baseAuth.put(`/${user._id}`, user)
+}
+export const deleteUser = (id: string | number) => {
+  return InsanceToken.delete(`/${id}`)
 }
 
 export const forgotPassword = (email: string) => {
@@ -24,6 +37,9 @@ export const resetPassword = (user: any) => {
 }
 
 export const getDetailUser = () => {
+  return InsanceToken.get('/userDetail')
+}
+export const getDetailUserClient = () => {
   const instanceToken = InsanceTokenFn('Accesstoken', 'user')
   return instanceToken.get('/userDetail')
 }

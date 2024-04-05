@@ -1,8 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getOneMovie } from '@/api/movie'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-// import { LocationSelector } from '../../../components/LocationSelector'
-// import { Calendar } from '@/components/ui/calendar'
+import iconMovieDetail from './Icon'
 import { useContext } from 'react'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import { Button } from '@/components/ui/button'
@@ -140,6 +139,12 @@ export const MovieInfoSection = () => {
   }
 
   const handleAddWatchList = () => {
+    if (!userDetail) {
+      toast.error('Hãy đăng nhập để thêm danh sách xem sau', {
+        position: 'top-right'
+      })
+      return
+    }
     mutateWatchlist({ movieId: movieId, userId: userDetail.message._id })
   }
 
@@ -160,109 +165,22 @@ export const MovieInfoSection = () => {
             <h2 className="movie-info-name text-primary-nameMovie">{name}</h2>
 
             <div className="movie-info-small-container text-primary-locationMovie">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="32"
-                  d="M192 448h128M384 208v32c0 70.4-57.6 128-128 128h0c-70.4 0-128-57.6-128-128v-32M256 368v80"
-                />
-                <path
-                  d="M256 64a63.68 63.68 0 00-64 64v111c0 35.2 29 65 64 65s64-29 64-65V128c0-36-28-64-64-64z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="32"
-                />
-              </svg>
+              {iconMovieDetail.languageIcon()}
               <p>{language}</p>
             </div>
 
             <div className="movie-info-small-container ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
-                viewBox="0 0 512 512"
-              >
-                <path d="M394 480a16 16 0 01-9.39-3L256 383.76 127.39 477a16 16 0 01-24.55-18.08L153 310.35 23 221.2a16 16 0 019-29.2h160.38l48.4-148.95a16 16 0 0130.44 0l48.4 149H480a16 16 0 019.05 29.2L359 310.35l50.13 148.53A16 16 0 01394 480z" />
-              </svg>
+              {iconMovieDetail.rateIcon()}
               <p>{rate}/5</p>
             </div>
 
             <div className="movie-info-small-container ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
-                viewBox="0 0 512 512"
-              >
-                <rect
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinejoin="round"
-                  strokeWidth="32"
-                  x="48"
-                  y="80"
-                  width="416"
-                  height="384"
-                  rx="48"
-                />
-                <circle cx="296" cy="232" r="24" />
-                <circle cx="376" cy="232" r="24" />
-                <circle cx="296" cy="312" r="24" />
-                <circle cx="376" cy="312" r="24" />
-                <circle cx="136" cy="312" r="24" />
-                <circle cx="216" cy="312" r="24" />
-                <circle cx="136" cy="392" r="24" />
-                <circle cx="216" cy="392" r="24" />
-                <circle cx="296" cy="392" r="24" />
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinejoin="round"
-                  strokeWidth="32"
-                  strokeLinecap="round"
-                  d="M128 48v32M384 48v32"
-                />
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinejoin="round"
-                  strokeWidth="32"
-                  d="M464 160H48"
-                />
-              </svg>
+              {iconMovieDetail.dateIcon()}
               <p>{getDay(fromDate)}</p>
             </div>
 
             <div className="movie-info-small-container ">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="movie-info-icon text-primary-movieColor fill-primary-movieColor"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  d="M256 64C150 64 64 150 64 256s86 192 192 192 192-86 192-192S362 64 256 64z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeMiterlimit="10"
-                  strokeWidth="32"
-                />
-                <path
-                  fill="none"
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="32"
-                  d="M256 128v144h96"
-                />
-              </svg>
+              {iconMovieDetail.durationIcon()}
               <p>{duration}</p>
             </div>
 
@@ -277,14 +195,14 @@ export const MovieInfoSection = () => {
 
             <div className="movie-info-director-container text-primary-infoMovie">
               <p className="movie-info-title text-primary-movieColor">
-                Directed by:{' '}
+                Đạo diễn:{' '}
               </p>
               <p>{author}</p>
             </div>
 
             <div className="movie-info-cast-container text-primary-infoMovie">
               <p className="movie-info-title text-primary-movieColor">
-                Top Cast:{' '}
+                Diễn viên:{' '}
               </p>
               <p>{actor}</p>
             </div>
@@ -328,7 +246,7 @@ export const MovieInfoSection = () => {
         </div>
 
         <div className="movie-info-description-container">
-          <h3 className="movie-info-description-heading">Synopsis</h3>
+          <h3 className="movie-info-description-heading">Nội dung</h3>
           <p className="movie-info-description">{desc}</p>
         </div>
 
@@ -351,7 +269,7 @@ export const MovieInfoSection = () => {
                   </h2>
 
                   <div className="h-32 text-3xl flex items-center justify-center w-full">
-                    No showtime in this day
+                    Không có lịch chiếu ngày này
                   </div>
                 </div>
               </div>

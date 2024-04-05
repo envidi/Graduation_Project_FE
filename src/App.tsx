@@ -31,8 +31,8 @@ import CategoryPage from './admin/pages/Category'
 import Profile from './admin/pages/Profile'
 // import ShowtimesPage from './pages/Showtimes/ShowtimesPage'
 import NotFound from './pages/NotFound/NotFound'
-import CategoryAdd from './admin/pages/Category/Add'
-import CategoryEdit from './admin/pages/Category/Edit'
+// import CategoryAdd from './admin/pages/Category/Add'
+// import CategoryEdit from './admin/pages/Category/Edit'
 // import Payment from './pages/Payment/Payment'
 import ResultPage from './pages/ResultPage/ResultPage'
 import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
@@ -41,6 +41,12 @@ import ProtectedRoutePage from './pages/Routes/ProtectedRoute'
 import SettingsAccountPage from './pages/Profile/account/page'
 // import SettingsAppearancePage from './pages/Profile/Appearence/page'
 import MobileNav from './components/MobileNav'
+import CinemaPage from './admin/pages/Cinema'
+import CinemaAdd from './admin/pages/Cinema/Add'
+import CinemaEdit from './admin/pages/Cinema/Edit'
+import MovieEdit from './admin/pages/Movie/Edit'
+import MovieAdd from './admin/pages/Movie/Add'
+import MoviePageadmin from './admin/pages/Movie'
 import FoodAdminPage from './admin/pages/Food'
 import FoodAdd from './admin/pages/Food/Add'
 import FoodEdit from './admin/pages/Food/Edit'
@@ -65,6 +71,12 @@ const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
 import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
 import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
+import PendingResult from './pages/ResultPage/PendingResult'
+import ProtectedResultPage from './pages/Routes/ProtectedResultPage'
+import Users from './admin/pages/Users'
+import Showtimes from './admin/pages/Showtimes/Showtimes'
+import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
+import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -107,11 +119,9 @@ function App() {
               <Route
                 path="/movie/:slug"
                 element={
-                  <ProtectedAuthorized>
-                    <Suspense fallback={<PageLoader />}>
-                      <MovieDetailsPage />
-                    </Suspense>
-                  </ProtectedAuthorized>
+                  <Suspense fallback={<PageLoader />}>
+                    <MovieDetailsPage />
+                  </Suspense>
                 }
               />
               {/* <Route path="/purchase" element={<PurchasePage />} /> */}
@@ -187,23 +197,29 @@ function App() {
               <Route
                 path="/movies"
                 element={
-                  <ProtectedAuthorized>
-                    <Suspense fallback={<PageLoader />}>
-                      <MoviePage />
-                    </Suspense>
-                  </ProtectedAuthorized>
+                  <Suspense fallback={<PageLoader />}>
+                    <MoviePage />
+                  </Suspense>
                 }
               />
               <Route
                 path="result"
                 element={
-                  
-                    <ProtectedConfirm>
-                      <Suspense fallback={<PageLoader />}>
-                        <ResultPage />
-                      </Suspense>
-                    </ProtectedConfirm>
-                  
+                  <ProtectedResultPage>
+                    <Suspense fallback={<PageLoader />}>
+                      <ResultPage />
+                    </Suspense>
+                  </ProtectedResultPage>
+                }
+              />
+              <Route
+                path="pending"
+                element={
+                  <ProtectedConfirm>
+                    <Suspense fallback={<PageLoader />}>
+                      <PendingResult />
+                    </Suspense>
+                  </ProtectedConfirm>
                 }
               />
               <Route
@@ -269,8 +285,26 @@ function App() {
                 <Route path="add" element={<SeatAdd />} />
                 <Route path="edit/:id" element={<SeatEdit />} />
               </Route>
+              <Route path="cinema">
+                <Route index element={<CinemaPage />} />
+                <Route path="add" element={<CinemaAdd />} />
+                <Route path="edit/:id" element={<CinemaEdit />} />
+              </Route>
+              <Route path="movie">
+                <Route index element={<MoviePageadmin />} />
+                <Route path="add" element={<MovieAdd />} />
+                <Route path="edit/:id" element={<MovieEdit />} />
+              </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
+              <Route path="users" element={<Users />} />
+
+              <Route path="showtimes">
+                <Route index element={<Showtimes />} />
+                <Route path="create" element={<CreateShowtimes />} />
+                <Route path="update/:id" element={<UpdateShowtimes />} />
+              </Route>
+
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />
               <Route path="tables" element={<Tables />} />

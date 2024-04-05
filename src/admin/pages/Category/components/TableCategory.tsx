@@ -21,7 +21,7 @@ const TableCategory = () => {
     queryKey: ['CATEGORY'],
     queryFn: getAllCategory
   })
-
+console.log('data category:',data)
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: removeCategory,

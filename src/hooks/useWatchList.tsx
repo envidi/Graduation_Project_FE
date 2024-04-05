@@ -3,8 +3,8 @@ import { WATCHLIST } from '@/utils/constant'
 import { useQuery } from '@tanstack/react-query'
 function useWatchList(userDetail: { message: { _id: string } }) {
   return useQuery({
-    queryKey: [WATCHLIST, userDetail.message._id],
-    queryFn: () => getWatchListByUser(userDetail.message._id)
+    queryKey: [WATCHLIST, userDetail?.message?._id],
+    queryFn: () => getWatchListByUser(userDetail?.message?._id)
   })
 }
 

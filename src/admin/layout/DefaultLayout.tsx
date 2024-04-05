@@ -1,12 +1,21 @@
-import React, { useState, ReactNode } from 'react';
-import Header from '../components/Header/index';
-import Sidebar from '../components/Sidebar/index';
+import React, { useState, ReactNode } from 'react'
+import Header from '../components/Header/index'
+import Sidebar from '../components/Sidebar/index'
+// import './DefaultLayout.css'
+import { useLocation } from 'react-router-dom'
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { pathname } = useLocation()
+
+  // kiểm tra nếu đang ở trang admin thì reset html fontsize về 100%
+  if (pathname.startsWith('/admin')) {
+    document.documentElement.style.fontSize = '100%'
+  }
+
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   return (
-    <div className="dark:bg-boxdark-2 dark:text-bodydark">
+    <div className="bg-white dark:bg-boxdark-2 dark:text-bodydark ">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
       <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Sidebar Start ===== --> */}
@@ -31,7 +40,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
       </div>
       {/* <!-- ===== Page Wrapper End ===== --> */}
     </div>
-  );
-};
+  )
+}
 
-export default DefaultLayout;
+export default DefaultLayout

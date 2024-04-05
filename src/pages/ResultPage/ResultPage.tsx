@@ -1,11 +1,3 @@
-import { TicketType } from '@/store/ticket'
-import { filterData, mapData } from '@/utils/methodArray'
-import { useLocalStorage } from '@uidotdev/usehooks'
-import React, { useLayoutEffect, useState } from 'react'
-import { toast } from 'react-toastify'
-import { useLocation, useNavigate } from 'react-router-dom'
-import { COMPLETE_TICKET } from '@/utils/constant'
-import useTicket from '@/hooks/useTicket'
 import { Link } from 'react-router-dom'
 import { AnimatedPage } from '@/components/AnimatedPage'
 import {
@@ -16,87 +8,19 @@ import {
   Popcorn
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useBeforeUnload } from 'react-router-dom'
-// import successfulImage from './Images/customers/successfull-payment.png'
-function useQuery() {
-  const { search } = useLocation()
+import { useEffect, useState } from 'react'
 
-  return React.useMemo(() => new URLSearchParams(search), [search])
-}
 function ResultPage() {
-  const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
-  const [, setCountdown] = useLocalStorage<number | null>('countdown')
-  const navigate = useNavigate()
-  const query = useQuery()
-
-  const typeBank = query.has('partnerCode') && query.get('partnerCode')
-  const typePayment = 'ATM'
-  const amount = query.has('amount') && query.get('amount')
-  const [toastShown, setToastShown] = useState(false)
-
-  const onSuccess = () => {
-    if (!toastShown) {
-      toast.success('Post ticket successfully !', {
-        position: 'top-right'
-      })
-      setToastShown(true)
-      // setTicket({})
-      // setCountdown(null)
-      // localStorage.removeItem('paymentToken')
-    }
-  }
-  const onError = () => {
-    setCountdown(null)
-    setTicket({})
-    localStorage.removeItem('paymentToken')
-    navigate('/')
-  }
-  const { mutate: mutateTicket } = useTicket(
-    COMPLETE_TICKET,
-    onSuccess,
-    onError
-  )
-  useLayoutEffect(() => {
-    if (!ticket || Object.keys(ticket).length == 0) return navigate('/')
-    const foodObject = filterData(
-      ticket.foods,
-      (food) => food.quantity > 0
-    ).map((food) => {
-      return {
-        foodId: food._id,
-        quantityFood: food.quantity,
-        name: food.name,
-        price: food.price
+  const [isNavi, setIsNavi] = useState(false)
+  useEffect(() => {
+    return () => {
+      setIsNavi(true)
+      // localStorage.removeItem('resultToken')
+      if (isNavi) {
+        localStorage.removeItem('resultToken')
       }
-    })
-
-    mutateTicket({
-      typeBank: typeBank,
-      typePayment,
-      amount,
-      userId: ticket.userId,
-      ticket_id: ticket.ticket_id,
-      priceId: {
-        _id: ticket?.price_id,
-        price: ticket.price_movie
-      },
-      seatId: mapData(ticket.seat),
-      foods: foodObject,
-      showtimeId: ticket.id_showtime
-    })
-  }, [])
-  const handleNavigateBill = () => {
-    setTicket({})
-    setCountdown(null)
-    localStorage.removeItem('paymentToken')
-    navigate('/profile/bill')
-  }
-  const handleNavigateHome = () => {
-    setTicket({})
-    setCountdown(null)
-    localStorage.removeItem('paymentToken')
-    navigate('/profile/bill')
-  }
+    }
+  }, [isNavi])
 
   return (
     <AnimatedPage>
@@ -108,7 +32,7 @@ function ResultPage() {
               <div className="flex flex-col lg:basis-7/12 xs:basis-full">
                 <h3 className="text-5xl">Thanh toán thành công </h3>
                 <h6 className="text-2xl  mt-4 mb-10">
-                  Cảm ơn bạn đã chọn DreamCinema . Chúc bạn xem phim vui vẻ
+                  Cảm ơn bạn đã chọn DreamCinema. Thông tin vé đã được gửi cho email của bạn. Chúc bạn xem phim vui vẻ
                 </h6>
                 <div className="stepper-wrapper  xs:ms-[-9vw] sm:ms-[-10vw] md:ms-[-11vw] lg:ms-[-6vw] ">
                   <div className="stepper-item completed  ">
@@ -145,14 +69,11 @@ function ResultPage() {
                   </div>
                 </div>
                 <div className="flex mt-4 gap-7">
-                  <Button
-                    onClick={handleNavigateBill}
-                    className="bg-[#4bb543] text-white text-3xl px-8 py-4 rounded-2xl"
-                  >
-                    Go to bill
+                  <Button className="bg-[#4bb543] text-white text-3xl px-8 py-4 rounded-2xl">
+                    <Link to={'/profile/bill'}>Sang trang lịch sử mua</Link>
                   </Button>
                   <Button className="border-[#4bb543] text-[#4bb543] border text-3xl px-8 py-4 rounded-2xl">
-                    <Link to={'/'}>Back to home</Link>
+                    <Link to={'/'}>Quay về trang chủ</Link>
                   </Button>
                 </div>
               </div>

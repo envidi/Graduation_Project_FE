@@ -20,8 +20,6 @@ export interface PaymentItemType {
 
 function PaymentItem({
   method
-  // setCardSelected,
-  // cardSelected
 }: PaymentItemType) {
   const dispatch = useDispatch()
   const { paymentMethod: cardSelected } = useSelector(

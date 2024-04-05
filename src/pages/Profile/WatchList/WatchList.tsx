@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { deleteWatchList } from '@/api/watchList'
 import { toast } from 'react-toastify'
 import { WATCHLIST } from '@/utils/constant'
+import { Link } from 'react-router-dom'
 
 interface WatchListType {
   _id: string
@@ -17,6 +18,7 @@ interface WatchListType {
     image: string
     categoryId: { name: string }[]
     desc: string
+    slug: string
   }
 }
 
@@ -45,6 +47,7 @@ function WatchList() {
     display: 'block',
     margin: '9.6rem auto'
   }
+  console.log(dataWatchList)
   if (isLoading) {
     return <HashLoader cssOverride={override} size={60} color="#eb3656" />
   }
@@ -91,7 +94,9 @@ function WatchList() {
                   <div className="relative group overflow-hidden">
                     <div className="absolute top-0 z-30 left-0 w-full h-full flex items-center justify-center">
                       <Button className="bg-primary-movieColor rounded-full px-7 py-3 text-2xl group-hover:translate-y-0 duration-300 ease-out transition-all -translate-y-96 opacity-0 group-hover:opacity-100">
-                        Get ticket
+                        <Link to={'/movie/' + watchList?.movieId?.slug}>
+                          Đặt vé
+                        </Link>
                       </Button>
                     </div>
                     <img
@@ -122,7 +127,9 @@ function WatchList() {
                   <div className="relative group overflow-hidden">
                     <div className="absolute top-0 z-30 left-0 w-full h-full flex items-center justify-center">
                       <Button className="bg-primary-movieColor rounded-full px-7 py-6  text-2xl group-hover:translate-y-0 duration-300 ease-out transition-all -translate-y-96 opacity-0 group-hover:opacity-100 font-semibold">
-                        Get ticket
+                        <Link to={'/movie/' + watchList?.movieId?.slug}>
+                          Đặt vé
+                        </Link>
                       </Button>
                       <Button
                         onClick={() => mutate(watchList._id)}
@@ -185,7 +192,9 @@ function WatchList() {
                       variant={'outline'}
                       className="border-2 rounded-xl text-2xl mt-6 py-3 text-primary-locationMovie font-bold"
                     >
-                      Get ticket
+                      <Link to={'/movie/' + watchList?.movieId?.slug}>
+                        Đặt vé
+                      </Link>
                     </Button>
                   </div>
                 </div>
@@ -228,7 +237,9 @@ function WatchList() {
                       variant={'outline'}
                       className="border-2 rounded-xl lg:text-xl sm:text-2xl xs:text-xl mt-6 py-3 text-primary-locationMovie font-bold"
                     >
-                      Get ticket
+                      <Link to={'/movie/' + watchList?.movieId?.slug}>
+                        Đặt vé
+                      </Link>
                     </Button>
                   </div>
                 </div>
