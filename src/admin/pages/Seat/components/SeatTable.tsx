@@ -1,5 +1,5 @@
 import { Seat } from '@/admin/types/seat'
-import { getAllSeat, removeSeat } from '@/api/seat'
+import { getAllSeatAdmin, removeSeat } from '@/api/seat'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FaEdit } from 'react-icons/fa'
 import { FaPlusCircle } from 'react-icons/fa'
@@ -24,7 +24,7 @@ const ITEMS_PER_PAGE = 10
 const TableSeat = () => {
     const { data, isLoading, isError } = useQuery<Seat[]>({
         queryKey: ['SEAT'],
-        queryFn: getAllSeat
+        queryFn: getAllSeatAdmin
     })
     /*------------------------------------------------- */
     const [currentPage, setCurrentPage] = useState(1)
@@ -54,7 +54,7 @@ const TableSeat = () => {
                         />
                     </PaginationItem>
                     {pages.map(page => (
-                        <PaginationItem key={page} active={currentPage === page}>
+                        <PaginationItem key={page} {...(currentPage === page && { active: "true" })}>
                             <PaginationLink onClick={() => setPage(page)}>
                                 {page}
                             </PaginationLink>
@@ -135,9 +135,7 @@ const TableSeat = () => {
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-primary-white">
                                     Row
                                 </th>
-                                <th className="py-4 px-4 font-medium text-primary-white">
-                                    Columns
-                                </th>
+
                                 <th className="py-4 px-4 font-medium text-primary-white">
                                     Action
                                 </th>
@@ -159,9 +157,6 @@ const TableSeat = () => {
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <p className="text-primary-white">{seat.row}</p>
-                                    </td>
-                                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-primary-white">{seat.columns}</p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
@@ -188,19 +183,6 @@ const TableSeat = () => {
                     </table>
                 </div>
             </div>
-
-            {/* <div className='pagination-controls'>
-        {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            disabled={currentPage === page}
-            onClick={() => setPage(page)}
-            // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
-          >
-            {page}
-          </button>
-        ))}
-      </div> */}
 
             {renderPagination()}
             <ConfirmDialog

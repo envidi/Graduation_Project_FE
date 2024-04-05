@@ -14,6 +14,12 @@ export const getAllSeat = async (id: { _hallId: string; _showId: string }) => {
 }
 
 //admin
+export const getAllSeatAdmin = async (id: { _hallId: string; _showId: string }) => {
+  const result = await instance.get(
+    `/seat/all?_hallId=${id._hallId}&_showId=${id._showId}`
+  )
+  return result.data.datas.docs
+}
 export const addSeat = async (seat: Seat) => {
   const result = await instance.post('/seat', seat)
   return result.data

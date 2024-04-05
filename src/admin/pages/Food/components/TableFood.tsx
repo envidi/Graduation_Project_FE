@@ -54,7 +54,7 @@ const TableFood = () => {
                         />
                     </PaginationItem>
                     {pages.map(page => (
-                        <PaginationItem key={page} active={currentPage === page}>
+                        <PaginationItem key={page} {...(currentPage === page && { active: "true" })}>
                             <PaginationLink onClick={() => setPage(page)}>
                                 {page}
                             </PaginationLink>
