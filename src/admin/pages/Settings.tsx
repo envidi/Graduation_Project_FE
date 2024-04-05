@@ -1,6 +1,6 @@
 import { getDetailUser, updateClient } from '@/api/auth'
 import { USERDETAIL } from '@/utils/constant'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useEffect } from 'react'
 import { toast } from 'react-toastify'
@@ -15,6 +15,8 @@ export interface UserUpdateType {
 }
 
 const Settings = () => {
+  const queryClient = useQueryClient()
+
   const { data: userDetail, isLoading } = useQuery({
     queryKey: [USERDETAIL],
     queryFn: async () => {
@@ -66,14 +68,16 @@ const Settings = () => {
       return errors
     },
     onSubmit: async (values) => {
-      const data = new FormData()
-      data.set('name', values.name)
-      data.set('email', values.email)
-      data.set('mobile', values.mobile)
-      data.set('address', values.address)
+      const data = {
+        name: values.name,
+        email: values.email,
+        mobile: values.mobile,
+        address: values.address
+      }
 
       try {
-        const response = await userUpdate.mutate({ ...data })
+        const response = await userUpdate.mutate(data)
+
         console.log('res', response)
       } catch (error) {
         console.log('error', error)
@@ -97,7 +101,10 @@ const Settings = () => {
   const userUpdate = useMutation({
     mutationFn: async (user: UserUpdateType) => await updateClient(user),
     onSuccess() {
-      toast.success('Update Successfully <3 ')
+      toast.success('Update Successfully ')
+      queryClient.invalidateQueries({
+        queryKey: [USERDETAIL]
+      })
     },
     onError() {
       toast.error('Update faile, try again !!!!!!!')
