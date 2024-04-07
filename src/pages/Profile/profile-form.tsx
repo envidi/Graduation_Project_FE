@@ -23,32 +23,39 @@ import { toast } from 'react-toastify'
 import { ContextAuth, ContextMain } from '@/context/Context'
 import { useContext } from 'react'
 import { useMutation } from '@tanstack/react-query'
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
 
 export interface UserUpdateType {
   name: string
   email: string
   address: string
   mobile: string | number
+  age: number
+  sex: string
 }
 
 const profileFormSchema = Joi.object({
-  name: Joi.string().min(2).max(30).label('Username').messages({
-    'string.empty': 'Required username',
-    'string.min': '{{#label}} must be at least 2 characters',
-    'string.max': '{{#label}} can only be up to 30 characters.'
+  name: Joi.string().min(2).max(30).label('Tên').messages({
+    'string.empty': 'Bắt buộc ghi tên',
+    'string.min': '{{#label}} tối thiểu 2 kí tự.',
+    'string.max': '{{#label}} tối đa 30 kí tự.'
   }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .label('Email')
     .messages({
-      'string.empty': 'Required email',
-      'string.email': '{{#label}} must be a valid email'
+      'string.empty': 'Bắt buộc ghi email',
+      'string.email': '{{#label}} phải là email hợp lệ'
     }),
-  address: Joi.string().label('Address').required().min(4).messages({
-    'string.empty': 'Required address',
-    'string.min': '{{#label}} can only be up to 4 characters.'
+  address: Joi.string().label('Địa chỉ').required().min(4).messages({
+    'string.empty': 'Bắt buộc ghi địa chỉ',
+    'string.min': '{{#label}} tối thiểu 4 kí tự.'
   }),
-  mobile: Joi.number().label('Mobile')
+  mobile: Joi.number().label('Điện thoại'),
+  age: Joi.number().label('Độ tuổi').required(),
+  sex: Joi.string().label('Giới tính').required().messages({
+    'string.empty': 'Bắt buộc chọn giới tính'
+  })
   // bio: Joi.string().label('Bio').max(160).messages({
   //   'string.empty': 'Required bio'
   // })
@@ -69,7 +76,9 @@ export function ProfileForm() {
     name: userDetail.message.name,
     email: userDetail.message.email,
     address: userDetail.message?.address || '',
-    mobile: userDetail.message?.mobile || 0
+    mobile: userDetail.message?.mobile || 0,
+    age: userDetail.message?.age || 0,
+    sex: userDetail.message?.sex || ''
   }
   const form = useForm({
     resolver: joiResolver(profileFormSchema),
@@ -82,6 +91,8 @@ export function ProfileForm() {
     email: string
     address: string
     mobile: string | number
+    age: number
+    sex: string
   }> = (data) => {
     userUpdate.mutate({ ...data })
   }
@@ -165,6 +176,71 @@ export function ProfileForm() {
               </FormControl>
               <FormDescription className="text-xl">
                 Cái này là số điện thoại hiển thị công khai của bạn
+              </FormDescription>
+              <FormMessage className="text-xl" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="age"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-2xl">Tuổi</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="Enter your age..."
+                  {...field}
+                  className="py-7 text-2xl border-border-borderProfileContain"
+                />
+              </FormControl>
+              <FormDescription className="text-xl">
+                Cái này là số tuổi hiển thị công khai của bạn
+              </FormDescription>
+              <FormMessage className="text-xl" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="sex"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-2xl">Giới tính</FormLabel>
+              <FormControl>
+                <RadioGroup
+                  defaultValue={field.value}
+                  onValueChange={field.onChange}
+                >
+                  <div className="flex items-center space-x-2 mt-2">
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem
+                          value="Nam"
+                          className="bg-white h-7 w-7"
+                          id="nam"
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal text-2xl">
+                        Nam
+                      </FormLabel>
+                    </FormItem>
+                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormControl>
+                        <RadioGroupItem
+                          className="bg-white h-7 w-7"
+                          value="Nữ"
+                          id="nu"
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal text-2xl">Nữ</FormLabel>
+                    </FormItem>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormDescription className="text-xl">
+                Cái này là giới tính hiển thị công khai của bạn
               </FormDescription>
               <FormMessage className="text-xl" />
             </FormItem>

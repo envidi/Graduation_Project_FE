@@ -36,7 +36,9 @@ export interface ContextAuth {
       __v: number
       _id: string
       address: string
-      mobile: number
+      mobile: number,
+      age : number,
+      sex : string
     }
   }
   isLogined: boolean
@@ -62,7 +64,9 @@ export const ContextMain = createContext<ContextAuth>({
       __v: 0,
       _id: '',
       address: '',
-      mobile: 0
+      mobile: 0,
+      age : 15,
+      sex : ''
     }
   },
   isLogined: false,

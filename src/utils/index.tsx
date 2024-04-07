@@ -9,7 +9,7 @@ export function countComments(comment: MyObjectComment | undefined): number {
       count += countComments(subComment) // Đệ quy cho từng phần tử con
     }
   }
-  return count 
+  return count
 }
 // Lấy giờ không lấy ngày VD 19:30
 export const getHourAndMinute = (date: string) => {
@@ -99,6 +99,32 @@ export function chuyenDoiNgay(dateString: Date | string) {
   const tenThangHienThi = tenThang[thangTrongNam - 1]
 
   return `${thu}, ${ngayTrongThang} ${tenThangHienThi}`
+}
+// 01-02-2024
+export function chuyenDoiThu(dateString: string) {
+  const parts = dateString.split('.')
+  const ngay = parseInt(parts[0], 10) // Phải chuyển về kiểu số nguyên
+  const thang = parseInt(parts[1], 10) - 1 // Phải chuyển về kiểu số nguyên và trừ đi 1 vì tháng bắt đầu từ 0
+  const nam = parseInt(parts[2], 10)
+
+  // Tạo đối tượng Date từ ngày, tháng, năm
+  const date = new Date(nam, thang, ngay)
+
+  // Mảng chứa tên của các thứ trong tuần
+  const thuArray = [
+    'Chủ Nhật',
+    'Thứ Hai',
+    'Thứ Ba',
+    'Thứ Tư',
+    'Thứ Năm',
+    'Thứ Sáu',
+    'Thứ Bảy'
+  ]
+
+  // Lấy thứ của ngày
+  const thu = thuArray[date.getDay()]
+
+  return thu
 }
 export function formatDateToISOString(dateString: string) {
   // Phân tách ngày và giờ từ chuỗi đầu vào

@@ -51,9 +51,10 @@ export const getRelateMovie = async (id: string) => {
   const result = await instance.get('/movie/movieByCate/' + id)
   return result.data.data
 }
-
-
-
+export const getCountMovie = async () => {
+  const result = await instance.get('/movie/count')
+  return result.data.data
+}
 
 //remove Movie
 export const removeMovie = async (id: string) => {

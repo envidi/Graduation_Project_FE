@@ -169,11 +169,14 @@ function TicketSummary() {
     })
   }
   const handlePurchaseFood = () => {
-    setTicket({
-      ...ticket,
-      total,
-      foods: [...foods]
-    })
+    if (foods) {
+      setTicket({
+        ...ticket,
+        total,
+        foods: [...foods],
+        totalFood: totalFoodPrice
+      })
+    }
 
     navigate('/purchase/payment')
   }

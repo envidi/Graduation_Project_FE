@@ -1,12 +1,14 @@
-import { ApexOptions } from 'apexcharts';
-import React, { useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import useStatistic from '@/hooks/useStatistic'
+import { chuyenDoiThu } from '@/utils'
+import { ApexOptions } from 'apexcharts'
+import React from 'react'
+import ReactApexChart from 'react-apexcharts'
 
 const options: ApexOptions = {
   legend: {
     show: false,
     position: 'top',
-    horizontalAlign: 'left',
+    horizontalAlign: 'left'
   },
   colors: ['#3C50E0', '#80CAEE'],
   chart: {
@@ -19,34 +21,34 @@ const options: ApexOptions = {
       top: 10,
       blur: 4,
       left: 0,
-      opacity: 0.1,
+      opacity: 0.1
     },
 
     toolbar: {
-      show: false,
-    },
+      show: false
+    }
   },
   responsive: [
     {
       breakpoint: 1024,
       options: {
         chart: {
-          height: 300,
-        },
-      },
+          height: 300
+        }
+      }
     },
     {
       breakpoint: 1366,
       options: {
         chart: {
-          height: 350,
-        },
-      },
-    },
+          height: 350
+        }
+      }
+    }
   ],
   stroke: {
     width: [2, 2],
-    curve: 'straight',
+    curve: 'straight'
   },
   // labels: {
   //   show: false,
@@ -55,17 +57,17 @@ const options: ApexOptions = {
   grid: {
     xaxis: {
       lines: {
-        show: true,
-      },
+        show: true
+      }
     },
     yaxis: {
       lines: {
-        show: true,
-      },
-    },
+        show: true
+      }
+    }
   },
   dataLabels: {
-    enabled: false,
+    enabled: false
   },
   markers: {
     size: 4,
@@ -78,8 +80,8 @@ const options: ApexOptions = {
     discrete: [],
     hover: {
       size: undefined,
-      sizeOffset: 5,
-    },
+      sizeOffset: 5
+    }
   },
   xaxis: {
     type: 'category',
@@ -95,54 +97,62 @@ const options: ApexOptions = {
       'May',
       'Jun',
       'Jul',
-      'Aug',
+      'Aug'
     ],
     axisBorder: {
-      show: false,
+      show: false
     },
     axisTicks: {
-      show: false,
-    },
+      show: false
+    }
   },
   yaxis: {
     title: {
       style: {
-        fontSize: '0px',
-      },
+        fontSize: '0px'
+      }
     },
     min: 0,
-    max: 100,
-  },
-};
-
-interface ChartOneState {
-  series: {
-    name: string;
-    data: number[];
-  }[];
+    max: 1000
+  }
 }
 
+// interface ChartOneState {
+//   series: {
+//     name: string
+//     data: number[]
+//   }[]
+// }
+
 const ChartOne: React.FC = () => {
-  const [state, setState] = useState<ChartOneState>({
-    series: [
-      {
-        name: 'Product One',
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-      },
+  const { data: data, isLoading } = useStatistic('CHART_REVENUE_PROFIT')
+  // const [state, setState] = useState<ChartOneState>({
+  //   series: [
+  //     {
+  //       name: 'Doanh thu',
+  //       data: [230, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45]
+  //     },
 
-      {
-        name: 'Product Two',
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
-      },
-    ],
-  });
-
-  const handleReset = () => {
-    setState((prevState) => ({
-      ...prevState,
-    }));
-  };
-  handleReset;
+  //     {
+  //       name: 'Lợi nhuận',
+  //       data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51]
+  //     }
+  //   ]
+  // })
+  if (isLoading) {
+    return
+  }
+  const options2 = {
+    ...options,
+    yaxis: {
+      ...options.yaxis,
+      max: Math.max(...data.series[0].data)
+    },
+    xaxis: {
+      ...options.xaxis,
+      categories: data.date.map((date: string) => chuyenDoiThu(date))
+    }
+  }
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
@@ -153,8 +163,11 @@ const ChartOne: React.FC = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-primary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-primary">Total Revenue</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="font-semibold text-primary">Tổng doanh thu</p>
+              <p className="text-sm font-medium">
+                {data && data.date && data.date[0]} -{' '}
+                {data && data.date && data.date[data.date.length - 1]}
+              </p>
             </div>
           </div>
           <div className="flex min-w-47.5">
@@ -162,8 +175,11 @@ const ChartOne: React.FC = () => {
               <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-secondary"></span>
             </span>
             <div className="w-full">
-              <p className="font-semibold text-secondary">Total Sales</p>
-              <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
+              <p className="font-semibold text-secondary">Tổng lợi nhuận</p>
+              <p className="text-sm font-medium">
+                {data && data.date && data.date[0]} -{' '}
+                {data && data.date && data.date[data.date.length - 1]}
+              </p>
             </div>
           </div>
         </div>
@@ -185,15 +201,15 @@ const ChartOne: React.FC = () => {
       <div>
         <div id="chartOne" className="-ml-5">
           <ReactApexChart
-            options={options}
-            series={state.series}
+            options={options2}
+            series={data && data.series}
             type="area"
             height={350}
           />
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChartOne;
+export default ChartOne
