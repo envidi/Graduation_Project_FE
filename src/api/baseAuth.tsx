@@ -1,21 +1,21 @@
 import axios from 'axios'
 const token = localStorage.getItem('Accesstoken')
 export const baseAuth = axios.create({
-  baseURL: 'http://localhost:8080/api/user'
+  baseURL: `${import.meta.env.VITE_API_URL}/api/user`
 })
 
 export const baseShowtimes = axios.create({
-  baseURL: 'http://localhost:8080/api/showtimes'
+  baseURL: `${import.meta.env.VITE_API_URL}/api/showtimes`
 })
 
 export const InsanceToken = axios.create({
-  baseURL: 'http://localhost:8080/api/user',
+  baseURL: `${import.meta.env.VITE_API_URL}/api/user`,
 
   headers: { Authorization: `Bearer ${token}` }
 })
 export const InsanceTokenFn = (token:string, endPoint:string) => {
   const accessToken = localStorage.getItem(token)
-  const API_URL = 'http://localhost:8080/api'
+  const API_URL = `${import.meta.env.VITE_API_URL}/api`
   const InsanceTokenAccess = axios.create({
     baseURL: `${API_URL}/${endPoint}`,
 
