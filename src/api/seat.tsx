@@ -12,9 +12,19 @@ export const getAllSeat = async (id: { _hallId: string; _showId: string }) => {
   )
   return result.data.datas.docs
 }
+export const getlSeatByShow = async (id: { _hallId: string; _showId: string }) => {
+  const result = await instance.get(
+    `/seat/show?_hallId=${id._hallId}&_showId=${id._showId}`
+  )
+  return result.data.datas.docs
+}
 
 //admin
-export const getAllSeatAdmin = async (params: { _hallId?: selectedHall; _showId?: selectedShow; destroy?: string }) => {
+export const getAllSeatAdmin = async (params: {
+  _hallId?: selectedHall
+  _showId?: selectedShow
+  destroy?: string
+}) => {
   // Đảm bảo thêm tham số `destroy=false` vào params trước khi tạo query string
   const paramsWithDestroy = { ...params, destroy: 'false' }
   const queryString = new URLSearchParams(paramsWithDestroy as any).toString()
@@ -29,7 +39,6 @@ export const getAllSeatAdmin = async (params: { _hallId?: selectedHall; _showId?
 //   return result.data.datas.docs; // Đảm bảo rằng đường dẫn và cấu trúc dữ liệu phản hồi phù hợp với API của bạn
 // };
 
-
 export const getHalls = async () => {
   const result = await instance.get('/screen')
   return result.data.datas.docs
@@ -42,11 +51,9 @@ export const getShows = async () => {
 
 export const getShowsByHall = async (hallId: string) => {
   // Đây là cách chính xác để gửi ScreeningRoomId như một query parameter
-  const result = await instance.get(`/showtimes?screenRoomId=${hallId}`);
-  return result.data.response.docs;
+  const result = await instance.get(`/showtimes?screenRoomId=${hallId}`)
+  return result.data.response.docs
 }
-
-
 
 export const addSeat = async (seat: Seat) => {
   const result = await instance.post('/seat', seat)
