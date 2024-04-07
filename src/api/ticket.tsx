@@ -14,8 +14,8 @@ interface SeatTicketType {
   column: number
 }
 interface PriceTicketType {
-  _id: string|undefined
-  price: number|undefined
+  _id: string | undefined
+  price: number | undefined
 }
 export interface TicketCreateType {
   ticket_id?: string | undefined
@@ -27,6 +27,7 @@ export interface TicketCreateType {
   typeBank?: string | false | null
   typePayment?: string | false | null
   amount?: string | false | null
+  totalFood?: number | false | null
 }
 export const checkoutTicket = async (data: TicketCreateType) => {
   const result = await instance.post('/ticket', data)

@@ -1,6 +1,6 @@
-import { ApexOptions } from 'apexcharts';
-import React, { useState } from 'react';
-import ReactApexChart from 'react-apexcharts';
+import { ApexOptions } from 'apexcharts'
+import React, { useState } from 'react'
+import ReactApexChart from 'react-apexcharts'
 
 const options: ApexOptions = {
   colors: ['#3C50E0', '#80CAEE'],
@@ -10,11 +10,11 @@ const options: ApexOptions = {
     height: 335,
     stacked: true,
     toolbar: {
-      show: false,
+      show: false
     },
     zoom: {
-      enabled: false,
-    },
+      enabled: false
+    }
   },
 
   responsive: [
@@ -24,11 +24,11 @@ const options: ApexOptions = {
         plotOptions: {
           bar: {
             borderRadius: 0,
-            columnWidth: '25%',
-          },
-        },
-      },
-    },
+            columnWidth: '25%'
+          }
+        }
+      }
+    }
   ],
   plotOptions: {
     bar: {
@@ -36,15 +36,15 @@ const options: ApexOptions = {
       borderRadius: 0,
       columnWidth: '25%',
       borderRadiusApplication: 'end',
-      borderRadiusWhenStacked: 'last',
-    },
+      borderRadiusWhenStacked: 'last'
+    }
   },
   dataLabels: {
-    enabled: false,
+    enabled: false
   },
 
   xaxis: {
-    categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+    categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S']
   },
   legend: {
     position: 'top',
@@ -54,19 +54,19 @@ const options: ApexOptions = {
     fontSize: '14px',
 
     markers: {
-      radius: 99,
-    },
+      radius: 99
+    }
   },
   fill: {
-    opacity: 1,
-  },
-};
+    opacity: 1
+  }
+}
 
 interface ChartTwoState {
   series: {
-    name: string;
-    data: number[];
-  }[];
+    name: string
+    data: number[]
+  }[]
 }
 
 const ChartTwo: React.FC = () => {
@@ -74,21 +74,21 @@ const ChartTwo: React.FC = () => {
     series: [
       {
         name: 'Sales',
-        data: [44, 55, 41, 67, 22, 43, 65],
+        data: [1005, 1305, 1265, 1405, 1105, 1000, 1705]
       },
       {
         name: 'Revenue',
-        data: [13, 23, 20, 8, 13, 27, 15],
-      },
-    ],
-  });
-  
+        data: [2065, 1365, 1265, 1465, 1105, 1000, 1765]
+      }
+    ]
+  })
+
   const handleReset = () => {
     setState((prevState) => ({
-      ...prevState,
-    }));
-  };
-  handleReset;  
+      ...prevState
+    }))
+  }
+  handleReset
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
@@ -105,8 +105,12 @@ const ChartTwo: React.FC = () => {
               id="#"
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
-              <option value="" className='dark:bg-boxdark'>This Week</option>
-              <option value="" className='dark:bg-boxdark'>Last Week</option>
+              <option value="" className="dark:bg-boxdark">
+                Tuần này
+              </option>
+              <option value="" className="dark:bg-boxdark">
+                Tuần trước
+              </option>
             </select>
             <span className="absolute top-1/2 right-3 z-10 -translate-y-1/2">
               <svg
@@ -143,7 +147,7 @@ const ChartTwo: React.FC = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ChartTwo;
+export default ChartTwo

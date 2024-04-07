@@ -7,6 +7,9 @@ export const signup = (user: any) => {
 export const signin = (user: any) => {
   return baseAuth.post('/login', user)
 }
+export const getCountUser = () => {
+  return baseAuth.get('/count')
+}
 export const signinWithGoogle = (user: FormValues) => {
   return baseAuth.post('/googleSign', user)
 }

@@ -51,11 +51,11 @@ function Comment() {
         Bình luận <span className="text-primary-white">{commentCount}</span>
       </h2>
       <div className="bg-background-main flex  flex-col">
-        <div className="w-full md:w-100 h-auto shadow py-2 flex flex-col space-y-2">
+        <div className="w-full  h-auto shadow py-2 flex flex-col space-y-2">
           {userDetail ? (
             <div
               className={
-                'w-full md:w-100 h-auto shadow py-2 flex flex-col space-y-2'
+                'w-full  h-auto shadow py-2 flex flex-col space-y-2'
               }
             >
               <FormComment movieId={_id} commentCount={commentCount} />

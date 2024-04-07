@@ -81,7 +81,8 @@ function PendingResult() {
       },
       seatId: mapData(ticket.seat),
       foods: foodObject,
-      showtimeId: ticket.id_showtime
+      showtimeId: ticket.id_showtime,
+      totalFood : ticket.totalFood
     })
   }, [])
 
