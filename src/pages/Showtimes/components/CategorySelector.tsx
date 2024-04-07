@@ -1,57 +1,63 @@
-import { getAllCategory } from '@/api/category'
-import { useQuery } from '@tanstack/react-query'
 import { useSearchParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
-
+import { useAllCategory } from '../hooks'
+import { useShowTimeContext } from '../contexts'
 export const CategorySelector = () => {
-  const override = {
-    display: 'block',
-    margin: '4.8rem auto'
-  }
+  const { handleFilterMovieByCategory } = useShowTimeContext()
+
   const [searchParams, setSearchParams] = useSearchParams()
   const userCategory = searchParams.get('category') || 'All'
 
-  const { data: categoryData, isLoading } = useQuery({
-    queryKey: ['CATEGORY'],
-    queryFn: () => getAllCategory()
-  })
+  const { data: categoryData, isLoading } = useAllCategory()
 
-  const checkedColor = (val) => {
+  const handleSelectedCategoryId = (cate: { _id:string, name: string, products: [] }) => {
+    setSearchParams({ category: cate.name })
+    handleFilterMovieByCategory(cate._id)
+  }
+
+  if (isLoading) {
+    return (
+      <HashLoader
+        cssOverride={{ display: 'block', margin: '4.8rem auto' }}
+        color="#eb3656"
+      />
+    )
+  }
+
+  const checkedColor = (val: string) => {
     return {
       backgroundColor: val === userCategory ? '#ef5e78' : '',
       border: val === userCategory ? '2px solid transparent' : ''
     }
   }
 
-  if (isLoading) {
-    return <HashLoader cssOverride={override} color="#eb3656" />
-  }
-
   const renderCategory = () => {
-    return categoryData?.map((cate, idx) => {
-      return (
-        <div
-          className="genre-input-container"
-          key={idx}
-          style={checkedColor(cate.name)}
-        >
-          <input
-            type="radio"
-            id={idx}
-            name="Select Category"
-            value={cate.name}
-            onChange={() => {
-              setSearchParams({ category: cate.name })
-            }}
-            checked={cate.name === userCategory}
-          />
+    return categoryData?.map(
+      (cate: { _id:string; name: string; products: [] }, idx: number) => {
+        return (
+          <div
+            className="genre-input-container shadow-md"
+            key={idx}
+            style={checkedColor(cate.name)}
+          >
+            <input
+              type="radio"
+              name="Select Category"
+              value={cate.name}
+              onChange={() => handleSelectedCategoryId(cate)}
+              checked={cate.name === userCategory}
+            />
 
-          <label className="form-genre-detail" htmlFor={cate.name}>
-            {cate.name}
-          </label>
-        </div>
-      )
-    })
+            <label
+              className="form-genre-detail text-primary-nameMovie font-semibold dark:font-normal"
+              htmlFor={cate.name}
+            >
+              {cate.name}
+            </label>
+          </div>
+        )
+      }
+    )
   }
 
   return (

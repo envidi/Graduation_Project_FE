@@ -1,26 +1,30 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 
-export const HeroSection = ({ handleLoginState, signedPerson }:any) => {
-  const navigate = useNavigate()
+export const HeroSection = () => {
+  // const navigate = useNavigate()
 
   return (
     <section className="section-hero">
-      <div className="container hero">
+      <div className="container hero bg-white shadow-md dark:shadow-none dark:bg-background-main p-10 rounded-xl py-16">
         <div className="hero-text">
-          <h1 className="heading-primary">
+          <h1 className="heading-primary text-primary-locationMovie">
             Unlock the Gateway to Enchanting Movie Magic
           </h1>
 
-          <p className="hero-description">
+          <p className="hero-description text-primary-textUnderTitle">
             Immerse yourself in the captivating allure of cinema as you step
             into our exquisite destination, designed to elevate your
             movie-watching experience to new heights.
           </p>
           <div className="hero-btn-container">
-            <button className="btn btn-full">Buy a ticket</button>
-            <HashLink to="#nowShowing" className="btn btn-outline">
+            <button className="btn btn-full bg-primary-movieColor text-primary-locationMovie">
+              Buy a ticket
+            </button>
+            <HashLink
+              to="#nowShowing"
+              className="btn btn-outline bg-background-main border-2 border-border-calendarBorder shadow"
+            >
               Learn more &darr;
             </HashLink>
           </div>
@@ -59,8 +63,9 @@ export const HeroSection = ({ handleLoginState, signedPerson }:any) => {
               />
             </div>
 
-            <p className="hero-review-text">
-              <span>100,000+</span> tickets sold last year
+            <p className="hero-review-text text-primary-locationMovie">
+              <span className="text-primary-movieColor">100,000+</span> tickets
+              sold last year
             </p>
           </div>
         </div>

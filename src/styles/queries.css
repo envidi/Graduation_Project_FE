@@ -38,12 +38,12 @@
   }
 
   .purchase-container {
-    grid-template-columns: 1fr;
-    gap: 0;
+    grid-template-columns: 1fr 33.8rem;
+    gap: 4.5rem;
   }
 
   .purchase-section-left {
-    padding-bottom: 0;
+    padding-bottom: 8.5rem;
   }
 
   .ticket-movie-img {
@@ -79,9 +79,11 @@
   .movie-card-line {
     font-size: 1.4rem;
   }
+
   .movie-title {
     font-size: 1.6rem;
   }
+
   .movie-genre {
     font-size: 1.4rem;
   }
@@ -91,12 +93,20 @@
     padding: 1.4rem 3rem;
   }
 
-  .signup-form,
+  <<<<<<<<< Temporary merge branch 1 .signup-form,
   .login-form {
     top: 1.6rem;
   }
 
-  .signup-form {
+  =========.signup-form {
+    top: 1.6rem;
+  }
+
+  .login-form {
+    /* top: 1.6rem; */
+  }
+
+  >>>>>>>>>Temporary merge branch 2 .signup-form {
     padding: 1.4rem 2.4rem;
   }
 
@@ -118,10 +128,59 @@
 /* *************************** */
 
 @media (max-width: 52em) {
-  .logo-container {
+  <<<<<<<<< Temporary merge branch 1 .logo-container {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
+  }
+
+  =========.logo-container {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  >>>>>>>>>Temporary merge branch 2 .nav-items {
+    display: flex;
+    flex-direction: column;
+    background-color: #313441;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100vh;
+    transition: left 0.3s ease;
+    z-index: 999;
+    margin-left: 7%;
+  }
+
+  .nav-items {
+    color: ffff;
+    padding: 20px
+  }
+
+
+  .nav-item :hover {
+    background-color: #eb3656;
+    /* Màu nền khi hover */
+    color: #ffff;
+    /* Màu chữ khi hover */
+  }
+
+  .nav-item {
+    margin-bottom: 10px;
+    width: 100%;
+  }
+
+  .show-nav {
+
+    left: 0;
+
+  }
+
+  .show-nav ul {
+    border-bottom: 2px solid transparent;
   }
 
   .heading-primary {
@@ -232,12 +291,12 @@
   .home-collection-container,
   .details-collection-container {
     overflow-x: auto;
-    /* justify-content: start; */
+    /* justify-content: start;  */
   }
 
-  .home-collection-container {
-    grid-template-columns: repeat(6, 27rem);
-  }
+  /* .home-collection-container {
+  grid-template-columns: repeat(2, 27rem);
+} */
 
   .details-collection-container {
     /* grid-template-columns: repeat(5, 27rem); */
@@ -262,7 +321,7 @@
     display: block;
   }
 
-  nav,
+  /* nav, */
   .btn-signup-arrow,
   .btn-logout,
   .nav-signed-name {
@@ -270,11 +329,73 @@
   }
 }
 
+@media (max-width: 57em) {
+  .purchase-container {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .purchase-section-left {
+    padding-bottom: 0 !important;
+  }
+
+  .purchase-section-right {
+    width: 100%;
+  }
+
+  .ticket-heading {
+    width: 32.5rem;
+  }
+
+}
+
 /* *************************** */
 /* Below 704px(Tablets-Small) */
 /* *************************** */
 
 @media (max-width: 44em) {
+
+  .nav-items {
+    display: flex;
+    flex-direction: column;
+    background-color: #313441;
+    position: fixed;
+    /* Menu được cố định trên cùng của trang */
+    top: 0;
+    /* Hiển thị ở đỉnh của trang */
+    left: -100%;
+    /* Menu ban đầu sẽ ẩn ngoài màn hình */
+    width: 50%;
+    /*Chiều rộng của menu */
+    height: 100vh;
+    /* Chiều cao của menu bằng chiều cao của trình duyệt */
+    /* transition: left 0.3s ease; Hiệu ứng chuyển động */
+    z-index: 999;
+    /* Đảm bảo menu hiển thị trên cùng */
+    margin-left: 7%;
+  }
+
+  .nav-items {
+    color: ffff;
+    padding: 20px
+  }
+
+  .nav-item :hover {
+    background-color: #eb3656;
+    /* Màu nền khi hover */
+    color: #ffff;
+    /* Màu chữ khi hover */
+  }
+
+  .nav-item {
+    margin-bottom: 10px;
+  }
+
+  .show-nav {
+    left: 0;
+    /* display: block Hiển thị menu khi được kích hoạt */
+  }
+
   .hero-img {
     width: 65%;
   }
@@ -386,11 +507,19 @@
     width: 75%;
   }
 
-  .customer-info-heading {
+  <<<<<<<<< Temporary merge branch 1 .customer-info-heading {
     margin: 2.4rem 0;
   }
 
-  .purchase-history-item {
+  =========.showtimes-card {
+    grid-template-columns: 0.45fr 0.55fr;
+  }
+
+  .showtimes-screen-container {
+    /* display: grid; */
+  }
+
+  >>>>>>>>>Temporary merge branch 2 .purchase-history-item {
     grid-template-columns: 0.6fr 0.4fr;
   }
 
@@ -401,8 +530,9 @@
   .showtimes-card {
     grid-template-columns: 0.45fr 0.55fr;
   }
+
   .showtimes-screen-container {
-    display: grid;
+    /* display: grid; */
   }
 
   /* .showtimes-schedule-container-3d, */
@@ -446,6 +576,7 @@
   .btn-outline:visited {
     padding: 1.6rem;
   }
+
   .mobile-nav-menu {
     width: 50%;
   }
@@ -488,6 +619,7 @@
     grid-column: 1/3;
     white-space: nowrap;
   }
+
   .form-item-options {
     flex-wrap: wrap;
   }
@@ -512,6 +644,7 @@
 
   .theatre-screen {
     width: 34rem;
+    height: 15rem;
   }
 
   .seat:nth-child(2) {
@@ -525,6 +658,7 @@
   .screen-1 {
     left: -2.8%;
   }
+
   .screen-2 {
     right: -2.8%;
   }
@@ -604,8 +738,19 @@
     margin-left: 0;
   }
 }
+
 @media ((max-width: 600px) and (min-width: 410px)) {
   .movie-info-screen-container-3d {
     grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 600px) and (max-width: 1280px) {
+  .stepper-item.completed::after {
+    /* position: absolute;
+    content: ''; */
+    /* border-bottom: 10px solid #4bb543; */
+    top: 15px;
+    /* z-index: 3; */
   }
 }

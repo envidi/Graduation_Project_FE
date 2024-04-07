@@ -53,9 +53,9 @@ export const Features = () => {
   })
 
   return (
-    <section className="section-features container">
-      <h4 className="subheading">What you ll get?</h4>
-      <h2 className="section-features-heading heading-secondary">
+    <section className="section-features bg-white py-10 shadow-xl dark:shadow-none dark:bg-background-main rounded-xl container">
+      <h4 className="subheading text-primary-movieColor">What you ll get?</h4>
+      <h2 className="section-features-heading heading-secondary text-primary-locationMovie">
         Unleash the Movie Magic and Discover Our Spectacular Features
       </h2>
 

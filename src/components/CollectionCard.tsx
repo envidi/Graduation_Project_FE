@@ -2,6 +2,17 @@ import { useNavigate } from 'react-router-dom'
 import { MovieType } from '@/Interface/movie'
 import { convertMintuteToHour, getDay } from '@/utils'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
 
 export const CollectionCard = ({
   className,
@@ -11,8 +22,8 @@ export const CollectionCard = ({
   movie: MovieType
 }) => {
   const navigate = useNavigate()
-  const { name, image, rate, categoryId, fromDate, duration } = movie
-
+  const { slug, name, image, rate, categoryId, fromDate, duration, age_limit } =
+    movie
   const categorySection = categoryId?.map((category, index) => {
     return (
       <span className="mr-2" key={index}>
@@ -21,19 +32,18 @@ export const CollectionCard = ({
       </span>
     )
   })
-  // const releaseDate = new Date(release_date).toLocaleDateString('en-GB')
-  // const ourRating = rating
 
   return (
-    <div className={`home-movie-card bg-background-main ${className}`}>
+    <div
+      className={`home-movie-card bg-background-card ${className} shadow-lg dark:shadow-2xl`}
+    >
       <div className="home-movie-img-box">
         <LazyLoadImage
           className="movie-info-img"
           src={image}
           alt={'Movie Photo'}
-          effect="blur"
+          effect="opacity"
         />
-        {/* <img className="home-movie-img" src={image} alt={'photo'} /> */}
       </div>
 
       <div className="movie-card-line line-1">
@@ -125,26 +135,37 @@ export const CollectionCard = ({
         </div>
       </div>
 
-      {/* <button
-        className="book-btn btn"
-        onClick={(e) => {
-          e.stopPropagation();
-          Object.keys(signedPerson).length !== 0 &&
-          signedPerson.person_type === "Customer"
-            ? navigate("/purchase")
-            : handleLoginState();
-        }}
-      >
-        Get ticket
-      </button> */}
-      <button
-        className="book-btn btn"
-        onClick={() => {
-          navigate('/purchase')
-        }}
-      >
-        Get ticket
-      </button>
+      <AlertDialog>
+        <AlertDialogTrigger asChild>
+          <button className="book-btn bg-primary-movieColor hover:bg-primary-movieColorSecond btn">
+            Get ticket
+          </button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-3xl mb-4 mt-2">
+              Xác nhận mua vé?
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-2xl">
+              Phim này chỉ dành cho trẻ em trên {age_limit} tuổi. Vui lòng cân
+              nhắc khi mua vé. BQL Rạp sẽ phải từ chối cho vào nếu sai quy định.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="text-2xl px-9 py-3">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() => {
+                navigate('/movie/' + slug)
+              }}
+              className="bg-primary-movieColor text-2xl px-9 py-3"
+            >
+              Continue
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

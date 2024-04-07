@@ -1,4 +1,3 @@
-
 interface FeatureProps {
   idx: number
   title: string
@@ -6,12 +5,17 @@ interface FeatureProps {
   image_path: string
 }
 
-export const Feature = ({ idx, title, description, image_path }:FeatureProps) => {
+export const Feature = ({
+  idx,
+  title,
+  description,
+  image_path
+}: FeatureProps) => {
   const featureSvgs = {
     'Unparalleled Cinematic Experience': (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="feature-icon"
+        className="feature-icon text-primary-movieColor fill-primary-movieColor"
         viewBox="0 0 512 512"
       >
         <path
@@ -34,7 +38,7 @@ export const Feature = ({ idx, title, description, image_path }:FeatureProps) =>
     'Delight in Dolby Atmos': (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="feature-icon"
+        className="feature-icon text-primary-movieColor fill-primary-movieColor"
         viewBox="0 0 512 512"
       >
         <path
@@ -58,7 +62,7 @@ export const Feature = ({ idx, title, description, image_path }:FeatureProps) =>
     'Tantalizing Treats': (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="feature-icon"
+        className="feature-icon text-primary-movieColor fill-primary-movieColor"
         viewBox="0 0 512 512"
       >
         <path
@@ -106,7 +110,7 @@ export const Feature = ({ idx, title, description, image_path }:FeatureProps) =>
     'Luxurious Escape': (
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        className="feature-icon"
+        className="feature-icon text-primary-movieColor fill-primary-movieColor"
         viewBox="0 0 512 512"
       >
         <rect
@@ -147,19 +151,29 @@ export const Feature = ({ idx, title, description, image_path }:FeatureProps) =>
   }
 
   return (
-    <div className="feature-content">
+    <div className="feature-content bg-background-innerSection shadow-md dark:bg-background-main dark:shadow-none p-5 dark:p-0 rounded-xl">
       {idx % 2 === 0 && (
-        <img className="feature-img" src={image_path} alt={title} />
+        <img
+          className="feature-img shadow-md dark:shadow-none"
+          src={image_path}
+          alt={title}
+        />
       )}
 
       <div className="feature-text">
         {featureSvgs[`${title}`]}
-        <p className="feature-text-heading">{title}</p>
-        <p className="feature-text-details">{description}</p>
+        <p className="feature-text-heading text-primary-white">{title}</p>
+        <p className="feature-text-details text-primary-infoMovie">
+          {description}
+        </p>
       </div>
 
       {idx % 2 !== 0 && (
-        <img className="feature-img" src={image_path} alt={title} />
+        <img
+          className="feature-img shadow-md dark:shadow-none"
+          src={image_path}
+          alt={title}
+        />
       )}
     </div>
   )

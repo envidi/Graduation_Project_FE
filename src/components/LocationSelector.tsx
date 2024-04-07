@@ -19,10 +19,10 @@ interface CinemaType {
 export const LocationSelector = ({
   handleCurrentLocation
 }: {
-  handleCurrentLocation: (location:string) => void
+  handleCurrentLocation: (location: string) => void
 }) => {
   const [locationTheater, setLocationTheater] = useState<string>(
-    '65ab4469b0b5038ee5248f2a'
+    '65d30a80a047aeebd3c78c72'
   )
   const { data: dataCinema, isLoading } = useQuery({
     queryKey: ['CINEMA'],
@@ -42,7 +42,7 @@ export const LocationSelector = ({
   return (
     <div className="location-select-container ">
       <Select onValueChange={(value: string) => handleOnSelect(value)}>
-        <SelectTrigger className="w-52 bg-[#313441] outline-none py-8 text-[#e6e6e8] border-none px-5 text-[1.7rem] rounded-xl">
+        <SelectTrigger className="w-52 dark:bg-[#313441] bg-[#ccced8] outline-none py-8 dark:text-[#e6e6e8] text-[black] border-none px-5 text-[1.7rem] rounded-xl">
           <SelectValue placeholder={defaultLocation.CinemaName ?? ''} />
         </SelectTrigger>
         <SelectContent>
