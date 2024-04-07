@@ -21,8 +21,8 @@ export const getlSeatByShow = async (id: { _hallId: string; _showId: string }) =
 
 //admin
 export const getAllSeatAdmin = async (params: {
-  _hallId?: selectedHall
-  _showId?: selectedShow
+  _hallId?: any
+  _showId?: any
   destroy?: string
 }) => {
   // Đảm bảo thêm tham số `destroy=false` vào params trước khi tạo query string
