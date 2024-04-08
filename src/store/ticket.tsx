@@ -34,6 +34,7 @@ export interface TicketType {
   cinemaId ?: string,
   paymentToken ?: string,
   userId ?: string
+  totalFood ?: number
 }
 export interface TicketState {
   ticket: TicketType
@@ -75,7 +76,8 @@ const ticketInitialState: TicketState = {
     ticket_id : '',
     cinemaId : '',
     paymentToken: '',
-    userId : ''
+    userId : '',
+    totalFood : 0
   }
 }
 

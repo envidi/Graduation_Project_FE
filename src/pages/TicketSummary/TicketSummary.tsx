@@ -29,8 +29,7 @@ import { useLocation } from 'react-router-dom'
 import TicketItem from './Ticket/TicketItem'
 import TicketList from './Ticket/TicketList'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { createPayment, createPaymentMomo } from '@/api/payment'
+import { useQueryClient } from '@tanstack/react-query'
 import DialogPayment from '../modals/DialogPayment'
 import {
   filterSeat,
@@ -39,18 +38,15 @@ import {
   mapData
 } from '@/utils/methodArray'
 import useTicket from '@/hooks/useTicket'
-import { CREATE_TICKET, FULL_SCHEDULE } from '@/utils/constant'
+import { CREATE_TICKET, FULL_SCHEDULE, PAYMENT } from '@/utils/constant'
 import { useShowtime } from '@/hooks/useShowtime'
 import TimeCountDown from './TimeCountDown'
 import BarLoader from 'react-spinners/BarLoader'
 import { useContext } from 'react'
 import { ContextMain } from '@/context/Context'
-
-interface MutatePaymentType {
-  amount: number
-  language: string
-  bankCode: string
-}
+import usePaymentMuatation, {
+  MutatePaymentType
+} from '@/hooks/usePaymentMuatation'
 
 function TicketSummary() {
   const { userDetail } = useContext(ContextMain)
@@ -78,24 +74,14 @@ function TicketSummary() {
     CREATE_TICKET,
     onSuccess
   )
-  const { mutate } = useMutation({
-    mutationFn: (data: MutatePaymentType) => {
-      switch (paymentMethod._id) {
-        case 1:
-          return createPayment(data)
-        case 2:
-          return createPaymentMomo(data)
-        default:
-          return createPayment(data)
-      }
-    },
-    onSuccess: (data) => {
-      if (data?.data) {
-        window.location.replace(data?.data)
-      }
-      queryClient.invalidateQueries({ queryKey: ['payment'] })
+  const onSuccessPayment = (data: { data: string }) => {
+    if (data?.data) {
+      window.location.replace(data?.data)
     }
-  })
+    queryClient.invalidateQueries({ queryKey: [PAYMENT] })
+  }
+
+  const { mutate } = usePaymentMuatation(paymentMethod._id, onSuccessPayment)
   const navigate = useNavigate()
   const { pathname } = useLocation()
 
@@ -183,11 +169,14 @@ function TicketSummary() {
     })
   }
   const handlePurchaseFood = () => {
-    setTicket({
-      ...ticket,
-      total,
-      foods: [...foods]
-    })
+    if (foods) {
+      setTicket({
+        ...ticket,
+        total,
+        foods: [...foods],
+        totalFood: totalFoodPrice
+      })
+    }
 
     navigate('/purchase/payment')
   }

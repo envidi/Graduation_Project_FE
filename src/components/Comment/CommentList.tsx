@@ -8,39 +8,25 @@ import CommentItem from './CommentItem'
 interface CommentListType {
   highestCommentId: string
   commentCount: number
-  // eslint-disable-next-line no-unused-vars
-  handleInsertNode: (
-    folderId: string | undefined,
-    item: string,
-    like: number
-  ) => void
-  // eslint-disable-next-line no-unused-vars
-  handleEditNode: (
-    folderId: string | undefined,
-    item: string,
-    like: number
-  ) => void
+
   isLoading: boolean
   comment: {
     id?: number
     _id?: string
     content: string
-    like: number
+    like: string[]
     comments: MyObjectComment[]
   }
-  movieId : string
+  movieId: string
 }
 
 const CommentList = ({
   commentCount,
   isLoading,
   highestCommentId,
-  handleInsertNode,
-  handleEditNode,
   comment,
   movieId
 }: CommentListType) => {
-
   const [showInput, setShowInput] = useState<boolean>(false)
   const [expand, setExpand] = useState<boolean>(false)
   // const [input, setInput] = useState('')
@@ -55,18 +41,7 @@ const CommentList = ({
   const cancleReply = () => {
     setShowInput(false)
   }
-  // const addComment = (like: number) => {
-  //   setExpand(true)
-  //   console.log(commentCount)
-  //   mutate({
-  //     content: input,
-  //     userId: userDetail.message._id,
-  //     movieId: comment._id
-  //   })
-  //   handleInsertNode(comment._id, input, like)
-  //   setShowInput(false)
-  //   setInput('')
-  // }
+
   if (isLoading) {
     return <div>loading</div>
   }
@@ -85,7 +60,6 @@ const CommentList = ({
           <CommentItem
             comment={comment}
             handleNewComment={handleNewComment}
-            handleEditNode={handleEditNode}
             toggleReply={toggleReply}
             expand={expand}
           />
@@ -105,7 +79,6 @@ const CommentList = ({
             cancleReply={cancleReply}
             setExpand={setExpand}
             setShowInput={setShowInput}
-            handleInsertNode={handleInsertNode}
           />
         )}
         {comment?.comments?.map((cmnt: MyObjectComment) => {
@@ -113,8 +86,6 @@ const CommentList = ({
             <CommentList
               commentCount={commentCount}
               isLoading={isLoading}
-              handleEditNode={handleEditNode}
-              handleInsertNode={handleInsertNode}
               highestCommentId={highestCommentId}
               key={cmnt._id}
               comment={cmnt}

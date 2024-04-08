@@ -16,11 +16,7 @@ interface MyComponentProps {
   // eslint-disable-next-line no-unused-vars
   setShowInput: (arg0: boolean) => void
   // eslint-disable-next-line no-unused-vars
-  handleInsertNode: (
-    folderId: string | undefined,
-    item: string,
-    like: number
-  ) => void
+
   cancleReply: () => void
 }
 const FormReply = ({
@@ -45,7 +41,7 @@ const FormReply = ({
       movieId,
       parentId: comment._id,
       content: inputState,
-      like: 0,
+      like: [],
       userId: userDetail.message._id
     })
     setShowInput(false)

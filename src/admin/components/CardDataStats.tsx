@@ -1,12 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode } from 'react'
 
 interface CardDataStatsProps {
-  title: string;
-  total: string;
-  rate: string;
-  levelUp?: boolean;
-  levelDown?: boolean;
-  children: ReactNode;
+  title: string
+  total: string|number
+  rate: string
+  levelUp?: boolean
+  levelDown?: boolean
+  children: ReactNode
 }
 
 const CardDataStats: React.FC<CardDataStatsProps> = ({
@@ -15,7 +15,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   rate,
   levelUp,
   levelDown,
-  children,
+  children
 }) => {
   return (
     <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -28,11 +28,11 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           <h4 className="text-title-md font-bold text-black dark:text-white">
             {total}
           </h4>
-          <span className="text-sm font-medium">{title}</span>
+          <span className="text-sm font-medium w-full">{title}</span>
         </div>
 
         <span
-          className={`flex items-center gap-1 text-sm font-medium ${
+          className={`flex items-center gap-1 text-sm font-medium  ${
             levelUp && 'text-meta-3'
           } ${levelDown && 'text-meta-5'} `}
         >
@@ -71,7 +71,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
         </span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CardDataStats;
+export default CardDataStats

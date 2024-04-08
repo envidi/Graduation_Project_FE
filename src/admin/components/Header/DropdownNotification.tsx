@@ -45,9 +45,8 @@ const DropdownNotification = () => {
         className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
       >
         <span
-          className={`absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1 ${
-            notifying === false ? 'hidden' : 'inline'
-          }`}
+          className={`absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1 ${notifying === false ? 'hidden' : 'inline'
+            }`}
         >
           <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
         </span>
@@ -71,76 +70,74 @@ const DropdownNotification = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute -right-27 mt-2.5 flex h-90 w-75 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:right-0 sm:w-80 ${
-          dropdownOpen === true ? 'block' : 'hidden'
-        }`}
+        className={`absolute -right-27 mt-2.5 flex h-90 w-96 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark sm:right-0 sm:w-80 ${dropdownOpen === true ? 'block' : 'hidden'}`}
+        style={{ overflowY: 'auto', maxHeight: '300px' }} // Thêm style này để thêm cuộn và giới hạn chiều cao
       >
         <div className="px-4.5 py-3">
-          <h5 className="text-sm font-medium text-bodydark2">Notification</h5>
+          <h5 className="text-2xl  ml-2.5   text-gray-400">Notification</h5>
         </div>
 
-        <ul className="flex h-auto flex-col overflow-y-auto">
-          <li>
+        <ul className="flex  flex-col">
+          <li className='ml-2.5 ' >
             <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black justify-normal m-0"
               to="#"
             >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
+              <p className="text-base text-gray-500" >
+                <span className="text-black " >
                   Edit your information in a swipe
-                </span>{' '}
+                </span>
                 Sint occaecat cupidatat non proident, sunt in culpa qui officia
                 deserunt mollit anim.
               </p>
 
-              <p className="text-xs">12 May, 2025</p>
+              <p className="text-xs text-gray-500">12 May, 2025</p>
             </Link>
           </li>
-          <li>
+          <li className='ml-2.5' >
             <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black"
               to="#"
             >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
+              <p className="text-base text-gray-500" >
+                <span className="text-black">
                   It is a long established fact
                 </span>{' '}
                 that a reader will be distracted by the readable.
               </p>
-
-              <p className="text-xs">24 Feb, 2025</p>
+              <p className="text-xs text-gray-500">24 Feb, 2025</p>
             </Link>
           </li>
-          <li>
+          <li className='ml-2.5' >
             <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black"
               to="#"
             >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
+              <p className="text-base text-gray-500" >
+                <span className="text-black">
                   There are many variations
                 </span>{' '}
                 of passages of Lorem Ipsum available, but the majority have
                 suffered
               </p>
 
-              <p className="text-xs">04 Jan, 2025</p>
+              <p className="text-xs text-gray-500">04 Jan, 2025</p>
             </Link>
           </li>
-          <li>
+          <li className='ml-2.5' >
             <Link
-              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4"
+              className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black"
               to="#"
             >
-              <p className="text-sm">
-                <span className="text-black dark:text-white">
+              <p className="text-base text-gray-500" >
+                <span className="text-black">
                   There are many variations
                 </span>{' '}
                 of passages of Lorem Ipsum available, but the majority have
                 suffered
               </p>
 
-              <p className="text-xs">01 Dec, 2024</p>
+              <p className="text-xs text-gray-500">01 Dec, 2024</p>
             </Link>
           </li>
         </ul>
