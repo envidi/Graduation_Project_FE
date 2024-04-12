@@ -6,10 +6,11 @@
 // import BrandFive from '../../images/brand/brand-05.svg'
 import { addCommasToNumber } from '@/utils'
 import useStatistic from '@/hooks/useStatistic'
-interface TopMovieType{
-  movieDetails : {name : string, image : string}[]
-  profit : number
-  totalSold : number
+interface TopMovieType {
+  movieDetails: { name: string; image: string }[]
+  profit: number
+  totalSold: number,
+  count: number
 }
 // const brandData: BRAND[] = [
 //   {
@@ -73,9 +74,9 @@ const TableOne = () => {
               Phim
             </h5>
           </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Visitors
+          <div className="p-2.5 text-center xl:p-5 sm:block hidden">
+            <h5 className=" text-sm font-medium  uppercase xsm:text-base">
+              Vé đã bán
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
@@ -83,7 +84,7 @@ const TableOne = () => {
               Doanh thu
             </h5>
           </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
+          <div className=" p-2.5 text-center  xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Lợi nhuận
             </h5>
@@ -95,7 +96,7 @@ const TableOne = () => {
           </div> */}
         </div>
 
-        {dataTopMovie.map((top_movie:TopMovieType, key:number) => (
+        {dataTopMovie.map((top_movie: TopMovieType, key: number) => (
           <div
             className={`grid grid-cols-3 sm:grid-cols-4 ${
               key === dataTopMovie.length - 1
@@ -117,15 +118,19 @@ const TableOne = () => {
               </p>
             </div>
 
-            <div className="flex items-center justify-center p-2.5 xl:p-5 ">
-              <p className="text-black dark:text-white">{addCommasToNumber(top_movie?.profit)}K</p>
+            <div className="hidden sm:flex items-center justify-center p-2.5 xl:p-5 ">
+              <p className="text-black dark:text-white">
+                {addCommasToNumber(top_movie?.count)}
+              </p>
             </div>
 
             <div className="flex items-center justify-center p-2.5 xl:p-5">
-              <p className="text-meta-3">{addCommasToNumber(top_movie?.totalSold)}</p>
+              <p className="text-meta-3">
+                {addCommasToNumber(top_movie?.totalSold)}
+              </p>
             </div>
 
-            <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+            <div className="flex items-center justify-center p-2.5  xl:p-5">
               <p className="text-black dark:text-white">
                 {addCommasToNumber(top_movie?.profit)}
               </p>

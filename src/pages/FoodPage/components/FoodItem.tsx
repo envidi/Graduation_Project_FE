@@ -5,11 +5,11 @@ import { Minus } from 'lucide-react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
 import { useDispatch } from 'react-redux'
 import { foodsAction } from '@/store/food'
-import { ChangeEventHandler, useState } from 'react'
+import { ChangeEventHandler } from 'react'
+import { addCommasToNumber } from '@/utils'
 
 function FoodItem({ food }: FoodType) {
   const dispatch = useDispatch()
-  const [inputValue, setInputValue] = useState(food.quantity)
 
   const handleChangeQuantity: ChangeEventHandler<HTMLInputElement> = (
     e
@@ -20,7 +20,6 @@ function FoodItem({ food }: FoodType) {
       ...food,
       quantity: parseInt(target.value)
     }
-    setInputValue(parseInt(target.value))
     dispatch(foodsAction.onChangeFood(newFood))
   }
 
@@ -32,9 +31,7 @@ function FoodItem({ food }: FoodType) {
       _id: food._id,
       quantity: 1
     }
-    setInputValue((prev) => {
-      return prev + 1
-    })
+
     dispatch(foodsAction.incrementFood(newFood))
   }
   const handleDecrementFood = (food: FoodItemState) => {
@@ -45,10 +42,7 @@ function FoodItem({ food }: FoodType) {
       _id: food._id,
       quantity: 1
     }
-    setInputValue((prev) => {
-      if (prev == 0) return 0
-      return prev - 1
-    })
+    
     dispatch(foodsAction.decrementFood(newFood))
   }
 
@@ -76,7 +70,7 @@ function FoodItem({ food }: FoodType) {
         <div className="flex justify-between items-center mt-3">
           <div className="text-primary-locationMovie text-2xl">{food.name}</div>
           <div className="bg-primary-movieColor text-primary-nameMovie px-5 py-2 rounded-lg text-2xl">
-            ${food.price}
+            {addCommasToNumber(food.price)}
           </div>
         </div>
         <div className="flex justify-end mt-5">
