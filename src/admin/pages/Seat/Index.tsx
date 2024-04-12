@@ -4,7 +4,7 @@ import SeatTable from './components/SeatTable'
 const SeatAdminPage = () => {
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Food" />
+            <Breadcrumb pageName="Seat" />
 
             <div className="flex flex-col gap-10">
                 <SeatTable />

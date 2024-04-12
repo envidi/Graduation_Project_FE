@@ -1,6 +1,6 @@
 import Loader from '@/admin/common/Loader'
 import { FormSeatAdd } from '@/admin/types/seat'
-import { addSeat, editSeat, getOneSeat } from '@/api/seat'
+import { addSeat, editSeat, getOneSeatAdmin } from '@/api/seat'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -21,15 +21,21 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
     const { data: seatData, isLoading } = useQuery({
         queryKey: ['SEAT', id],
         queryFn: async () => {
-            const data = await getOneSeat(id as string)
-            setFieldValue('typeSeat', data?.typeSeat)
-            setFieldValue('price', data?.price)
-            setFieldValue('row', data?.row)
-            setFieldValue('column', data?.column)
-            setFieldValue('status', data?.status)
-            setFieldValue('ScreeningRoomId', data?.ScreeningRoomId)
-            setFieldValue('ShowScheduleId', data?.ShowScheduleId)
-            return data
+            const data = await getOneSeatAdmin(id as string)
+            if (data) {
+                setFieldValue('typeSeat', data?.typeSeat)
+                setFieldValue('price', data?.price)
+                setFieldValue('row', data?.row)
+                setFieldValue('column', data?.column)
+                setFieldValue('status', data?.status)
+                setFieldValue('ScreeningRoomId', data?.ScreeningRoomId)
+                setFieldValue('ShowScheduleId', data?.ShowScheduleId)
+                return data
+            } else {
+                console.log('No data returned for seat', id)
+                return {}
+            }
+
         },
         enabled: typeForm === 'EDIT' && !!id
     })
@@ -219,15 +225,6 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
                             <div>{errors.ScreeningRoomId}</div>
                         )}
                     </div> */}
-
-
-
-
-
-
-
-
-
 
                     <button
                         className="w-full flex justify-center items-center rounded-md bg-indigo-600 py-3 px-6 text-xl font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300"
