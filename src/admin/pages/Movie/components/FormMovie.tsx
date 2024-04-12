@@ -6,14 +6,18 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import Flatpickr from 'react-flatpickr';
+import Flatpickr from 'react-flatpickr'
 
-
+import { useState } from 'react'
 type FormMovieProps = {
   typeForm: 'ADD' | 'EDIT'
 }
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
+  // const [date, setDate] = useState(new Date())
+  // const [fromDate, setfromDate] = useState(new Date())
+  // const [toDate, settoDate] = useState(new Date())
+
   const navigate = useNavigate()
 
   //get id from url
@@ -64,11 +68,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   // mutation react-query
   const { mutate } = useMutation({
     mutationFn: async (bodyData: FormMovieAdd) => {
-      if (typeForm === 'EDIT'){
-            // await editMoviePice(bodyData.prices[0].price as number, pricesId[0] as string)
-            // await editMoviePice(bodyData.prices[1].price, pricesId[1] as string)
+      if (typeForm === 'EDIT') {
+        // await editMoviePice(bodyData.prices[0].price as number, pricesId[0] as string)
+        // await editMoviePice(bodyData.prices[1].price, pricesId[1] as string)
         return editMovie(bodyData, id as string)
-      } 
+      }
 
       return addMovie(bodyData)
     },
@@ -164,13 +168,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.fromDate) {
         errors.fromDate = 'Required fromDate'
-      } else if (values.fromDate.length < 3) {
-        errors.fromDate = 'fromDate must be at least 3 characters long'
       }
       if (!values.toDate) {
         errors.toDate = 'Required toDate'
-      } else if (values.toDate.length < 3) {
-        errors.toDate = 'toDate must be at least 3 characters long'
       }
       if (!values.country) {
         errors.country = 'Required country'
@@ -242,7 +242,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         console.log('vlaue: ', values.prices)
         const bodyData = {
           name: values?.name,
-          image: values?.image, 
+          image: values?.image,
           author: values?.author,
           actor: values?.actor,
           language: values?.language,
@@ -275,16 +275,16 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     return <div>Error</div>
   }
   return (
-    <div className="flex flex-col gap-9">
+    <div className="">
       {/* <!-- Contact Form --> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <form onSubmit={handleSubmit} encType='multipart/form-data' className="bg-white dark:bg-gray-800 p-6">
           <div className="p-6.5 flex" >
-            <div className="mb-4.5  flex-col gap-6 xl:flex-row">
+            <div className="mb-4.5 gap-6 w-1/2">
               {/* name */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  movie name
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Tên Phim
                 </label>
                 <input
                   name="name"
@@ -292,20 +292,21 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter movie name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder=" Nhập tên phim ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
 
+
                 {touched.name && errors.name && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.name}
                   </div>
                 )}
               </div>
               {/* image */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  movie image
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Ảnh Phim
                 </label>
                 <input
                   name="image"
@@ -319,11 +320,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter movie image URL"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập URL ảnh ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.image && errors.image && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.image}
                   </div>
                 )}
@@ -354,9 +356,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 )}
               </div> */}
               {/* actor */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  actor
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Diễn viên
                 </label>
                 <input
                   name="actor"
@@ -364,19 +366,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập tên diễn viên ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.actor && errors.actor && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.actor}
                   </div>
                 )}
               </div>
               {/* author */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  author
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Tác giả
                 </label>
                 <input
                   name="author"
@@ -384,19 +387,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập tên tác giả ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.author && errors.author && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.author}
                   </div>
                 )}
               </div>
               {/* language */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  language
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Ngôn Ngữ
                 </label>
                 <input
                   name="language"
@@ -404,19 +408,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập ngôn ngữ ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.language && errors.language && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.language}
                   </div>
                 )}
               </div>
               {/* trailer */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  trailer
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Trailer
                 </label>
                 <input
                   name="trailer"
@@ -424,19 +429,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập trailer ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.trailer && errors.trailer && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.trailer}
                   </div>
                 )}
               </div>
               {/* age_limit */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  age_limit
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Giới hạn tuổi
                 </label>
                 <input
                   name="age_limit"
@@ -444,19 +450,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter age_limit"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập giới hạn tuổi ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.age_limit && errors.age_limit && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.age_limit}
                   </div>
                 )}
               </div>
               {/* fromDate */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  fromDate
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Từ ngày
                 </label>
                 <input
                   name="fromDate"
@@ -464,19 +471,43 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter fromDate"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập từ ngày ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.fromDate && errors.fromDate && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.fromDate}
                   </div>
                 )}
               </div>
+              {/* <div className="relative z-0 mb-6 w-full group">
+                <Flatpickr
+                  name="date"
+                  // value={date}
+                  options={{
+                    dateFormat: 'd-m-Y H:i',
+                    enableTime: true,
+                    onChange: (selectedDates) => {
+                      const formattedDate = format(selectedDates[0], 'dd-MM-yyyy HH:mm'); // Định dạng lại ngày giờ
+                      setDate(selectedDates[0]);
+                      formikValidate.setFieldValue('date', formattedDate);
+                    }
+                  }}
+                  placeholder="Nhập  ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white pt-3"
+                />
+                <label
+                  htmlFor="date"
+                  className="mb-2 block text-sm font-medium text-black dark:text-white"
+                >
+                  Ngày Khởi Chiếu
+                </label>
+              </div> */}
               {/* todate */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  toDate
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Đến ngày
                 </label>
                 <input
                   name="toDate"
@@ -484,39 +515,49 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter toDate"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập đến ngày ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.toDate && errors.toDate && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.toDate}
                   </div>
                 )}
               </div>
               {/* desc */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  desc
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Mô tả
                 </label>
-                <input
+                {/* <input
                   name="desc"
                   value={values.desc}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter desc"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
+                  placeholder="Nhập Mô tả ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
+                /> */}
+                <textarea
+                  className='w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white'
+                  name="desc"
+                  placeholder="Nhập Mô tả ..."
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+
+                >
+                </textarea>
                 {touched.desc && errors.desc && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.desc}
                   </div>
                 )}
               </div>
               {/* country */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  country
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Quốc gia
                 </label>
                 <input
                   name="country"
@@ -524,19 +565,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter country"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập quốc gia ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.country && errors.country && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.country}
                   </div>
                 )}
               </div>
               {/* duration */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  duration
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Thời lượng phim
                 </label>
                 <input
                   name="duration"
@@ -544,18 +586,19 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="number"
-                  placeholder="Enter duration"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Thời lượng phim  ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.duration && errors.duration && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.duration}
                   </div>
                 )}
               </div>
               {/* status */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
+              {/* <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   status
                 </label>
                 <input
@@ -565,18 +608,18 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onBlur={handleBlur}
                   type="text"
                   placeholder="Enter status"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
                 {touched.status && errors.status && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.status}
                   </div>
                 )}
               </div> */}
               {/* age_limit */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  age_limit
+              {/* <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Giới hạn tuối
                 </label>
                 <input
                   name="age_limit"
@@ -584,19 +627,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="number"
-                  placeholder="Enter age_limit"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập  ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.age_limit && errors.age_limit && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.age_limit}
                   </div>
                 )}
-              </div>
+              </div> */}
               {/* rate */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  rate
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Rate
                 </label>
                 <input
                   name="rate"
@@ -604,38 +648,40 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="number"
-                  placeholder="Enter rate"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập rate ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
+
                 {touched.rate && errors.rate && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.rate}
                   </div>
                 )}
               </div>
-              {/* category */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  categoryId
+              {/* rate 2 */}
+              <div className="relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Rate
                 </label>
                 <input
-                  name="categoryId"
-                  value={values.categoryId}
+                  name="rate"
+                  value={values.rate}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter categoryId"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  type="number"
+                  placeholder="Nhập rate ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
-                {touched.categoryId && errors.categoryId && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.categoryId}
+                {touched.rate && errors.rate && (
+                  <div className="mt-1 text-red-500 text-sm font-bold">
+                    {errors.rate}
                   </div>
                 )}
-              </div> */}
+              </div>
+
               {/* showTimes */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
+              {/* <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   showTimes
                 </label>
                 <input
@@ -645,46 +691,28 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onBlur={handleBlur}
                   type="text"
                   placeholder="Enter showTimes"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
                 {touched.showTimes && errors.showTimes && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.showTimes}
-                  </div>
-                )}
-              </div> */}
-              {/* prices */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  prices
-                </label>
-                <input
-                  name="prices"
-                  value={values.prices}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter prices"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.prices && errors.prices && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.prices}
                   </div>
                 )}
               </div> */}
               {/*  */}
             </div>
 
-            <div className="mb-4.5  flex-col gap-6 xl:flex-row">
+            <div className="p-2 mb-4.5 ml-8  flex-col gap-6 xl:flex-row">
               {/* category */}
               <div className="form-group">
-                <label>Categories:</label>
-                {datacate?.map((cate,) => (
-                  <div className="form-check" key={cate._id}>
+                <label className="block mb-2 font-medium text-black dark:text-white">
+                  Categories:
+                </label>
+                {datacate?.map((cate) => (
+                  <div className="flex items-center mb-2" key={cate._id}>
                     <input
                       type="checkbox"
-                      className="form-check-input"
+                      className="form-checkbox h-5 w-5 text-blue-500 border-gray-300 rounded focus:ring-blue-500"
                       id={cate._id}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -692,22 +720,27 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       value={cate._id}
                       checked={values.categoryId?.includes(cate._id)}
                     />
-                    <label className="form-check-label">{cate.name}</label>
+                    <label
+                      className="ml-2 text-sm text-black dark:text-white"
+                      htmlFor={cate._id}
+                    >
+                      {cate.name}
+                    </label>
                   </div>
                 ))}
                 {touched.categoryId && errors.categoryId && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="text-red-500 text-sm font-bold">
                     {errors.categoryId}
                   </div>
                 )}
               </div>
               {/* prices */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  prices
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className=" block text-xl font-medium text-black dark:text-white">
+                  Giá :
                 </label> <br />
-                <label className="mb-2.5 block text-primary">
-                  ngày thường:
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Ngày thường:
                 </label>
                 <input
                   name="priceweekday"
@@ -715,87 +748,63 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="number"
-                  placeholder="Enter prices"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập giá ngày thường ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
-                {/* <input
-                  name="dayTypeweekday"
-                  // value={values.prices}
-                  value={'weekday'}
-                  
-                  hidden
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter prices"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                /> */}
-
-                {/* ngày vip */}
-                <label className="mb-2.5 block text-primary">
-                  ngày vip:
+                {touched.prices && errors.prices && (
+                  <div className="mt-1 text-red-500 text-sm font-bold">
+                    {errors.prices}
+                  </div>
+                )}
+              </div>
+              <div className=" relative z-0 mb-6 w-full group">
+                {/* ngày vip */}                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Ngày Lễ:
                 </label>
-
                 <input
                   name="pricesweekend"
                   // value={values.prices}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="number"
-                  placeholder="Enter prices"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập giá ngày lễ ..."
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
-                {/* <input
-                  name="dayTypeweekend"
-                  // value={values.prices}
-                  value={'weekend'}
-                  hidden
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter prices"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                /> */}
-                {touched.prices && errors.prices && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.prices}
-                  </div>
-                )}
               </div>
-              {/* status */}
-              <div className="w-full xl:w-1/2">
-                {/* <label className="mb-2.5 block text-primary">
-                  status
+              {/*  */}
+              {/*  */}
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className='mb-2 block text-sm font-medium text-black dark:text-white'>
+                   Trạng thái:
                 </label>
-                <input
-                  name="status"
-                  value={values.status}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter status"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                /> */}
-                <label>
-                  Chọn trạng thái:
+                <div className="inline-block relative w-full">
+
                   <select
-                    className="form-select"
+                    className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" id="multiSelect"
                     name="status"
                     // value={selectedState}
                     // onChange={ }
                     onChange={handleChange}
                     onBlur={handleBlur}
-
                   >
-                    <option value="">-- Chọn trạng thái --</option>
-                    <option value="COMING_SOON">COMING_SOON</option>
-                    <option value="IS_SHOWING">IS_SHOWING</option>
-                    <option value="PRTMIERED">PRTMIERED</option>
-                    <option value="CANCELLED">CANCELLED</option>
+                    <option className='text-gray-900' value="">-- Chọn trạng thái --</option>
+                    <option className='text-gray-900' value="COMING_SOON">COMING_SOON</option>
+                    <option className='text-gray-900' value="IS_SHOWING">IS_SHOWING</option>
+                    <option className='text-gray-900' value="PRTMIERED">PRTMIERED</option>
+                    <option className='text-gray-900' value="CANCELLED">CANCELLED</option>
                   </select>
-                </label>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 12a2 2 0 100-4 2 2 0 000 4z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+
                 {touched.status && errors.status && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.status}
                   </div>
                 )}
