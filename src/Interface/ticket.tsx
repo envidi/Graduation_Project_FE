@@ -1,7 +1,15 @@
+import Price from "./MoviePrice"
 import Showtimes from "./Showtimes"
 import Cinema from "./cinema"
+import { Food} from "./food"
 import { MovieType } from "./movie"
+import Payment from "./payment"
+
+
 import { Screeningrooms } from "./screeningrooms"
+import Seat from "./seat"
+
+import User from "./user"
 
 export interface PaymentType {
   _id: number
@@ -33,20 +41,38 @@ export interface SeatUserList {
 
 export interface Ticket{  
     _id:string,
-    priceId:string,
-    seatId:string[],
-    userId:string,
     movieId:MovieType,
+    priceId:Price,
+    seatId:Seat[],
+    userId:User, 
     cinemaId:Cinema,
     screenRoomId:Screeningrooms,
-    foods:string,
-    showtimeId:Showtimes[],
+    foods:Food[],
+    showtimeId:Showtimes,
     quantity:number,
     totalPrice:number,
     status:string,
     isDeleted:boolean,
-    paymentId:string,
+    paymentId:Payment,
     createdAt:string,
     updatedAt:string
-
 }
+
+// export interface Ticket{  
+//   _id?:string,
+//   movieId:string,
+//   priceId:string,
+//   seatId:string,
+//   userId:string, 
+//   cinemaId:string,
+//   screenRoomId:string,
+//   foods:string,
+//   showtimeId:string,
+//   quantity:number,
+//   totalPrice:number,
+//   paymentId:string,
+//   status:string,
+//   isDeleted:boolean, 
+//   createdAt:string,
+//   updatedAt:string
+// }

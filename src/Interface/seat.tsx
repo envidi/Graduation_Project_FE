@@ -1,10 +1,10 @@
 import { Screeningrooms } from './screeningrooms'
 import { TimeSlot } from './timeslots'
 
-export interface Seat {
+export default interface Seat {
   _id: string
   name: string
-  typeSeat: string
+  typeSeat: string,
   price: number
   row: number
   column: number

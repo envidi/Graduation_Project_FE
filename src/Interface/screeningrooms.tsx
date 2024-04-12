@@ -6,11 +6,7 @@ export interface Screeningrooms {
   NumberSeat: number
   projector: string
   CinemaId: Cinema,
-  // CinemaName:string,
-  // CinemaAdress:string,
   ShowtimesId: Showtimes[],
-  // timeTo:string,
-  // timeFrom:string
   status: string
   destroy: boolean
   createdAt: string

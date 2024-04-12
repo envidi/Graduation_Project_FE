@@ -20,3 +20,11 @@ export interface FoodItemState {
   price: number
   image?: string
 }
+
+export interface Food {
+  _id?: string
+  name: string
+  price: number
+  image?: string
+  isDeleteable?: boolean
+}
