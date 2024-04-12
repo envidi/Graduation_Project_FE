@@ -21,6 +21,7 @@ export interface Movie {
     updatedAt: Date
     fromDate: string
     toDate: string
+    
   }
   
   export interface FormMovieAdd {
@@ -38,8 +39,14 @@ export interface Movie {
     rate: number
     categoryId: string[] | string
     showTimes: string[] | string
-    prices: string[] | string
+    // prices: string[] | string
+    prices: { price: number; dayType: string }[] | string;
     fromDate: string
     toDate: string
+    priceweekday: number
+    dayTypeweekday: string
+    pricesweekend: number
+    dayTypeweekend: string
+
   }
   

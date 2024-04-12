@@ -14,7 +14,7 @@ export const getOneMovie = async (id: string) => {
   return result.data.data
 }
 export const getAllMovieHome = async () => {
-  const result = await instance.get('/movie')
+  const result = await instance.get('/movie/home')
   return result.data.data.docs
 }
 export const getMovieStatus = async (query: QueryMovie) => {
@@ -31,10 +31,10 @@ export const getMovieStatus = async (query: QueryMovie) => {
     return result.data.data.docs
   }
 }
-export const getAllMovie = async () => {
-  const result = await instance.get('/movie')
-  return result.data.data.docs
-}
+// export const getAllMovie = async () => {
+//   const result = await instance.get('/movie')
+//   return result.data.data.docs
+// }
 export const getAllHasShow = async (_cate: string) => {
   const result = await instance.get('/movie/showtime?_cate=' + _cate)
   return result.data.data.docs
@@ -51,6 +51,14 @@ export const getRelateMovie = async (id: string) => {
   const result = await instance.get('/movie/movieByCate/' + id)
   return result.data.data
 }
+
+// admin
+// get all m
+export const getAllMovie = async () => {
+  const result = await instance.get('/movie')
+  return result.data.data.docs
+}
+
 export const getCountMovie = async () => {
   const result = await instance.get('/movie/count')
   return result.data.data
