@@ -216,6 +216,7 @@ import { toast } from 'react-toastify'
 import { ConfirmDialog } from '@/admin/components/Confirm'
 import { useState, useRef, useEffect } from 'react'
 import Loader from '@/admin/common/Loader'
+import moment from 'moment'
 import {
   Pagination,
   PaginationContent,
@@ -224,6 +225,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@/components/ui/pagination'
+
 
 
 const ITEMS_PER_PAGE = 10
@@ -307,8 +309,40 @@ const TableSeat = () => {
     setCurrentPage(newPage)
   }
 
+  const MAX_VISIBLE_PAGES = 5
   const renderPagination = () => {
-    const pages = Array.from({ length: pageCount }, (_, i) => i + 1)
+    const pages = [];
+    const halfWay = Math.ceil(MAX_VISIBLE_PAGES / 2);
+    const isStart = currentPage <= halfWay;
+    const isEnd = pageCount - halfWay < currentPage;
+    const isMiddle = !isStart && !isEnd;
+
+    let ellipsis = false;
+    for (let i = 1; i <= pageCount; i++) {
+      const pageInRange = isStart ? i <= MAX_VISIBLE_PAGES :
+        isEnd ? pageCount - MAX_VISIBLE_PAGES < i :
+          isMiddle ? currentPage - halfWay < i && i <= currentPage + halfWay - 1 :
+            false;
+
+      if (pageInRange) {
+        pages.push(
+          <PaginationItem key={i} {...(currentPage === i && { active: 'true' })}>
+            <PaginationLink onClick={() => setPage(i)}>
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+        ellipsis = true;
+      } else if (ellipsis) {
+        pages.push(
+          <PaginationItem key={`ellipsis-${i}`} disabled>
+            <span className="px-3">...</span>
+          </PaginationItem>
+        );
+        ellipsis = false;
+      }
+    }
+
     return (
       <Pagination>
         <PaginationContent>
@@ -318,13 +352,7 @@ const TableSeat = () => {
               disabled={currentPage === 1}
             />
           </PaginationItem>
-          {pages.map(page => (
-            <PaginationItem key={page} {...(currentPage === page && { active: 'true' })}>
-              <PaginationLink onClick={() => setPage(page)}>
-                {page}
-              </PaginationLink>
-            </PaginationItem>
-          ))}
+          {pages}
           <PaginationItem>
             <PaginationNext
               onClick={() => setPage(currentPage + 1)}
@@ -333,8 +361,8 @@ const TableSeat = () => {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    )
-  }
+    );
+  };
 
   /*------------------------------------------------- */
   const queryClient = useQueryClient()
@@ -377,23 +405,28 @@ const TableSeat = () => {
         <select
           value={selectedHall}
           onChange={(e) => setSelectedHall(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
+          <option value="">Chọn phòng chiếu</option>
           {halls.map((hall) => (
             <option key={hall._id} value={hall._id}>{hall.name}</option>
           ))}
         </select>
+
         <select
           value={selectedShow}
           onChange={(e) => setSelectedShow(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
         >
+          <option value="">Chọn lịch chiếu</option>
           {shows.map((show) => (
-            <option key={show._id} value={show._id}>{show.timeFrom} - {show.timeTo}</option>
+            <option key={show._id} value={show._id}>
+              {moment(show.timeFrom).format('DD-MM-YYYY HH:mm')} - {moment(show.timeTo).format('DD-MM-YYYY HH:mm')}
+            </option>
           ))}
         </select>
       </div>
-      <div className="text-center mb-2 flex items-center justify-start">
+      {/* <div className="text-center mb-2 flex items-center justify-start">
         <button
           onClick={() => {
             navigate('/admin/seat/add')
@@ -402,7 +435,7 @@ const TableSeat = () => {
         >
           Add <FaPlusCircle size={20} className="ml-4" />
         </button>
-      </div>
+      </div> */}
       <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -432,9 +465,9 @@ const TableSeat = () => {
                 <th className="py-4 px-4 font-medium text-primary-white">
                   Lịch chiếu
                 </th>
-                <th className="py-4 px-4 font-medium text-primary-white">
+                {/* <th className="py-4 px-4 font-medium text-primary-white">
                   Action
-                </th>
+                </th> */}
               </tr>
             </thead>
             <tbody>
@@ -464,9 +497,9 @@ const TableSeat = () => {
                     <p className="text-primary-white">{seat.ScreeningRoomId ? seat.ScreeningRoomId.name : 'Không có thông tin'}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{seat.ShowScheduleId ? `${seat.ShowScheduleId.timeFrom} - ${seat.ShowScheduleId.timeTo}` : 'Không có thông tin'}</p>
+                    <p className="text-primary-white">{seat.ShowScheduleId ? `${moment(seat.ShowScheduleId.timeFrom).format('DD-MM-YYYY HH:mm')} - ${moment(seat.ShowScheduleId.timeTo).format('DD-MM-YYYY HH:mm')}` : 'Không có thông tin'}</p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-3.5">
                       <button
                         className="hover:text-primary"
@@ -483,7 +516,7 @@ const TableSeat = () => {
                         <FaRegTrashCan size={20} />
                       </button>
                     </div>
-                  </td>
+                  </td> */}
                 </tr>
               ))}
             </tbody>

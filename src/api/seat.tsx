@@ -2,7 +2,7 @@ import { Seat } from '@/admin/types/seat'
 import instance from './config'
 
 export const getOneSeat = async (id: string) => {
-  const result = await instance.get('/seat' + id)
+  const result = await instance.get('/seat/' + id)
   return result.data.data
 }
 
@@ -32,12 +32,10 @@ export const getAllSeatAdmin = async (params: {
   return result.data.datas.docs
 }
 
-// // Hàm này được cải tiến để nhận các tham số động
-// export const getAllSeatAdmin = async ({ _hallId, _showId, destroy = 'false' }: { _hallId?: string; _showId?: string; destroy?: string }) => {
-//   const queryString = new URLSearchParams({ _hallId, _showId, destroy }).toString();
-//   const result = await instance.get(`/seat/all?${queryString}`);
-//   return result.data.datas.docs; // Đảm bảo rằng đường dẫn và cấu trúc dữ liệu phản hồi phù hợp với API của bạn
-// };
+export const getOneSeatAdmin = async (id: string) => {
+  const result = await instance.get('/seat/' + id)
+  return result.data.datas
+}
 
 export const getHalls = async () => {
   const result = await instance.get('/screen')
