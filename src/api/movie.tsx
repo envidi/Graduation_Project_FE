@@ -81,3 +81,9 @@ export const editMovie = async (cinema: FormMovieAdd, id: string) => {
   const result = await instance.patch(`/movie/${id}`, cinema)
   return result.data
 }
+// update price movie
+//edit cinema
+export const editMoviePice = async (cinema : any , id: any) => {
+  const result = await instance.patch(`/movies/price/${id}`, cinema)
+  return result.data
+}

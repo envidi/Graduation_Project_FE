@@ -1,11 +1,13 @@
 import { Category } from '@/admin/types/category'
 import { Movie, FormMovieAdd } from '@/admin/types/movie'
 import { getAllCategory } from '@/api/category'
-import { addMovie, editMovie, getOneMovie } from '@/api/movie'
+import { addMovie, editMovie, editMoviePice, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import Flatpickr from 'react-flatpickr';
+
 
 type FormMovieProps = {
   typeForm: 'ADD' | 'EDIT'
@@ -23,12 +25,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     queryFn: getAllCategory
   })
   //get movie by id
+  let pricesId;
+
   const { data: movieData, isLoading } = useQuery<Movie>({
     queryKey: ['MOVIE', id],
     queryFn: async () => {
       const data = await getOneMovie(id as string)
 
       console.log('movie edit data: ', data)
+      pricesId = data.prices
 
       setFieldValue('name', data?.name)
       setFieldValue('image', data?.image)
@@ -59,7 +64,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   // mutation react-query
   const { mutate } = useMutation({
     mutationFn: async (bodyData: FormMovieAdd) => {
-      if (typeForm === 'EDIT') return editMovie(bodyData, id as string)
+      if (typeForm === 'EDIT'){
+            // await editMoviePice(bodyData.prices[0].price as number, pricesId[0] as string)
+            // await editMoviePice(bodyData.prices[1].price, pricesId[1] as string)
+        return editMovie(bodyData, id as string)
+      } 
+
       return addMovie(bodyData)
     },
     onSuccess: () => {
@@ -112,11 +122,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       status: id ? (movieData?.status as string) : '',
       age_limit: id ? (movieData?.age_limit as number | undefined) : undefined,
       rate: id ? (movieData?.rate as number | undefined) : undefined,
-      // categoryId: id ? (movieData?.categoryId as string) : '',
       categoryId: id ? (movieData?.categoryId as string[]) : [],
       showTimes: id ? (movieData?.showTimes as string[]) : '',
       prices: id ? (movieData?.prices as string[]) : '',
-      // prices: id ? (movieData?.prices as number) : '',
       priceweekday: 0,
       dayTypeweekday: '',
       pricesweekend: '',
@@ -220,29 +228,21 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     },
     onSubmit: async (values) => {
       console.log('value form cinema :', values)
-
-      // return
       try {
         const newObject = {
           price: values?.priceweekday,
-          // dayType: values?.dayTypeweekday,
           dayType: 'weekday',
-
-          // ...Thêm các trường khác tùy ý
         };
         const newObject2 = {
           price: values?.pricesweekend,
-          // dayType: values?.dayTypeweekend,
           dayType: 'weekend',
-
-          // ...Thêm các trường khác tùy ý
         };
 
         values.prices = [newObject, newObject2];
         console.log('vlaue: ', values.prices)
         const bodyData = {
           name: values?.name,
-          image: values?.image,
+          image: values?.image, 
           author: values?.author,
           actor: values?.actor,
           language: values?.language,
@@ -255,14 +255,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           country: values?.country,
           status: values?.status,
           rate: values?.rate,
-          // price: 10000,
-          // dayType: "aaaa",
           categoryId: values?.categoryId || [],
           showTimes: values?.showTimes || [],
           prices: values?.prices
-
         }
-        console.log('data body movie:', bodyData)
+
+        console.log('data body movie form:', bodyData)
         const response = await mutate(bodyData)
         // console.log('res', response)
       } catch (error) {
@@ -280,7 +278,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     <div className="flex flex-col gap-9">
       {/* <!-- Contact Form --> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} encType='multipart/form-data' className="bg-white dark:bg-gray-800 p-6">
           <div className="p-6.5 flex" >
             <div className="mb-4.5  flex-col gap-6 xl:flex-row">
               {/* name */}
@@ -312,7 +310,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 <input
                   name="image"
                   value={values.image}
-                  // onChange={handleChange}
+                  // // onChange={handleChange}
                   // onChange={(event) => {
                   //   setFieldValue('image', event.currentTarget.files[0]);
                   // }}
@@ -333,6 +331,28 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <img src={values.image} alt="movie" className="w-32 h-32 object-cover rounded-lg" />
                 )}
               </div>
+              {/*  */}
+              {/* <div className="mb-6">
+                <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
+                  Movie image
+                </label>
+                <input
+                  name="image"
+                  type="file"
+                  onChange={(event) => {
+                    setFieldValue('image', event.currentTarget.files[0]);
+                  }}
+                  onBlur={handleBlur}
+                  className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150" />
+                {touched.image && errors.image && (
+                  <div className="mt-2 text-sm text-red-600 dark:text-red-400">
+                    {errors.image}
+                  </div>
+                )}
+                {values.image && (
+                  <img src={values.image} alt="Food" className="w-32 h-32 object-cover rounded-lg" />
+                )}
+              </div> */}
               {/* actor */}
               <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
@@ -760,13 +780,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   Chọn trạng thái:
                   <select
                     className="form-select"
-                  name="status"
+                    name="status"
                     // value={selectedState}
                     // onChange={ }
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
 
-                    >
+                  >
                     <option value="">-- Chọn trạng thái --</option>
                     <option value="COMING_SOON">COMING_SOON</option>
                     <option value="IS_SHOWING">IS_SHOWING</option>
