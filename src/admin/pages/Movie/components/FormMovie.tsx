@@ -1,4 +1,6 @@
+import { Category } from '@/admin/types/category'
 import { Movie, FormMovieAdd } from '@/admin/types/movie'
+import { getAllCategory } from '@/api/category'
 import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
@@ -15,7 +17,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   //get id from url
   const { id } = useParams()
 
-  //get category by id
+  // fetch category by react-query
+  const { data: datacate, isLoading: isLoadingCategory, isError: iserrCategory } = useQuery<Category[]>({
+    queryKey: ['CATEGORY'],
+    queryFn: getAllCategory
+  })
+  //get movie by id
   const { data: movieData, isLoading } = useQuery<Movie>({
     queryKey: ['MOVIE', id],
     queryFn: async () => {
@@ -38,13 +45,16 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       setFieldValue('status', data?.status)
       setFieldValue('age_limit', data?.age_limit)
       setFieldValue('rate', data?.rate)
-      setFieldValue('categoryId', data?.categoryId)
       setFieldValue('showTimes', data?.showTimes)
       setFieldValue('prices', data?.prices)
+      setFieldValue('categoryId', data?.categoryId)
       return data
     },
+
     enabled: typeForm === 'EDIT' && !!id
   })
+
+
 
   // mutation react-query
   const { mutate } = useMutation({
@@ -75,6 +85,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     }
   })
 
+  // selecttor categories
+  // const [selectedCategories, setSelectedCategories] = useState([]);
+
   const {
     values,
     touched,
@@ -99,53 +112,59 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       status: id ? (movieData?.status as string) : '',
       age_limit: id ? (movieData?.age_limit as number | undefined) : undefined,
       rate: id ? (movieData?.rate as number | undefined) : undefined,
-      categoryId: id ? (movieData?.categoryId as string) : '',
+      // categoryId: id ? (movieData?.categoryId as string) : '',
+      categoryId: id ? (movieData?.categoryId as string[]) : [],
       showTimes: id ? (movieData?.showTimes as string[]) : '',
-      prices: id ? (movieData?.prices as string[]) : ''
+      prices: id ? (movieData?.prices as string[]) : '',
+      // prices: id ? (movieData?.prices as number) : '',
+      priceweekday: 0,
+      dayTypeweekday: '',
+      pricesweekend: '',
+      dayTypeweekend: 0,
     },
     validate: (values) => {
       const errors: Partial<FormMovieAdd> = {}
-      if (!values.name ) {
+      if (!values.name) {
         errors.name = 'Required name'
       } else if (values.name.length < 3) {
         errors.name = 'Name must be at least 3 characters long'
       }
-      if (!values.image ) {
+      if (!values.image) {
         errors.image = 'Required image'
       } else if (values.image.length < 3) {
         errors.image = 'image must be at least 3 characters long'
       }
-      if (!values.author ) {
+      if (!values.author) {
         errors.author = 'Required author'
       } else if (values.author.length < 3) {
         errors.author = 'author must be at least 3 characters long'
       }
-      if (!values.language ) {
+      if (!values.language) {
         errors.language = 'Required language'
       } else if (values.language.length < 3) {
         errors.language = 'language must be at least 3 characters long'
       }
-      if (!values.actor ) {
+      if (!values.actor) {
         errors.actor = 'Required actor'
       } else if (values.actor.length < 3) {
         errors.actor = 'actor must be at least 3 characters long'
       }
-      if (!values.trailer ) {
+      if (!values.trailer) {
         errors.trailer = 'Required trailer'
       } else if (values.trailer.length < 3) {
         errors.trailer = 'trailer must be at least 3 characters long'
       }
-      if (!values.fromDate ) {
+      if (!values.fromDate) {
         errors.fromDate = 'Required fromDate'
       } else if (values.fromDate.length < 3) {
         errors.fromDate = 'fromDate must be at least 3 characters long'
       }
-      if (!values.toDate ) {
+      if (!values.toDate) {
         errors.toDate = 'Required toDate'
       } else if (values.toDate.length < 3) {
         errors.toDate = 'toDate must be at least 3 characters long'
       }
-      if (!values.country ) {
+      if (!values.country) {
         errors.country = 'Required country'
       } else if (values.country.length < 3) {
         errors.country = 'country must be at least 3 characters long'
@@ -155,6 +174,16 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (isNaN(values.duration) || Number(values.duration) <= 30) {
         errors.duration = 'Duration must be a number and greater than 30'
       }
+      if (!values.priceweekday) {
+        errors.priceweekday = 'Required priceweekday'
+      } else if (isNaN(values.priceweekday) || Number(values.priceweekday) <= 30) {
+        errors.priceweekday = 'priceweekday must be a number and greater than 30'
+      }
+      if (!values.pricesweekend) {
+        errors.pricesweekend = 'Required pricesweekend'
+      } else if (isNaN(values.pricesweekend) || Number(values.pricesweekend) <= 30) {
+        errors.pricesweekend = 'pricesweekend must be a number and greater than 30'
+      }
       if (!values.age_limit) {
         errors.age_limit = 'Required age_limit'
       } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 0) {
@@ -162,45 +191,55 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.rate) {
         errors.rate = 'Required rate'
-      } else if (isNaN(values.rate) || Number(values.rate) <=0) {
+      } else if (isNaN(values.rate) || Number(values.rate) <= 0) {
         errors.rate = 'rate must be a number and greater than 30'
       }
-      if (!values.status ) {
+      if (!values.status) {
         errors.status = 'Required status'
       } else if (values.status.length < 3) {
         errors.status = 'status must be at least 3 characters long'
       }
-      // if (!values.country ) {
-      //   errors.country = 'Required country'
-      // } else if (values.country.length < 3) {
-      //   errors.country = 'country must be at least 3 characters long'
-      // }
-      // if (!values.country ) {
-      //   errors.country = 'Required country'
-      // } else if (values.country.length < 3) {
-      //   errors.country = 'country must be at least 3 characters long'
-      // }
-      if (!values.categoryId ) {
+
+      if (!values.categoryId) {
         errors.categoryId = 'Required categoryId'
-      } else if (values.categoryId.length < 3) {
+      } else if (values.categoryId.length < 1) {
         errors.categoryId = 'categoryId must be at least 3 characters long'
       }
-      if (!values.showTimes ) {
-        errors.showTimes = 'Required showTimes'
-      } else if (values.showTimes.length < 3) {
-        errors.showTimes = 'showTimes must be at least 3 characters long'
-      }
-      if (!values.prices ) {
-        errors.prices = 'Required prices'
-      } else if (values.prices.length < 3) {
-        errors.prices = 'prices must be at least 3 characters long'
-      }
+      // if (!values.showTimes) {
+      //   errors.showTimes = 'Required showTimes'
+      // } else if (values.showTimes.length < 3) {
+      //   errors.showTimes = 'showTimes must be at least 3 characters long'
+      // }
+      // if (!values.prices) {
+      //   errors.prices = 'Required prices'
+      // } 
+      // else if (values.prices.length < 3) {
+      //   errors.prices = 'prices must be at least 3 characters long'
+      // }
       return errors
     },
     onSubmit: async (values) => {
       console.log('value form cinema :', values)
+
       // return
       try {
+        const newObject = {
+          price: values?.priceweekday,
+          // dayType: values?.dayTypeweekday,
+          dayType: 'weekday',
+
+          // ...Thêm các trường khác tùy ý
+        };
+        const newObject2 = {
+          price: values?.pricesweekend,
+          // dayType: values?.dayTypeweekend,
+          dayType: 'weekend',
+
+          // ...Thêm các trường khác tùy ý
+        };
+
+        values.prices = [newObject, newObject2];
+        console.log('vlaue: ', values.prices)
         const bodyData = {
           name: values?.name,
           image: values?.image,
@@ -220,11 +259,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           // dayType: "aaaa",
           categoryId: values?.categoryId || [],
           showTimes: values?.showTimes || [],
-          prices: values?.prices || []
+          prices: values?.prices
+
         }
         console.log('data body movie:', bodyData)
         const response = await mutate(bodyData)
-        console.log('res', response)
+        // console.log('res', response)
       } catch (error) {
         console.log('error', error)
       }
@@ -232,13 +272,16 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   })
 
   if (isLoading) return <div>Loading...</div>
-
+  if (isLoadingCategory) return <div>Loading category...</div>
+  if (iserrCategory) {
+    return <div>Error</div>
+  }
   return (
     <div className="flex flex-col gap-9">
       {/* <!-- Contact Form --> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <form onSubmit={handleSubmit}>
-          <div className="p-6.5">
+          <div className="p-6.5 flex" >
             <div className="mb-4.5  flex-col gap-6 xl:flex-row">
               {/* name */}
               <div className="w-full xl:w-1/2">
@@ -276,8 +319,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   // type="file"
 
                   onChange={handleChange}
-                  type="text"
                   onBlur={handleBlur}
+                  type="text"
                   placeholder="Enter movie image URL"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
@@ -491,7 +534,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 )}
               </div>
               {/* status */}
-              <div className="w-full xl:w-1/2">
+              {/* <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
                   status
                 </label>
@@ -509,7 +552,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     {errors.status}
                   </div>
                 )}
-              </div>
+              </div> */}
               {/* age_limit */}
               <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
@@ -550,8 +593,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-              {/* categoryId */}
-              <div className="w-full xl:w-1/2">
+              {/* category */}
+              {/* <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
                   categoryId
                 </label>
@@ -569,9 +612,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     {errors.categoryId}
                   </div>
                 )}
-              </div>
+              </div> */}
               {/* showTimes */}
-              <div className="w-full xl:w-1/2">
+              {/* <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
                   showTimes
                 </label>
@@ -589,9 +632,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     {errors.showTimes}
                   </div>
                 )}
-              </div>
+              </div> */}
               {/* prices */}
-              <div className="w-full xl:w-1/2">
+              {/* <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
                   prices
                 </label>
@@ -609,16 +652,144 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     {errors.prices}
                   </div>
                 )}
-              </div>
+              </div> */}
               {/*  */}
             </div>
-            <button
-              className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 mt-4"
-              type="submit"
-            >
-              {typeForm === 'ADD' ? 'Add' : 'Update'}
-            </button>
+
+            <div className="mb-4.5  flex-col gap-6 xl:flex-row">
+              {/* category */}
+              <div className="form-group">
+                <label>Categories:</label>
+                {datacate?.map((cate,) => (
+                  <div className="form-check" key={cate._id}>
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id={cate._id}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      name="categoryId"
+                      value={cate._id}
+                      checked={values.categoryId?.includes(cate._id)}
+                    />
+                    <label className="form-check-label">{cate.name}</label>
+                  </div>
+                ))}
+                {touched.categoryId && errors.categoryId && (
+                  <div className="text-red-500 text-xl font-bold">
+                    {errors.categoryId}
+                  </div>
+                )}
+              </div>
+              {/* prices */}
+              <div className="w-full xl:w-1/2">
+                <label className="mb-2.5 block text-primary">
+                  prices
+                </label> <br />
+                <label className="mb-2.5 block text-primary">
+                  ngày thường:
+                </label>
+                <input
+                  name="priceweekday"
+                  // value={values?.prices[0]?.price}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="number"
+                  placeholder="Enter prices"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                />
+                {/* <input
+                  name="dayTypeweekday"
+                  // value={values.prices}
+                  value={'weekday'}
+                  
+                  hidden
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="text"
+                  placeholder="Enter prices"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                /> */}
+
+                {/* ngày vip */}
+                <label className="mb-2.5 block text-primary">
+                  ngày vip:
+                </label>
+
+                <input
+                  name="pricesweekend"
+                  // value={values.prices}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="number"
+                  placeholder="Enter prices"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                />
+                {/* <input
+                  name="dayTypeweekend"
+                  // value={values.prices}
+                  value={'weekend'}
+                  hidden
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="text"
+                  placeholder="Enter prices"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                /> */}
+                {touched.prices && errors.prices && (
+                  <div className="text-red-500 text-xl font-bold">
+                    {errors.prices}
+                  </div>
+                )}
+              </div>
+              {/* status */}
+              <div className="w-full xl:w-1/2">
+                {/* <label className="mb-2.5 block text-primary">
+                  status
+                </label>
+                <input
+                  name="status"
+                  value={values.status}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="text"
+                  placeholder="Enter status"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                /> */}
+                <label>
+                  Chọn trạng thái:
+                  <select
+                    className="form-select"
+                  name="status"
+                    // value={selectedState}
+                    // onChange={ }
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+
+                    >
+                    <option value="">-- Chọn trạng thái --</option>
+                    <option value="COMING_SOON">COMING_SOON</option>
+                    <option value="IS_SHOWING">IS_SHOWING</option>
+                    <option value="PRTMIERED">PRTMIERED</option>
+                    <option value="CANCELLED">CANCELLED</option>
+                  </select>
+                </label>
+                {touched.status && errors.status && (
+                  <div className="text-red-500 text-xl font-bold">
+                    {errors.status}
+                  </div>
+                )}
+              </div>
+
+              {/*  */}
+            </div>
           </div>
+          <button
+            className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 mt-4"
+            type="submit"
+          >
+            {typeForm === 'ADD' ? 'Add' : 'Update'}
+          </button>
         </form>
       </div>
     </div>
