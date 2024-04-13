@@ -34,7 +34,7 @@ const TableMovie = () => {
   const pageCount = data ? Math.floor(data.length / itemsPerPage) : 0
   //phương thức chuyển trang
   const setPage = (page: number) => {
-      setCurrentPage(page)
+    setCurrentPage(page)
   }
   console.log(pageCount)
 
@@ -84,6 +84,7 @@ const TableMovie = () => {
           Add <FaPlusCircle size={20} className="ml-4" />
         </button>
       </div>
+      {/*  */}
       <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
@@ -93,58 +94,49 @@ const TableMovie = () => {
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  Movie Name
+                  Tên phim
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  Movie image
+                  Hình ảnh phim
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  langue
+                  Ngôn ngữ
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                 actor
-                </th>
-                <th className="min-w-[150px] py-1 px-1 font-medium text-primary-white">
-                  Duration
-                </th>
-                <th className="min-w-[150px] py-1 px-1 font-medium text-primary-white">
-                  Country
-                </th>
-                <th className="min-w-[150px] py-1 px-1 font-medium text-primary-white">
-                  age_limit
+                  Diễn viên
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  fromDate
+                  Thời lượng
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  toDate
+                  Quốc gia
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  author
+                  Giới hạn tuổi
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  language
+                  Từ ngày
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  actor
+                  Đến ngày
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  trailer
+                  Tác giả
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  status
+                  Ngôn ngữ
                 </th>
-                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  categoryId
-                </th> */}
-                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  prices
-                </th> */}
-                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  showTimes
-                </th> */}
+                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                  Diễn viên
+                </th>
+                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                  Trailer
+                </th>
+                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                  Trạng thái
+                </th>
                 <th className="py-4 px-4 font-medium text-primary-white">
-                  Actions
+                  Hành động
                 </th>
               </tr>
             </thead>
@@ -160,13 +152,21 @@ const TableMovie = () => {
                     <p className="text-primary-white">{movie.name}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    {/* <p className="text-primary-white">{movie.CinemaAdress}</p> */}
-                    <img src={movie.image} alt="" />
+                    <img src={movie.image} alt="" className="w-full" />
                   </td>
-                  <td className="border-b border-[#eee] py-1 px-1 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-primary-white">{movie.language}</p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-primary-white">{movie.actor}</p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{movie.duration}</p>
                   </td>
-                  <td className="border-b border-[#eee] py-1 px-1 dark:border-strokedark">
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-primary-white">{movie.country}</p>
+                  </td>
+                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{movie.age_limit}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -185,43 +185,27 @@ const TableMovie = () => {
                     <p className="text-primary-white">{movie.actor}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{movie.trailer}</p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{movie.desc}</p>
+                    <a
+                      href={movie.trailer}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-white hover:underline"
+                    >
+                      Watch Trailer
+                    </a>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{movie.status}</p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{movie.rate}</p>
-                  </td>
-                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{movie.categoryId}</p>
-                  </td> */}
-                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{movie.prices}</p>
-                  </td> */}
-                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{movie.showTimes}</p>
-                  </td> */}
-
-                  {/* action */}
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div className="flex items-center space-x-3.5">
-                      <button
-                        className="hover:text-primary"
-                        onClick={() => {
-                          navigate(`/admin/movie/edit/${movie._id}`)
-                        }}
-                      >
-                        <FaEdit size={20} />
+                  <td className="border-b border-[#eee] py-5 px-4 pr-9 dark:border-strokedark">
+                    <div className="flex justify-end space-x-4">
+                      <button className="text-primary-white hover:underline" onClick={() => {
+                        navigate(`/admin/movie/edit/${movie._id}`)
+                      }}>
+                        <FaEdit size={30}/>
                       </button>
-                      <button
-                        className="hover:text-primary"
-                        onClick={() => handleShowConfirm(movie._id)}
-                      >
-                        <FaRegTrashCan size={20} />
+                      <button className="text-primary-white hover:underline"  onClick={() => handleShowConfirm(movie._id)}>
+                      <FaRegTrashCan size={30} />
                       </button>
                     </div>
                   </td>
@@ -231,19 +215,32 @@ const TableMovie = () => {
           </table>
         </div>
       </div>
-      <div className='pagination-controls'>
-                {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-                    <button
-                        key={page}
-                        disabled={currentPage === page}
-                        onClick={() => setPage(page)}
-                    // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
-                    className='mg-2 border border-[#eee] py-6 px-5 dark:border-strokedark hover:bg-red-400'
-                    >
-                        {page}
-                    </button>
-                ))}
-            </div>
+      {/*  */}
+      {/* <div className='pagination-controls'>
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            disabled={currentPage === page}
+            onClick={() => setPage(page)}
+            // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
+            className='mg-2 border border-[#eee] py-6 px-5 dark:border-strokedark hover:bg-red-400'
+          >
+            {page}
+          </button>
+        ))}
+      </div> */}
+      <div className="pagination-controls">
+        {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            disabled={currentPage === page}
+            onClick={() => setPage(page)}
+            className="mx-2 px-4 py-2 border border-[#eee] dark:border-strokedark hover:bg-red-400"
+          >
+            {page}
+          </button>
+        ))}
+      </div>
 
       <ConfirmDialog
         open={isOpenConfirm}
