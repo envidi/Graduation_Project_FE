@@ -1,38 +1,37 @@
 import { Category } from '@/admin/types/category'
 import { Movie, FormMovieAdd } from '@/admin/types/movie'
 import { getAllCategory } from '@/api/category'
-import { addMovie, editMovie, editMoviePice, getOneMovie } from '@/api/movie'
+import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import Flatpickr from 'react-flatpickr';
-
 
 type FormMovieProps = {
   typeForm: 'ADD' | 'EDIT'
 }
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
-  const navigate = useNavigate()
-
   //get id from url
   const { id } = useParams()
 
   // fetch category by react-query
-  const { data: datacate, isLoading: isLoadingCategory, isError: iserrCategory } = useQuery<Category[]>({
+  const {
+    data: datacate,
+    isLoading: isLoadingCategory,
+    isError: iserrCategory
+  } = useQuery<Category[]>({
     queryKey: ['CATEGORY'],
     queryFn: getAllCategory
   })
   //get movie by id
-  let pricesId;
+  let pricesId
 
   const { data: movieData, isLoading } = useQuery<Movie>({
     queryKey: ['MOVIE', id],
     queryFn: async () => {
       const data = await getOneMovie(id as string)
 
-      console.log('movie edit data: ', data)
       pricesId = data.prices
 
       setFieldValue('name', data?.name)
@@ -59,32 +58,22 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     enabled: typeForm === 'EDIT' && !!id
   })
 
-
-
   // mutation react-query
   const { mutate } = useMutation({
     mutationFn: async (bodyData: FormMovieAdd) => {
-      if (typeForm === 'EDIT'){
-            // await editMoviePice(bodyData.prices[0].price as number, pricesId[0] as string)
-            // await editMoviePice(bodyData.prices[1].price, pricesId[1] as string)
+      if (typeForm === 'EDIT') {
         return editMovie(bodyData, id as string)
-      } 
+      }
 
       return addMovie(bodyData)
     },
     onSuccess: () => {
       if (typeForm === 'EDIT') {
         toast.success('Sua movie thanh cong')
-        // setTimeout(() => {
-        //   navigate('/admin/movie')
-        // }, 500);
+
         return
       }
       toast.success('Them movie thanh cong')
-      // navigate('/admin/movie')
-      // setTimeout(() => {
-      //   navigate('/admin/movie')
-      // }, 500);
     },
     onError: () => {
       if (typeForm === 'EDIT') {
@@ -128,7 +117,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       priceweekday: 0,
       dayTypeweekday: '',
       pricesweekend: '',
-      dayTypeweekend: 0,
+      dayTypeweekend: 0
     },
     validate: (values) => {
       const errors: Partial<FormMovieAdd> = {}
@@ -184,13 +173,21 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.priceweekday) {
         errors.priceweekday = 'Required priceweekday'
-      } else if (isNaN(values.priceweekday) || Number(values.priceweekday) <= 30) {
-        errors.priceweekday = 'priceweekday must be a number and greater than 30'
+      } else if (
+        isNaN(values.priceweekday) ||
+        Number(values.priceweekday) <= 30
+      ) {
+        errors.priceweekday =
+          'priceweekday must be a number and greater than 30'
       }
       if (!values.pricesweekend) {
         errors.pricesweekend = 'Required pricesweekend'
-      } else if (isNaN(values.pricesweekend) || Number(values.pricesweekend) <= 30) {
-        errors.pricesweekend = 'pricesweekend must be a number and greater than 30'
+      } else if (
+        isNaN(values.pricesweekend) ||
+        Number(values.pricesweekend) <= 30
+      ) {
+        errors.pricesweekend =
+          'pricesweekend must be a number and greater than 30'
       }
       if (!values.age_limit) {
         errors.age_limit = 'Required age_limit'
@@ -213,36 +210,24 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.categoryId.length < 1) {
         errors.categoryId = 'categoryId must be at least 3 characters long'
       }
-      // if (!values.showTimes) {
-      //   errors.showTimes = 'Required showTimes'
-      // } else if (values.showTimes.length < 3) {
-      //   errors.showTimes = 'showTimes must be at least 3 characters long'
-      // }
-      // if (!values.prices) {
-      //   errors.prices = 'Required prices'
-      // } 
-      // else if (values.prices.length < 3) {
-      //   errors.prices = 'prices must be at least 3 characters long'
-      // }
+
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value form cinema :', values)
       try {
         const newObject = {
           price: values?.priceweekday,
-          dayType: 'weekday',
-        };
+          dayType: 'weekday'
+        }
         const newObject2 = {
           price: values?.pricesweekend,
-          dayType: 'weekend',
-        };
+          dayType: 'weekend'
+        }
 
-        values.prices = [newObject, newObject2];
-        console.log('vlaue: ', values.prices)
+        values.prices = [newObject, newObject2]
         const bodyData = {
           name: values?.name,
-          image: values?.image, 
+          image: values?.image,
           author: values?.author,
           actor: values?.actor,
           language: values?.language,
@@ -260,8 +245,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           prices: values?.prices
         }
 
-        console.log('data body movie form:', bodyData)
-        const response = await mutate(bodyData)
+        await mutate(bodyData)
         // console.log('res', response)
       } catch (error) {
         console.log('error', error)
@@ -278,14 +262,16 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     <div className="flex flex-col gap-9">
       {/* <!-- Contact Form --> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form onSubmit={handleSubmit} encType='multipart/form-data' className="bg-white dark:bg-gray-800 p-6">
-          <div className="p-6.5 flex" >
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="bg-white dark:bg-gray-800 p-6"
+        >
+          <div className="p-6.5 flex">
             <div className="mb-4.5  flex-col gap-6 xl:flex-row">
               {/* name */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  movie name
-                </label>
+                <label className="mb-2.5 block text-primary">movie name</label>
                 <input
                   name="name"
                   value={values.name}
@@ -304,9 +290,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* image */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  movie image
-                </label>
+                <label className="mb-2.5 block text-primary">movie image</label>
                 <input
                   name="image"
                   value={values.image}
@@ -328,7 +312,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
                 {values.image && (
-                  <img src={values.image} alt="movie" className="w-32 h-32 object-cover rounded-lg" />
+                  <img
+                    src={values.image}
+                    alt="movie"
+                    className="w-32 h-32 object-cover rounded-lg"
+                  />
                 )}
               </div>
               {/*  */}
@@ -355,9 +343,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div> */}
               {/* actor */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  actor
-                </label>
+                <label className="mb-2.5 block text-primary">actor</label>
                 <input
                   name="actor"
                   value={values.actor}
@@ -375,9 +361,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* author */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  author
-                </label>
+                <label className="mb-2.5 block text-primary">author</label>
                 <input
                   name="author"
                   value={values.author}
@@ -395,9 +379,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* language */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  language
-                </label>
+                <label className="mb-2.5 block text-primary">language</label>
                 <input
                   name="language"
                   value={values.language}
@@ -415,9 +397,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* trailer */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  trailer
-                </label>
+                <label className="mb-2.5 block text-primary">trailer</label>
                 <input
                   name="trailer"
                   value={values.trailer}
@@ -435,9 +415,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* age_limit */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  age_limit
-                </label>
+                <label className="mb-2.5 block text-primary">age_limit</label>
                 <input
                   name="age_limit"
                   value={values.age_limit}
@@ -455,9 +433,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* fromDate */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  fromDate
-                </label>
+                <label className="mb-2.5 block text-primary">fromDate</label>
                 <input
                   name="fromDate"
                   value={values.fromDate}
@@ -475,9 +451,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* todate */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  toDate
-                </label>
+                <label className="mb-2.5 block text-primary">toDate</label>
                 <input
                   name="toDate"
                   value={values.toDate}
@@ -495,9 +469,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* desc */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  desc
-                </label>
+                <label className="mb-2.5 block text-primary">desc</label>
                 <input
                   name="desc"
                   value={values.desc}
@@ -515,9 +487,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* country */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  country
-                </label>
+                <label className="mb-2.5 block text-primary">country</label>
                 <input
                   name="country"
                   value={values.country}
@@ -535,9 +505,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* duration */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  duration
-                </label>
+                <label className="mb-2.5 block text-primary">duration</label>
                 <input
                   name="duration"
                   value={values.duration}
@@ -553,31 +521,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-              {/* status */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  status
-                </label>
-                <input
-                  name="status"
-                  value={values.status}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter status"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.status && errors.status && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.status}
-                  </div>
-                )}
-              </div> */}
-              {/* age_limit */}
+
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  age_limit
-                </label>
+                <label className="mb-2.5 block text-primary">age_limit</label>
                 <input
                   name="age_limit"
                   value={values.age_limit}
@@ -595,9 +541,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* rate */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  rate
-                </label>
+                <label className="mb-2.5 block text-primary">rate</label>
                 <input
                   name="rate"
                   value={values.rate}
@@ -613,74 +557,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-              {/* category */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  categoryId
-                </label>
-                <input
-                  name="categoryId"
-                  value={values.categoryId}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter categoryId"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.categoryId && errors.categoryId && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.categoryId}
-                  </div>
-                )}
-              </div> */}
-              {/* showTimes */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  showTimes
-                </label>
-                <input
-                  name="showTimes"
-                  value={values.showTimes}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter showTimes"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.showTimes && errors.showTimes && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.showTimes}
-                  </div>
-                )}
-              </div> */}
-              {/* prices */}
-              {/* <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  prices
-                </label>
-                <input
-                  name="prices"
-                  value={values.prices}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter prices"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.prices && errors.prices && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.prices}
-                  </div>
-                )}
-              </div> */}
-              {/*  */}
             </div>
 
             <div className="mb-4.5  flex-col gap-6 xl:flex-row">
               {/* category */}
               <div className="form-group">
                 <label>Categories:</label>
-                {datacate?.map((cate,) => (
+                {datacate?.map((cate) => (
                   <div className="form-check" key={cate._id}>
                     <input
                       type="checkbox"
@@ -703,9 +586,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               </div>
               {/* prices */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  prices
-                </label> <br />
+                <label className="mb-2.5 block text-primary">prices</label>{' '}
+                <br />
                 <label className="mb-2.5 block text-primary">
                   ngày thường:
                 </label>
@@ -730,12 +612,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   placeholder="Enter prices"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 /> */}
-
                 {/* ngày vip */}
-                <label className="mb-2.5 block text-primary">
-                  ngày vip:
-                </label>
-
+                <label className="mb-2.5 block text-primary">ngày vip:</label>
                 <input
                   name="pricesweekend"
                   // value={values.prices}
@@ -785,7 +663,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     // onChange={ }
                     onChange={handleChange}
                     onBlur={handleBlur}
-
                   >
                     <option value="">-- Chọn trạng thái --</option>
                     <option value="COMING_SOON">COMING_SOON</option>

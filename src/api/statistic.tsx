@@ -12,6 +12,14 @@ export const getTopMovie = async () => {
     throw new Error(error as string)
   }
 }
+export const getTopUser = async () => {
+  try {
+    const result = await instance.get('/statistic/topuser')
+    return result.data.data
+  } catch (error) {
+    throw new Error(error as string)
+  }
+}
 export const getSexUser = async () => {
   try {
     const result = await instance.get('/statistic/sex')
