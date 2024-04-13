@@ -56,9 +56,6 @@ const profileFormSchema = Joi.object({
   sex: Joi.string().label('Giới tính').required().messages({
     'string.empty': 'Bắt buộc chọn giới tính'
   })
-  // bio: Joi.string().label('Bio').max(160).messages({
-  //   'string.empty': 'Required bio'
-  // })
 })
 
 export function ProfileForm() {
