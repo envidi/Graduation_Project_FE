@@ -16,7 +16,8 @@ import {
   CreateShowtimes,
   DeleteShowtimes,
   DetailShowtimes,
-  getAllShowTimes
+  getAllShowTimes,
+  updateShowtimes
 } from '@/api/showtime'
 
 export interface ContextAuth {
@@ -158,20 +159,18 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const addShowtime = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
     onSuccess() {
-      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
+      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
 
-      toast.success('Tạo lịch chiếu thành công <3 ')
     },
-    onError() {
-      toast.error('Tạo faile, try again !')
-    }
+    
   })
-
   const removeShowtime = useMutation({
     mutationFn: async (id) => await DeleteShowtimes(id),
     onSuccess() {
-      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
+      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
       toast.success('Xóa lịch chiếu thành công <3 ')
+
+
     },
     onError() {
       toast.error('Xóa faile, try again !')
@@ -187,6 +186,27 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       toast.error('Update faile, try again !')
     }
   })
+  const editShowtimes = useMutation({
+    mutationFn: async (data: any) => {
+      const { showtime ,id} = data;
+      try {
+        const result = await updateShowtimes(showtime, id as string);
+        return result;
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: (data: any) => {
+      const { showtime } = data;
+      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
+
+      toast.success('Update lịch chiếu thành công <3');
+    },
+    onError: (error: any, variables: any, context: any) => {
+      toast.error('Update failed, try again!');
+      console.error('Error updating showtimes:', error);
+    }
+  });
 
   const values = {
     isLogined,
@@ -200,7 +220,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     userUpdateId,
     removeUser,
     addShowtime,
-    removeShowtime
+    removeShowtime,
+    editShowtimes
   }
   return <ContextMain.Provider value={values}>{children}</ContextMain.Provider>
 }

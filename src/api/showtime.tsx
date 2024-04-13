@@ -15,15 +15,15 @@ export const CreateShowtimes = async (showtime:any) => {
   const result = await baseShowtimes.post('/', showtime)
   return result
 }
+
 export const DeleteShowtimes = async (id:any) => {
   const result = await baseShowtimes.delete(`/${id}`)
   return result
 }
-export const updateShowtimes = async (showtime:any) => {
-  const result = await baseShowtimes.patch(`/${showtime._id}`, showtime)
+export const updateShowtimes = async (showtime:any,id:any) => {
+  const result = await baseShowtimes.patch(`/${id}`, showtime)
   return result
 }
-
 export const DetailShowtimes = async (id:any) => {
   const result = await baseShowtimes.get(`/${id}` )
   return result

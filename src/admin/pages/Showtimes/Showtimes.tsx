@@ -1,27 +1,51 @@
 import DefaultLayout from '@/admin/layout/DefaultLayout'
 import { ContextMain } from '@/context/Context'
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
 const Showtimes = () => {
   const { allShowTimes, removeShowtime } = useContext(ContextMain)
-
+  const [confirmItemId, setConfirmItemId] = useState(null); // State để lưu id của item được chọn xóa
+  const [conFirm , setConFirm]  = useState(false)
   console.log('check', allShowTimes)
+  const formatDate = (dateTimeString:any) => {
+    const date = new Date(dateTimeString);
+    const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    return formattedDate;
+  };
+  const handleDelete = (itemId:any) => {
+    setConfirmItemId(itemId); // Lưu id của item được chọn vào state
+    setConFirm(true); // Hiển thị modal
+  };
 
+  const handleConfirmDelete = () => {
+    if (confirmItemId) {
+      removeShowtime.mutate(confirmItemId)
+        .then(() => {
+          toast.success('Xóa lịch chiếu thành công');
+        })
+        .catch((error:any) => {
+          toast.error(`Lỗi khi xóa: ${error.message}`);
+        })
+        .finally(() => {
+          setConfirmItemId(null);
+          setConFirm(false); 
+        });
+    }
+  };
   return (
     <>
       <DefaultLayout>
         <div className="bg-white p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
             <div>
-              <h2 className="text-gray-600 font-semibold">All Users</h2>
-              <span className="text-xs">All products item</span>
+              <h2 className="text-gray-600 font-semibold">Lịch chiếu</h2>
+              <span className="text-xs">Tất cả lịch chiếu</span>
             </div>
             <div className="flex items-center justify-between">
               <div className="lg:ml-40 ml-10 space-x-8">
-                <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                  New Report
-                </button>
+              
                 <Link to={"/admin/showtimes/create"}>
                 <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
                   Create
@@ -65,13 +89,7 @@ const Showtimes = () => {
                       <tr key={index}>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <div className="flex items-center">
-                            <div className="flex-shrink-0 w-10 h-10">
-                              <img
-                                className="w-full h-full rounded-full"
-                                src={''}
-                                alt="Lỗi"
-                              />
-                            </div>
+                           
                             <div className="ml-3">
                               <p className="text-gray-900 whitespace-no-wrap">
                                 {item?.screenRoomId?.name}
@@ -84,13 +102,13 @@ const Showtimes = () => {
 </p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">{item?.date}</p>
+                          <p className="text-gray-900 whitespace-no-wrap">{formatDate(item?.date)}</p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">{item?.timeFrom}</p>
+                          <p className="text-gray-900 whitespace-no-wrap">{formatDate(item?.timeFrom)}</p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">{item?.timeTo}</p>
+                          <p className="text-gray-900 whitespace-no-wrap">{formatDate(item?.timeTo)}</p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
@@ -114,13 +132,7 @@ const Showtimes = () => {
                           <button
                             className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-light="true"
-                            onClick={() => {
-                                if (
-                                  window.confirm('Bạn có muốn xóa không') == true
-                                ) {
-                                  removeShowtime.mutate(item._id)
-                                }
-                              }}
+                            onClick={() => handleDelete(item._id)}
                           >
                             Delete
                           </button>
@@ -131,7 +143,7 @@ const Showtimes = () => {
                 </table>
                 <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                   <span className="text-xs xs:text-sm text-gray-900">
-                    Showing 1 to 4 of 50 Entries
+                 
                   </span>
                   <div className="inline-flex mt-2 xs:mt-0">
                     <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
@@ -147,6 +159,18 @@ const Showtimes = () => {
             </div>
           </div>
         </div>
+
+        {/* modal */}
+        {conFirm && (
+  <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
+  <div className="bg-white px-16 py-14 rounded-md text-center">
+    <h1 className="text-xl mb-4 font-bold text-slate-500">Do you Want Delete</h1>
+    <button className="bg-red-500 px-4 py-2 rounded-md text-md text-white" onClick={() => setConFirm(false)}>Cancel</button>
+    <button className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold" onClick={handleConfirmDelete}>Ok</button>
+  </div>
+</div>
+        )}
+      
       </DefaultLayout>
     </>
   )
