@@ -81,7 +81,8 @@ const ECommerce: React.FC = () => {
         />
         {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-12">
-          <TableOne />
+          <TableOne action='TOP_MOVIE' title='Top 5 bộ phim doanh thu cao' />
+          <TableOne action='TOP_USER' title='Top 5 khách hàng' />
         </div>
         {/* <ChatCard /> */}
       </div>

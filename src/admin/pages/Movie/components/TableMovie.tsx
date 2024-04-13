@@ -36,9 +36,6 @@ const TableMovie = () => {
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-  console.log(pageCount)
-
-  console.log('data:', data)
 
   // delete category by mutation react-query
   const { mutate } = useMutation({
@@ -47,8 +44,7 @@ const TableMovie = () => {
       queryClient.invalidateQueries({ queryKey: ['MOVIE'] })
       toast.success('Xoa thành công')
     },
-    onError: (error) => {
-      console.log(error)
+    onError: () => {
       toast.error('Xóa thất bại')
     }
   })
@@ -199,13 +195,19 @@ const TableMovie = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 pr-9 dark:border-strokedark">
                     <div className="flex justify-end space-x-4">
-                      <button className="text-primary-white hover:underline" onClick={() => {
-                        navigate(`/admin/movie/edit/${movie._id}`)
-                      }}>
-                        <FaEdit size={30}/>
+                      <button
+                        className="text-primary-white hover:underline"
+                        onClick={() => {
+                          navigate(`/admin/movie/edit/${movie._id}`)
+                        }}
+                      >
+                        <FaEdit size={30} />
                       </button>
-                      <button className="text-primary-white hover:underline"  onClick={() => handleShowConfirm(movie._id)}>
-                      <FaRegTrashCan size={30} />
+                      <button
+                        className="text-primary-white hover:underline"
+                        onClick={() => handleShowConfirm(movie._id)}
+                      >
+                        <FaRegTrashCan size={30} />
                       </button>
                     </div>
                   </td>
@@ -215,20 +217,7 @@ const TableMovie = () => {
           </table>
         </div>
       </div>
-      {/*  */}
-      {/* <div className='pagination-controls'>
-        {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            disabled={currentPage === page}
-            onClick={() => setPage(page)}
-            // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
-            className='mg-2 border border-[#eee] py-6 px-5 dark:border-strokedark hover:bg-red-400'
-          >
-            {page}
-          </button>
-        ))}
-      </div> */}
+
       <div className="pagination-controls">
         {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
           <button

@@ -1,7 +1,7 @@
 import { Category } from '@/admin/types/category'
 import { Movie, FormMovieAdd } from '@/admin/types/movie'
 import { getAllCategory } from '@/api/category'
-import { addMovie, editMovie, editMoviePice, getOneMovie } from '@/api/movie'
+import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -24,19 +24,22 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const { id } = useParams()
 
   // fetch category by react-query
-  const { data: datacate, isLoading: isLoadingCategory, isError: iserrCategory } = useQuery<Category[]>({
+  const {
+    data: datacate,
+    isLoading: isLoadingCategory,
+    isError: iserrCategory
+  } = useQuery<Category[]>({
     queryKey: ['CATEGORY'],
     queryFn: getAllCategory
   })
   //get movie by id
-  let pricesId;
+  let pricesId
 
   const { data: movieData, isLoading } = useQuery<Movie>({
     queryKey: ['MOVIE', id],
     queryFn: async () => {
       const data = await getOneMovie(id as string)
 
-      console.log('movie edit data: ', data)
       pricesId = data.prices
 
       setFieldValue('name', data?.name)
@@ -63,8 +66,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     enabled: typeForm === 'EDIT' && !!id
   })
 
-
-
   // mutation react-query
   const { mutate } = useMutation({
     mutationFn: async (bodyData: FormMovieAdd) => {
@@ -79,16 +80,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     onSuccess: () => {
       if (typeForm === 'EDIT') {
         toast.success('Sua movie thanh cong')
-        // setTimeout(() => {
-        //   navigate('/admin/movie')
-        // }, 500);
+
         return
       }
       toast.success('Them movie thanh cong')
-      // navigate('/admin/movie')
-      // setTimeout(() => {
-      //   navigate('/admin/movie')
-      // }, 500);
     },
     onError: () => {
       if (typeForm === 'EDIT') {
@@ -132,7 +127,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       priceweekday: 0,
       dayTypeweekday: '',
       pricesweekend: '',
-      dayTypeweekend: 0,
+      dayTypeweekend: 0
     },
     validate: (values) => {
       const errors: Partial<FormMovieAdd> = {}
@@ -184,13 +179,21 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.priceweekday) {
         errors.priceweekday = 'Required priceweekday'
-      } else if (isNaN(values.priceweekday) || Number(values.priceweekday) <= 30) {
-        errors.priceweekday = 'priceweekday must be a number and greater than 30'
+      } else if (
+        isNaN(values.priceweekday) ||
+        Number(values.priceweekday) <= 30
+      ) {
+        errors.priceweekday =
+          'priceweekday must be a number and greater than 30'
       }
       if (!values.pricesweekend) {
         errors.pricesweekend = 'Required pricesweekend'
-      } else if (isNaN(values.pricesweekend) || Number(values.pricesweekend) <= 30) {
-        errors.pricesweekend = 'pricesweekend must be a number and greater than 30'
+      } else if (
+        isNaN(values.pricesweekend) ||
+        Number(values.pricesweekend) <= 30
+      ) {
+        errors.pricesweekend =
+          'pricesweekend must be a number and greater than 30'
       }
       if (!values.age_limit) {
         errors.age_limit = 'Required age_limit'
@@ -213,33 +216,21 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.categoryId.length < 1) {
         errors.categoryId = 'categoryId must be at least 3 characters long'
       }
-      // if (!values.showTimes) {
-      //   errors.showTimes = 'Required showTimes'
-      // } else if (values.showTimes.length < 3) {
-      //   errors.showTimes = 'showTimes must be at least 3 characters long'
-      // }
-      // if (!values.prices) {
-      //   errors.prices = 'Required prices'
-      // } 
-      // else if (values.prices.length < 3) {
-      //   errors.prices = 'prices must be at least 3 characters long'
-      // }
+
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value form cinema :', values)
       try {
         const newObject = {
           price: values?.priceweekday,
-          dayType: 'weekday',
-        };
+          dayType: 'weekday'
+        }
         const newObject2 = {
           price: values?.pricesweekend,
-          dayType: 'weekend',
-        };
+          dayType: 'weekend'
+        }
 
-        values.prices = [newObject, newObject2];
-        console.log('vlaue: ', values.prices)
+        values.prices = [newObject, newObject2]
         const bodyData = {
           name: values?.name,
           image: values?.image,
@@ -260,8 +251,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           prices: values?.prices
         }
 
-        console.log('data body movie form:', bodyData)
-        const response = await mutate(bodyData)
+        await mutate(bodyData)
         // console.log('res', response)
       } catch (error) {
         console.log('error', error)
@@ -330,7 +320,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
                 {values.image && (
-                  <img src={values.image} alt="movie" className="w-32 h-32 object-cover rounded-lg" />
+                  <img
+                    src={values.image}
+                    alt="movie"
+                    className="w-32 h-32 object-cover rounded-lg"
+                  />
                 )}
               </div>
               {/*  */}

@@ -88,7 +88,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
                 d="M360 94.59V296M443.13 212.87L296 360M417.41 360H216M299.13 443.13l-144-144M152 416V216M68.87 299.13l144-144M94.59 152H288M212.87 68.87L360 216"
               />
             </svg>
-            <h1 className="logo-text">Asho Dekhi</h1>
+            <h1 className="logo-text">Dream Cinema</h1>
           </HashLink>
         </div>
 
