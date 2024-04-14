@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
+
 interface BreadcrumbProps {
-  pageName: string;
+  pageName: string
 }
 const Breadcrumb = ({ pageName }: BreadcrumbProps) => {
   return (
