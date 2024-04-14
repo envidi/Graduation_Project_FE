@@ -39,6 +39,7 @@ export interface TicketSeatBill{
   column: number
 }
 export interface TicketBill {
+  orderNumber : number,
   _id: string
   priceId: {
     _id: string

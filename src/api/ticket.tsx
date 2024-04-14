@@ -17,12 +17,16 @@ interface PriceTicketType {
   _id: string | undefined
   price: number | undefined
 }
+interface ShowTimeType {
+  _id?: string | undefined
+  timeFrom?: string | undefined
+}
 export interface TicketCreateType {
   ticket_id?: string | undefined
   priceId?: PriceTicketType | undefined
   seatId?: SeatTicketType[] | undefined
   foods?: FoodTicket[] | undefined
-  showtimeId?: string | undefined
+  showtimeId?: ShowTimeType | undefined
   userId?: string
   typeBank?: string | false | null
   typePayment?: string | false | null

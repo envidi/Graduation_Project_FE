@@ -10,8 +10,8 @@ import {
 } from '@/components/ui/table'
 import {
   addCommasToNumber,
-  chuyenDoiNgayDauVao,
   convertAmPm,
+  convertDayToFormatVN,
   getDay,
   getHourAndMinute
 } from '@/utils'
@@ -63,13 +63,13 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
               <div className="flex flex-col items-center">
                 <span className="text-2xl">Giờ chiếu</span>
                 <span className="text-xl">
-                  {convertAmPm(getHourAndMinute(data.showtimeId.timeFrom))}
+                  {convertAmPm(getHourAndMinute(data?.showtimeId?.timeFrom))}
                 </span>
               </div>
               <div className="flex flex-col items-center">
                 <span className="text-2xl">Ngày chiếu</span>
                 <span className="text-xl">
-                  {chuyenDoiNgayDauVao(getDay(data.showtimeId.timeFrom))}
+                  {convertDayToFormatVN(getDay(data?.showtimeId?.timeFrom))}
                 </span>
               </div>
             </div>
@@ -109,7 +109,7 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
             <ul className="px-4">
               <li className="text-2xl flex justify-between mb-3 mt-8">
                 <span>Mã vé</span>
-                <span>{data._id}</span>
+                <span>{data.orderNumber}</span>
               </li>
               <li className="text-2xl flex justify-between  mt-5">
                 <span>Ngày thanh toán</span>
@@ -142,23 +142,23 @@ function ProfileBillItem({ data }: { data: TicketBill }) {
                     {data?.paymentId?.typeBank || 'Bank'}
                   </TableCell>
                   <TableCell className="sm:text-[14px] xs:text-[12px]">
-                    {data?.priceId?.price || 'Price'}
+                    {addCommasToNumber(data?.priceId?.price) || 0}
                   </TableCell>
                   <TableCell className="sm:text-[14px] xs:text-[12px]">
-                    {data.seatId.reduce(
+                    {addCommasToNumber(data.seatId.reduce(
                       (acc: number, seat: { price: number }) =>
                         seat.price + acc,
                       0
-                    )}
+                    ))}
                   </TableCell>
                   <TableCell className="sm:text-[14px] xs:text-[12px]">
-                    {data.foods.reduce(
+                    {addCommasToNumber(data.foods.reduce(
                       (
                         acc: number,
                         food: { price: number; quantityFood: number }
                       ) => food.price * food.quantityFood + acc,
                       0
-                    )}
+                    ))}
                   </TableCell>
                   <TableCell className="text-right sm:text-[14px] xs:text-[12px]">
                     {addCommasToNumber(data.totalPrice)}
