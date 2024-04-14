@@ -68,16 +68,16 @@ const Profile = () => {
     validate: (values) => {
       const errors: Partial<FormValues> = {}
       if (!values.name || values.name.length <= 6) {
-        errors.name = 'Bắt buộc phải nhập name và phải lớn hơn 6 ký tự '
+        errors.name = 'Bắt buộc phải nhập tên và phải lớn hơn 6 ký tự '
       }
       if (!values.address || values.address.length <= 6) {
-        errors.address = 'Bắt buộc phải nhập address và phải lớn hơn 6 ký tự '
+        errors.address = 'Bắt buộc phải nhập địa chỉ và phải lớn hơn 6 ký tự '
       }
       if (!values.mobile || values.mobile.length <= 6) {
-        errors.mobile = 'Bắt buộc phải nhập mobile và phải lớn hơn 6 ký tự '
+        errors.mobile = 'Bắt buộc phải nhập số điện thoại và phải lớn hơn 6 ký tự '
       }
       if (!values.email) {
-        errors.email = 'Required email'
+        errors.email = 'Yêu cầu  email'
       } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
       ) {
@@ -85,18 +85,18 @@ const Profile = () => {
       }
 
       if (!values.password) {
-        errors.password = 'Hãy nhập  password'
+        errors.password = 'Hãy nhập  mật khẩu '
       } else if (values.password.length < 8) {
-        errors.password = 'Password phải lớn hơn 8 ký tự'
+        errors.password = 'Mật khẩu  phải lớn hơn 8 ký tự'
       }
 
       if (!values.confirmPassword) {
-        errors.confirmPassword = 'Bắt buộc phải nhập confirmPassword'
+        errors.confirmPassword = 'Bắt buộc phải nhập  lại mật khẩu'
       } else if (values.confirmPassword.length < 6) {
-        errors.confirmPassword = 'confirmPassword phải lớn hơn 6 ký tự'
+        errors.confirmPassword = 'Nhập lại   lại mật khẩu phải lớn hơn 6 ký tự'
       } else if (values.confirmPassword !== values.password) {
         errors.confirmPassword =
-          'Hãy nhập Password và giống nhau, thử lại đi !!!!!'
+          'Hãy nhập mật khẩu và giống nhau, thử lại đi '
       }
 
       return errors
@@ -176,11 +176,11 @@ const Profile = () => {
               )}
               <div className="signup-form-category">
                 <label className="text-[#1a1d2c] text-2xl font-bold">
-                  Name: <span>*</span>
+                  Tên : <span>*</span>
                 </label>
                 <input
                   type="text"
-                  placeholder="Enter Username"
+                  placeholder="Nhập tên người dùng"
                   value={formikValidate.values.name}
                   onChange={formikValidate.handleChange}
                   name="name"
@@ -198,29 +198,29 @@ const Profile = () => {
                     type="email"
                     onChange={formikValidate.handleChange}
                     value={formikValidate.values.email}
-                    placeholder="Enter Email"
+                    placeholder="nhập Email"
                   />
                 </div>
 
                 <div className="signup-form-category">
-                  <label>Avatar:</label>
+                  <label>Hình đại diện:</label>
                   <input
                     type="file"
                     onChange={handleChangeFiles}
-                    placeholder="Choose Avatar"
+                    placeholder="chọn ảnh"
                     className="p-[6px]"
                   />
                 </div>
 
                 <div className="signup-form-category">
                   <label>
-                    Phone Number(Must contain 11 digits): <span>*</span>
+                   Điện thoại(Phải chứa 11 chữ số) : <span>*</span>
                   </label>
                   <input
                     name="mobile"
                     type="text"
                     value={formikValidate.values.mobile}
-                    placeholder="Enter Phone No."
+                    placeholder="Nhập số điện thoại."
                     onChange={formikValidate.handleChange}
                     onBlur={formikValidate.handleBlur}
                   />
@@ -234,11 +234,11 @@ const Profile = () => {
                   )}
                 <div className="signup-form-category">
                   <label>
-                    Address: <span>*</span>
+                    Địa chỉ: <span>*</span>
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter Your address"
+                    placeholder="Nhập địa chỉ của bạn"
                     value={formikValidate.values.address}
                     onChange={formikValidate.handleChange}
                     name="address"
@@ -313,12 +313,12 @@ const Profile = () => {
                   )}
                 <div className="signup-form-category">
                   <label>
-                    Password(Must contain at least 8 digits): <span>*</span>
+                  Mật khẩu(Phải chứa ít nhất 8 chữ số): <span>*</span>
                   </label>
                   <div className="input-password">
                     <input
                       type="password"
-                      placeholder="Enter Your password"
+                      placeholder="Nhập mật khẩu"
                       onBlur={formikValidate.handleBlur}
                       onChange={formikValidate.handleChange}
                       name="password"
@@ -374,13 +374,13 @@ const Profile = () => {
                   )}
                 <div className="signup-form-category">
                   <label>
-                    Confirm Password(Must contain at least 8 digits):{' '}
+                  Xác nhận mật khẩu(Phải chứa ít nhất 8 chữ số):{' '}
                     <span>*</span>
                   </label>
                   <div className="input-password">
                     <input
                       type="password"
-                      placeholder="Enter Your confirm password"
+                      placeholder="Nhập lại mật khẩu"
                       onChange={formikValidate.handleChange}
                       name="confirmPassword"
                     />

@@ -34,6 +34,6 @@ export const getShowtimesById = async (id:string) => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to fetch cinema data');
+    throw new Error('Không thể tìm nạp dữ liệu rạp chiếu phim');
   }
 };

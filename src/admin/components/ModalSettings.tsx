@@ -86,13 +86,13 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
         <div className="grid grid-cols-3 gap-5 justify-normal">
           <div className="form-group w-full col-span-3">
             <label  className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="id">Bond ID (Input "ALL" to track all bonds with paramaters below)</label>
+                        htmlFor="id">ID trái phiếu (Nhập "ALL" để theo dõi tất cả các trái phiếu có thông số bên dưới)</label>
             <input className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                           name="id" onChange={handleChange} value={formState.id} />
           </div>
           
           <div className="form-group ">
-            <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="para">Parameter</label>
+            <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="para">Tham số</label>
             <div className="relative z-20 w-full rounded border border-stroke p-1.5 pr-8 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
                   <div className="flex flex-wrap items-center"></div>
                   <span className="m-1.5 flex items-center justify-center rounded border-[.5px] border-stroke bg-gray py-1.5 px-2.5 text-sm font-medium dark:border-strokedark dark:bg-white/30">
@@ -147,12 +147,12 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               onChange={handleChange}
               value={formState.criterion}
             >
-              <option value="0">goes down by</option>
-              <option value="1">goes up by</option>
-              {!(formState.para=='rating')&&<option value="2">is smaller than</option>}
-              {!(formState.para=='rating')&&<option value="3">is greater than</option>}
+              <option value="0">Đi xuống theo</option>
+              <option value="1">Đi lên theo</option>
+              {!(formState.para=='rating')&&<option value="2">Nhỏ hơn</option>}
+              {!(formState.para=='rating')&&<option value="3">Lớn hơn</option>}
               
-              <option value="4">is equal to</option>
+              <option value="4">Bằng</option>
             </select>
             <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
                             <svg
@@ -175,13 +175,13 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
                         </div>
           </div>
             <div className="form-group w-full">
-            <label  className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="value">Value to give Alert</label>
+            <label  className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="value">Giá trị để cung cấp Cảnh báo</label>
             <input className="w-full rounded border border-stroke bg-gray py-3 pl-3 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                            name="value" onChange={handleChange} value={formState.value} />
           </div>
           
           <div className="form-group">
-            <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="type">Alert Type</label>
+            <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="type">Loại cảnh báo</label>
             <div className="relative z-20 w-full rounded border border-stroke p-1.5 pr-8 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
                   <div className="flex flex-wrap items-center"></div>
                   <span className={`${formState.type==0?"bg-[#04b20c]":formState.type==1?"bg-[#eab90f]":"bg-[#e13f32]"} m-1.5 flex items-center justify-center rounded border-[.5px] border-stroke py-1.5 px-2.5 text-white font-medium dark:border-strokedark`}>
@@ -195,9 +195,9 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
               onChange={handleChange}
               value={formState.type}
             >
-              <option value="0">Info</option>
-              <option value="1">Warning</option>
-              <option value="2">Alert</option>
+              <option value="0">Thông tin</option>
+              <option value="1">Cảnh báo</option>
+              <option value="2">Báo động</option>
             </select>
             <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
                             <svg
@@ -227,7 +227,7 @@ export const Modal = ({ closeModal, onSubmit, defaultValue }) => {
           <br></br>
           <button className="btn flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:shadow-1"
                       type="submit" onClick={handleSubmit}>
-            Submit
+           Nộp
           </button>
         </form>
       </div>

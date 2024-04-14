@@ -210,7 +210,7 @@ export const MovieInfoSection = () => {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="md" variant="outline">
-                    Trailer
+                  Đoạn phim giới thiệu
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="p-0 w-fit">
@@ -234,7 +234,7 @@ export const MovieInfoSection = () => {
                     </div>
                   ) : (
                     <>
-                      <Plus size={20} /> Watchlist
+                      <Plus size={20} /> Danh sách theo dõi
                     </>
                   )}
                 </Button>
@@ -251,7 +251,7 @@ export const MovieInfoSection = () => {
         </div>
 
         <h3 className="movie-info-screen-heading border-b-4 border-primary-movieColor text-primary-movieColor w-fit mb-10">
-          Showtimes
+          Lịch chiếu 
         </h3>
         <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center gap-10 ">
           {showTimeDimension && showTimeDimension.length > 0 && (

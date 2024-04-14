@@ -10,23 +10,23 @@ export const metadata: { title: string; description: string } = {
 
 const sidebarNavItems = [
   {
-    title: 'Profile',
+    title: 'Hồ sơ',
     href: '/profile/forms'
   },
   {
-    title: 'Account',
+    title: 'Tài khoản',
     href: '/profile/forms/account'
   },
   {
-    title: 'Appearance',
+    title: 'Vẻ bề ngoài',
     href: '/profile/forms/appearance'
   },
   {
-    title: 'Watch List',
+    title: ' danh sách theo dõi',
     href: '/profile/watchlist'
   },
   {
-    title: 'Bill',
+    title: 'Hóa đơn',
     href: '/profile/bill'
   }
 ]
@@ -41,9 +41,9 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
       <div className=" rounded-[0.5rem] border border-border-borderProfileContain shadow-md md:shadow-xl mt-32 mx-16">
         <div className=" space-y-11 p-16 pb-16 block mt-3 px-[35px]">
           <div className="space-y-3 ">
-            <h2 className="text-5xl font-semibold tracking-tight">Settings</h2>
+            <h2 className="text-5xl font-semibold tracking-tight">Cài đặt</h2>
             <p className="text-muted-foreground text-3xl block">
-              Manage your account settings and set e-mail preferences.
+            Quản lý cài đặt tài khoản của bạn và đặt tùy chọn e-mail.
             </p>
           </div>
           <Separator className="my-20 border border-border-borderProfileContain" />

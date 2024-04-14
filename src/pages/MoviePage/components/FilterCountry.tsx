@@ -72,7 +72,7 @@ function FilterCountry({
             ? countryFilter?.find(
                 (country: string) => country === query.country
               )
-            : 'Select country...'}
+            : 'Chọn quốc gia...'}
           <ChevronsUpDown size={16} />
         </Button>
       </PopoverTrigger>
@@ -84,7 +84,7 @@ function FilterCountry({
           />
           <CommandList className="bg-background-main">
             <CommandEmpty className="text-primary-movieColor text-2xl flex items-center justify-center p-6">
-              No country found.
+            Không tìm thấy quốc gia nào.
             </CommandEmpty>
             <CommandGroup>
               <CommandItem
@@ -95,7 +95,7 @@ function FilterCountry({
                 }}
                 className={`text-primary-movieColor text-2xl py-3 ps-5 my-2 mx-2 rounded-md bg-background-secondary flex justify-between hover:bg-primary-locationMovie ${query.country === '0' ? 'bg-accent text-accent-foreground' : ''}`}
               >
-                Any country
+               Bất kỳ quốc gia nào
                 <Check
                   className={cn(
                     'mr-2 h-6 w-6',

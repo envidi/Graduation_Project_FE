@@ -39,7 +39,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
   const logout = () => {
     localStorage.removeItem('Accesstoken')
     setIsLogined(false)
-    toast.success('Login successful')
+    toast.success('Đăng nhập thành công')
   }
 
   return (
@@ -88,7 +88,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
                 d="M360 94.59V296M443.13 212.87L296 360M417.41 360H216M299.13 443.13l-144-144M152 416V216M68.87 299.13l144-144M94.59 152H288M212.87 68.87L360 216"
               />
             </svg>
-            <h1 className="logo-text">Dream Cinema</h1>
+            <h1 className="logo-text " >Dream Cinema</h1>
           </HashLink>
         </div>
 
@@ -123,7 +123,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
 
         <div className="nav-signup">
           <div className="relative">
-            <TooltipComponent tooltip={'Notify'}>
+            <TooltipComponent tooltip={'Thông báo'}>
               <div>
                 <Bell size={20} className="text-primary-locationMovie" />
                 <span className="w-7 h-7 rounded-full flex justify-center items-center  bg-primary-movieColor absolute top-[-8px] right-[-5px]">
@@ -193,7 +193,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
                             className="signup-button"
                             onClick={toggleShowForm}
                           >
-                            Sign up
+                         Đăng Ký
                           </button>
                         </li>
                         <li>
@@ -201,7 +201,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
                             className="login-button"
                             onClick={toggleShowFormSignIn}
                           >
-                            Sign in
+                         Đăng Nhập 
                           </button>
                         </li>
                       </ul>

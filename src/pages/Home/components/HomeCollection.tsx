@@ -20,7 +20,7 @@ export const HomeCollection = ({ dataMovie, isLoading }: MoviePropsType) => {
     <section className="section-home-collection" id="nowShowing">
       <div className="home-collection-heading-container">
         <h1 className="heading-secondary heading-collection text-primary-locationMovie">
-          Now Playing &rarr;
+        Đang phát &rarr;
         </h1>
       </div>
 

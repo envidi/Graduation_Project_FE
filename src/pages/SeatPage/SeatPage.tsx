@@ -150,7 +150,7 @@ const SeatPage = () => {
 
   return (
     <div className="flex items-center flex-col">
-      <div className="form-item-heading">Select Seat</div>
+      <div className="form-item-heading">Chọn chỗ ngồi</div>
       {!loading && (
         <>
           <div className="seat-guide-container lg:gap-2 xs:gap-16 xl:max-w-7xl lg:max-w-7xl md:max-w-7xl sm:max-w-5xl  xs:max-w-4xl flex-wrap">

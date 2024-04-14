@@ -46,7 +46,7 @@ function FoodCollection() {
     <div className="movie-info-screen-container  sm:w-full xs:w-full ">
       <div className="food-info-screen-container bg-gray-100 shadow-xl dark:shadow-none border-2 border-border-calendarBorder dark:border-none dark:bg-background-third grid md:px-8 lg:px-14 sm:px-16 xs:px-12">
         <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
-          Menu
+        Thực đơn
         </h2>
         {foods &&
           foods?.map((food: FoodItemState) => {

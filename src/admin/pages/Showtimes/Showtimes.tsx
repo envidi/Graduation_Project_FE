@@ -48,7 +48,7 @@ const Showtimes = () => {
               
                 <Link to={"/admin/showtimes/create"}>
                 <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                  Create
+                 Tạo
                 </button>
                 </Link>
                 
@@ -125,7 +125,7 @@ const Showtimes = () => {
                             className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-light="true" 
                           >
-                            Update
+                          Cập nhật
                           </button>
                             </Link>
                         
@@ -134,7 +134,7 @@ const Showtimes = () => {
                             data-ripple-light="true"
                             onClick={() => handleDelete(item._id)}
                           >
-                            Delete
+                           Xóa
                           </button>
                         </td>
                       </tr>
@@ -147,11 +147,11 @@ const Showtimes = () => {
                   </span>
                   <div className="inline-flex mt-2 xs:mt-0">
                     <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                      Prev
+                      sau
                     </button>
                     &nbsp; &nbsp;
                     <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                      Next
+                     trước
                     </button>
                   </div>
                 </div>
@@ -164,8 +164,8 @@ const Showtimes = () => {
         {conFirm && (
   <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0">
   <div className="bg-white px-16 py-14 rounded-md text-center">
-    <h1 className="text-xl mb-4 font-bold text-slate-500">Do you Want Delete</h1>
-    <button className="bg-red-500 px-4 py-2 rounded-md text-md text-white" onClick={() => setConFirm(false)}>Cancel</button>
+    <h1 className="text-xl mb-4 font-bold text-slate-500">Bạn có muốn xóa</h1>
+    <button className="bg-red-500 px-4 py-2 rounded-md text-md text-white" onClick={() => setConFirm(false)}>Hủy bỏ</button>
     <button className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold" onClick={handleConfirmDelete}>Ok</button>
   </div>
 </div>

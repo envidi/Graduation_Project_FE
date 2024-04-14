@@ -49,7 +49,7 @@ function useTicket(
     },
     onError: (err: { response: { data: { message: string } } }) => {
       onError && onError()
-      toast.error(err?.response.data.message || 'Cannot select seat', {
+      toast.error(err?.response.data.message || 'Không thể chọn chỗ ngồi', {
         position: 'top-right'
       })
     }

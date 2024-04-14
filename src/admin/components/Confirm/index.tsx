@@ -35,8 +35,8 @@ export function ConfirmDialog({
           <AlertDialogDescription>{subTitle}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>Continue</AlertDialogAction>
+          <AlertDialogCancel onClick={onCancel}>Hủy bỏ </AlertDialogCancel>
+          <AlertDialogAction onClick={onConfirm}>Tiếp tục </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

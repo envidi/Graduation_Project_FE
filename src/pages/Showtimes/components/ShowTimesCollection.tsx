@@ -9,6 +9,7 @@ import {
   Select,
   SelectContent,
   SelectGroup,
+
   SelectItem,
   SelectTrigger,
   SelectValue
@@ -96,7 +97,7 @@ export const ShowTimesCollection = () => {
               <SelectTrigger
                 className={`w-[110px] bg-transparent rounded-full text-xl  font-semibold py-4 flex px-6 border-2 border-primary-movieColor ${''}`}
               >
-                <SelectValue placeholder="Select day" />
+                <SelectValue placeholder="Chọn ngày" />
               </SelectTrigger>
               <SelectContent className=" bg-background-main p-2 border-primary-movieColor">
                 <SelectGroup>

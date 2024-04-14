@@ -148,7 +148,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             fill=""
                           />
                         </svg>
-                        Dashboard
+                       Bảng điều khiển 
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && 'rotate-180'
                             }`}
@@ -180,7 +180,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              eCommerce
+                              Thương mại điện tử
                             </NavLink>
                           </li>
                         </ul>
@@ -213,7 +213,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  Category
+                 Danh mục 
                 </NavLink>
                 <NavLink
                   to="/admin/users"
@@ -234,7 +234,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  Users
+                  Người dùng
                 </NavLink>
                 <NavLink
                   to="/admin/showtimes"
@@ -255,7 +255,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  Showtimes
+                  Lịch chiếu phim
                 </NavLink>
               </li>
               {/* <!-- Menu Item Calendar --> */}
@@ -280,7 +280,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  Food
+                 Đồ ăn
                 </NavLink>
               </li>
               {/* <!-- Menu Item Seat --> */}
@@ -308,7 +308,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                     <path d="M17 20v-5"></path>
                   </svg>
 
-                  Seat
+                  Ghế
                 </NavLink>
               </li>
 
@@ -336,7 +336,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       fill=""
                     />
                   </svg>
-                  Profile
+                  Hồ sơ
                 </NavLink>
               </li>
               {/* <!-- Menu Item Profile --> */}
@@ -392,7 +392,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             fill="white"
                           />
                         </svg>
-                        Forms
+                        Các hình thức
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && 'rotate-180'
                             }`}
@@ -424,7 +424,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Form Elements
+                             Các phần tử biểu mẫu
                             </NavLink>
                           </li>
                           <li>
@@ -435,7 +435,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Form Layout
+                            Bố cục biểu mẫu
                             </NavLink>
                           </li>
                         </ul>
@@ -479,7 +479,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Tables
+                Bảng
                 </NavLink>
               </li>
               {/* <!-- Menu Item Tables --> */}
@@ -521,7 +521,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Settings
+                  Cài đặt 
                 </NavLink>
               </li>
               {/* <!-- Menu Item Settings --> */}
@@ -531,7 +531,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
           {/* <!-- Others Group --> */}
           <div>
             <h3 className="mb-4 ml-4 text-sm font-semibold text-bodydark2">
-              OTHERS
+              Khác
             </h3>
 
             <ul className="mb-6 flex flex-col gap-1.5">
@@ -571,7 +571,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Chart
+                  Đồ thị
                 </NavLink>
               </li>
               {/* <!-- Menu Item Chart --> */}
@@ -628,7 +628,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             </clipPath>
                           </defs>
                         </svg>
-                        UI Elements
+                         giao diện người dùng
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && 'rotate-180'
                             }`}
@@ -660,7 +660,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Alerts
+                             Cảnh báo
                             </NavLink>
                           </li>
                           <li>
@@ -671,7 +671,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Buttons
+                            Nút
                             </NavLink>
                           </li>
                         </ul>
@@ -733,7 +733,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                             </clipPath>
                           </defs>
                         </svg>
-                        Authentication
+                        Xác thực
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${open && 'rotate-180'
                             }`}
@@ -765,7 +765,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Sign In
+                             Đăng nhập 
                             </NavLink>
                           </li>
                           <li>
@@ -776,7 +776,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Sign Up
+                              Đăng ký
                             </NavLink>
                           </li>
                         </ul>

@@ -95,7 +95,7 @@ const DropdownMessage = () => {
         style={{ maxHeight: '300px', overflowY: 'auto' }} 
       >
         <div className="px-4.5 py-3">
-          <h5 className="text-2xl  text-gray-300 ml-2.5 ">Messages</h5>
+          <h5 className="text-2xl  text-gray-300 ml-2.5 ">Tin nhắn</h5>
         </div>
 
         <ul className="flex h-auto flex-col overflow-y-auto">
@@ -112,8 +112,8 @@ const DropdownMessage = () => {
                 <h6 className="text-sm font-medium text-black text-lg">
                   Mariya Desoja
                 </h6>
-                <p className="text-sm text-gray-500">I like your confidence 💪</p>
-                <p className="text-xs text-gray-500">2min ago</p>
+                <p className="text-sm text-gray-500">Tôi thích sự tự tin của bạn 💪</p>
+                <p className="text-xs text-gray-500">2 phút trước</p>
               </div>
             </Link>
           </li>
@@ -130,8 +130,8 @@ const DropdownMessage = () => {
                 <h6 className="text-sm font-medium text-black">
                   Robert Jhon
                 </h6>
-                <p className="text-sm text-gray-500">Can you share your offer?</p>
-                <p className="text-xs text-gray-500">10min ago</p>
+                <p className="text-sm text-gray-500">Bạn có thể chia sẻ lời đề nghị của bạn không?</p>
+                <p className="text-xs text-gray-500">10 phút trước</p>
               </div>
             </Link>
           </li>
@@ -148,8 +148,8 @@ const DropdownMessage = () => {
                 <h6 className="text-sm font-medium text-black">
                   Henry Dholi
                 </h6>
-                <p className="text-sm text-gray-500">I cam across your profile and...</p>
-                <p className="text-xs text-gray-500">1day ago</p>
+                <p className="text-sm text-gray-500">Tôi đã xem qua hồ sơ của bạn và...</p>
+                <p className="text-xs text-gray-500">1 ngày trước</p>
               </div>
             </Link>
           </li>
@@ -166,8 +166,8 @@ const DropdownMessage = () => {
                 <h6 className="text-sm font-medium text-black">
                   Cody Fisher
                 </h6>
-                <p className="text-sm text-gray-500">I’m waiting for you response!</p>
-                <p className="text-xs text-gray-500">5days ago</p>
+                <p className="text-sm text-gray-500">Tôi đang chờ phản hồi của bạn!</p>
+                <p className="text-xs text-gray-500">5 ngày trước</p>
               </div>
             </Link>
           </li>
@@ -184,8 +184,8 @@ const DropdownMessage = () => {
                 <h6 className="text-sm font-medium text-black">
                   Mariya Desoja
                 </h6>
-                <p className="text-sm text-gray-500">I like your confidence 💪</p>
-                <p className="text-xs text-gray-500">2min ago</p>
+                <p className="text-sm text-gray-500">Tôi thích sự tự tin của bạn💪</p>
+                <p className="text-xs text-gray-500">2 phút trước</p>
               </div>
             </Link>
           </li>

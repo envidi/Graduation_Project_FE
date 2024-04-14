@@ -38,7 +38,7 @@ function DropDownMenu({ logout }: DropDownMenuType) {
 
   return (
     <DropdownMenu>
-      <TooltipComponent tooltip={'Your account'}>
+      <TooltipComponent tooltip={'Tài khoản của bạn'}>
         <DropdownMenuTrigger asChild>
           <Button>
             <p
@@ -61,25 +61,25 @@ function DropDownMenu({ logout }: DropDownMenuType) {
         </DropdownMenuTrigger>
       </TooltipComponent>
       <DropdownMenuContent className="w-72">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>Tài khoản của tôi</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link to={'/profile/forms'}>
             <DropdownMenuItem>
               <User className="mr-2 h-6 w-6" />
-              <span>Profile</span>
+              <span>Hồ sơ</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuItem>
             <CreditCard className="mr-2 h-6 w-6" />
-            <span>Billing</span>
+            <span>Thanh toán</span>
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <Link to={'/profile/forms/appearance'}>
             <DropdownMenuItem>
               <Settings className="mr-2 h-6 w-6" />
-              <span>Settings</span>
+              <span>Cài đặt</span>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
@@ -95,12 +95,12 @@ function DropDownMenu({ logout }: DropDownMenuType) {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <MessageSquare className="mr-2 h-6 w-6" />
-                  <span>Message</span>
+                  <span>Tin nhắn</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <PlusCircle className="mr-2 h-6 w-6" />
-                  <span>More...</span>
+                  <span>Hơn...</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
@@ -119,7 +119,7 @@ function DropDownMenu({ logout }: DropDownMenuType) {
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={logout}>
           <LogOut className="mr-2 h-6 w-6" />
-          <span>Log out</span>
+          <span>Đăng xuất</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

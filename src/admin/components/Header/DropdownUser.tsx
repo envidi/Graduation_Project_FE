@@ -104,7 +104,7 @@ const DropdownUser = () => {
                   fill=""
                 />
               </svg>
-              Account Settings
+              Cài đặt tài khoản
             </Link>
           </li>
         </ul>
@@ -126,7 +126,7 @@ const DropdownUser = () => {
               fill=""
             />
           </svg>
-          Log Out
+          Đăng xuất
         </button>
       </div>
       {/* <!-- Dropdown End --> */}

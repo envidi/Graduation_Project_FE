@@ -40,7 +40,7 @@ function MovieShowtimeSection({
             })
           ) : (
             <div className="h-32 text-3xl flex items-center justify-center w-full">
-              No showtime in this day
+             Không có lịch chiếu vào ngày này
             </div>
           )}
         </div>

@@ -42,7 +42,7 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
                 navigate('/')
               }}
             >
-              Home
+              Trang chủ
             </button>
           </li>
           <li className="mobile-nav-list-item">
@@ -53,7 +53,7 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
                 navigate('/showtimes')
               }}
             >
-              Showtimes
+              Lịch chiếu 
             </button>
           </li>
           <li className="mobile-nav-list-item">
@@ -64,7 +64,7 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
                 navigate('/aboutus')
               }}
             >
-              About Us
+              Về chúng tôi
             </button>
           </li>
           {/* {Object.keys(signedPerson).length !== 0 &&
@@ -89,7 +89,7 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
                 setMenuState((prev: boolean) => !prev)
               }}
             >
-              Sign Up
+             Đăng nhập 
             </button>
           </li>
           <li className="mobile-nav-list-item">
@@ -99,7 +99,7 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
                 setMenuState((prev: boolean) => !prev)
               }}
             >
-              Sign in
+              Đăng ký 
             </button>
           </li>
 

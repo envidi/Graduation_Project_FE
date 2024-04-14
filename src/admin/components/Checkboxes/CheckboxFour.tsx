@@ -32,7 +32,7 @@ const CheckboxFour = () => {
             </span>
           </div>
         </div>
-        Checkbox Text
+        Văn bản hộp kiểm
       </label>
     </div>
   );
