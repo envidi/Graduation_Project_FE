@@ -1,15 +1,18 @@
-// import { BRAND } from '../../types/brand'
-// import BrandOne from '../../images/brand/brand-01.svg'
-// import BrandTwo from '../../images/brand/brand-02.svg'
-// import BrandThree from '../../images/brand/brand-03.svg'
-// import BrandFour from '../../images/brand/brand-04.svg'
-// import BrandFive from '../../images/brand/brand-05.svg'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from '@/components/ui/tooltip'
 import { addCommasToNumber } from '@/utils'
 import useStatistic from '@/hooks/useStatistic'
 interface TopMovieType {
-  movieDetails: { name: string; image: string }[]
+  movieDetails?: { name: string; image: string }[]
+  _id?: { name: string; image: string }
   profit: number
   totalSold: number
+  priceFood: number
+  priceMovie: number
   count: number
 }
 interface TopUserType {
@@ -157,25 +160,113 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
       </h4>
 
       <div className="flex flex-col">
-        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-4">
+        <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 lg:grid-cols-[120px_minmax(100px,_1fr)_180px_190px_190px]">
           <div className="p-2.5 xl:p-5">
             <h5 className="text-sm font-medium uppercase xsm:text-base">
               Phim
             </h5>
           </div>
-          <div className="p-2.5 text-center xl:p-5 sm:block hidden">
+          <div className="p-2.5 text-center xl:px-2 xl:py-5 ">
             <h5 className=" text-sm font-medium  uppercase xsm:text-base">
               Vé đã bán
             </h5>
           </div>
-          <div className="p-2.5 text-center xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Doanh thu
+
+          <div className=" p-2.5 text-center lg:block hidden  xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base hover:cursor-pointer lg:flex hidden  justify-between">
+              Doanh thu phim
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-circle-help"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                      <path d="M12 17h.01" />
+                    </svg>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-56">
+                      Bao gồm giá ghế ngồi cộng với giá bộ phim bán được trong
+                      bộ phim này
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </h5>
           </div>
-          <div className=" p-2.5 text-center  xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Lợi nhuận
+          <div className=" p-2.5 text-center lg:block hidden xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base lg:flex hidden justify-between ">
+              Doanh thu đồ ăn
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-circle-help"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                      <path d="M12 17h.01" />
+                    </svg>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-56">
+                      Bao gồm tổng doanh thu từ đồ ăn bán được trong bộ phim này
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </h5>
+          </div>
+          <div className="p-2.5 text-center xl:p-5">
+            <h5 className="text-sm font-medium uppercase xsm:text-base flex justify-between">
+              Tổng doanh thu
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="18"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-circle-help"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+                      <path d="M12 17h.01" />
+                    </svg>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p className="w-56">
+                      Bao gồm tổng doanh thu cộng với doanh thu đồ ăn
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
             </h5>
           </div>
           {/* <div className="hidden p-2.5 text-center sm:block xl:p-5">
@@ -187,7 +278,7 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
 
         {dataTop.map((top_movie: TopMovieType, key: number) => (
           <div
-            className={`grid grid-cols-3 sm:grid-cols-4 ${
+            className={`grid grid-cols-3 lg:grid-cols-[170px_minmax(100px,_1fr)_200px_200px_200px] ${
               key === dataTop.length - 1
                 ? ''
                 : 'border-b border-stroke dark:border-strokedark'
@@ -196,38 +287,34 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-5 ">
               <div className="flex-shrink-0">
-                <img
-                  width={'50'}
-                  src={top_movie.movieDetails[0]?.image}
-                  alt="Brand"
-                />
+                <img width={'50'} src={top_movie._id?.image} alt="Brand" />
               </div>
               <p className="hidden text-black dark:text-white sm:block ">
-                {top_movie.movieDetails[0]?.name}
+                {top_movie._id?.name}
               </p>
             </div>
 
-            <div className="hidden sm:flex items-center justify-center p-2.5 xl:p-5 ">
+            <div className="flex items-center justify-center p-2.5 xl:p-5 ">
               <p className="text-black dark:text-white">
                 {addCommasToNumber(top_movie?.count)}
               </p>
             </div>
 
+            <div className="hidden lg:flex items-center justify-center p-2.5  xl:p-5">
+              <p className="text-black dark:text-white ">
+                {addCommasToNumber(top_movie?.priceMovie)}
+              </p>
+            </div>
+            <div className="hidden lg:flex items-center justify-center p-2.5  xl:p-5">
+              <p className="text-black dark:text-white">
+                {addCommasToNumber(top_movie?.priceFood)}
+              </p>
+            </div>
             <div className="flex items-center justify-center p-2.5 xl:p-5">
               <p className="text-meta-3">
                 {addCommasToNumber(top_movie?.totalSold)}
               </p>
             </div>
-
-            <div className="flex items-center justify-center p-2.5  xl:p-5">
-              <p className="text-black dark:text-white">
-                {addCommasToNumber(top_movie?.profit)}
-              </p>
-            </div>
-
-            {/* <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
-              <p className="text-meta-5">{brand.conversion}%</p>
-            </div> */}
           </div>
         ))}
       </div>

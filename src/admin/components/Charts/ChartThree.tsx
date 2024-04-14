@@ -60,6 +60,7 @@ const ChartThree = ({
 }) => {
   options.labels = childrenChart
   options.colors = colors
+  console.log(colors)
 
   const { data: data } = useStatistic(action)
   return (
@@ -121,10 +122,13 @@ const ChartThree = ({
       <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
         {childrenChart.map((child: string, index: number) => {
           return (
-            <div key={index} className="sm:w-1/2 w-full px-8">
+            <div key={child} className="sm:w-1/2 w-full px-8">
               <div className="flex w-full items-center">
                 <span
                   className={`mr-2 block h-3 w-full max-w-3 rounded-full bg-[${colors[index]}]`}
+                  style={{
+                    backgroundColor: colors[index]
+                  }}
                 ></span>
                 <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                   <span> {child} </span>
