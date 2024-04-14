@@ -15,7 +15,7 @@ function MovieShowtimeSection({
     return (
       <div
         key={index}
-        className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full"
+        className="movie-info-screen-container md:basis-3/5 lg:basis-[47%] sm:w-full xs:w-full"
       >
         <div
           className={`movie-info-screen-container-3d bg-background-third grid ${showTimeDimension?.length > 0 ? 'grid' : ''}`}

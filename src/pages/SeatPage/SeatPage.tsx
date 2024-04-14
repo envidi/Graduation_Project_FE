@@ -28,8 +28,8 @@ const SeatPage = () => {
   const [ticket] = useLocalStorage<TicketType | null>('ticket')
 
   const { data: seats, isLoading: loading } = useAllSeatByShowTime({
-    _hallId: ticket?.hall_id || '',
-    _showId: ticket?.id_showtime || ''
+    _hallId: ticket?.hall_id?._id || '',
+    _showId: ticket?.id_showtime?._id || ''
   })
 
   const [, setSelectedSeat] = useState<SeatUserList>()
@@ -140,7 +140,6 @@ const SeatPage = () => {
       )
       return
     }
-    // console.log(seat.row - maxRow.row)
     dispatch(ticketAction.addProperties({ seat: [...seatResult] }))
   }
 
@@ -150,7 +149,11 @@ const SeatPage = () => {
 
   return (
     <div className="flex items-center flex-col">
+<<<<<<< HEAD
       <div className="form-item-heading">Chọn chỗ ngồi</div>
+=======
+      <div className="form-item-heading">Chọn ghế</div>
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
       {!loading && (
         <>
           <div className="seat-guide-container lg:gap-2 xs:gap-16 xl:max-w-7xl lg:max-w-7xl md:max-w-7xl sm:max-w-5xl  xs:max-w-4xl flex-wrap">

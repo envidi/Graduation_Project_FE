@@ -4,8 +4,8 @@ import { toast } from 'react-toastify'
 import { Armchair, Cookie } from 'lucide-react'
 
 import {
-  chuyenDoiNgayDauVao,
   convertAmPm,
+  convertDayToFormatVN,
   convertMintuteToHour,
   formatVND,
   getDay,
@@ -58,7 +58,7 @@ function TicketSummary() {
   const foods = useSelector((state: FoodSelector) => state.foods.foods)
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
   const { isLoading, data: dataShowtime } = useShowtime(
-    ticket?.id_showtime || ''
+    ticket?.id_showtime?._id || ''
   )
   const foodValid = foods.filter((food: FoodItemState) => food.quantity > 0)
 
@@ -97,6 +97,7 @@ function TicketSummary() {
     foods: foodsTicket = [],
     ticketAmount = 0
   } = ticket
+  
 
   const totalFoodPrice =
     foods && foods.length != 0
@@ -237,7 +238,7 @@ function TicketSummary() {
             <TicketItem
               icon={<ShowDate />}
               title={'Ngày chiếu'}
-              name={chuyenDoiNgayDauVao(getDay(time_from))}
+              name={convertDayToFormatVN(getDay(time_from))}
             />
             <TicketItem
               icon={<Hall />}
@@ -295,7 +296,11 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseFood}
           >
+<<<<<<< HEAD
            Mua vé
+=======
+            Chọn đồ ăn
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </button>
         )}
 
@@ -304,7 +309,7 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseSeat}
           >
-            {isPending ? <BarLoader color="#e6e6e8" /> : 'purchase ticket'}
+            {isPending ? <BarLoader color="#e6e6e8" /> : 'Chọn ghế'}
           </button>
         )}
         {pathname == '/purchase/payment' && paymentMethod._id !== 3 && (
@@ -312,7 +317,11 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchasePayment}
           >
+<<<<<<< HEAD
             Mua vé
+=======
+            Thanh toán vé
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </button>
         )}
         {pathname == '/purchase/payment' && paymentMethod._id == 3 && (

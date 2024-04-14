@@ -56,9 +56,6 @@ const profileFormSchema = Joi.object({
   sex: Joi.string().label('Giới tính').required().messages({
     'string.empty': 'Bắt buộc chọn giới tính'
   })
-  // bio: Joi.string().label('Bio').max(160).messages({
-  //   'string.empty': 'Required bio'
-  // })
 })
 
 export function ProfileForm() {
@@ -146,7 +143,11 @@ export function ProfileForm() {
           name="address"
           render={({ field }) => (
             <FormItem>
+<<<<<<< HEAD
               <FormLabel className="text-2xl">Địa chỉ</FormLabel>
+=======
+              <FormLabel className="text-2xl">Địa chỉ</FormLabel>
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
               <FormControl>
                 <Input
                   placeholder="đường Nam Từ Liêm Hà Nội"
@@ -166,7 +167,11 @@ export function ProfileForm() {
           name="mobile"
           render={({ field }) => (
             <FormItem>
+<<<<<<< HEAD
               <FormLabel className="text-2xl">Điện thoại </FormLabel>
+=======
+              <FormLabel className="text-2xl">Điện thoại</FormLabel>
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
               <FormControl>
                 <Input
                   placeholder="Enter your số  điện..."
@@ -251,7 +256,11 @@ export function ProfileForm() {
           type="submit"
           className="dark:bg-background-secondary bg-neutral-800 text-2xl px-7 py-4"
         >
+<<<<<<< HEAD
          Cập nhật hồ sơ
+=======
+          Cập nhật
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
         </Button>
       </form>
     </Form>

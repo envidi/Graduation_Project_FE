@@ -96,7 +96,11 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
                 <SheetTitle className="text-2xl">Lọc phim</SheetTitle>
               </SheetHeader>
               <div className="mt-5">
+<<<<<<< HEAD
                 <div className="text-2xl mb-5">Lọc theo tỷ lệ</div>
+=======
+                <div className="text-2xl mb-5">Lọc theo đánh giá</div>
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                 <FilterRate
                   setQuery={setQuery}
                   query={query}
@@ -117,7 +121,11 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
                 <Separator className="my-7 bg-border-calendarBorder h-[0.5px] " />
               </div>
               <div className="mt-5">
+<<<<<<< HEAD
                 <div className="text-2xl mb-5">Lọc theo độ tuổi</div>
+=======
+                <div className="text-2xl mb-5">Lọc theo tuổi</div>
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                 <FilterAge
                   setQuery={setQuery}
                   query={query}
@@ -127,7 +135,11 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
               </div>
               <SheetFooter>
                 <SheetClose asChild className="sheet-close">
+<<<<<<< HEAD
                   <Button type="submit">Lưu thay đổi</Button>
+=======
+                  <Button type="submit">Lưu</Button>
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                 </SheetClose>
               </SheetFooter>
             </SheetContent>
@@ -153,14 +165,22 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
             className={`rounded-full border-2 text-xl px-10 py-5 hover:border-2 bg-transparent font-bold ${query.order == 'desc' ? 'bg-primary-movieColor' : ''}`}
             onClick={() => handleSort('desc')}
           >
+<<<<<<< HEAD
            Mới nhất
+=======
+            Mới nhất
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </Button>
           <Button
             variant="outline"
             className={`rounded-full border-2 text-xl px-10 py-5 hover:border-2 bg-transparent font-bold ${query.order == 'asc' ? 'bg-primary-movieColor' : ''}`}
             onClick={() => handleSort('asc')}
           >
+<<<<<<< HEAD
            Muộn nhất
+=======
+            Lâu nhất
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </Button>
         </div>
       </div>

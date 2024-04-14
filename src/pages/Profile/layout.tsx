@@ -10,7 +10,11 @@ export const metadata: { title: string; description: string } = {
 
 const sidebarNavItems = [
   {
+<<<<<<< HEAD
     title: 'Hồ sơ',
+=======
+    title: 'Tài khoản',
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
     href: '/profile/forms'
   },
   {
@@ -18,11 +22,19 @@ const sidebarNavItems = [
     href: '/profile/forms/account'
   },
   {
+<<<<<<< HEAD
     title: 'Vẻ bề ngoài',
     href: '/profile/forms/appearance'
   },
   {
     title: ' danh sách theo dõi',
+=======
+    title: 'Giao diện',
+    href: '/profile/forms/appearance'
+  },
+  {
+    title: 'Xem sau',
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
     href: '/profile/watchlist'
   },
   {
@@ -41,9 +53,15 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
       <div className=" rounded-[0.5rem] border border-border-borderProfileContain shadow-md md:shadow-xl mt-32 mx-16">
         <div className=" space-y-11 p-16 pb-16 block mt-3 px-[35px]">
           <div className="space-y-3 ">
+<<<<<<< HEAD
             <h2 className="text-5xl font-semibold tracking-tight">Cài đặt</h2>
             <p className="text-muted-foreground text-3xl block">
             Quản lý cài đặt tài khoản của bạn và đặt tùy chọn e-mail.
+=======
+            <h2 className="text-5xl font-semibold tracking-tight">Cài đặt</h2>
+            <p className="text-muted-foreground text-3xl block">
+              Quản lý cài đặt tài khoản và thiết lập tùy chọn e-mail.
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
             </p>
           </div>
           <Separator className="my-20 border border-border-borderProfileContain" />

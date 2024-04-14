@@ -77,7 +77,11 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
           className="showtimes-details-btn"
           onClick={() => navigate(`/movie/${dataMovie.slug}`)}
         >
+<<<<<<< HEAD
         Xem chi tiết
+=======
+          Xem chi tiết
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
         </button>
       </div>
 
@@ -120,7 +124,11 @@ export const ShowtimesCard = ({ movieId, currentDay }: ShowtimesCardProps) => {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel className="text-2xl px-9 py-3">
+<<<<<<< HEAD
                         Hủy bỏ
+=======
+                          Hủy
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                         </AlertDialogCancel>
                         {new Date().toISOString() <
                           formatDateToISOString(showTime.timeFrom) && (

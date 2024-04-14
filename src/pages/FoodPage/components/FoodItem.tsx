@@ -7,14 +7,28 @@ import { useDispatch } from 'react-redux'
 import { foodsAction } from '@/store/food'
 import { ChangeEventHandler } from 'react'
 import { addCommasToNumber } from '@/utils'
+import { toast } from 'react-toastify'
+import { useLocalStorage } from '@uidotdev/usehooks'
+import { TicketType } from '@/store/ticket'
+
 
 function FoodItem({ food }: FoodType) {
   const dispatch = useDispatch()
+  const [ticket] = useLocalStorage<TicketType>('ticket')
 
   const handleChangeQuantity: ChangeEventHandler<HTMLInputElement> = (
     e
   ): void => {
     const target = e.target as HTMLInputElement
+
+    if (
+      // totalFoodQuantity >= ticket.ticketAmount! * 3 ||
+      parseInt(target.value) >
+      ticket.ticketAmount! * 3
+    ) {
+      toast.error('Mỗi vé chỉ đặt tối đa 3 cái')
+      return
+    }
 
     const newFood = {
       ...food,
@@ -24,6 +38,11 @@ function FoodItem({ food }: FoodType) {
   }
 
   const handleIncrementFood = (food: FoodItemState) => {
+    if (food.quantity >= ticket.ticketAmount! * 3) {
+      toast.error('Mỗi vé chỉ đặt tối đa 3 cái')
+      return
+    }
+
     const newFood = {
       name: food.name,
       price: food.price,
@@ -42,7 +61,7 @@ function FoodItem({ food }: FoodType) {
       _id: food._id,
       quantity: 1
     }
-    
+
     dispatch(foodsAction.decrementFood(newFood))
   }
 

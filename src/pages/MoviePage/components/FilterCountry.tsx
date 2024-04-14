@@ -72,19 +72,27 @@ function FilterCountry({
             ? countryFilter?.find(
                 (country: string) => country === query.country
               )
+<<<<<<< HEAD
             : 'Chọn quốc gia...'}
+=======
+            : 'Tìm theo quốc gia...'}
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           <ChevronsUpDown size={16} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className={`w-[150px] p-0 border-primary-movieColor ${className}`}>
         <Command className="bg-background-main ">
           <CommandInput
-            placeholder="Search country..."
+            placeholder="Tìm theo quốc gia..."
             className="h-16 text-2xl text-primary-movieColor"
           />
           <CommandList className="bg-background-main">
             <CommandEmpty className="text-primary-movieColor text-2xl flex items-center justify-center p-6">
+<<<<<<< HEAD
             Không tìm thấy quốc gia nào.
+=======
+              Không tìm thấy phim phù hợp
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
             </CommandEmpty>
             <CommandGroup>
               <CommandItem
@@ -95,7 +103,11 @@ function FilterCountry({
                 }}
                 className={`text-primary-movieColor text-2xl py-3 ps-5 my-2 mx-2 rounded-md bg-background-secondary flex justify-between hover:bg-primary-locationMovie ${query.country === '0' ? 'bg-accent text-accent-foreground' : ''}`}
               >
+<<<<<<< HEAD
                Bất kỳ quốc gia nào
+=======
+                Mọi quốc gia
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                 <Check
                   className={cn(
                     'mr-2 h-6 w-6',

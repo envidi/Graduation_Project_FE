@@ -47,9 +47,6 @@ const profileFormSchema = Joi.object({
     'string.min': '{{#label}} can only be up to 4 characters.'
   }),
   mobile: Joi.number().label('Mobile')
-  // bio: Joi.string().label('Bio').max(160).messages({
-  //   'string.empty': 'Required bio'
-  // })
 })
 function UserDialogConfirm() {
   const { userDetail } = useContext(ContextMain)

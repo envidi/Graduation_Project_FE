@@ -40,7 +40,7 @@ function UploadImage() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (user: FormData) => updateClient(user),
     onSuccess() {
-      toast.success('Cập nhật hình ảnh thành công ')
+      toast.success('Chỉnh sửa ảnh thành công!')
       queryClient.invalidateQueries({
         queryKey: [USERDETAIL]
       })
@@ -51,7 +51,7 @@ function UploadImage() {
       }
     },
     onError() {
-      toast.error('Cập nhật không thành công, hãy thử lại')
+      toast.error('Tải ảnh thất bại, hãy thử lại !')
     }
   })
 
@@ -67,7 +67,7 @@ function UploadImage() {
     const data = new FormData()
 
     if (!file || file.length == 0) {
-      toast.error('Vui lòng chọn một hình ảnh!', {
+      toast.error('Vui lòng chọn ảnh bạn muốn!', {
         position: 'top-right'
       })
       return
@@ -87,16 +87,12 @@ function UploadImage() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button className="border-primary-movieColor text-primary-locationMovie border-2 text-2xl space-x-2 rounded-lg px-5">
+        <Button className="border-primary-movieColor text-primary-locationMovie border-2 text-md space-x-2 rounded-lg px-5">
           <PenLine size={12} />
-<<<<<<< HEAD
-          <span>Chỉnh sửa</span>
-=======
           <span>Chỉnh sửa</span>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px] xs:max-w-[320px] ">
+      <DialogContent className="sm:max-w-[530px] xs:max-w-[400px] ">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -108,26 +104,20 @@ function UploadImage() {
               name="avatar"
               render={() => (
                 <FormItem>
-<<<<<<< HEAD
-                  <FormLabel className="text-2xl">Tên tài khoản</FormLabel>
-=======
-                  <FormLabel className="text-2xl">Tên</FormLabel>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
+                  <FormLabel className="text-xl">
+                    Chỉnh sửa ảnh đại diện
+                  </FormLabel>
                   <FormControl>
                     <div className="flex justify-around">
                       <div className="flex flex-col items-center">
-                        <span className="text-3xl my-2 mb-5  font-semibold text-primary-movieColor">
-<<<<<<< HEAD
-                        Tải hình ảnh lên
-=======
-                          Tải ảnh
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
+                        <span className="text-xl my-2 mb-5  font-semibold text-primary-movieColor">
+                          Ảnh tải lên
                         </span>
                         <Label
                           htmlFor="picture"
-                          className="sm:w-80 sm:h-80 xs:w-52 xs:h-52 text-2xl bg-background-secondary flex justify-center items-center border-primary-movieColor border-dashed border"
+                          className="sm:w-40 sm:h-40 xs:w-30 xs:h-30 text-xl bg-background-secondary flex justify-center items-center border-primary-movieColor border-dashed border"
                         >
-                          Tải lên
+                          Tải ảnh lên
                         </Label>
                         <Input
                           id="picture"
@@ -137,14 +127,10 @@ function UploadImage() {
                         />
                       </div>
                       <div className="flex flex-col items-center">
-                        <span className="text-3xl my-2 mb-5 font-semibold text-primary-movieColor">
-<<<<<<< HEAD
-                        Hình ảnh hiện tại
-=======
+                        <span className="text-xl my-2 mb-5 font-semibold text-primary-movieColor">
                           Ảnh hiện tại
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                         </span>
-                        <Avatar className="sm:w-80 sm:h-80 xs:w-52 xs:h-52">
+                        <Avatar className="sm:w-40 sm:h-40 xs:w-30 xs:h-30">
                           <AvatarImage
                             src={userDetail.message.avatar}
                             alt="@shadcn"
@@ -163,14 +149,14 @@ function UploadImage() {
             <DialogFooter className="">
               <Button
                 type="submit"
-                className="bg-primary-movieColor text-2xl px-3 py-4 mt-3"
+                className="bg-primary-movieColor text-md px-2 py-2 mt-2"
               >
                 {isPending ? <BarLoader color="#e6e6e8" /> : 'Save changes'}
               </Button>
               <DialogClose asChild className="close-dialog">
                 <Button
                   type="button"
-                  className="text-2xl px-10 bg-background-secondary mt-3"
+                  className="text-md px-6 bg-background-secondary mt-2"
                 >
                   Đóng
                 </Button>
