@@ -95,7 +95,7 @@ const FormReply = ({
         onClick={cancleReply}
         className="bg-background-secondary px-10 rounded-lg sm:block xs:hidden sm:text-2xl text-primary-movieColor font-semibold max-h-none  hover:opacity-80 hover:text-red-500"
       >
-        Cancel
+        Hủy
       </Button>
       <Button
         onClick={cancleReply}

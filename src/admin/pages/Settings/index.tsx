@@ -51,16 +51,16 @@ const Settings = () => {
     validate: (values) => {
       const errors: Partial<UserUpdateType> = {}
       if (!values.name || values.name.length <= 6) {
-        errors.name = 'Bắt buộc phải nhập name và phải lớn hơn 6 ký tự '
+        errors.name = 'Bắt buộc phải nhập tên và phải lớn hơn 6 ký tự '
       }
       if (!values.address || values.address.length <= 6) {
-        errors.address = 'Bắt buộc phải nhập address và phải lớn hơn 6 ký tự '
+        errors.address = 'Bắt buộc phải nhập địa chỉ và phải lớn hơn 6 ký tự '
       }
       if (!values.mobile || values.mobile.length <= 6) {
-        errors.mobile = 'Bắt buộc phải nhập mobile và phải lớn hơn 6 ký tự '
+        errors.mobile = 'Bắt buộc phải nhập số điện thoại và phải lớn hơn 6 ký tự '
       }
       if (!values.email) {
-        errors.email = 'Required email'
+        errors.email = 'Yêu cầu email'
       } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
       ) {
@@ -103,13 +103,13 @@ const Settings = () => {
   const userUpdate = useMutation({
     mutationFn: async (user: UserUpdateType) => await updateClient(user),
     onSuccess() {
-      toast.success('Update Successfully ')
+      toast.success('Cập nhật thành công ')
       queryClient.invalidateQueries({
         queryKey: [USERDETAIL]
       })
     },
     onError() {
-      toast.error('Update faile, try again !!!!!!!')
+      toast.error('Cập nhật không thành công, hãy thử lại')
     }
   })
 

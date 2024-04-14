@@ -4,7 +4,7 @@ export const AboutUsSection = () => {
     <section className="section-about-us ">
       <div className="container">
         <div className="about-us-heading">
-          Unveiling Our Story Behind
+        Tiết lộ câu chuyện đằng sau của chúng tôi
           <div className="aboutus-logo-container">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -27,43 +27,43 @@ export const AboutUsSection = () => {
                 d="M360 94.59V296M443.13 212.87L296 360M417.41 360H216M299.13 443.13l-144-144M152 416V216M68.87 299.13l144-144M94.59 152H288M212.87 68.87L360 216"
               />
             </svg>
-            <h1 className="aboutus-logo-text">Asho Dekhi</h1>
+            <h1 className="aboutus-logo-text">DREAM CINEMA</h1>
           </div>
         </div>
         <div className="about-us-body">
-          <p>Welcome to ASHO DEKHI,</p>
+          <p>Chào mừng bạn đến DREAM CINEMA</p>
           <p>
-            At ASHO DEKHI, we are passionate about delivering the ultimate
-            cinematic experience to our valued moviegoers. Our mission is to
-            transport you to a world of magic, wonder, and excitement every time
-            you step into one of our theatres.
+          Tại DREAM CINEMA, chúng tôi đam mê mang đến những sản phẩm tối ưu
+             trải nghiệm điện ảnh cho khán giả xem phim quý giá của chúng tôi. Sứ mệnh của chúng tôi là
+             đưa bạn đến một thế giới kỳ diệu, kỳ diệu và phấn khích mọi lúc
+             bạn bước vào một trong những rạp chiếu phim của chúng tôi.
           </p>
           <p>
-            With state-of-the-art technology, including mesmerizing IMAX screens
-            and immersive Dolby Atmos sound, we bring your favorite movies to
-            life like never before. Our theatre s premium lounge area offers a
-            luxurious escape, where you can indulge in handcrafted cocktails and
-            gourmet snacks, surrounded by the finest comfort and elegance.
+          Với công nghệ tiên tiến, bao gồm cả màn hình IMAX đầy mê hoặc
+             và âm thanh Dolby Atmos sống động, chúng tôi mang những bộ phim yêu thích của bạn đến
+             cuộc sống như chưa từng có trước đây. Khu vực phòng chờ cao cấp của nhà hát của chúng tôi cung cấp
+             lối thoát sang trọng, nơi bạn có thể thưởng thức các loại cocktail thủ công và
+             đồ ăn nhẹ dành cho người sành ăn, được bao quanh bởi sự thoải mái và sang trọng nhất.
           </p>
           <p>
-            As true cinephiles, we understand that every movie moment counts,
-            which is why we strive to provide you with the best amenities,
-            premium seating, and top-notch customer service. Whether you re here
-            for the latest blockbusters, captivating documentaries, or special
-            events, our diverse selection of films ensures there s something for
-            every taste.
+          Là những người mê điện ảnh thực thụ, chúng tôi hiểu rằng mọi khoảnh khắc trong phim đều có giá trị,
+             đó là lý do tại sao chúng tôi cố gắng cung cấp cho bạn những tiện nghi tốt nhất,
+             chỗ ngồi cao cấp và dịch vụ khách hàng hàng đầu. Dù bạn có ở đây không
+             để biết những bộ phim bom tấn mới nhất, phim tài liệu hấp dẫn hoặc đặc biệt
+             sự kiện, việc lựa chọn phim đa dạng của chúng tôi đảm bảo có điều gì đó dành cho
+             mọi hương vị.
           </p>
           <p>
-            We believe that going to the movies should be more than just an
-            outing; it should be an unforgettable experience. That s why we take
-            pride in curating each detail to create lasting memories for you and
-            your loved ones.
+          Chúng tôi tin rằng việc đi xem phim không chỉ là một
+             đi chơi; nó sẽ là một trải nghiệm khó quên. Đó là lý do tại sao chúng tôi lấy
+             tự hào trong việc quản lý từng chi tiết để tạo ra những kỷ niệm lâu dài cho bạn và
+             những người thân yêu của bạn.
           </p>
           <p>
-            Join us at ASHO DEKHI and immerse yourself in the captivating world
-            of cinema. Get ready to unleash the movie magic and embark on a
-            journey of pure entertainment, delight, and wonder. We can t wait to
-            share the magic of the silver screen with you.
+          Hãy tham gia cùng chúng tôi tại DREAM CINEMA và hòa mình vào thế giới quyến rũ
+             của điện ảnh. Hãy sẵn sàng để giải phóng phép thuật của bộ phim và bắt tay vào một cuộc hành trình
+             hành trình giải trí thuần túy, niềm vui và sự ngạc nhiên. Chúng tôi không thể chờ đợi để
+             chia sẻ sự kỳ diệu của màn bạc với bạn.
           </p>
         </div>
       </div>

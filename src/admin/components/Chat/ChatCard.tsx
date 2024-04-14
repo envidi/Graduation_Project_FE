@@ -18,7 +18,7 @@ const chatData: Chat[] = [
   {
     avatar: UserTwo,
     name: 'Henry Fisher',
-    text: 'Waiting for you!',
+    text: 'Đang chờ bạn!',
     time: 12,
     textCount: 0,
     color: '#DC3545',
@@ -26,7 +26,7 @@ const chatData: Chat[] = [
   {
     avatar: UserFour,
     name: 'Jhon Doe',
-    text: "What's up?",
+    text: "Có chuyện gì vậy?",
     time: 32,
     textCount: 0,
     color: '#10B981',
@@ -34,7 +34,7 @@ const chatData: Chat[] = [
   {
     avatar: UserFive,
     name: 'Jane Doe',
-    text: 'Great',
+    text: 'Tuyệt',
     time: 32,
     textCount: 2,
     color: '#FFBA00',
@@ -42,7 +42,7 @@ const chatData: Chat[] = [
   {
     avatar: UserOne,
     name: 'Jhon Doe',
-    text: 'How are you?',
+    text: 'Bạn có khỏe không?',
     time: 32,
     textCount: 0,
     color: '#10B981',
@@ -50,7 +50,7 @@ const chatData: Chat[] = [
   {
     avatar: UserThree,
     name: 'Jhon Doe',
-    text: 'How are you?',
+    text: 'Bạn có khỏe không?',
     time: 32,
     textCount: 3,
     color: '#FFBA00',
@@ -61,7 +61,7 @@ const ChatCard = () => {
   return (
     <div className="col-span-12 rounded-sm border border-stroke py-6 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
       <h4 className="mb-6 px-7.5 text-xl font-semibold text-black dark:text-white">
-        Chats
+      Trò chuyện
       </h4>
 
       <div>

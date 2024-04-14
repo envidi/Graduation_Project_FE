@@ -29,7 +29,7 @@ export const SignupModal = () => {
       })
     },
     onError() {
-      toast.error('Đăng ký thất bại, kiểm tra lại thông tin giúp tớ điii <3')
+      toast.error('Đăng ký thất bại, kiểm tra lại thông tin của bạn')
     }
   })
 
@@ -45,7 +45,7 @@ export const SignupModal = () => {
       const errors: Partial<FormValues> = {}
 
       if (!values.name || values.name.length <= 6) {
-        errors.name = 'Must contain at least 6 character '
+        errors.name = 'Phải chứa ít nhất 6 ký tự '
       }
       // if (!values.address || values.address.length <= 6) {
       //   errors.address = 'Address required and length > 6 '
@@ -54,23 +54,23 @@ export const SignupModal = () => {
       //   errors.mobile = 'Mobile required and length > 6 '
       // }
       if (!values.email) {
-        errors.email = 'Required email'
+        errors.email = 'Yêu cầu  email'
       } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
       ) {
-        errors.email = 'Required email'
+        errors.email = 'Yêu cầu  email'
       }
       if (!values.password) {
-        errors.password = 'Required password'
+        errors.password = 'Yêu cầu mật khẩu'
       } else if (values.password.length < 8) {
-        errors.password = 'Password length > 8'
+        errors.password = 'Mặt khẩu phải trên 8 ký tự'
       }
       if (!values.confirmPassword) {
-        errors.confirmPassword = 'Bắt buộc phải nhập confirmPassword'
+        errors.confirmPassword = 'Bắt buộc phải nhập lại mật khẩu'
       } else if (values.confirmPassword.length < 6) {
-        errors.confirmPassword = 'confirmPassword phải lớn hơn 6 ký tự'
+        errors.confirmPassword = 'Nhập lại mật khẩu phải lớn hơn 6 ký tự'
       } else if (values.confirmPassword !== values.password) {
-        errors.confirmPassword = 'Password không khớp, thử lại đi !!!!!'
+        errors.confirmPassword = 'Mật khẩu  không khớp, thử nhập lại'
       }
 
       return errors
@@ -131,7 +131,7 @@ export const SignupModal = () => {
             >
               <div className="signup-form-heading">
                 <h2 className="signup-form-heading-text">
-                  Create a ASHO DEKHI Account
+                Tạo tài khoản  DREAM CINEMA
                 </h2>
                 <button
                   type="button"
@@ -159,11 +159,11 @@ export const SignupModal = () => {
                 <div className="signup-form-category-sp">
                   <div className="signup-form-category w-full ">
                     <label>
-                      Name: <span>*</span>
+                      Tên : <span>*</span>
                     </label>
                     <input
                       type="text"
-                      placeholder="Enter Username"
+                      placeholder="Nhập tên  "
                       defaultValue={formikValidate.values.name}
                       onChange={formikValidate.handleChange}
                       onBlur={formikValidate.handleBlur}
@@ -187,7 +187,7 @@ export const SignupModal = () => {
                   <input
                     name="email"
                     type="email"
-                    placeholder="Enter Your Email"
+                    placeholder="Nhập  Email "
                     defaultValue={formikValidate.values.email}
                     onChange={formikValidate.handleChange}
                     onBlur={formikValidate.handleBlur}
@@ -202,12 +202,12 @@ export const SignupModal = () => {
 
                 <div className="signup-form-category">
                   <label>
-                    Password(Must contain at least 8 digits): <span>*</span>
+                    Mật khẩu (Phải chứa ít nhất 8 chữ số): <span>*</span>
                   </label>
                   <div className="input-password">
                     <input
                       type="password"
-                      placeholder="Enter Your password"
+                      placeholder="Nhập mật khẩu của bạn"
                       defaultValue={formikValidate.values.password}
                       onChange={formikValidate.handleChange}
                       onBlur={formikValidate.handleBlur}
@@ -264,13 +264,13 @@ export const SignupModal = () => {
 
                 <div className="signup-form-category">
                   <label>
-                    Confirm Password(Must contain at least 8 digits):{' '}
+                  Xác nhận mật khẩu(Phải chứa ít nhất 8 chữ số) :{' '}
                     <span>*</span>
                   </label>
                   <div className="input-password">
                     <input
                       type="password"
-                      placeholder="Enter Your confirm password"
+                      placeholder="Nhập lại mật khẩu"
                       defaultValue={formikValidate.values.confirmPassword}
                       onChange={formikValidate.handleChange}
                       onBlur={formikValidate.handleBlur}
@@ -330,7 +330,7 @@ export const SignupModal = () => {
                   className="btn-reg bg-[#eb3656]"
                   disabled={loading}
                 >
-                  {loading ? <BarLoader color="#e6e6e8" /> : 'Sign up'}
+                  {loading ? <BarLoader color="#e6e6e8" /> : 'Đăng ký'}
                 </button>
               </div>
             </form>

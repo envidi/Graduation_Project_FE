@@ -46,7 +46,7 @@ const ForgotPassword = () => {
       const errors: Partial<FormValues> = {}
 
       if (!values.email) {
-        errors.email = 'Required email'
+        errors.email = 'Yêu cầu  email'
       } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
       ) {
@@ -77,7 +77,7 @@ const ForgotPassword = () => {
         <div className="login-form overlay">
           <form onSubmit={formikValidate.handleSubmit}>
             <div className="signup-form-heading">
-              <h2 className="signup-form-heading-text">Forgot Password ?</h2>
+              <h2 className="signup-form-heading-text">Quên mật khẩu?</h2>
               <button
                 type="button"
                 className="btn-form-exit"
@@ -116,7 +116,7 @@ const ForgotPassword = () => {
                   value={formikValidate.values.email}
                   onChange={formikValidate.handleChange}
                   onBlur={formikValidate.handleBlur}
-                  placeholder="Enter Email"
+                  placeholder="Nhập  Email"
                 />
               </div>
 

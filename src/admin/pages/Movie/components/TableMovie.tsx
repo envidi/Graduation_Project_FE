@@ -42,7 +42,7 @@ const TableMovie = () => {
     mutationFn: removeMovie,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['MOVIE'] })
-      toast.success('Xoa thành công')
+      toast.success('Xóa thành công')
     },
     onError: () => {
       toast.error('Xóa thất bại')
@@ -126,7 +126,7 @@ const TableMovie = () => {
                   Diễn viên
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  Trailer
+                Đoạn phim giới thiệu
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
                   Trạng thái
@@ -187,7 +187,7 @@ const TableMovie = () => {
                       rel="noopener noreferrer"
                       className="text-primary-white hover:underline"
                     >
-                      Watch Trailer
+                      Xem đoạn giới thiệu
                     </a>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
@@ -233,8 +233,8 @@ const TableMovie = () => {
 
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Ban co chac muon xoa khong"
-        subTitle="Xoa di se khong the khoi phuc"
+        title="Bạn có chắc muốn xóa không"
+        subTitle="Xóa đi không thể khôi phục"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveMovie}
       />

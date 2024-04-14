@@ -4,26 +4,26 @@ const packageData: Package[] = [
   {
     name: 'Free package',
     price: 0.0,
-    invoiceDate: 'Jan 13,2023',
-    status: 'Paid'
+    invoiceDate: 'Ngày 13 tháng 1 năm 2023',
+    status: 'Trả'
   },
   {
     name: 'Standard Package',
     price: 59.0,
-    invoiceDate: 'Jan 13,2023',
-    status: 'Paid'
+    invoiceDate: 'Ngày 13 tháng 1 năm 2023',
+    status: 'Trả'
   },
   {
     name: 'Business Package',
     price: 99.0,
-    invoiceDate: 'Jan 13,2023',
-    status: 'Unpaid'
+    invoiceDate: 'Ngày 13 tháng 1 năm 2023',
+    status: 'Chưa thanh toán'
   },
   {
     name: 'Standard Package',
     price: 59.0,
-    invoiceDate: 'Jan 13,2023',
-    status: 'Pending'
+    invoiceDate: 'Ngày 13 tháng 1 năm 2023',
+    status: 'Chưa giải quyết'
   }
 ]
 
@@ -35,16 +35,16 @@ const TableThree = () => {
           <thead>
             <tr className="bg-gray-2 text-left dark:bg-meta-4">
               <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                Package
+              Bưu kiện
               </th>
               <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                Invoice date
+              Ngày hóa đơn
               </th>
               <th className="min-w-[120px] py-4 px-4 font-medium text-black dark:text-white">
-                Status
+                Trạng thái 
               </th>
               <th className="py-4 px-4 font-medium text-black dark:text-white">
-                Actions
+                Hành động
               </th>
             </tr>
           </thead>

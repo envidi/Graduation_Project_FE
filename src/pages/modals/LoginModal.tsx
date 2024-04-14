@@ -59,16 +59,16 @@ export const LoginModal = () => {
       const errors: Partial<FormValues> = {}
 
       if (!values.email) {
-        errors.email = 'Required email'
+        errors.email = 'Yêu cầu email'
       } else if (
         !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
       ) {
         errors.email = 'Chưa nhập địa chỉ email'
       }
       if (!values.password) {
-        errors.password = 'Bắt buộc phải nhập password'
+        errors.password = 'Bắt buộc phải nhập mật khẩu '
       } else if (values.password.length < 6) {
-        errors.password = 'Password phải lớn hơn 8 ký tự'
+        errors.password = 'Mật khẩu  phải lớn hơn 8 ký tự'
       }
 
       return errors
@@ -106,7 +106,7 @@ export const LoginModal = () => {
           <form onSubmit={formikValidate.handleSubmit}>
             <div className="signup-form-heading">
               <h2 className="signup-form-heading-text">
-                Log Into Your DREAM CINEMA Account
+              Đăng nhập vào tài khoản DREAM CINEMA của bạn
               </h2>
               <button
                 type="button"
@@ -146,7 +146,7 @@ export const LoginModal = () => {
                   value={formikValidate.values.email}
                   onChange={formikValidate.handleChange}
                   onBlur={formikValidate.handleBlur}
-                  placeholder="Enter Email"
+                  placeholder="Nhập  Email"
                 />
               </div>
 
@@ -158,7 +158,7 @@ export const LoginModal = () => {
                 )}
               <div className="signup-form-category">
                 <label>
-                  Enter Your Password: <span>*</span>
+                Nhập mật khẩu của bạn: <span>*</span>
                 </label>
                 <div className="input-password">
                   <input
@@ -167,7 +167,7 @@ export const LoginModal = () => {
                     onChange={formikValidate.handleChange}
                     onBlur={formikValidate.handleBlur}
                     type={passViewState ? 'text' : 'password'}
-                    placeholder="Enter Password"
+                    placeholder="Nhập mật khẩu"
                   />
                   <button
                     type="button"
@@ -230,7 +230,7 @@ export const LoginModal = () => {
               </div>
 
               <button type="submit" className="btn-reg bg-[#eb3656]">
-                {loading ? <BarLoader color="#e6e6e8" /> : 'Sign in'}
+                {loading ? <BarLoader color="#e6e6e8" /> : 'Đăng nhập'}
               </button>
             </div>
           </form>

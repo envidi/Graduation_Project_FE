@@ -25,13 +25,13 @@ const FormElements = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Input Fields
+               Nhập trường
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  Default Input
+                Đầu vào mặc định
                 </label>
                 <input
                   type="text"
@@ -42,7 +42,7 @@ const FormElements = () => {
 
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  Active Input
+                Đầu vào đang hoạt động
                 </label>
                 <input
                   type="text"
@@ -53,7 +53,7 @@ const FormElements = () => {
 
               <div>
                 <label className="mb-3 block font-medium text-black dark:text-white">
-                  Disabled label
+                Nhãn bị vô hiệu hóa
                 </label>
                 <input
                   type="text"
@@ -69,7 +69,7 @@ const FormElements = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Toggle switch input
+              Chuyển đổi đầu vào chuyển đổi
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
@@ -84,7 +84,7 @@ const FormElements = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Time and date
+              Ngày và giờ
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
@@ -97,13 +97,13 @@ const FormElements = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                File upload
+              Tải tập tin lên
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  Attach file
+                Đính kèm tập tin
                 </label>
                 <input
                   type="file"
@@ -113,7 +113,7 @@ const FormElements = () => {
 
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  Attach file
+                Đính kèm tập tin
                 </label>
                 <input
                   type="file"
@@ -129,13 +129,13 @@ const FormElements = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Textarea Fields
+              Trường văn bản
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  Default textarea
+                Vùng văn bản mặc định
                 </label>
                 <textarea
                   rows={6}
@@ -157,7 +157,7 @@ const FormElements = () => {
 
               <div>
                 <label className="mb-3 block text-black dark:text-white">
-                  Disabled textarea
+                Vùng văn bản bị vô hiệu hóa
                 </label>
                 <textarea
                   rows={6}
@@ -173,7 +173,7 @@ const FormElements = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Checkbox and radio
+              Hộp kiểm và đài phát thanh
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">
@@ -189,7 +189,7 @@ const FormElements = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Select input
+              Chọn đầu vào
               </h3>
             </div>
             <div className="flex flex-col gap-5.5 p-6.5">

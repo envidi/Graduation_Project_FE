@@ -120,7 +120,7 @@ function TicketSummary() {
 
   const handlePurchaseSeat = () => {
     if (seat.length == 0) {
-      toast.error('Please select seat !', {
+      toast.error('Vui lòng chọn chỗ ngồi !', {
         position: 'top-right'
       })
       return
@@ -184,7 +184,7 @@ function TicketSummary() {
   const handlePurchasePayment = () => {
     const showtime = dataShowtime[0]
     if (showtime.status == FULL_SCHEDULE || showtime.destroy) {
-      toast.error('Showtime is not available', {
+      toast.error('Thời gian chiếu không có sẵn', {
         position: 'top-right'
       })
       return
@@ -296,7 +296,11 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseFood}
           >
+<<<<<<< HEAD
+           Mua vé
+=======
             Chọn đồ ăn
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </button>
         )}
 
@@ -313,7 +317,11 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchasePayment}
           >
+<<<<<<< HEAD
+            Mua vé
+=======
             Thanh toán vé
+>>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </button>
         )}
         {pathname == '/purchase/payment' && paymentMethod._id == 3 && (

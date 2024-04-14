@@ -44,15 +44,15 @@ const ResetPassword = () => {
       if (!values.password) {
         errors.password = 'Bắt buộc phải nhập password'
       } else if (values.password.length < 6) {
-        errors.password = 'Password phải lớn hơn 6 ký tự'
+        errors.password = 'Mật khẩu  phải lớn hơn 6 ký tự'
       }
       if (!values.confirmPassword) {
         errors.confirmPassword = 'Bắt buộc phải nhập confirmPassword'
       } else if (values.confirmPassword.length < 6) {
-        errors.confirmPassword = 'confirmPassword phải lớn hơn 6 ký tự'
+        errors.confirmPassword = 'Xác nhận mật khẩu phải lớn hơn 6 ký tự'
       }
       else if (values.confirmPassword !== values.password) {
-        errors.confirmPassword = 'Password không khớp, thử lại đi !!!!!'
+        errors.confirmPassword = 'Mật khẩu  không khớp, thử lại đi !!!!!'
       }
       if (!values.token) {
         errors.token = 'Bắt buộc phải nhập OTP'
@@ -82,7 +82,7 @@ const ResetPassword = () => {
         <div className="login-form overlay">
           <form onSubmit={formikValidate.handleSubmit}>
             <div className="signup-form-heading">
-              <h2 className="signup-form-heading-text">Reset Password ?</h2>
+              <h2 className="signup-form-heading-text">Đặt lại mật khẩu ?</h2>
               <button
                 type="button"
                 className="btn-form-exit"
@@ -113,7 +113,7 @@ const ResetPassword = () => {
               )}
             <div className="signup-form-category">
               <label>
-                Enter Your OTP: <span>*</span>
+              Nhập OTP của bạn : <span>*</span>
               </label>
               <div className="input-password">
                 <input
@@ -174,7 +174,7 @@ const ResetPassword = () => {
               )}
             <div className="signup-form-category">
               <label>
-                Enter Your Password: <span>*</span>
+              Nhập  mật khẩu của bạn : <span>*</span>
               </label>
               <div className="input-password">
                 <input
@@ -236,7 +236,7 @@ const ResetPassword = () => {
               )}
             <div className="signup-form-category">
               <label>
-                Enter Your Confirm Password: <span>*</span>
+              Nhập mật khẩu xác nhận của bạn: <span>*</span>
               </label>
               <div className="input-password">
                 <input

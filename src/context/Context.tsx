@@ -113,16 +113,16 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }, 1000)
     // navigate('/')
     setIsLogined(false)
-    toast.success('Logout successful')
+    toast.success('Đăng xuất thành công')
   }
 
   const userUpdate = useMutation({
     mutationFn: async (user) => await updateUser(user),
     onSuccess() {
-      toast.success('Update Successfully ')
+      toast.success('Cập nhật thành công ')
     },
     onError() {
-      toast.error('Update faile, try again !')
+      toast.error('Cập nhật không thành công, hãy thử lại !')
     }
   })
   const removeUser = useMutation({
@@ -139,10 +139,10 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const userUpdateId = useMutation({
     mutationFn: async (user) => await updateUserId(user),
     onSuccess() {
-      toast.success('Update Successfully <3 ')
+      toast.success('Cập nhật thành côngv ')
     },
     onError() {
-      toast.error('Update faile, try again !')
+      toast.error('Cập nhật không thành công, hãy thử lại!')
     }
   })
 
@@ -168,22 +168,22 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     mutationFn: async (id) => await DeleteShowtimes(id),
     onSuccess() {
       queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
-      toast.success('Xóa lịch chiếu thành công <3 ')
+      toast.success('Xóa lịch chiếu thành công  ')
 
 
     },
     onError() {
-      toast.error('Xóa faile, try again !')
+      toast.error('Xóa thất bại, thử lại !')
     }
   })
 
   const detailShowtime = useMutation({
     mutationFn: async (id) => await DetailShowtimes(id),
     onSuccess() {
-      toast.success('Update lịch chiếu thành công <3 ')
+      toast.success('Cập nhật  lịch chiếu thành công ')
     },
     onError() {
-      toast.error('Update faile, try again !')
+      toast.error('Cập nhật không thành công, hãy thử lại !')
     }
   })
   const editShowtimes = useMutation({
@@ -200,11 +200,11 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       const { showtime } = data;
       queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
 
-      toast.success('Update lịch chiếu thành công <3');
+      toast.success('Cập nhật  lịch chiếu thành công ');
     },
     onError: (error: any, variables: any, context: any) => {
-      toast.error('Update failed, try again!');
-      console.error('Error updating showtimes:', error);
+      toast.error('Cập nhật không thành công, hãy thử lại!');
+      console.error('Lỗi cập nhật lịch chiếu:', error);
     }
   });
 
