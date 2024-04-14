@@ -70,31 +70,19 @@ function DropDownMenu({ logout }: DropDownMenuType) {
         </DropdownMenuTrigger>
       </TooltipComponent>
       <DropdownMenuContent className="w-72">
-<<<<<<< HEAD
-        <DropdownMenuLabel>Tài khoản của tôi</DropdownMenuLabel>
-=======
         <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link to={'/profile/forms'}>
             <DropdownMenuItem>
               <User className="mr-2 h-6 w-6" />
-<<<<<<< HEAD
-              <span>Hồ sơ</span>
-=======
               <span>Cá nhân</span>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuItem>
             <CreditCard className="mr-2 h-6 w-6" />
-<<<<<<< HEAD
-            <span>Thanh toán</span>
-=======
             <span>Lịch sử mua</span>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <Link to={'/profile/forms/appearance'}>
@@ -135,13 +123,6 @@ function DropDownMenu({ logout }: DropDownMenuType) {
         </Link>
 
         <DropdownMenuSeparator />
-<<<<<<< HEAD
-        <DropdownMenuItem onClick={logout}>
-          <LogOut className="mr-2 h-6 w-6" />
-          <span>Đăng xuất</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
-=======
         <AlertDialog>
           {/* <DropdownMenuItem> */}
           <AlertDialogTrigger asChild>
@@ -178,7 +159,6 @@ function DropDownMenu({ logout }: DropDownMenuType) {
           </AlertDialogContent>
           {/* </DropdownMenuItem> */}
         </AlertDialog>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
       </DropdownMenuContent>
     </DropdownMenu>
   )
