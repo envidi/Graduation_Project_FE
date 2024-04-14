@@ -271,3 +271,30 @@ export function addCommasToNumber(number: number) {
   // Kết hợp phần nguyên và phần thập phân
   return result + decimalPart
 }
+// 09-09-2024
+export function convertDayToFormatVN(input: string | undefined) {
+  // Phân tách chuỗi input để lấy ngày, tháng, năm
+  if (!input) return
+  const [day, month, year] = input.split('-').map(Number)
+
+  // Tạo một đối tượng Date mới từ các giá trị đã lấy được
+  // Lưu ý: Tháng trong JavaScript bắt đầu từ 0 đến 11, do đó cần trừ tháng đi 1
+  const date = new Date(year, month - 1, day)
+
+  // Mảng tên ngày trong tuần bằng tiếng Việt
+  const weekDays = [
+    'Chủ Nhật',
+    'Thứ Hai',
+    'Thứ Ba',
+    'Thứ Tư',
+    'Thứ Năm',
+    'Thứ Sáu',
+    'Thứ Bảy'
+  ]
+
+  // Lấy tên ngày trong tuần từ mảng dựa vào getDay() của đối tượng Date
+  const weekDayName = weekDays[date.getDay()]
+
+  // Kết hợp tên ngày trong tuần, ngày và tháng để tạo chuỗi đầu ra
+  return `${weekDayName}, ${day} tháng ${month}`
+}

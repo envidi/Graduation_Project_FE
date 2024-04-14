@@ -1,6 +1,7 @@
 import { FoodItemState } from '@/Interface/food'
 import { createSlice } from '@reduxjs/toolkit'
 
+
 interface FoodAction {
   payload: FoodItemState
 }
@@ -32,6 +33,7 @@ const foods = createSlice({
       const existFood = state.foods.some(
         (food: FoodItemState) => food._id === action.payload._id
       )
+
       if (existFood) {
         state.foods = [
           ...state.foods.map((food: FoodItemState) => {

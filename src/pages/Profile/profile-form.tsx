@@ -143,7 +143,7 @@ export function ProfileForm() {
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-2xl">Address</FormLabel>
+              <FormLabel className="text-2xl">Địa chỉ</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Hanoi Nam Tu Liem street"
@@ -163,7 +163,7 @@ export function ProfileForm() {
           name="mobile"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-2xl">Mobile</FormLabel>
+              <FormLabel className="text-2xl">Điện thoại</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter your number phone..."
@@ -248,7 +248,7 @@ export function ProfileForm() {
           type="submit"
           className="dark:bg-background-secondary bg-neutral-800 text-2xl px-7 py-4"
         >
-          Update profile
+          Cập nhật
         </Button>
       </form>
     </Form>

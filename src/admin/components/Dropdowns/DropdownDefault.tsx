@@ -1,36 +1,36 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react'
 
 const DropdownDefault = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false)
 
-  const trigger = useRef<any>(null);
-  const dropdown = useRef<any>(null);
+  const trigger = useRef<any>(null)
+  const dropdown = useRef<any>(null)
 
   // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
-      if (!dropdown.current) return;
+      if (!dropdown.current) return
       if (
         !dropdownOpen ||
         dropdown.current.contains(target) ||
         trigger.current.contains(target)
       )
-        return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener("click", clickHandler);
-    return () => document.removeEventListener("click", clickHandler);
-  });
+        return
+      setDropdownOpen(false)
+    }
+    document.addEventListener('click', clickHandler)
+    return () => document.removeEventListener('click', clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }: KeyboardEvent) => {
-      if (!dropdownOpen || keyCode !== 27) return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener("keydown", keyHandler);
-    return () => document.removeEventListener("keydown", keyHandler);
-  });
+      if (!dropdownOpen || keyCode !== 27) return
+      setDropdownOpen(false)
+    }
+    document.addEventListener('keydown', keyHandler)
+    return () => document.removeEventListener('keydown', keyHandler)
+  })
 
   return (
     <div className="relative flex">
@@ -122,7 +122,7 @@ const DropdownDefault = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DropdownDefault;
+export default DropdownDefault
