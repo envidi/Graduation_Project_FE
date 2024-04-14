@@ -89,11 +89,7 @@ function UploadImage() {
       <DialogTrigger asChild>
         <Button className="border-primary-movieColor text-primary-locationMovie border-2 text-2xl space-x-2 rounded-lg px-5">
           <PenLine size={12} />
-<<<<<<< HEAD
-          <span>Chỉnh sửa</span>
-=======
           <span>Chỉnh sửa</span>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] xs:max-w-[320px] ">
@@ -108,20 +104,12 @@ function UploadImage() {
               name="avatar"
               render={() => (
                 <FormItem>
-<<<<<<< HEAD
-                  <FormLabel className="text-2xl">Tên tài khoản</FormLabel>
-=======
                   <FormLabel className="text-2xl">Tên</FormLabel>
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                   <FormControl>
                     <div className="flex justify-around">
                       <div className="flex flex-col items-center">
                         <span className="text-3xl my-2 mb-5  font-semibold text-primary-movieColor">
-<<<<<<< HEAD
-                        Tải hình ảnh lên
-=======
                           Tải ảnh
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                         </span>
                         <Label
                           htmlFor="picture"
@@ -138,11 +126,7 @@ function UploadImage() {
                       </div>
                       <div className="flex flex-col items-center">
                         <span className="text-3xl my-2 mb-5 font-semibold text-primary-movieColor">
-<<<<<<< HEAD
-                        Hình ảnh hiện tại
-=======
                           Ảnh hiện tại
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                         </span>
                         <Avatar className="sm:w-80 sm:h-80 xs:w-52 xs:h-52">
                           <AvatarImage

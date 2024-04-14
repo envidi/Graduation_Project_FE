@@ -250,11 +250,7 @@ export const MovieInfoSection = () => {
                     </div>
                   ) : (
                     <>
-<<<<<<< HEAD
-                      <Plus size={20} /> Danh sách theo dõi
-=======
                       <Plus size={20} /> Xem sau
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
                     </>
                   )}
                 </Button>
@@ -271,11 +267,7 @@ export const MovieInfoSection = () => {
         </div>
 
         <h3 className="movie-info-screen-heading border-b-4 border-primary-movieColor text-primary-movieColor w-fit mb-10">
-<<<<<<< HEAD
-          Lịch chiếu 
-=======
           Lịch chiếu
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
         </h3>
         <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center  flex-wrap ">
           {showTimeDimension && showTimeDimension.length > 0 && (

@@ -51,11 +51,7 @@ function FilterRate({
             value="0"
             className="bg-background-secondary my-2 flex justify-center text-2xl text-primary-movieColor py-3 rounded-md focus:bg-accent focus:text-accent-foreground"
           >
-<<<<<<< HEAD
-           Bất kỳ tỷ lệ nào
-=======
             Theo đánh giá
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </SelectItem>
           {starsRating.map((rating, index) => {
             return (

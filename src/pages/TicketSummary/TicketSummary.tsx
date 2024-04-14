@@ -296,11 +296,7 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchaseFood}
           >
-<<<<<<< HEAD
-           Mua vé
-=======
             Chọn đồ ăn
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </button>
         )}
 
@@ -317,11 +313,7 @@ function TicketSummary() {
             className="ticket-btn disabled:opacity-70 disabled:cursor-not-allowed"
             onClick={handlePurchasePayment}
           >
-<<<<<<< HEAD
-            Mua vé
-=======
             Thanh toán vé
->>>>>>> 4e99822c989c331a0caaf315ddc77fa06ca159e2
           </button>
         )}
         {pathname == '/purchase/payment' && paymentMethod._id == 3 && (
