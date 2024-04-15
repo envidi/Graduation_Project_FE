@@ -16,9 +16,14 @@ import {
   CreateShowtimes,
   DeleteShowtimes,
   DetailShowtimes,
+  RestoreShowtime,
+  deleteSoft,
+  getAllShowTimes,
+  getAllSoft,
   getAllShowTimes,
   updateShowtimes
 } from '@/api/showtime'
+import { getAllMovie, getAllScreenRoom } from '@/api/movie'
 
 export interface ContextAuth {
   userDetail: {
@@ -144,7 +149,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     onError() {
       toast.error('Cập nhật không thành công, hãy thử lại!')
     }
-  })
 
   const { data: allShowTimes } = useQuery({
     queryKey: ['SHOWTIMES'],
@@ -152,6 +156,17 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       try {
         const response = await getAllShowTimes()
         return response.data.response.docs
+      } catch (error) {}
+    }
+  })
+  })
+  
+  const { data: showTimeSoft } = useQuery({
+    queryKey: ['SOFT'],
+    queryFn: async () => {
+      try {
+        const response = await getAllSoft()
+        return response
       } catch (error) {}
     }
   })
@@ -168,6 +183,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     mutationFn: async (id) => await DeleteShowtimes(id),
     onSuccess() {
       queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
+      toast.success('Xóa lịch chiếu thành công <3 ')
       toast.success('Xóa lịch chiếu thành công  ')
 
 
@@ -177,6 +193,30 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
+  const removeShowtimeSoft = useMutation({
+    mutationFn: async (id) => await deleteSoft(id),
+    onSuccess() {
+      queryClient.invalidateQueries(["SOFT"] as InvalidateQueryFilters)
+      toast.success('Xóa mềm lịch chiếu thành công <3 ')
+
+
+    },
+    onError() {
+      toast.error('Xóa faile, try again !')
+    }
+  })
+  const restoreShowtime = useMutation({
+    mutationFn: async (id) => await RestoreShowtime(id),
+    onSuccess() {
+      queryClient.invalidateQueries(["SOFT"] as InvalidateQueryFilters)
+      toast.success('Khôi phục lịch chiếu thành công <3 ')
+
+
+    },
+    onError() {
+      toast.error('Khôi phục thất bại !')
+    }
+  })
   const detailShowtime = useMutation({
     mutationFn: async (id) => await DetailShowtimes(id),
     onSuccess() {
@@ -200,6 +240,25 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       const { showtime } = data;
       queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
 
+      toast.success('Update lịch chiếu thành công <3');
+    },
+    onError: (error: any, variables: any, context: any) => {
+      toast.error('Update failed, try again!');
+      console.error('Error updating showtimes:', error);
+    }
+  });
+
+  const AllMovie = useMutation({
+    mutationFn : async () => getAllMovie(),
+    onSuccess:(data) => {
+      console.log("check all movie ", data);
+      
+    }
+  })
+  const { data: screenRoom } = useQuery({
+    queryKey: ['ScreenRoom'],
+    queryFn: getAllScreenRoom
+  })
       toast.success('Cập nhật  lịch chiếu thành công ');
     },
     onError: (error: any, variables: any, context: any) => {
@@ -220,6 +279,13 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     userUpdateId,
     removeUser,
     addShowtime,
+    removeShowtime, 
+    editShowtimes,
+    AllMovie,
+    screenRoom,
+    removeShowtimeSoft,
+    showTimeSoft,
+    restoreShowtime
     removeShowtime,
     editShowtimes
   }

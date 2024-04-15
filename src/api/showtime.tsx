@@ -24,9 +24,24 @@ export const updateShowtimes = async (showtime:any,id:any) => {
   const result = await baseShowtimes.patch(`/${id}`, showtime)
   return result
 }
+
+
+
 export const DetailShowtimes = async (id:any) => {
   const result = await baseShowtimes.get(`/${id}` )
   return result
+}
+export const deleteSoft = async (id:any) => {
+  const result = await baseShowtimes.patch(`/${id}/soft` )
+  return result
+}
+export const RestoreShowtime = async (id:any) => {
+  const result = await baseShowtimes.patch(`/${id}/restore` )
+  return result
+}
+export const getAllSoft = async () => {
+  const result = await baseShowtimes.get(`/all` )
+  return result.data.data.docs
 }
 export const getShowtimesById = async (id:string) => {
   try {
