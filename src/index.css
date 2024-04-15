@@ -105,6 +105,14 @@
     );
   }
 }
+/* .input-field {
+  @apply w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white;
+}
+
+.error-message {
+  @apply mt-1 text-red-500 text-sm font-bold;
+} */
+
 
 @layer base {
   * {
