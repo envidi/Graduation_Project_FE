@@ -28,6 +28,7 @@ export interface Movie {
     _id: string
     name: string
     author: string
+    actor: string
     image: string
     desc: string
     country: string
@@ -37,16 +38,17 @@ export interface Movie {
     trailer: string
     status: string
     rate: number
+    price: number
     categoryId: string[] | string
     showTimes: string[] | string
-    // prices: string[] | string
-    prices: { price: number; dayType: string }[] | string;
     fromDate: string
     toDate: string
-    priceweekday: number
-    dayTypeweekday: string
-    pricesweekend: number
-    dayTypeweekend: string
+    // prices: string[] | string
+    // prices: { price: number; dayType: string }[] | string;
+    // priceweekday: number
+    // dayTypeweekday: string
+    // pricesweekend: number
+    // dayTypeweekend: string
 
   }
   
