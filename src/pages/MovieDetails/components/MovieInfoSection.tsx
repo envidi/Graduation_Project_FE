@@ -60,10 +60,7 @@ export const MovieInfoSection = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movies = useSelector((state: any) => state.movies.movies)
   const [, setTicket] = useLocalStorage<TicketType | null>('ticket', null)
-  // const [date] = useState<Date | undefined>(new Date())
-  // const [currentLocation, setCurrentLocation] = useState<string>(
-  //   '65d30a80a047aeebd3c78c72'
-  // )
+
   const navigate = useNavigate()
   const { slug } = useParams()
 
@@ -226,7 +223,7 @@ export const MovieInfoSection = () => {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="md" variant="outline">
-                  Đoạn phim giới thiệu
+                    Trailer
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="p-0 w-fit">
@@ -239,7 +236,7 @@ export const MovieInfoSection = () => {
                   ></iframe>
                 </DialogContent>
               </Dialog>
-              {!watchListId.includes(_id) ? (
+              {watchListId.includes(_id) ? (
                 <Button
                   onClick={handleAddWatchList}
                   className="bg-primary-movieColor text-2xl flex items-center border-transparent hover:text-primary-movieColor hover:bg-transparent border hover:border-primary-movieColor"

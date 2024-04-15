@@ -126,19 +126,7 @@ const options: ApexOptions = {
 
 const ChartOne: React.FC = () => {
   const { data: data, isLoading } = useStatistic('CHART_REVENUE_PROFIT')
-  // const [state, setState] = useState<ChartOneState>({
-  //   series: [
-  //     {
-  //       name: 'Doanh thu',
-  //       data: [230, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45]
-  //     },
 
-  //     {
-  //       name: 'Lợi nhuận',
-  //       data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51]
-  //     }
-  //   ]
-  // })
   if (isLoading) {
     return
   }
@@ -177,7 +165,7 @@ const ChartOne: React.FC = () => {
             <div className="w-full">
               <p className="font-semibold text-[#80CAEE]">Tổng lợi nhuận</p>
               <p className="text-sm font-medium">
-                {data && data.date && data.date[0]} - {' '}
+                {data && data.date && data.date[0]} -{' '}
                 {data && data.date && data.date[data.date.length - 1]}
               </p>
             </div>
@@ -186,7 +174,7 @@ const ChartOne: React.FC = () => {
         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
             <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
-            Tuần
+              Tuần
             </button>
           </div>
         </div>

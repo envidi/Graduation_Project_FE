@@ -1,5 +1,7 @@
+import useStatistic from '@/hooks/useStatistic'
+import { chuyenDoiThu } from '@/utils'
 import { ApexOptions } from 'apexcharts'
-import React, { useState } from 'react'
+import React from 'react'
 import ReactApexChart from 'react-apexcharts'
 
 const options: ApexOptions = {
@@ -44,7 +46,7 @@ const options: ApexOptions = {
   },
 
   xaxis: {
-    categories: ['M', 'T', 'W', 'T', 'F', 'S', 'S']
+    categories: ['M', 'T']
   },
   legend: {
     position: 'top',
@@ -62,43 +64,27 @@ const options: ApexOptions = {
   }
 }
 
-interface ChartTwoState {
-  series: {
-    name: string
-    data: number[]
-  }[]
-}
-
 const ChartTwo: React.FC = () => {
-  const [state, setState] = useState<ChartTwoState>({
-    series: [
-      {
-        name: 'Sales',
-        data: [1005, 1305, 1265, 1405, 1105, 1000, 1705]
-      },
-      {
-        name: 'Revenue',
-        data: [2065, 1365, 1265, 1465, 1105, 1000, 1765]
-      }
-    ]
-  })
-
-  const handleReset = () => {
-    setState((prevState) => ({
-      ...prevState
-    }))
+  const { data: data, isLoading } = useStatistic('TICKET_COUNT')
+  if (isLoading) {
+    return
   }
-  handleReset
+  const options2 = {
+    ...options,
+    xaxis: {
+      categories: data.date.map((date: string) => chuyenDoiThu(date))
+    }
+  }
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white p-7.5 shadow-default dark:border-strokedark dark:bg-boxdark xl:col-span-4">
       <div className="mb-4 justify-between gap-4 sm:flex">
         <div>
-          <h4 className="text-xl font-semibold text-black dark:text-white">
-          Lợi nhuận tuần này
+          <h4 className="text-lg font-semibold text-black dark:text-white">
+            Vé bán được trong tuần
           </h4>
         </div>
-        <div>
+        {/* <div>
           <div className="relative z-20 inline-block">
             <select
               name="#"
@@ -133,14 +119,14 @@ const ChartTwo: React.FC = () => {
               </svg>
             </span>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div>
         <div id="chartTwo" className="-ml-5 -mb-9">
           <ReactApexChart
-            options={options}
-            series={state.series}
+            options={options2}
+            series={data.series}
             type="bar"
             height={350}
           />

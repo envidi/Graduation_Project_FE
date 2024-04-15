@@ -1,10 +1,10 @@
 // import { Category, FormCategoryAdd } from '@/admin/types/category'
 import { Cinema, FormCinemaAdd } from '@/admin/types/cenima'
-import { addCinema, editCinema, getCinemaById, getOneCinema } from '@/api/cinema'
+import { addCinema, editCinema, getOneCinema } from '@/api/cinema'
 // import { addCategory, editCategory, getCategoryById } from '@/api/category'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 type FormCinemaProps = {
@@ -12,8 +12,6 @@ type FormCinemaProps = {
 }
 
 const FormCinema = ({ typeForm }: FormCinemaProps) => {
-  const navigate = useNavigate()
-
   //get id from url
   const { id } = useParams()
 
@@ -22,8 +20,6 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
     queryKey: ['CINEMA', id],
     queryFn: async () => {
       const data = await getOneCinema(id as string)
-
-      console.log('cinema edit data: ', data)
 
       setFieldValue('CinemaName', data?.CinemaName)
       setFieldValue('CinemaAdress', data?.CinemaAdress)
@@ -121,9 +117,7 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
           <div className="p-6.5">
             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  Cinema name
-                </label>
+                <label className="mb-2.5 block text-primary">Cinema name</label>
                 <input
                   name="CinemaName"
                   value={values.CinemaName}

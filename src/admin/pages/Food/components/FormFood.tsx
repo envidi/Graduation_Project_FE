@@ -7,183 +7,197 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 type FormFoodProps = {
-    typeForm: 'ADD' | 'EDIT'
+  typeForm: 'ADD' | 'EDIT'
 }
 const FormFood = ({ typeForm }: FormFoodProps) => {
-    const navigate = useNavigate()
-    const handleBack = () => {
-        navigate(-1)
+  const navigate = useNavigate()
+  const handleBack = () => {
+    navigate(-1)
+  }
+
+  const { id } = useParams()
+  const { data: foodData, isLoading } = useQuery<Food>({
+    queryKey: ['FOOD', id],
+    queryFn: async () => {
+      const data = await getFoodById(id as string)
+      setFieldValue('name', data?.name)
+      setFieldValue('price', data?.price)
+      setFieldValue('image', data?.image)
+      return data
+    },
+    enabled: typeForm === 'EDIT' && !!id
+  })
+
+  const { mutate } = useMutation({
+    mutationFn: async (bodyData: Food) => {
+      if (typeForm === 'EDIT') return editFood(bodyData, id as string)
+      return addFood(bodyData)
+    },
+    onSuccess: () => {
+      if (typeForm === 'EDIT') {
+        toast.success('Chỉnh sửa đồ ăn thành công')
+        navigate('/admin/food')
+        return
+      }
+      toast.success('Thêm đồ ăn thành công')
+      navigate('/admin/food')
+    },
+    onError: () => {
+      if (typeForm === 'EDIT') {
+        toast.error('Chỉnh sửa đồ ăn không thành công')
+        return
+      }
+      toast.error('Thêm đồ ăn không thành công')
     }
+  })
 
-    const { id } = useParams()
-    const { data: foodData, isLoading } = useQuery<Food>({
-        queryKey: ['FOOD', id],
-        queryFn: async () => {
-            const data = await getFoodById(id as string)
-            setFieldValue('name', data?.name)
-            setFieldValue('price', data?.price)
-            setFieldValue('image', data?.image)
-            return data
-        },
-        enabled: typeForm === 'EDIT' && !!id
-    })
+  const {
+    values,
+    setFieldValue,
+    touched,
+    errors,
+    handleSubmit,
+    handleChange,
+    handleBlur
+  } = useFormik({
+    initialValues: {
+      name: id ? (foodData?.name as string) : '',
+      price: id ? (foodData?.price as number) : 0,
+      image: id ? (foodData?.image as string) : ''
+    },
+    validate: (values) => {
+      const errors: Partial<FormFoodAdd> = {}
+      if (!values.name) {
+        errors.name = 'Tên đồ ăn bắt buộc'
+      }
+      if (!values.image) {
+        errors.image = 'Giá đồ ăn cần thiết'
+      }
+      if (values.price <= 0) {
+        errors.price = 'Giá phải lớn hơn 0'
+      }
+      return errors
+    },
+    onSubmit: async (values) => {
+      const formData = new FormData()
+      formData.append('name', values.name)
+      formData.append('price', values.price)
+      if (values.image) {
+        formData.append('image', values.image)
+      }
 
-    const { mutate } = useMutation({
-        mutationFn: async (bodyData: Food) => {
-            if (typeForm === 'EDIT') return editFood(bodyData, id as string)
-            return addFood(bodyData)
-        },
-        onSuccess: () => {
-            if (typeForm === 'EDIT') {
-                toast.success('Chỉnh sửa đồ ăn thành công')
-                navigate('/admin/food')
-                return
-            }
-            toast.success('Thêm đồ ăn thành công')
-            navigate('/admin/food')
-        },
-        onError: () => {
-            if (typeForm === 'EDIT') {
-                toast.error('Chỉnh sửa đồ ăn không thành công')
-                return
-            }
-            toast.error('Thêm đồ ăn không thành công')
-        }
-    })
+      await mutate(formData) // Sử dụng formData thay vì values JSON
+    }
+  })
 
-    const {
-        values,
-        setFieldValue,
-        touched,
-        errors,
-        handleSubmit,
-        handleChange,
-        handleBlur
-    } = useFormik({
-        initialValues: {
-            name: id ? (foodData?.name as string) : '',
-            price: id ? (foodData?.price as number) : 0,
-            image: id ? (foodData?.image as string) : ''
-        },
-        validate: (values) => {
-            const errors: Partial<FormFoodAdd> = {}
-            if (!values.name) {
-                errors.name = 'Tên đồ ăn bắt buộc'
-            }
-            if (!values.image) {
-                errors.image = 'Giá đồ ăn cần thiết'
-            }
-            if (values.price <= 0) {
-                errors.price = 'Giá phải lớn hơn 0'
-            }
-            return errors
-        },
-        onSubmit: async (values) => {
-            const formData = new FormData()
-            formData.append('name', values.name)
-            formData.append('price', values.price)
-            if (values.image) {
-                formData.append('image', values.image)
-            }
+  if (isLoading) return <Loader />
+  return (
+    <div className="flex flex-col gap-9 items-center justify-center p-8">
+      <button
+        onClick={handleBack}
+        className="self-start mb-4 flex items-center text-lg text-gray-700 dark:text-gray-200 hover:text-gray-500 dark:hover:text-gray-400"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="h-6 w-6 mr-2"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        Trở lại
+      </button>
+      <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
+        <form
+          onSubmit={handleSubmit}
+          className="bg-white dark:bg-gray-800 p-6"
+          encType="multipart/form-data"
+        >
+          <div className="mb-6">
+            <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
+              Tên đồ ăn
+            </label>
+            <input
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="text"
+              placeholder="Nhập tên đồ ăn"
+              className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
+            />
+            {touched.name && errors.name && (
+              <div className="mt-2 text-sm text-red-600 dark:text-red-400">
+                {errors.name}
+              </div>
+            )}
+          </div>
 
-            try {
-                const response = await mutate(formData) // Sử dụng formData thay vì values JSON
-                console.log('res', response)
-            } catch (error) {
-                console.log('error', error)
-            }
-        }
-    })
+          {/* Image Upload */}
+          <div className="mb-6">
+            <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
+              Ảnh đồ ăn
+            </label>
+            <input
+              name="image"
+              type="file"
+              onChange={(event) => {
+                setFieldValue('image', event?.currentTarget?.files[0])
+              }}
+              onBlur={handleBlur}
+              className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
+            />
+            {touched.image && errors.image && (
+              <div className="mt-2 text-sm text-red-600 dark:text-red-400">
+                {errors.image}
+              </div>
+            )}
+            {values.image && (
+              <img
+                src={values.image}
+                alt="Food"
+                className="w-32 h-32 object-cover rounded-lg"
+              />
+            )}
+          </div>
 
-    if (isLoading) return <Loader />
-    return (
-        <div className="flex flex-col gap-9 items-center justify-center p-8">
-            <button
-                onClick={handleBack}
-                className="self-start mb-4 flex items-center text-lg text-gray-700 dark:text-gray-200 hover:text-gray-500 dark:hover:text-gray-400"
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                Trở lại
-            </button>
-            <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
-                <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6" encType='multipart/form-data'>
-                    <div className="mb-6">
-                        <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                          Tên đồ ăn
-                        </label>
-                        <input
-                            name="name"
-                            value={values.name}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            type="text"
-                            placeholder="Nhập tên đồ ăn"
-                            className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
-                        />
-                        {touched.name && errors.name && (
-                            <div className="mt-2 text-sm text-red-600 dark:text-red-400">
-                                {errors.name}
-                            </div>
-                        )}
-                    </div>
+          {/* Price Input */}
+          <div className="mb-6">
+            <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
+              Gía
+            </label>
+            <input
+              name="price"
+              value={values.price}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              type="number"
+              placeholder="Nhập giá đồ ăn"
+              className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
+            />
+            {touched.price && errors.price && (
+              <div className="mt-2 text-sm text-red-600 dark:text-red-400">
+                {errors.price}
+              </div>
+            )}
+          </div>
 
-                    {/* Image Upload */}
-                    <div className="mb-6">
-                        <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                           Ảnh đồ ăn
-                        </label>
-                        <input
-                            name="image"
-                            type="file"
-                            onChange={(event) => {
-                                setFieldValue('image', event.currentTarget.files[0]);
-                            }}
-                            onBlur={handleBlur}
-                            className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150" />
-                        {touched.image && errors.image && (
-                            <div className="mt-2 text-sm text-red-600 dark:text-red-400">
-                                {errors.image}
-                            </div>
-                        )}
-                        {values.image && (
-                            <img src={values.image} alt="Food" className="w-32 h-32 object-cover rounded-lg" />
-                        )}
-                    </div>
-
-                    {/* Price Input */}
-                    <div className="mb-6">
-                        <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                           Gía
-                        </label>
-                        <input
-                            name="price"
-                            value={values.price}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            type="number"
-                            placeholder="Nhập giá đồ ăn"
-                            className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
-                        />
-                        {touched.price && errors.price && (
-                            <div className="mt-2 text-sm text-red-600 dark:text-red-400">
-                                {errors.price}
-                            </div>
-                        )}
-                    </div>
-
-                    <button
-                        className="w-full flex justify-center items-center rounded-md bg-indigo-600 py-3 px-6 text-xl font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300"
-                        type="submit"
-                    >
-                        {typeForm === 'ADD' ? 'Thêm đồ ăn' : 'Cập nhật đồ ăn'}
-                    </button>
-
-                </form>
-            </div>
-        </div>
-    )
+          <button
+            className="w-full flex justify-center items-center rounded-md bg-indigo-600 py-3 px-6 text-xl font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300"
+            type="submit"
+          >
+            {typeForm === 'ADD' ? 'Thêm đồ ăn' : 'Cập nhật đồ ăn'}
+          </button>
+        </form>
+      </div>
+    </div>
+  )
 }
 
 export default FormFood

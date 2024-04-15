@@ -60,7 +60,6 @@ const ChartThree = ({
 }) => {
   options.labels = childrenChart
   options.colors = colors
-  console.log(colors)
 
   const { data: data } = useStatistic(action)
   return (

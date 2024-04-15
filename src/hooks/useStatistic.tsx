@@ -4,8 +4,11 @@ import { getCountMovie } from '@/api/movie'
 import {
   getAgeUser,
   getChartRevenueWeek,
+  getCountCate,
+  getCountTicketAfterWeek,
   getProfitAndRevenue,
   getSexUser,
+  getTopFood,
   getTopMovie,
   getTopUser
 } from '@/api/statistic'
@@ -27,6 +30,12 @@ export function useStatistic(action: string) {
           return getTopMovie()
         case 'TOP_USER':
           return getTopUser()
+        case 'CATE_COUNT':
+          return getCountCate()
+        case 'TOP_FOOD':
+          return getTopFood()
+        case 'TICKET_COUNT':
+          return getCountTicketAfterWeek()
         case 'SEX_USER':
           return getSexUser()
         case 'AGE_USER':

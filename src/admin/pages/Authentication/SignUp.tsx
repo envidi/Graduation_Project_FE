@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
-import DefaultLayout from '../../layout/DefaultLayout';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
+import LogoDark from '../../images/logo/logo-dark.svg'
+import Logo from '../../images/logo/logo.svg'
+import DefaultLayout from '../../layout/DefaultLayout'
 
 const SignUp: React.FC = () => {
   return (
@@ -19,8 +19,8 @@ const SignUp: React.FC = () => {
                 <img className="dark:hidden" src={LogoDark} alt="Logo" />
               </Link>
               <p className="2xl:px-20">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                 đình chỉ.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit đình
+                chỉ.
               </p>
 
               <span className="mt-15 inline-block">
@@ -152,13 +152,13 @@ const SignUp: React.FC = () => {
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-              Đăng ký DREAM CINEMA
+                Đăng ký DREAM CINEMA
               </h2>
 
               <form>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                  Tên 
+                    Tên
                   </label>
                   <div className="relative">
                     <input
@@ -224,7 +224,7 @@ const SignUp: React.FC = () => {
 
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Mật khẩu 
+                    Mật khẩu
                   </label>
                   <div className="relative">
                     <input
@@ -339,9 +339,9 @@ const SignUp: React.FC = () => {
 
                 <div className="mt-6 text-center">
                   <p>
-                  Bạn có săn sàng để tạo một tai khoản?{' '}
+                    Bạn có săn sàng để tạo một tai khoản?{' '}
                     <Link to="/auth/signin" className="text-primary">
-                     Đăng nhập 
+                      Đăng nhập
                     </Link>
                   </p>
                 </div>
@@ -351,7 +351,7 @@ const SignUp: React.FC = () => {
         </div>
       </div>
     </DefaultLayout>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

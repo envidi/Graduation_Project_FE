@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { ToastContainer, toast } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BarLoader from 'react-spinners/BarLoader'
 import { signup } from '@/api/auth'
@@ -12,10 +12,10 @@ interface FormValues {
   confirmPassword: string
 }
 export const SignupModal = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading] = useState(false)
   const [passViewState, setPassViewState] = useState(false)
   const [showForm, setShowForm] = useState(true)
-  const [files, setFiles] = useState<File[]>([])
+  const [files] = useState<File[]>([])
 
   const handleShowForm = () => {
     setShowForm((prevShowForm) => !prevShowForm) // Cập nhật trạng thái để ẩn/hiển thị form
@@ -95,8 +95,9 @@ export const SignupModal = () => {
 
       try {
         await CreateUser.mutateAsync(data)
-      } catch (error) {
-        console.error('Lỗi khi gọi API:', error)
+        resetFormik()
+      } catch (error:any) {
+        throw new Error(error)
       }
     }
   })
@@ -131,7 +132,7 @@ export const SignupModal = () => {
             >
               <div className="signup-form-heading">
                 <h2 className="signup-form-heading-text">
-                Tạo tài khoản  DREAM CINEMA
+                  Tạo tài khoản DREAM CINEMA
                 </h2>
                 <button
                   type="button"
@@ -264,7 +265,7 @@ export const SignupModal = () => {
 
                 <div className="signup-form-category">
                   <label>
-                  Xác nhận mật khẩu(Phải chứa ít nhất 8 chữ số) :{' '}
+                    Xác nhận mật khẩu(Phải chứa ít nhất 8 chữ số) :{' '}
                     <span>*</span>
                   </label>
                   <div className="input-password">
