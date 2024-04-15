@@ -19,17 +19,16 @@ const Users = () => {
   const toggleShowEdit = (user: any) => {
     setShowEdit(!showEdit)
     setSelectedUserIndex(user?._id)
-    console.log('check id 2', user?._id)
   }
 
-  const { isLoading, data: allUser } = useQuery({
+  const { data: allUser } = useQuery({
     queryKey: ['USER'],
     queryFn: async () => {
       try {
         const { data } = await getUser()
         return data
       } catch (error) {
-        console.log('error', error)
+        throw new Error(error as string)
       }
     }
   })
@@ -40,32 +39,29 @@ const Users = () => {
     if (selectedUserIndex !== null && selectedUserIndex !== undefined) {
       // Thực hiện cập nhật vai trò cho người dùng với _id được chọn
       userUpdateId.mutate({ id: selectedUserIndex, roleName: selectedRole })
-      console.log('chekc jsjs', selectedRole)
 
       // Đóng modal sau khi cập nhật
       setShowEdit(false)
     } else {
-      console.log('lỗi')
+      return
     }
   }
-
-  console.log('check user ', allUser)
 
   return (
     <DefaultLayout>
       <div className="bg-white p-8 rounded-md w-full">
         <div className=" flex items-center justify-between pb-6">
           <div>
-            <h2 className="text-gray-600 font-semibold">Tất cả người dùng</h2>
-            <span className="text-xs">Tất cả phim</span>
+            <h2 className="text-gray-600 font-semibold">All Users</h2>
+            <span className="text-xs">All products item</span>
           </div>
           <div className="flex items-center justify-between">
             <div className="lg:ml-40 ml-10 space-x-8">
               <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                Báo cáo mới
+                New Report
               </button>
               <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                Tạo
+                Create
               </button>
             </div>
           </div>
@@ -80,22 +76,22 @@ const Users = () => {
                       Tên
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Số điện thoại
+                      Số Điện Thoại
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Địa chỉ
+                      Địa Chỉ
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Email
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Vai trò
+                      Role
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Trạng thái
+                      Trạng Thái
                     </th>
                     <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                      Hành dộng
+                      Hành Động
                     </th>
                   </tr>
                 </thead>
@@ -144,7 +140,7 @@ const Users = () => {
                             aria-hidden
                             className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
                           ></span>
-                          <span className="relative">kích hoạt</span>
+                          <span className="relative">Activo</span>
                         </span>
                       </td>
                       <td>
@@ -153,7 +149,7 @@ const Users = () => {
                           data-ripple-light="true"
                           onClick={() => toggleShowEdit(item)}
                         >
-                          Cập nhật
+                          Update
                         </button>
                         <button
                           className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
@@ -166,7 +162,7 @@ const Users = () => {
                             }
                           }}
                         >
-                          Xóa
+                          Delete
                         </button>
                       </td>
                       {selectedUserIndex !== null && (
@@ -175,7 +171,7 @@ const Users = () => {
                             <div className="bg-white rounded  w-10/12 md:w-1/3 box">
                               <div className="border-b px-4 py-2 flex justify-between items-center">
                                 <h3 className="font-semibold text-lg text-black">
-                                  Cập nhật vai trò
+                                  Update Role
                                 </h3>
                               </div>
                               <form onSubmit={handleUpdateRole}>
@@ -224,7 +220,7 @@ const Users = () => {
 
                                       <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
                                         <h2 className="font-medium text-gray-700">
-                                          Người dùng
+                                          User
                                         </h2>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -235,8 +231,8 @@ const Users = () => {
                                           className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
                                         >
                                           <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                           />
                                         </svg>
@@ -254,7 +250,7 @@ const Users = () => {
 
                                       <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
                                         <h2 className="font-medium text-gray-700">
-                                          Quản lý
+                                          Manager
                                         </h2>
                                         <svg
                                           xmlns="http://www.w3.org/2000/svg"
@@ -265,8 +261,8 @@ const Users = () => {
                                           className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
                                         >
                                           <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
                                             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                           />
                                         </svg>
@@ -279,13 +275,13 @@ const Users = () => {
                                     className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal"
                                     onClick={() => setShowEdit(false)}
                                   >
-                                    Hủy bỏ
+                                    Cancel
                                   </button>
                                   <button
                                     type="submit"
                                     className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white"
                                   >
-                                    Cập nhật
+                                    Update
                                   </button>
                                 </div>
                               </form>
@@ -299,15 +295,15 @@ const Users = () => {
               </table>
               <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span className="text-xs xs:text-sm text-gray-900">
-                  Hiển thị 1 đến 4 trong 50 mục
+                  Showing 1 to 4 of 50 Entries
                 </span>
                 <div className="inline-flex mt-2 xs:mt-0">
                   <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                    Sau
+                    Prev
                   </button>
                   &nbsp; &nbsp;
                   <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                    Tiếp
+                    Next
                   </button>
                 </div>
               </div>
