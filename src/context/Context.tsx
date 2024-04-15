@@ -16,9 +16,13 @@ import {
   CreateShowtimes,
   DeleteShowtimes,
   DetailShowtimes,
+  RestoreShowtime,
+  deleteSoft,
   getAllShowTimes,
+  getAllSoft,
   updateShowtimes
 } from '@/api/showtime'
+import { getAllMovie, getAllScreenRoom } from '@/api/movie'
 
 export interface ContextAuth {
   userDetail: {
@@ -155,6 +159,16 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       } catch (error) {}
     }
   })
+  
+  const { data: showTimeSoft } = useQuery({
+    queryKey: ['SOFT'],
+    queryFn: async () => {
+      try {
+        const response = await getAllSoft()
+        return response
+      } catch (error) {}
+    }
+  })
 
   const addShowtime = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
@@ -177,6 +191,30 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
+  const removeShowtimeSoft = useMutation({
+    mutationFn: async (id) => await deleteSoft(id),
+    onSuccess() {
+      queryClient.invalidateQueries(["SOFT"] as InvalidateQueryFilters)
+      toast.success('Xóa mềm lịch chiếu thành công <3 ')
+
+
+    },
+    onError() {
+      toast.error('Xóa faile, try again !')
+    }
+  })
+  const restoreShowtime = useMutation({
+    mutationFn: async (id) => await RestoreShowtime(id),
+    onSuccess() {
+      queryClient.invalidateQueries(["SOFT"] as InvalidateQueryFilters)
+      toast.success('Khôi phục lịch chiếu thành công <3 ')
+
+
+    },
+    onError() {
+      toast.error('Khôi phục thất bại !')
+    }
+  })
   const detailShowtime = useMutation({
     mutationFn: async (id) => await DetailShowtimes(id),
     onSuccess() {
@@ -208,6 +246,18 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   });
 
+  const AllMovie = useMutation({
+    mutationFn : async () => getAllMovie(),
+    onSuccess:(data) => {
+      console.log("check all movie ", data);
+      
+    }
+  })
+  const { data: screenRoom } = useQuery({
+    queryKey: ['ScreenRoom'],
+    queryFn: getAllScreenRoom
+  })
+
   const values = {
     isLogined,
     setIsLogined,
@@ -221,7 +271,12 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     removeUser,
     addShowtime,
     removeShowtime, 
-    editShowtimes
+    editShowtimes,
+    AllMovie,
+    screenRoom,
+    removeShowtimeSoft,
+    showTimeSoft,
+    restoreShowtime
   }
   return <ContextMain.Provider value={values}>{children}</ContextMain.Provider>
 }

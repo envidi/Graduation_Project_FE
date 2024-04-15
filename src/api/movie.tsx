@@ -58,6 +58,14 @@ export const getAllMovie = async () => {
   const result = await instance.get('/movie')
   return result.data.data.docs
 }
+export const getAllScreenRoom = async () => {
+  const result = await instance.get('/screen')
+  return result.data.datas.docs
+}
+export const getOneScreenRoom = async (id:any) => {
+  const result = await instance.get(`/screen/${id}` )
+  return result
+}
 
 export const getCountMovie = async () => {
   const result = await instance.get('/movie/count')

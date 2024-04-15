@@ -28,6 +28,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     queryKey: ['CATEGORY'],
     queryFn: getAllCategory
   })
+  console.log(" check category ", datacate);
+  
   //get movie by id
   let pricesId;
 

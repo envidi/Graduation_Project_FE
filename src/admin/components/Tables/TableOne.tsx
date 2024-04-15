@@ -96,7 +96,7 @@ const TableOne = () => {
           </div> */}
         </div>
 
-        {dataTopMovie.map((top_movie: TopMovieType, key: number) => (
+        {dataTopMovie?.map((top_movie: TopMovieType, key: number) => (
           <div
             className={`grid grid-cols-3 sm:grid-cols-4 ${
               key === dataTopMovie.length - 1
@@ -109,12 +109,12 @@ const TableOne = () => {
               <div className="flex-shrink-0">
                 <img
                   width={'50'}
-                  src={top_movie.movieDetails[0].image}
+                  src={top_movie?.movieDetails[0].image}
                   alt="Brand"
                 />
               </div>
               <p className="hidden text-black dark:text-white sm:block ">
-                {top_movie.movieDetails[0].name}
+                {top_movie?.movieDetails[0].name}
               </p>
             </div>
 

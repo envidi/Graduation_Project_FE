@@ -96,7 +96,7 @@ function FilterCountry({
                 className={`text-primary-movieColor text-2xl py-3 ps-5 my-2 mx-2 rounded-md bg-background-secondary flex justify-between hover:bg-primary-locationMovie ${query.country === '0' ? 'bg-accent text-accent-foreground' : ''}`}
               >
                 Any country
-                <Check
+                <Check  
                   className={cn(
                     'mr-2 h-6 w-6',
                     query.country === '0' ? 'opacity-100' : 'opacity-0'

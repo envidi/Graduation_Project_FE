@@ -77,6 +77,7 @@ import Users from './admin/pages/Users'
 import Showtimes from './admin/pages/Showtimes/Showtimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
 import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
+import Restore from './admin/pages/Showtimes/Restore'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -275,6 +276,8 @@ function App() {
                 {/* <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} /> */}
               </Route>
+            
+            
               <Route path="food">
                 <Route index element={<FoodAdminPage />} />
                 <Route path="add" element={<FoodAdd />} />
@@ -303,6 +306,7 @@ function App() {
                 <Route index element={<Showtimes />} />
                 <Route path="create" element={<CreateShowtimes />} />
                 <Route path="update/:id" element={<UpdateShowtimes />} />
+                <Route path="restore" element={<Restore />} />
               </Route>
 
               <Route path="forms/form-elements" element={<FormElements />} />
@@ -320,7 +324,7 @@ function App() {
 
         <ToastContainer
           style={{
-            fontSize: '1.8rem'
+            fontSize: '1.2rem'
           }}
           position="top-right"
           autoClose={5000}
