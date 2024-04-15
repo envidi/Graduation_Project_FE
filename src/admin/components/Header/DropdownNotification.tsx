@@ -1,52 +1,53 @@
-import { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const DropdownNotification = () => {
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [notifying, setNotifying] = useState(true);
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const [notifying, setNotifying] = useState(true)
 
-  const trigger = useRef<any>(null);
-  const dropdown = useRef<any>(null);
+  const trigger = useRef<any>(null)
+  const dropdown = useRef<any>(null)
 
   useEffect(() => {
     const clickHandler = ({ target }: MouseEvent) => {
-      if (!dropdown.current) return;
+      if (!dropdown.current) return
       if (
         !dropdownOpen ||
         dropdown.current.contains(target) ||
         trigger.current.contains(target)
       )
-        return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('click', clickHandler);
-    return () => document.removeEventListener('click', clickHandler);
-  });
+        return
+      setDropdownOpen(false)
+    }
+    document.addEventListener('click', clickHandler)
+    return () => document.removeEventListener('click', clickHandler)
+  })
 
   // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }: KeyboardEvent) => {
-      if (!dropdownOpen || keyCode !== 27) return;
-      setDropdownOpen(false);
-    };
-    document.addEventListener('keydown', keyHandler);
-    return () => document.removeEventListener('keydown', keyHandler);
-  });
+      if (!dropdownOpen || keyCode !== 27) return
+      setDropdownOpen(false)
+    }
+    document.addEventListener('keydown', keyHandler)
+    return () => document.removeEventListener('keydown', keyHandler)
+  })
 
   return (
     <li className="relative">
       <Link
         ref={trigger}
         onClick={() => {
-          setNotifying(false);
-          setDropdownOpen(!dropdownOpen);
+          setNotifying(false)
+          setDropdownOpen(!dropdownOpen)
         }}
         to="#"
         className="relative flex h-8.5 w-8.5 items-center justify-center rounded-full border-[0.5px] border-stroke bg-gray hover:text-primary dark:border-strokedark dark:bg-meta-4 dark:text-white"
       >
         <span
-          className={`absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1 ${notifying === false ? 'hidden' : 'inline'
-            }`}
+          className={`absolute -top-0.5 right-0 z-1 h-2 w-2 rounded-full bg-meta-1 ${
+            notifying === false ? 'hidden' : 'inline'
+          }`}
         >
           <span className="absolute -z-1 inline-flex h-full w-full animate-ping rounded-full bg-meta-1 opacity-75"></span>
         </span>
@@ -78,63 +79,57 @@ const DropdownNotification = () => {
         </div>
 
         <ul className="flex  flex-col">
-          <li className='ml-2.5 ' >
+          <li className="ml-2.5 ">
             <Link
               className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black justify-normal m-0"
               to="#"
             >
-              <p className="text-base text-gray-500" >
-                <span className="text-black " >
-                Chỉnh sửa thông tin của bạn trong một lần vuốt
+              <p className="text-base text-gray-500">
+                <span className="text-black ">
+                  Chỉnh sửa thông tin của bạn trong một lần vuốt
                 </span>
                 Sint occaecat cupidatat non proident, sunt in culpa qui officia
-                 động vật mollit sa mạc.
+                động vật mollit sa mạc.
               </p>
 
               <p className="text-xs text-gray-500">12 tháng 5 năm 2025</p>
             </Link>
           </li>
-          <li className='ml-2.5' >
+          <li className="ml-2.5">
             <Link
               className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black"
               to="#"
             >
-              <p className="text-base text-gray-500" >
+              <p className="text-base text-gray-500">
                 <span className="text-black">
-                Đó là sự thật đã được khẳng định từ lâu
+                  Đó là sự thật đã được khẳng định từ lâu
                 </span>{' '}
                 rằng người đọc sẽ bị phân tâm bởi thứ có thể đọc được.
               </p>
               <p className="text-xs text-gray-500">24 Feb, 2025</p>
             </Link>
           </li>
-          <li className='ml-2.5' >
+          <li className="ml-2.5">
             <Link
               className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black"
               to="#"
             >
-              <p className="text-base text-gray-500" >
-                <span className="text-black">
-                Có rất nhiều biến thể
-                </span>{' '}
-                các đoạn Lorem Ipsum có sẵn, nhưng phần lớn đều có
-                 chịu đựng
+              <p className="text-base text-gray-500">
+                <span className="text-black">Có rất nhiều biến thể</span> các
+                đoạn Lorem Ipsum có sẵn, nhưng phần lớn đều có chịu đựng
               </p>
 
               <p className="text-xs text-gray-500">04 Jan, 2025</p>
             </Link>
           </li>
-          <li className='ml-2.5' >
+          <li className="ml-2.5">
             <Link
               className="flex flex-col gap-2.5 border-t border-stroke px-4.5 py-3 hover:bg-gray-2 dark:border-strokedark dark:hover:bg-meta-4 text-black"
               to="#"
             >
-              <p className="text-base text-gray-500" >
-                <span className="text-black">
-                Có rất nhiều biến thể
-                </span>{' '}
-                các đoạn Lorem Ipsum có sẵn, nhưng phần lớn đều có
-                 chịu đựng
+              <p className="text-base text-gray-500">
+                <span className="text-black">Có rất nhiều biến thể</span> các
+                đoạn Lorem Ipsum có sẵn, nhưng phần lớn đều có chịu đựng
               </p>
 
               <p className="text-xs text-gray-500">01 tháng 12 năm 2024</p>
@@ -143,7 +138,7 @@ const DropdownNotification = () => {
         </ul>
       </div>
     </li>
-  );
-};
+  )
+}
 
-export default DropdownNotification;
+export default DropdownNotification

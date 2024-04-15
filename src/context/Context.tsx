@@ -1,4 +1,9 @@
-import { deleteUser, getDetailUserClient, updateUser, updateUserId } from '@/api/auth'
+import {
+  deleteUser,
+  getDetailUserClient,
+  updateUser,
+  updateUserId
+} from '@/api/auth'
 import React, { createContext, useState } from 'react'
 import {
   InvalidateQueryFilters,
@@ -19,6 +24,7 @@ import {
   getAllShowTimes,
   updateShowtimes
 } from '@/api/showtime'
+import { useNavigate } from 'react-router-dom'
 
 export interface ContextAuth {
   userDetail: {
@@ -37,12 +43,13 @@ export interface ContextAuth {
       __v: number
       _id: string
       address: string
-      mobile: number,
-      age : number,
-      sex : string
+      mobile: number
+      age: number
+      sex: string
     }
   }
   isLogined: boolean
+  // eslint-disable-next-line no-unused-vars
   setIsLogined: (state: boolean) => void
   isLoading: boolean
   logout: () => void
@@ -66,8 +73,8 @@ export const ContextMain = createContext<ContextAuth>({
       _id: '',
       address: '',
       mobile: 0,
-      age : 15,
-      sex : ''
+      age: 15,
+      sex: ''
     }
   },
   isLogined: false,
@@ -78,6 +85,7 @@ export const ContextMain = createContext<ContextAuth>({
 
 const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { mutate } = useTicket(DELETE_TICKET)
+  const navigate = useNavigate()
   const [ticket] = useLocalStorage<TicketType>('ticket')
   const queryClient = useQueryClient()
   const [isLogined, setIsLogined] = useState(
@@ -111,7 +119,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
       localStorage.removeItem('ticket')
       localStorage.removeItem('countdown')
     }, 1000)
-    // navigate('/')
+    navigate('/')
     setIsLogined(false)
     toast.success('Đăng xuất thành công')
   }
@@ -149,28 +157,22 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { data: allShowTimes } = useQuery({
     queryKey: ['SHOWTIMES'],
     queryFn: async () => {
-      try {
-        const response = await getAllShowTimes()
-        return response.data.response.docs
-      } catch (error) {}
+      const response = await getAllShowTimes()
+      return response.data.response.docs
     }
   })
 
   const addShowtime = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
     onSuccess() {
-      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
-
-    },
-    
+      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
+    }
   })
   const removeShowtime = useMutation({
     mutationFn: async (id) => await DeleteShowtimes(id),
     onSuccess() {
-      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
+      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
       toast.success('Xóa lịch chiếu thành công  ')
-
-
     },
     onError() {
       toast.error('Xóa thất bại, thử lại !')
@@ -188,25 +190,19 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   })
   const editShowtimes = useMutation({
     mutationFn: async (data: any) => {
-      const { showtime ,id} = data;
-      try {
-        const result = await updateShowtimes(showtime, id as string);
-        return result;
-      } catch (error) {
-        throw error;
-      }
+      const { showtime, id } = data
+      const result = await updateShowtimes(showtime, id as string)
+      return result
     },
-    onSuccess: (data: any) => {
-      const { showtime } = data;
-      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
+    onSuccess: () => {
+      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
 
-      toast.success('Cập nhật  lịch chiếu thành công ');
+      toast.success('Cập nhật  lịch chiếu thành công ')
     },
-    onError: (error: any, variables: any, context: any) => {
-      toast.error('Cập nhật không thành công, hãy thử lại!');
-      console.error('Lỗi cập nhật lịch chiếu:', error);
+    onError: () => {
+      toast.error('Cập nhật không thành công, hãy thử lại!')
     }
-  });
+  })
 
   const values = {
     isLogined,

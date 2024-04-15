@@ -1,9 +1,9 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
-import DefaultLayout from '../../layout/DefaultLayout';
+import React from 'react'
+import { Link } from 'react-router-dom'
+import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb'
+import LogoDark from '../../images/logo/logo-dark.svg'
+import Logo from '../../images/logo/logo.svg'
+import DefaultLayout from '../../layout/DefaultLayout'
 
 const SignIn: React.FC = () => {
   return (
@@ -20,8 +20,8 @@ const SignIn: React.FC = () => {
               </Link>
 
               <p className="2xl:px-20">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit
-                 đình chỉ.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit đình
+                chỉ.
               </p>
 
               <span className="mt-15 inline-block">
@@ -153,7 +153,7 @@ const SignIn: React.FC = () => {
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
               <span className="mb-1.5 block font-medium">Start for free</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-              Đăng nhập vào CINEMA DREAM
+                Đăng nhập vào CINEMA DREAM
               </h2>
 
               <form>
@@ -190,7 +190,7 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                  Gõ lại mật khẩu
+                    Gõ lại mật khẩu
                   </label>
                   <div className="relative">
                     <input
@@ -270,9 +270,9 @@ const SignIn: React.FC = () => {
 
                 <div className="mt-6 text-center">
                   <p>
-                  Bạn chưa có tài khoản?{' '}
+                    Bạn chưa có tài khoản?{' '}
                     <Link to="/auth/signup" className="text-primary">
-                     Đăng ký
+                      Đăng ký
                     </Link>
                   </p>
                 </div>
@@ -282,7 +282,7 @@ const SignIn: React.FC = () => {
         </div>
       </div>
     </DefaultLayout>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn

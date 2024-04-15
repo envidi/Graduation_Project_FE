@@ -20,6 +20,14 @@ export const getTopUser = async () => {
     throw new Error(error as string)
   }
 }
+export const getTopFood = async () => {
+  try {
+    const result = await instance.get('/statistic/topfood')
+    return result.data.data
+  } catch (error) {
+    throw new Error(error as string)
+  }
+}
 export const getSexUser = async () => {
   try {
     const result = await instance.get('/statistic/sex')
@@ -28,6 +36,23 @@ export const getSexUser = async () => {
     throw new Error(error as string)
   }
 }
+export const getCountCate = async () => {
+  try {
+    const result = await instance.get('/statistic/countCate')
+    return result.data.data
+  } catch (error) {
+    throw new Error(error as string)
+  }
+}
+export const getCountTicketAfterWeek = async () => {
+  try {
+    const result = await instance.get('/statistic/countTicket')
+    return result.data
+  } catch (error) {
+    throw new Error(error as string)
+  }
+}
+
 export const getAgeUser = async () => {
   try {
     const result = await instance.get('/statistic/age')

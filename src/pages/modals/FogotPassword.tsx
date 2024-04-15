@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
-import BarLoader from 'react-spinners/BarLoader'
+import { useState } from 'react'
 import { useMutation } from '@tanstack/react-query'
-import { forgotPassword, signin } from '@/api/auth'
+import { forgotPassword } from '@/api/auth'
 import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
 import ResetPassword from './ResetPassword'
@@ -11,18 +10,18 @@ interface FormValues {
 
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false)
-  const [passViewState, setPassViewState] = useState(false)
+  // const [passViewState, setPassViewState] = useState(false)
   const [showForm, setShowForm] = useState(true)
   const [showFormReset, setShowFormReset] = useState(false)
 
-  const togglePassState = (e: any) => {
-    e.preventDefault()
+  // const togglePassState = (e: any) => {
+  //   e.preventDefault()
 
-    setPassViewState((prevState) => !prevState)
-  }
-  const showResetForm = () => {
-    setShowFormReset(true)
-  }
+  //   setPassViewState((prevState) => !prevState)
+  // }
+  // const showResetForm = () => {
+  //   setShowFormReset(true)
+  // }
 
   const forgotPass = useMutation({
     mutationFn: async (email: any) => await forgotPassword(email),
@@ -35,12 +34,12 @@ const ForgotPassword = () => {
       setLoading(false)
 
       toast.error('Gửi mã thất bại, kiểm tra lại  email')
-    },
+    }
   })
 
-  const formikValidate = useFormik<FormValues>({
+  const formikValidate = useFormik({
     initialValues: {
-      email: '',
+      email: ''
     },
     validate: (values) => {
       const errors: Partial<FormValues> = {}
@@ -56,15 +55,13 @@ const ForgotPassword = () => {
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value', values)
       setLoading(true)
       try {
-        const response = await forgotPass.mutateAsync(values)
-        console.log('res', response)
-      } catch (error) {
-        console.error('Lỗi khi gọi API:', error)
+        await forgotPass.mutateAsync(values)
+      } catch (error:any) {
+        throw new Error(error)
       }
-    },
+    }
   })
 
   const handleLoginState = () => {

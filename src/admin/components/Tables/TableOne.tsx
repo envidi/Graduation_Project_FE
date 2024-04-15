@@ -20,6 +20,13 @@ interface TopUserType {
   count: number
   totalSold: number
 }
+interface TopFoodType {
+  name: string
+  image: string
+  price: number
+  ticketId : number
+  count : number
+}
 // const brandData: BRAND[] = [
 //   {
 //     logo: BrandOne,
@@ -153,6 +160,91 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
       </div>
     )
   }
+  if (action === 'TOP_FOOD') {
+    return (
+      <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1 my-5">
+        <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
+          {title}
+        </h4>
+
+        <div className="flex flex-col">
+          <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-4">
+            <div className="p-2.5 xl:p-5">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
+                Tên đồ ăn
+              </h5>
+            </div>
+
+            <div className="p-2.5 text-center xl:p-5">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
+                Số lần mua
+              </h5>
+            </div>
+            <div className="p-2.5 text-center xl:p-5 sm:block hidden">
+              <h5 className=" text-sm font-medium  uppercase xsm:text-base">
+                Giá
+              </h5>
+            </div>
+            <div className=" p-2.5 text-center  xl:p-5">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
+                Tổng tiền
+              </h5>
+            </div>
+            {/* <div className="hidden p-2.5 text-center sm:block xl:p-5">
+              <h5 className="text-sm font-medium uppercase xsm:text-base">
+                Conversion
+              </h5>
+            </div> */}
+          </div>
+
+          {dataTop?.map((topfood: TopFoodType, key: number) => (
+            <div
+              className={`grid grid-cols-3 sm:grid-cols-4 ${
+                key === dataTop.length - 1
+                  ? ''
+                  : 'border-b border-stroke dark:border-strokedark'
+              }`}
+              key={key}
+            >
+              <div className="flex items-center gap-3 p-2.5 xl:p-5 ">
+                <div className="flex-shrink-0">
+                  <img
+                    width={'50'}
+                    src={topfood.image}
+                    alt="Brand"
+                  />
+                </div>
+                <p className="hidden text-black dark:text-white sm:block ">
+                  {topfood.name}
+                </p>
+              </div>
+              <div className="hidden sm:flex items-center justify-center p-2.5 xl:p-5 ">
+                <p className="text-black dark:text-white">
+                  {topfood.count}
+                </p>
+              </div>
+
+              <div className="hidden sm:flex items-center justify-center p-2.5 xl:p-5 ">
+                <p className="text-black dark:text-white">
+                  {addCommasToNumber(topfood?.price)}
+                </p>
+              </div>
+
+              <div className="flex items-center justify-center p-2.5 xl:p-5">
+                <p className="text-meta-3">
+                  {addCommasToNumber(topfood?.ticketId)}
+                </p>
+              </div>
+
+              {/* <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+                <p className="text-meta-5">{brand.conversion}%</p>
+              </div> */}
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">
@@ -269,11 +361,6 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
               </TooltipProvider>
             </h5>
           </div>
-          {/* <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="text-sm font-medium uppercase xsm:text-base">
-              Conversion
-            </h5>
-          </div> */}
         </div>
 
         {dataTop.map((top_movie: TopMovieType, key: number) => (

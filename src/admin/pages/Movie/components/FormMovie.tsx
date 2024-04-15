@@ -4,11 +4,9 @@ import { getAllCategory } from '@/api/category'
 import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import Flatpickr from 'react-flatpickr'
 
-import { useState } from 'react'
 type FormMovieProps = {
   typeForm: 'ADD' | 'EDIT'
 }
@@ -17,8 +15,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   // const [date, setDate] = useState(new Date())
   // const [fromDate, setfromDate] = useState(new Date())
   // const [toDate, settoDate] = useState(new Date())
-
-  const navigate = useNavigate()
 
   //get id from url
   const { id } = useParams()
@@ -183,8 +179,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         isNaN(values.priceweekday) ||
         Number(values.priceweekday) <= 30
       ) {
-        errors.priceweekday =
-          'giá ngày trong tuần phải là một số và lớn hơn 30'
+        errors.priceweekday = 'giá ngày trong tuần phải là một số và lớn hơn 30'
       }
       if (!values.pricesweekend) {
         errors.pricesweekend = 'Giá yêu cầu cuối tuần'
@@ -192,8 +187,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         isNaN(values.pricesweekend) ||
         Number(values.pricesweekend) <= 30
       ) {
-        errors.pricesweekend =
-          'giácuối tuần phải là một số và lớn hơn 30'
+        errors.pricesweekend = 'giácuối tuần phải là một số và lớn hơn 30'
       }
       if (!values.age_limit) {
         errors.age_limit = 'Yêu cầu độ tuổi_giới hạn'
@@ -268,8 +262,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     <div className="">
       {/* <!-- Contact Form --> */}
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form onSubmit={handleSubmit} encType='multipart/form-data' className="bg-white dark:bg-gray-800 p-6">
-          <div className="p-6.5 flex" >
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="bg-white dark:bg-gray-800 p-6"
+        >
+          <div className="p-6.5 flex">
             <div className="mb-4.5 gap-6 w-1/2">
               {/* name */}
               <div className=" relative z-0 mb-6 w-full group">
@@ -285,7 +283,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   placeholder=" Nhập tên phim ..."
                   className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 />
-
 
                 {touched.name && errors.name && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
@@ -415,7 +412,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               {/* trailer */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-                Đoạn phim giới thiệu
+                  Đoạn phim giới thiệu
                 </label>
                 <input
                   name="trailer"
@@ -534,14 +531,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                 /> */}
                 <textarea
-                  className='w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white'
+                  className="w-full rounded-lg border border-gray-300 bg-white dark:bg-form-input dark:text-white py-3 px-4 text-black outline-none transition focus:border-primary focus:ring-1 focus:ring-primary disabled:cursor-default disabled:bg-white"
                   name="desc"
                   placeholder="Nhập Mô tả ..."
                   onChange={handleChange}
                   onBlur={handleBlur}
-
-                >
-                </textarea>
+                ></textarea>
                 {touched.desc && errors.desc && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.desc}
@@ -732,7 +727,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               <div className=" relative z-0 mb-6 w-full group">
                 <label className=" block text-xl font-medium text-black dark:text-white">
                   Giá :
-                </label> <br />
+                </label>{' '}
+                <br />
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   Ngày thường:
                 </label>
@@ -752,7 +748,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 )}
               </div>
               <div className=" relative z-0 mb-6 w-full group">
-                {/* ngày vip */}                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                {/* ngày vip */}{' '}
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   Ngày Lễ:
                 </label>
                 <input
@@ -768,24 +765,34 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               {/*  */}
               {/*  */}
               <div className=" relative z-0 mb-6 w-full group">
-                <label className='mb-2 block text-sm font-medium text-black dark:text-white'>
-                   Trạng thái:
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Trạng thái:
                 </label>
                 <div className="inline-block relative w-full">
-
                   <select
-                    className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white" id="multiSelect"
+                    className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    id="multiSelect"
                     name="status"
                     // value={selectedState}
                     // onChange={ }
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
-                    <option className='text-gray-900' value="">-- Chọn trạng thái --</option>
-                    <option className='text-gray-900' value="COMING_SOON">COMING_SOON</option>
-                    <option className='text-gray-900' value="IS_SHOWING">IS_SHOWING</option>
-                    <option className='text-gray-900' value="PRTMIERED">PRTMIERED</option>
-                    <option className='text-gray-900' value="CANCELLED">CANCELLED</option>
+                    <option className="text-gray-900" value="">
+                      -- Chọn trạng thái --
+                    </option>
+                    <option className="text-gray-900" value="COMING_SOON">
+                      COMING_SOON
+                    </option>
+                    <option className="text-gray-900" value="IS_SHOWING">
+                      IS_SHOWING
+                    </option>
+                    <option className="text-gray-900" value="PRTMIERED">
+                      PRTMIERED
+                    </option>
+                    <option className="text-gray-900" value="CANCELLED">
+                      CANCELLED
+                    </option>
                   </select>
                   <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                     <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">

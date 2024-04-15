@@ -38,12 +38,10 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
 import TooltipComponent from './TooltipComponent'
 import { useContext } from 'react'
-interface DropDownMenuType {
-  logout: () => void
-}
 
-function DropDownMenu({ logout }: DropDownMenuType) {
-  const { userDetail } = useContext<ContextAuth>(ContextMain)
+
+function DropDownMenu() {
+  const { userDetail, logout } = useContext<ContextAuth>(ContextMain)
 
   return (
     <DropdownMenu>
