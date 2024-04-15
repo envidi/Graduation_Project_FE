@@ -35,19 +35,19 @@ const FormCategory = ({ typeForm }: FormCategoryProps) => {
     },
     onSuccess: () => {
       if (typeForm === 'EDIT') {
-        toast.success('Sua category thanh cong')
+        toast.success('Sửa danh mục thành công')
         navigate('/admin/category')
         return
       }
-      toast.success('Them category thanh cong')
+      toast.success('Thêm danh mục thành công')
       navigate('/admin/category')
     },
     onError: () => {
       if (typeForm === 'EDIT') {
-        toast.error('Sua category that bai')
+        toast.error('Sửa danh mục thất bại')
         return
       }
-      toast.error('Them category that bai')
+      toast.error('Thêm danh mục thất bại')
     }
   })
 
@@ -66,7 +66,7 @@ const FormCategory = ({ typeForm }: FormCategoryProps) => {
     validate: (values) => {
       const errors: Partial<FormCategoryAdd> = {}
       if (!values.name) {
-        errors.name = 'Required category name'
+        errors.name = 'yêu cầu tên danh mục'
       }
       return errors
     },
@@ -96,7 +96,7 @@ const FormCategory = ({ typeForm }: FormCategoryProps) => {
             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
               <div className="w-full xl:w-1/2">
                 <label className="mb-2.5 block text-primary">
-                  Category name
+                Tên danh mục
                 </label>
                 <input
                   name="name"
@@ -104,7 +104,7 @@ const FormCategory = ({ typeForm }: FormCategoryProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter category name"
+                  placeholder="Nhập tên danh mục"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 />
                 {touched.name && errors.name && (

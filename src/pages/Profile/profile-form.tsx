@@ -56,9 +56,6 @@ const profileFormSchema = Joi.object({
   sex: Joi.string().label('Giới tính').required().messages({
     'string.empty': 'Bắt buộc chọn giới tính'
   })
-  // bio: Joi.string().label('Bio').max(160).messages({
-  //   'string.empty': 'Required bio'
-  // })
 })
 
 export function ProfileForm() {
@@ -66,10 +63,10 @@ export function ProfileForm() {
   const userUpdate = useMutation({
     mutationFn: async (user: UserUpdateType) => updateClient(user),
     onSuccess() {
-      toast.success('Update Successfully <3 ')
+      toast.success('Cập nhật thành công')
     },
     onError() {
-      toast.error('Update faile, try again !!!!!!!')
+      toast.error('Cập nhật không thành công, hãy thử lại')
     }
   })
   const defaultValues = {
@@ -129,7 +126,7 @@ export function ProfileForm() {
               <FormLabel className="text-2xl">Email</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter your email..."
+                  placeholder="Nhập email..."
                   {...field}
                   className="py-7 text-2xl border-border-borderProfileContain"
                 />
@@ -146,10 +143,10 @@ export function ProfileForm() {
           name="address"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-2xl">Address</FormLabel>
+              <FormLabel className="text-2xl">Địa chỉ</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Hanoi Nam Tu Liem street"
+                  placeholder="đường Nam Từ Liêm Hà Nội"
                   {...field}
                   className="py-7 text-2xl border-border-borderProfileContain"
                 />
@@ -166,10 +163,10 @@ export function ProfileForm() {
           name="mobile"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-2xl">Mobile</FormLabel>
+              <FormLabel className="text-2xl">Điện thoại</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Enter your number phone..."
+                  placeholder="Enter your số  điện..."
                   {...field}
                   className="py-7 text-2xl border-border-borderProfileContain"
                 />
@@ -190,7 +187,7 @@ export function ProfileForm() {
               <FormControl>
                 <Input
                   type="number"
-                  placeholder="Enter your age..."
+                  placeholder="Nhập tuổi của bạn..."
                   {...field}
                   className="py-7 text-2xl border-border-borderProfileContain"
                 />
@@ -251,7 +248,7 @@ export function ProfileForm() {
           type="submit"
           className="dark:bg-background-secondary bg-neutral-800 text-2xl px-7 py-4"
         >
-          Update profile
+          Cập nhật
         </Button>
       </form>
     </Form>

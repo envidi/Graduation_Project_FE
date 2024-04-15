@@ -5,16 +5,27 @@ import { createSlice } from '@reduxjs/toolkit'
 interface TicketAction {
   payload: TicketType
 }
-export interface PaymentSelected{
-  _id : number
-  name : string
+export interface PaymentSelected {
+  _id: number
+  name: string
 }
 
 export interface TicketType {
-  id_showtime?: string
-  id_movie?: string
+  id_showtime?: {
+    _id?: string
+    timeFrom?: string
+  }
+  id_movie?: {
+    _id?: string
+    name?: string
+    categoryId?: { _id: string; name: string }[]
+    image?: string
+  }
   hall_name?: string
-  hall_id?: string
+  hall_id?: {
+    _id?: string
+    name?: string
+  }
   image_movie?: string
   name_movie?: string
   duration_movie?: number
@@ -30,11 +41,15 @@ export interface TicketType {
     _id: number
     name: string
   }
-  ticket_id ?: string,
-  cinemaId ?: string,
-  paymentToken ?: string,
-  userId ?: string
-  totalFood ?: number
+  ticket_id?: string
+  cinemaId?: {
+    _id: string
+    CinemaName: string
+    CinemaAdress: string
+  }
+  paymentToken?: string
+  userId?: string
+  totalFood?: number
 }
 export interface TicketState {
   ticket: TicketType
@@ -55,10 +70,21 @@ interface TicketSeatType {
 
 const ticketInitialState: TicketState = {
   ticket: {
-    id_showtime: '',
-    id_movie: '',
+    id_showtime: {
+      _id: '',
+      timeFrom: ''
+    },
+    id_movie: {
+      _id: '',
+      name: '',
+      categoryId: [],
+      image: ''
+    },
     hall_name: '',
-    hall_id: '',
+    hall_id: {
+      _id: '',
+      name: ''
+    },
     image_movie: '',
     name_movie: '',
     duration_movie: 0,
@@ -73,11 +99,15 @@ const ticketInitialState: TicketState = {
       _id: 0,
       name: ''
     },
-    ticket_id : '',
-    cinemaId : '',
+    ticket_id: '',
+    cinemaId: {
+      _id: '',
+      CinemaName: '',
+      CinemaAdress: ''
+    },
     paymentToken: '',
-    userId : '',
-    totalFood : 0
+    userId: '',
+    totalFood: 0
   }
 }
 
@@ -91,10 +121,7 @@ const ticket = createSlice({
         seat: [...action.payload]
       }
     },
-    choosePayment(
-      state: TicketState,
-      action: { payload: PaymentSelected }
-    ) {
+    choosePayment(state: TicketState, action: { payload: PaymentSelected }) {
       state.ticket = {
         ...state.ticket,
         paymentMethod: { ...action.payload }

@@ -6,7 +6,8 @@ import {
   getChartRevenueWeek,
   getProfitAndRevenue,
   getSexUser,
-  getTopMovie
+  getTopMovie,
+  getTopUser
 } from '@/api/statistic'
 
 import { useQuery } from '@tanstack/react-query'
@@ -24,6 +25,8 @@ export function useStatistic(action: string) {
           return getProfitAndRevenue()
         case 'TOP_MOVIE':
           return getTopMovie()
+        case 'TOP_USER':
+          return getTopUser()
         case 'SEX_USER':
           return getSexUser()
         case 'AGE_USER':

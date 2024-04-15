@@ -120,12 +120,27 @@ export const MovieInfoSection = () => {
     )
 
     const ticketObject = {
-      id_showtime: showtime._id,
+      id_showtime: {
+        _id: showtime._id,
+        timeFrom: showtime.timeFrom
+      },
       cinema_name: screenRoom.cinemaId.CinemaName,
-      cinemaId: screenRoom.cinemaId._id,
-      id_movie: _id,
+      cinemaId: {
+        _id: screenRoom.cinemaId._id,
+        CinemaName: screenRoom.cinemaId.CinemaName,
+        CinemaAdress: screenRoom.cinemaId.CinemaAdress
+      },
+      id_movie: {
+        _id : _id,
+        name : name,
+        categoryId : categoryCol,
+        image : image
+      },
       hall_name: screenRoom.screenRoomId.name,
-      hall_id: screenRoom.screenRoomId._id,
+      hall_id: {
+        _id: screenRoom.screenRoomId._id,
+        name: screenRoom.screenRoomId.name
+      },
       image_movie: image,
       name_movie: name,
       duration_movie: duration,
@@ -133,6 +148,7 @@ export const MovieInfoSection = () => {
       price_id: moviePriceCol[0]._id,
       time_from: showtime.timeFrom
     }
+
     dispatch(ticketAction.addProperties(ticketObject))
     setTicket(ticketObject)
     navigate('/purchase/seat')
@@ -210,7 +226,7 @@ export const MovieInfoSection = () => {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="md" variant="outline">
-                    Trailer
+                  Đoạn phim giới thiệu
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="p-0 w-fit">
@@ -234,7 +250,7 @@ export const MovieInfoSection = () => {
                     </div>
                   ) : (
                     <>
-                      <Plus size={20} /> Watchlist
+                      <Plus size={20} /> Xem sau
                     </>
                   )}
                 </Button>
@@ -251,9 +267,9 @@ export const MovieInfoSection = () => {
         </div>
 
         <h3 className="movie-info-screen-heading border-b-4 border-primary-movieColor text-primary-movieColor w-fit mb-10">
-          Showtimes
+          Lịch chiếu
         </h3>
-        <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center gap-10 ">
+        <div className="flex md:flex-row w-full md:items-start md:justify-between sm:items-center sm:flex-col xs:flex-col xs:items-center  flex-wrap ">
           {showTimeDimension && showTimeDimension.length > 0 && (
             <MovieShowtimeSection
               handleChooseShowtime={handleChooseShowtime}

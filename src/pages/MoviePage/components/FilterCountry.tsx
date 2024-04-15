@@ -72,19 +72,19 @@ function FilterCountry({
             ? countryFilter?.find(
                 (country: string) => country === query.country
               )
-            : 'Select country...'}
+            : 'Tìm theo quốc gia...'}
           <ChevronsUpDown size={16} />
         </Button>
       </PopoverTrigger>
       <PopoverContent className={`w-[150px] p-0 border-primary-movieColor ${className}`}>
         <Command className="bg-background-main ">
           <CommandInput
-            placeholder="Search country..."
+            placeholder="Tìm theo quốc gia..."
             className="h-16 text-2xl text-primary-movieColor"
           />
           <CommandList className="bg-background-main">
             <CommandEmpty className="text-primary-movieColor text-2xl flex items-center justify-center p-6">
-              No country found.
+              Không tìm thấy phim phù hợp
             </CommandEmpty>
             <CommandGroup>
               <CommandItem
@@ -97,6 +97,8 @@ function FilterCountry({
               >
                 Any country
                 <Check  
+                Mọi quốc gia
+                <Check
                   className={cn(
                     'mr-2 h-6 w-6',
                     query.country === '0' ? 'opacity-100' : 'opacity-0'

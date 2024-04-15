@@ -2066,7 +2066,7 @@ header {
 }
 
 .movie-info-screen-container {
-  margin: 3.2rem 0 4.8rem;
+  margin: 1rem 0 1.8rem;
   display: flex;
   flex-direction: column;
   gap: 4.8rem;

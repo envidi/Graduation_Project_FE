@@ -82,11 +82,11 @@ const TableFood = () => {
         mutationFn: removeFood,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['FOOD'] })
-            toast.success('delete successfully')
+            toast.success('xóa thành công')
         },
         onError: (error) => {
             console.log(error)
-            toast.error('delete failed')
+            toast.error('xóa không thành côngv')
         }
     })
 
@@ -103,7 +103,7 @@ const TableFood = () => {
         return <Loader />
     }
     if (isError) {
-        return <div>Error</div>
+        return <div>Lỗi</div>
     }
 
     return (
@@ -115,7 +115,7 @@ const TableFood = () => {
                     }}
                     className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full"
                 >
-                    Add <FaPlusCircle size={20} className="ml-4" />
+                    Thêm <FaPlusCircle size={20} className="ml-4" />
                 </button>
             </div>
             <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -127,16 +127,16 @@ const TableFood = () => {
                                     STT
                                 </th>
                                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                                    Name
+                                    Tên
                                 </th>
                                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                                    Image
+                                    Ảnh
                                 </th>
                                 <th className="min-w-[120px] py-4 px-4 font-medium text-primary-white">
-                                    Price
+                                    Gía
                                 </th>
                                 <th className="py-4 px-4 font-medium text-primary-white">
-                                    Actions
+                                   Hành động
                                 </th>
                             </tr>
                         </thead>
@@ -199,8 +199,8 @@ const TableFood = () => {
             {renderPagination()}
             <ConfirmDialog
                 open={isOpenConfirm}
-                title='Are you sure you want to delete it?'
-                subTitle='This action cannot be undone'
+                title='Bạn có chắc chắn muốn xóa nó?'
+                subTitle='Hành động này không thể được hoàn tác'
                 onCancel={() => setOpenConfirm(false)}
                 onConfirm={handleRemoveFood}
             />

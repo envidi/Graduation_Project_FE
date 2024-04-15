@@ -60,6 +60,7 @@ const ChartThree = ({
 }) => {
   options.labels = childrenChart
   options.colors = colors
+  console.log(colors)
 
   const { data: data } = useStatistic(action)
   return (
@@ -78,10 +79,10 @@ const ChartThree = ({
               className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none"
             >
               <option value="" className="dark:bg-boxdark">
-                Monthly
+              hàng tháng
               </option>
               <option value="" className="dark:bg-boxdark">
-                Yearly
+              Hàng năm
               </option>
             </select>
             <span className="absolute right-3 top-1/2 z-10 -translate-y-1/2">
@@ -121,10 +122,13 @@ const ChartThree = ({
       <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
         {childrenChart.map((child: string, index: number) => {
           return (
-            <div key={index} className="sm:w-1/2 w-full px-8">
+            <div key={child} className="sm:w-1/2 w-full px-8">
               <div className="flex w-full items-center">
                 <span
                   className={`mr-2 block h-3 w-full max-w-3 rounded-full bg-[${colors[index]}]`}
+                  style={{
+                    backgroundColor: colors[index]
+                  }}
                 ></span>
                 <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                   <span> {child} </span>

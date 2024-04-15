@@ -1,7 +1,7 @@
 import { Category } from '@/admin/types/category'
 import { Movie, FormMovieAdd } from '@/admin/types/movie'
 import { getAllCategory } from '@/api/category'
-import { addMovie, editMovie, editMoviePice, getOneMovie } from '@/api/movie'
+import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -24,21 +24,24 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const { id } = useParams()
 
   // fetch category by react-query
-  const { data: datacate, isLoading: isLoadingCategory, isError: iserrCategory } = useQuery<Category[]>({
+  const {
+    data: datacate,
+    isLoading: isLoadingCategory,
+    isError: iserrCategory
+  } = useQuery<Category[]>({
     queryKey: ['CATEGORY'],
     queryFn: getAllCategory
   })
   console.log(" check category ", datacate);
   
   //get movie by id
-  let pricesId;
+  let pricesId
 
   const { data: movieData, isLoading } = useQuery<Movie>({
     queryKey: ['MOVIE', id],
     queryFn: async () => {
       const data = await getOneMovie(id as string)
 
-      console.log('movie edit data: ', data)
       pricesId = data.prices
 
       setFieldValue('name', data?.name)
@@ -65,8 +68,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     enabled: typeForm === 'EDIT' && !!id
   })
 
-
-
   // mutation react-query
   const { mutate } = useMutation({
     mutationFn: async (bodyData: FormMovieAdd) => {
@@ -80,24 +81,18 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     },
     onSuccess: () => {
       if (typeForm === 'EDIT') {
-        toast.success('Sua movie thanh cong')
-        // setTimeout(() => {
-        //   navigate('/admin/movie')
-        // }, 500);
+        toast.success('Sửa phim thành công')
+
         return
       }
-      toast.success('Them movie thanh cong')
-      // navigate('/admin/movie')
-      // setTimeout(() => {
-      //   navigate('/admin/movie')
-      // }, 500);
+      toast.success('Thêm phim thành công')
     },
     onError: () => {
       if (typeForm === 'EDIT') {
-        toast.error('Sua cinema that bai')
+        toast.error('Sửa phim thông công')
         return
       }
-      toast.error('Them cinema that bai')
+      toast.error('Thêm phim thành công')
     }
   })
 
@@ -134,114 +129,110 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       priceweekday: 0,
       dayTypeweekday: '',
       pricesweekend: '',
-      dayTypeweekend: 0,
+      dayTypeweekend: 0
     },
     validate: (values) => {
       const errors: Partial<FormMovieAdd> = {}
       if (!values.name) {
-        errors.name = 'Required name'
+        errors.name = 'Tên bắt buộc'
       } else if (values.name.length < 3) {
-        errors.name = 'Name must be at least 3 characters long'
+        errors.name = 'Tên phải dài ít nhất 3 ký tự'
       }
       if (!values.image) {
-        errors.image = 'Required image'
+        errors.image = 'Hình ảnh bắt buộc'
       } else if (values.image.length < 3) {
-        errors.image = 'image must be at least 3 characters long'
+        errors.image = 'hình ảnh phải dài ít nhất 3 ký tự'
       }
       if (!values.author) {
-        errors.author = 'Required author'
+        errors.author = 'tác giả bắt buộc'
       } else if (values.author.length < 3) {
-        errors.author = 'author must be at least 3 characters long'
+        errors.author = 'tác giả phải dài ít nhất 3 ký tự'
       }
       if (!values.language) {
-        errors.language = 'Required language'
+        errors.language = 'Ngôn ngữ bắt buộc'
       } else if (values.language.length < 3) {
-        errors.language = 'language must be at least 3 characters long'
+        errors.language = 'ngôn ngữ phải dài ít nhất 3 ký tự'
       }
       if (!values.actor) {
-        errors.actor = 'Required actor'
+        errors.actor = 'Diễn viên bắt buộc'
       } else if (values.actor.length < 3) {
-        errors.actor = 'actor must be at least 3 characters long'
+        errors.actor = 'diễn viên phải dài ít nhất 3 ký tự'
       }
       if (!values.trailer) {
-        errors.trailer = 'Required trailer'
+        errors.trailer = 'Đoạn giới thiệu bắt buộc'
       } else if (values.trailer.length < 3) {
-        errors.trailer = 'trailer must be at least 3 characters long'
+        errors.trailer = 'đoạn giới thiệu phải dài ít nhất 3 ký tự'
       }
       if (!values.fromDate) {
-        errors.fromDate = 'Required fromDate'
+        errors.fromDate = 'Bắt buộc từ Ngày'
       }
       if (!values.toDate) {
         errors.toDate = 'Required toDate'
       }
       if (!values.country) {
-        errors.country = 'Required country'
+        errors.country = 'Quốc gia bắt buộc'
       } else if (values.country.length < 3) {
-        errors.country = 'country must be at least 3 characters long'
+        errors.country = 'quốc gia phải dài ít nhất 3 ký tự'
       }
       if (!values.duration) {
-        errors.duration = 'Required duration'
+        errors.duration = 'Thời lượng bắt buộc'
       } else if (isNaN(values.duration) || Number(values.duration) <= 30) {
-        errors.duration = 'Duration must be a number and greater than 30'
+        errors.duration = 'Thời lượng phải là một số và lớn hơn 30'
       }
       if (!values.priceweekday) {
-        errors.priceweekday = 'Required priceweekday'
-      } else if (isNaN(values.priceweekday) || Number(values.priceweekday) <= 30) {
-        errors.priceweekday = 'priceweekday must be a number and greater than 30'
+        errors.priceweekday = 'Giá yêu cầu ngày trong tuần'
+      } else if (
+        isNaN(values.priceweekday) ||
+        Number(values.priceweekday) <= 30
+      ) {
+        errors.priceweekday =
+          'giá ngày trong tuần phải là một số và lớn hơn 30'
       }
       if (!values.pricesweekend) {
-        errors.pricesweekend = 'Required pricesweekend'
-      } else if (isNaN(values.pricesweekend) || Number(values.pricesweekend) <= 30) {
-        errors.pricesweekend = 'pricesweekend must be a number and greater than 30'
+        errors.pricesweekend = 'Giá yêu cầu cuối tuần'
+      } else if (
+        isNaN(values.pricesweekend) ||
+        Number(values.pricesweekend) <= 30
+      ) {
+        errors.pricesweekend =
+          'giácuối tuần phải là một số và lớn hơn 30'
       }
       if (!values.age_limit) {
-        errors.age_limit = 'Required age_limit'
+        errors.age_limit = 'Yêu cầu độ tuổi_giới hạn'
       } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 0) {
-        errors.age_limit = 'age_limit must be a number and greater than 30'
+        errors.age_limit = 'age_limit phải là một số và lớn hơn 30'
       }
       if (!values.rate) {
-        errors.rate = 'Required rate'
+        errors.rate = 'Tỷ lệ bắt buộc'
       } else if (isNaN(values.rate) || Number(values.rate) <= 0) {
-        errors.rate = 'rate must be a number and greater than 30'
+        errors.rate = 'tỷ lệ phải là một số và lớn hơn 30'
       }
       if (!values.status) {
-        errors.status = 'Required status'
+        errors.status = 'trạng thái bắt buộc'
       } else if (values.status.length < 3) {
-        errors.status = 'status must be at least 3 characters long'
+        errors.status = 'trạng thái phải dài ít nhất 3 ký tự'
       }
 
       if (!values.categoryId) {
-        errors.categoryId = 'Required categoryId'
+        errors.categoryId = 'Id danh mục bắt buộc'
       } else if (values.categoryId.length < 1) {
-        errors.categoryId = 'categoryId must be at least 3 characters long'
+        errors.categoryId = 'id danh mục phải dài ít nhất 3 ký tự'
       }
-      // if (!values.showTimes) {
-      //   errors.showTimes = 'Required showTimes'
-      // } else if (values.showTimes.length < 3) {
-      //   errors.showTimes = 'showTimes must be at least 3 characters long'
-      // }
-      // if (!values.prices) {
-      //   errors.prices = 'Required prices'
-      // } 
-      // else if (values.prices.length < 3) {
-      //   errors.prices = 'prices must be at least 3 characters long'
-      // }
+
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value form cinema :', values)
       try {
         const newObject = {
           price: values?.priceweekday,
-          dayType: 'weekday',
-        };
+          dayType: 'weekday'
+        }
         const newObject2 = {
           price: values?.pricesweekend,
-          dayType: 'weekend',
-        };
+          dayType: 'weekend'
+        }
 
-        values.prices = [newObject, newObject2];
-        console.log('vlaue: ', values.prices)
+        values.prices = [newObject, newObject2]
         const bodyData = {
           name: values?.name,
           image: values?.image,
@@ -262,8 +253,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           prices: values?.prices
         }
 
-        console.log('data body movie form:', bodyData)
-        const response = await mutate(bodyData)
+        await mutate(bodyData)
         // console.log('res', response)
       } catch (error) {
         console.log('error', error)
@@ -332,7 +322,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
                 {values.image && (
-                  <img src={values.image} alt="movie" className="w-32 h-32 object-cover rounded-lg" />
+                  <img
+                    src={values.image}
+                    alt="movie"
+                    className="w-32 h-32 object-cover rounded-lg"
+                  />
                 )}
               </div>
               {/*  */}
@@ -423,7 +417,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               {/* trailer */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-                  Trailer
+                Đoạn phim giới thiệu
                 </label>
                 <input
                   name="trailer"

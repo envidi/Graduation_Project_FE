@@ -74,7 +74,7 @@ const DropdownNotification = () => {
         style={{ overflowY: 'auto', maxHeight: '300px' }} // Thêm style này để thêm cuộn và giới hạn chiều cao
       >
         <div className="px-4.5 py-3">
-          <h5 className="text-2xl  ml-2.5   text-gray-400">Notification</h5>
+          <h5 className="text-2xl  ml-2.5   text-gray-400">Thông báo</h5>
         </div>
 
         <ul className="flex  flex-col">
@@ -85,13 +85,13 @@ const DropdownNotification = () => {
             >
               <p className="text-base text-gray-500" >
                 <span className="text-black " >
-                  Edit your information in a swipe
+                Chỉnh sửa thông tin của bạn trong một lần vuốt
                 </span>
                 Sint occaecat cupidatat non proident, sunt in culpa qui officia
-                deserunt mollit anim.
+                 động vật mollit sa mạc.
               </p>
 
-              <p className="text-xs text-gray-500">12 May, 2025</p>
+              <p className="text-xs text-gray-500">12 tháng 5 năm 2025</p>
             </Link>
           </li>
           <li className='ml-2.5' >
@@ -101,9 +101,9 @@ const DropdownNotification = () => {
             >
               <p className="text-base text-gray-500" >
                 <span className="text-black">
-                  It is a long established fact
+                Đó là sự thật đã được khẳng định từ lâu
                 </span>{' '}
-                that a reader will be distracted by the readable.
+                rằng người đọc sẽ bị phân tâm bởi thứ có thể đọc được.
               </p>
               <p className="text-xs text-gray-500">24 Feb, 2025</p>
             </Link>
@@ -115,10 +115,10 @@ const DropdownNotification = () => {
             >
               <p className="text-base text-gray-500" >
                 <span className="text-black">
-                  There are many variations
+                Có rất nhiều biến thể
                 </span>{' '}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
+                các đoạn Lorem Ipsum có sẵn, nhưng phần lớn đều có
+                 chịu đựng
               </p>
 
               <p className="text-xs text-gray-500">04 Jan, 2025</p>
@@ -131,13 +131,13 @@ const DropdownNotification = () => {
             >
               <p className="text-base text-gray-500" >
                 <span className="text-black">
-                  There are many variations
+                Có rất nhiều biến thể
                 </span>{' '}
-                of passages of Lorem Ipsum available, but the majority have
-                suffered
+                các đoạn Lorem Ipsum có sẵn, nhưng phần lớn đều có
+                 chịu đựng
               </p>
 
-              <p className="text-xs text-gray-500">01 Dec, 2024</p>
+              <p className="text-xs text-gray-500">01 tháng 12 năm 2024</p>
             </Link>
           </li>
         </ul>

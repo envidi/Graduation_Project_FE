@@ -17,41 +17,6 @@ interface SidebarNavProps extends React.HTMLAttributes<HTMLElement> {
 export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   const { pathname } = useLocation()
   const { userDetail } = useContext<ContextAuth>(ContextMain)
-  // const [file, setFiles] = useState<File[]>([])
-
-  // const userUpdate = useMutation({
-  //   mutationFn: async (user: any) => await updateClient(user),
-  //   onSuccess() {
-  //     toast.success('Update Successfully ')
-  //   },
-  //   onError() {
-  //     toast.error('Update faile, try again !')
-  //   }
-  // })
-
-  // const form = useForm({
-  //   resolver: joiResolver(imageSchema),
-  //   defaultValues: {
-  //     avatar: ''
-  //   },
-  //   mode: 'onChange'
-  // })
-
-  // const onSubmit = () => {
-  //   const data = new FormData()
-
-  //   if (!file || file.length == 0) {
-  //     toast.error('Please select a image!', {
-  //       position: 'top-right'
-  //     })
-  //     return
-  //   }
-  //   data.set('avatar', file[0])
-  //   userUpdate.mutate(data)
-  // }
-  // const handleChangeFile = (e: any) => {
-  //   setFiles(e.target.files)
-  // }
 
   return (
     <div className="sticky top-0 ">

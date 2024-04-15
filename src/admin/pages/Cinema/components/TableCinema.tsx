@@ -132,8 +132,8 @@ const TableCinema = () => {
 
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Ban co chac muon xoa khong"
-        subTitle="Xoa di se khong the khoi phuc"
+        title="Bạn có chắc muốn xóa không"
+        subTitle="Xóa đi không thể khôi phục"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveCinema}
       />

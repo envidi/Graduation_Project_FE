@@ -14,7 +14,7 @@ const FormLayout = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Contact Form
+              Mâu liên hệ
               </h3>
             </div>
             <form action="#">
@@ -22,7 +22,7 @@ const FormLayout = () => {
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                   <div className="w-full xl:w-1/2">
                     <label className="mb-2.5 block text-black dark:text-white">
-                      First name
+                    Tên đầu tiên
                     </label>
                     <input
                       type="text"
@@ -33,7 +33,7 @@ const FormLayout = () => {
 
                   <div className="w-full xl:w-1/2">
                     <label className="mb-2.5 block text-black dark:text-white">
-                      Last name
+                    Họ
                     </label>
                     <input
                       type="text"
@@ -56,7 +56,7 @@ const FormLayout = () => {
 
                 <div className="mb-4.5">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Subject
+                  Chủ thể
                   </label>
                   <input
                     type="text"
@@ -69,7 +69,7 @@ const FormLayout = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Message
+                    Tin nhắn 
                   </label>
                   <textarea
                     rows={6}
@@ -79,7 +79,7 @@ const FormLayout = () => {
                 </div>
 
                 <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                  Send Message
+                 Gửi tin nhắn 
                 </button>
               </div>
             </form>
@@ -91,7 +91,7 @@ const FormLayout = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Sign In Form
+              Biểu mẫu đăng nhập
               </h3>
             </div>
             <form action="#">
@@ -109,7 +109,7 @@ const FormLayout = () => {
 
                 <div>
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Password
+                   Mật khẩu 
                   </label>
                   <input
                     type="password"
@@ -146,16 +146,16 @@ const FormLayout = () => {
                         </span>
                       </div>
                     </div>
-                    <p>Remember me</p>
+                    <p>Nhớ tôi</p>
                   </label>
 
                   <Link to="#" className="text-sm text-primary hover:underline">
-                    Forget password?
+                  Quên mật khẩu?
                   </Link>
                 </div>
 
                 <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                  Sign In
+                Đăng nhập
                 </button>
               </div>
             </form>
@@ -165,14 +165,14 @@ const FormLayout = () => {
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
               <h3 className="font-medium text-black dark:text-white">
-                Sign Up Form
+              Mẫu đăng ký
               </h3>
             </div>
             <form action="#">
               <div className="p-6.5">
                 <div className="mb-4.5">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Name
+                    Tên
                   </label>
                   <input
                     type="text"
@@ -194,7 +194,7 @@ const FormLayout = () => {
 
                 <div className="mb-4.5">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Password
+                    Mật khẩu 
                   </label>
                   <input
                     type="password"
@@ -205,7 +205,7 @@ const FormLayout = () => {
 
                 <div className="mb-5.5">
                   <label className="mb-2.5 block text-black dark:text-white">
-                    Re-type Password
+                  Gõ lại mật khẩu
                   </label>
                   <input
                     type="password"
@@ -215,7 +215,7 @@ const FormLayout = () => {
                 </div>
 
                 <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90">
-                  Sign Up
+                Đăng ký 
                 </button>
               </div>
             </form>

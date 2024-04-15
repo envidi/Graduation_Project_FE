@@ -10,7 +10,7 @@ import DefaultLayout from '../../layout/DefaultLayout'
 import useStatistic from '@/hooks/useStatistic'
 import { addCommasToNumber } from '@/utils'
 import IconRevenue from './IconDash/IconRevenue'
-import IconProfit from './IconDash/IconProfit'
+// import IconProfit from './IconDash/IconProfit'
 import MovieDashB from './IconDash/MovieDashB'
 import UserDashB from './IconDash/UserDashB'
 
@@ -21,7 +21,7 @@ const ECommerce: React.FC = () => {
   const { data: revenueProfit = {}, isLoading: loadingRevenueAndProfit } =
     useStatistic('REVENUE_PROFIT')
   //
-  const { revenue = 0, totalProfit = 0 } = revenueProfit
+  const { revenue = 0 } = revenueProfit
   return (
     <DefaultLayout>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
@@ -34,7 +34,7 @@ const ECommerce: React.FC = () => {
           <IconRevenue />
         </CardDataStats>
 
-        <CardDataStats
+        {/* <CardDataStats
           title="Lợi nhuận"
           total={
             !loadingRevenueAndProfit ? addCommasToNumber(totalProfit) || 0 : 0
@@ -43,7 +43,7 @@ const ECommerce: React.FC = () => {
           levelUp
         >
           <IconProfit />
-        </CardDataStats>
+        </CardDataStats> */}
 
         <CardDataStats
           title="Tổng sản phẩm"
@@ -81,7 +81,8 @@ const ECommerce: React.FC = () => {
         />
         {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-12">
-          <TableOne />
+          <TableOne action="TOP_MOVIE" title="Top 5 bộ phim doanh thu cao" />
+          <TableOne action="TOP_USER" title="Top 5 khách hàng" />
         </div>
         {/* <ChatCard /> */}
       </div>

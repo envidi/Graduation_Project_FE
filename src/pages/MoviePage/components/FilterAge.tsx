@@ -36,18 +36,18 @@ function FilterAge({ setQuery, query, className,handleCloseSheet }: FilterAgeTyp
       <SelectTrigger
         className={`w-[110px] bg-transparent rounded-full text-xl font-semibold flex px-10 border-2 border-primary-movieColor ${className}`}
       >
-        <SelectValue placeholder="Select age" />
+        <SelectValue placeholder="Theo độ tuổi" />
       </SelectTrigger>
       <SelectContent className=" bg-background-main p-2 border-primary-movieColor">
         <SelectGroup>
           <SelectLabel className="bg-background-secondary text-primary-movieColor text-2xl py-3 rounded-md">
-            Select age
+            Chọn theo độ tuổi
           </SelectLabel>
           <SelectItem
             value="0"
             className={`bg-background-secondary my-2 text-2xl text-primary-movieColor py-3 rounded-md focus:bg-accent focus:text-accent-foreground ${query.age === '0' ? 'bg-accent text-accent-foreground' : ''}`}
           >
-            Any age
+            Mọi độ tuổi
           </SelectItem>
           {ages.map((age, index) => {
             return (

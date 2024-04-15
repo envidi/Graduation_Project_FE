@@ -66,10 +66,10 @@ console.log('data category:',data)
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  Category Name
+                Tên  danh mục
                 </th>
                 <th className="py-4 px-4 font-medium text-primary-white">
-                  Actions
+                  Hành động
                 </th>
               </tr>
             </thead>
@@ -105,8 +105,8 @@ console.log('data category:',data)
 
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Ban co chac muon xoa khong"
-        subTitle="Xoa di se khong the khoi phuc"
+        title="Bạn có muốn xóa không"
+        subTitle="Xóa đi không thể khôi phục "
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveCategory}
       />

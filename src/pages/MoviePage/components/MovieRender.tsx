@@ -76,7 +76,7 @@ function MovieRender({ isLoading, query, currentMovies }: MovieRenderType) {
         </SwiperSlider>
       ) : (
         <div className="h-96 flex items-center text-3xl text-primary-movieColor font-bold">
-          Not found
+         Không tìm thấy
         </div>
       )}
     </motion.div>

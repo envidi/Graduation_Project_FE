@@ -39,7 +39,7 @@ export const MovieInfoCollection = () => {
     <section className="section-movie-info-collection bg-background-secondary">
       <div className="home-collection-heading-container">
         <h1 className="heading-secondary border-b-4 border-primary-movieColor ">
-          Find other movies &rarr;
+        Tìm phim khác &rarr;
         </h1>
       </div>
 

@@ -60,9 +60,9 @@ export function AppearanceForm() {
           name="theme"
           render={({ field }) => (
             <FormItem className="space-y-1">
-              <FormLabel className="text-2xl">Theme</FormLabel>
+              <FormLabel className="text-2xl">chủ đề</FormLabel>
               <FormDescription className="text-2xl">
-                Select the theme for the dashboard.
+              Chọn chủ đề cho bảng thông tin.
               </FormDescription>
               <FormMessage />
               <RadioGroup
@@ -92,7 +92,7 @@ export function AppearanceForm() {
                       </div>
                     </div>
                     <span className="block w-full p-2 text-2xl text-center font-normal">
-                      Light
+                     Sáng
                     </span>
                   </FormLabel>
                 </FormItem>
@@ -118,7 +118,7 @@ export function AppearanceForm() {
                       </div>
                     </div>
                     <span className="block w-full p-2 text-2xl text-center font-normal">
-                      Dark
+                  Tối
                     </span>
                   </FormLabel>
                 </FormItem>
@@ -131,7 +131,7 @@ export function AppearanceForm() {
           type="submit"
           className="dark:bg-background-secondary bg-neutral-800 text-2xl px-7 py-4"
         >
-          Update preferences
+        Cập nhật tùy chọn
         </Button>
       </form>
     </Form>
