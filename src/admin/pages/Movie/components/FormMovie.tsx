@@ -6,18 +6,15 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import Select from 'react-select';
-import { animate } from 'framer-motion'
-import { any } from 'joi'
+import Select from 'react-select'
+import { ChangeEventHandler, useState } from 'react'
 
 type FormMovieProps = {
   typeForm: 'ADD' | 'EDIT'
 }
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
-  // const [date, setDate] = useState(new Date())
-  // const [fromDate, setfromDate] = useState(new Date())
-  // const [toDate, settoDate] = useState(new Date())
+  const [file, setFiles] = useState<File[]>([])
 
   //get id from url
   const { id } = useParams()
@@ -31,16 +28,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     queryKey: ['CATEGORY'],
     queryFn: getAllCategory
   })
-  // console.log(" check category ", datacate);
-
-  //get movie by id
-  // let pricesId
 
   const { data: movieData, isLoading } = useQuery<Movie>({
     queryKey: ['MOVIE', id],
     queryFn: async () => {
       const data = await getOneMovie(id as string)
-      console.log(data)
 
       // pricesId = data.prices
 
@@ -61,7 +53,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       setFieldValue('rate', data?.rate)
       setFieldValue('showTimes', data?.showTimes)
       setFieldValue('price', data?.price)
-      setFieldValue('categoryId', data?.categoryCol.map(c => c._id))
+      setFieldValue(
+        'categoryId',
+        data?.categoryCol.map((c: any) => c._id)
+      )
       setFieldTouched('categoryId', true)
       return data
     },
@@ -114,9 +109,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     rate: id ? (movieData?.rate as number | undefined) : undefined,
     categoryId: id ? (movieData?.categoryId as string[]) : [],
     showTimes: id ? (movieData?.showTimes as string[]) : '',
-    price: id ? (movieData?.rate as number | undefined) : undefined,
+    price: id ? (movieData?.rate as number | undefined) : undefined
   }
-  console.log(initialValues?.categoryId)
   const {
     values,
     touched,
@@ -127,25 +121,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     setFieldValue,
     setFieldTouched
   } = useFormik({
-    // initialValues: {
-    //   name: id ? (movieData?.name as string) : '',
-    //   image: id ? (movieData?.image as string) : '',
-    //   author: id ? (movieData?.author as string) : '',
-    //   language: id ? (movieData?.language as string) : '',
-    //   actor: id ? (movieData?.actor as string) : '',
-    //   trailer: id ? (movieData?.trailer as string) : '',
-    //   fromDate: id ? (movieData?.fromDate as string) : '',
-    //   toDate: id ? (movieData?.toDate as string) : '',
-    //   desc: id ? (movieData?.desc as string) : '',
-    //   country: id ? (movieData?.country as string) : '',
-    //   status: id ? (movieData?.status as string) : '',
-    //   duration: id ? (movieData?.duration as number | undefined) : undefined,
-    //   age_limit: id ? (movieData?.age_limit as number | undefined) : undefined,
-    //   rate: id ? (movieData?.rate as number | undefined) : undefined,
-    //   categoryId: id ? (movieData?.categoryId as string[]) : [],
-    //   showTimes: id ? (movieData?.showTimes as string[]) : '',
-    //   price: id ? (movieData?.rate as number | undefined) : undefined,
-    // },
     initialValues,
     validate: (values) => {
       const errors: Partial<FormMovieAdd> = {}
@@ -207,7 +182,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.rate) {
         errors.rate = 'Tỷ lệ bắt buộc'
-      } else if (isNaN(values.rate) || Number(values.rate) <= 0 && Number(values.rate) <= 1) {
+      } else if (
+        isNaN(values.rate) ||
+        (Number(values.rate) <= 0 && Number(values.rate) <= 1)
+      ) {
         errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
       }
       if (!values.price) {
@@ -230,30 +208,31 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     },
     onSubmit: async (values) => {
       try {
-        const bodyData = {
-          name: values?.name,
-          image: values?.image,
-          author: values?.author,
-          actor: values?.actor,
-          language: values?.language,
-          trailer: values?.trailer,
-          fromDate: values?.fromDate,
-          age_limit: values?.age_limit,
-          toDate: values?.toDate,
-          desc: values?.desc,
-          duration: values?.duration,
-          country: values?.country,
-          status: values?.status,
-          rate: values?.rate,
-          categoryId: values?.categoryId || [],
-          showTimes: values?.showTimes || [],
-          price: values?.price
+        const data = new FormData()
+        data.set('name', values?.name)
+        data.set('avatar', file[0])
+        data.set('author', values?.author)
+        data.set('actor', values?.actor)
+        data.set('language', values?.language)
+        data.set('trailer', values?.trailer)
+        data.set('fromDate', values?.fromDate)
+        data.set('age_limit', values?.age_limit)
+        data.set('toDate', values?.toDate)
+        data.set('desc', values?.desc)
+        data.set('duration', values?.duration)
+        data.set('country', values?.country)
+        data.set('status', values?.status)
+        data.set('rate', values?.rate)
+
+        data.set('price', values?.price)
+        for (let i = 0; i < values.categoryId.length; i++) {
+          data.append('categoryId[]', values.categoryId[i])
         }
 
         // console.log('data movie value', bodyData)
-        await mutate(bodyData)
+        await mutate(data)
       } catch (error) {
-        console.log('error', error)
+        throw new Error(error as string)
       }
     }
   })
@@ -262,39 +241,24 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const colourOptions = datacate?.map((cate) => ({
     value: cate._id,
     label: cate.name
-  }));
+  }))
   const handleSelectChange = (selectedOptions: any) => {
-    const selectedValues = selectedOptions.map((option: any) => option.value);
+    const selectedValues = selectedOptions.map((option: any) => option.value)
     handleChange({
       target: { name: 'categoryId', value: selectedValues }
-    });
-  };
+    })
+  }
+  const handleChangeFile: ChangeEventHandler<HTMLInputElement> = (e): void => {
+    const target = e.target as HTMLInputElement
+    const filesTarget = target.files
+    if (filesTarget) {
+      const filesArray = Array.from(filesTarget)
+      setFiles(filesArray)
+    }
+  }
   const selectedOptions = colourOptions?.filter((option: any) =>
     values.categoryId?.includes(option.value)
-  );
-
-  // input style
-  const inputStyles = {
-    width: '100%',
-    borderRadius: '0.375rem',
-    borderWidth: '1px',
-    borderColor: '#D1D5DB',
-    backgroundColor: '#FFFFFF',
-    color: '#000000',
-    padding: '0.75rem 1rem',
-    outline: 'none',
-    transition: 'border-color 0.15s ease-in-out',
-    focus: {
-      borderColor: '#2563EB',
-      ring: '1px',
-      ringColor: '#2563EB',
-      disabled: {
-        cursor: 'default',
-        backgroundColor: '#FFFFFF'
-      }
-    }
-  };
-
+  )
 
   // select style
   const dropdownStyles = {
@@ -336,7 +300,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         color: '#4a5568'
       }
     })
-  };
+  }
 
   if (isLoading) return <div>Loading...</div>
   if (isLoadingCategory) return <div>Loading category...</div>
@@ -348,7 +312,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       {/* <!-- Contact Form --> */}
       {/* <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"> */}
       <div className="border rounded bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form onSubmit={handleSubmit} encType="multipart/form-data" className="p-6 space-y-6">
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="p-6 space-y-6"
+        >
           {/* <div className="p-6.5 flex"> */}
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="mb-4.5 gap-6 w-full">
@@ -366,7 +334,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   placeholder=" Nhập tên phim ..."
                   // className="aw-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                   // className="w-full rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white py-3 px-4 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary disabled:cursor-default disabled:bg-white disabled:text-gray-500 transition duration-300 ease-in-out transform hover:scale-105"
-                className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
 
                 {touched.name && errors.name && (
@@ -590,11 +558,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               {/* category */}
 
               <div className="form-group">
-                <label className="block mb-2 font-medium text-primary dark:text-yellow-400">Danh mục:</label>
+                <label className="block mb-2 font-medium text-primary dark:text-yellow-400">
+                  Danh mục:
+                </label>
                 <Select
                   name="categoryId"
                   closeMenuOnSelect={false}
-                  defaultValue={colourOptions?.filter(option => initialValues?.categoryId?.includes(option.value))}
+                  defaultValue={colourOptions?.filter((option) =>
+                    initialValues?.categoryId?.includes(option.value)
+                  )}
                   isMulti
                   options={colourOptions}
                   value={selectedOptions}
@@ -604,11 +576,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   className="w-full mt-1 px-4 py-2 rounded-md border border-purple-400 shadow-lg focus:ring-4 focus:border-primary dark:border-yellow-400 dark:bg-purple-900 dark:text-white hover:border-pink-500 focus:outline-none focus:ring-pink-500"
                 />
                 {touched.categoryId && errors.categoryId && (
-                  <div className="text-red-500 text-sm font-bold mt-1">{errors.categoryId}</div>
+                  <div className="text-red-500 text-sm font-bold mt-1">
+                    {errors.categoryId}
+                  </div>
                 )}
               </div>
-
-
 
               {/* image */}
               <div className=" relative z-0 mb-6 w-full group">
@@ -617,16 +589,14 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 </label>
                 <input
                   name="image"
-                  value={values.image}
+                  // value={values.image}
                   // // onChange={handleChange}
-                  // onChange={(event) => {
-                  //   setFieldValue('image', event.currentTarget.files[0]);
-                  // }}
+                  onChange={handleChangeFile}
                   // type="file"
 
-                  onChange={handleChange}
+                  // onChange={handleChange}
                   onBlur={handleBlur}
-                  type="text"
+                  type="file"
                   placeholder="Nhập URL ảnh ..."
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
@@ -749,16 +719,32 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     <option className="text-gray-900" value="">
                       -- Chọn trạng thái --
                     </option>
-                    <option className="text-gray-900" value="COMING_SOON" selected={values.status === "COMING_SOON"}>
+                    <option
+                      className="text-gray-900"
+                      value="COMING_SOON"
+                      selected={values.status === 'COMING_SOON'}
+                    >
                       COMING_SOON
                     </option>
-                    <option className="text-gray-900" value="IS_SHOWING" selected={values.status === "IS_SHOWING"}>
+                    <option
+                      className="text-gray-900"
+                      value="IS_SHOWING"
+                      selected={values.status === 'IS_SHOWING'}
+                    >
                       IS_SHOWING
                     </option>
-                    <option className="text-gray-900" value="PRTMIERED" selected={values.status === "PRTMIERED"}>
+                    <option
+                      className="text-gray-900"
+                      value="PRTMIERED"
+                      selected={values.status === 'PRTMIERED'}
+                    >
                       PRTMIERED
                     </option>
-                    <option className="text-gray-900" value="CANCELLED" selected={values.status === "CANCELLED"}>
+                    <option
+                      className="text-gray-900"
+                      value="CANCELLED"
+                      selected={values.status === 'CANCELLED'}
+                    >
                       CANCELLED
                     </option>
                   </select>
