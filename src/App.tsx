@@ -302,12 +302,12 @@ function App() {
               <Route path="profile" element={<Profile />} />
               <Route path="users" element={<Users />} />
 
-              {/* <Route path="showtimes">
+               <Route path="showtimes">
                 <Route index element={<Showtimes />} />
                 <Route path="create" element={<CreateShowtimes />} />
                 <Route path="update/:id" element={<UpdateShowtimes />} />
                 <Route path="restore" element={<Restore />} />
-              </Route> */}
+              </Route> 
 
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />

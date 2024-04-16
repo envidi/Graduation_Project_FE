@@ -6,11 +6,12 @@ import { toast } from 'react-toastify'
 import 'flatpickr/dist/flatpickr.css'
 import Flatpickr from 'react-flatpickr'
 import { format } from 'date-fns'
-import { getAllMovie } from '@/api/movie'
+import { getAllMovie, getAllScreenRoom } from '@/api/movie'
 import { useQuery } from '@tanstack/react-query'
 import { Movie } from '@/admin/types/movie'
-import { ChevronsUpDown } from 'lucide-react'
+import { Check, ChevronsUpDown } from 'lucide-react'
 
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -33,21 +34,26 @@ const CreateShowtimes = () => {
   const [value, setValue] = React.useState('')
   const [screenValue, setScreenValue] = React.useState('')
   const { addShowtime, screenRoom } = useContext(ContextMain)
-  const [, setDate] = useState(new Date())
-  const [, setTimeFrom] = useState(new Date())
-  const [, setTimeTo] = useState(new Date())
+  const [date, setDate] = useState(new Date())
+  const [timeFrom, setTimeFrom] = useState(new Date())
+  const [timeTo, setTimeTo] = useState(new Date())
   const [loading, setLoading] = useState(false)
   const { data } = useQuery<Movie[]>({
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
+  console.log(' check data', data)
+
+  console.log('check screen ', screenRoom)
 
   const handleItemClick = (itemName: any) => {
     setValue(itemName)
+    console.log('check click ', itemName)
     // Đặt giá trị cho 'value' khi người dùng chọn một phim
   }
   const handleItemScreen = (itemName: any) => {
     setScreenValue(itemName)
+    console.log('check itemScreen ', itemName)
     // Đặt giá trị cho 'value' khi người dùng chọn một phim
   }
 
@@ -82,10 +88,12 @@ const CreateShowtimes = () => {
       return errors
     },
     onSubmit: async (values) => {
+      console.log('value ', values)
       setLoading(true)
 
       try {
         const response = await addShowtime.mutateAsync(values)
+        console.log('check tạo lịch chiếu ', response)
         if (response.status === 200) {
           setLoading(false)
 
@@ -111,6 +119,7 @@ const CreateShowtimes = () => {
         }
       }
     }
+    
   })
   return (
     <>
@@ -143,7 +152,7 @@ const CreateShowtimes = () => {
                           ) // Định dạng lại ngày giờ
                           setDate(selectedDates[0])
                           formikValidate.setFieldValue('date', formattedDate)
-                        }
+                        }  
                       }}
                       placeholder="DD/MM/YYYY"
                       className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
@@ -268,13 +277,11 @@ const CreateShowtimes = () => {
                           <Command>
                             <CommandInput placeholder="Tìm Kiếm Phim..." />
                             <CommandList>
-                              {data?.length === 0 ? (
-                                <CommandEmpty>
-                                  Không tìm thấy phim.
-                                </CommandEmpty>
+                              {data.length === 0 ? (
+                                <CommandEmpty>Không tìm thấy phim.</CommandEmpty>
                               ) : (
                                 <CommandGroup>
-                                  {data?.map((item) => (
+                                  {data.map((item) => (
                                     <CommandItem
                                       key={item._id}
                                       role="option"
@@ -288,9 +295,7 @@ const CreateShowtimes = () => {
                                       }}
                                     >
                                       <div className="grid grid-cols-2  w-full">
-                                        <span className="text-sm">
-                                          {item.name}
-                                        </span>
+                                        <span className='text-sm'>{item.name}</span>
                                         <span className="text-gray-500 text-end">
                                           {item.duration} phút
                                         </span>
@@ -386,6 +391,63 @@ const CreateShowtimes = () => {
                   </div>
                 </div>
 
+                {/* <div className="-mx-3 md:flex mb-2">
+                  <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                      htmlFor="grid-city"
+                    >
+                      City
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                      id="grid-city"
+                      type="text"
+                      placeholder="Albuquerque"
+                    />
+                  </div>
+                  <div className="md:w-1/2 px-3">
+                    <label
+                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                      htmlFor="grid-state"
+                    >
+                      State
+                    </label>
+                    <div className="relative">
+                      <select
+                        className="block appearance-none w-full bg-grey-lighter border border-grey-lighter text-grey-darker py-3 px-4 pr-8 rounded"
+                        id="grid-state"
+                      >
+                        <option>New Mexico</option>
+                        <option>Missouri</option>
+                        <option>Texas</option>
+                      </select>
+                      <div className="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
+                        <svg
+                          className="h-4 w-4"
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="md:w-1/2 px-3">
+                    <label
+                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                      htmlFor="grid-zip"
+                    >
+                      Zip
+                    </label>
+                    <input
+                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
+                      id="grid-zip"
+                      type="text"
+                      placeholder="90210"
+                    />
+                  </div>
+                </div> */}
                 <button
                   type="submit"
                   className="middle none center w-full rounded-lg bg-pink-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-pink-500/20 transition-all hover:shadow-lg hover:shadow-pink-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
