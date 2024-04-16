@@ -148,15 +148,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  const userUpdateId = useMutation({
-    mutationFn: async (user) => await updateUserId(user),
-    onSuccess() {
-      toast.success('Update Successfully <3 ')
-    },
-    onError() {
-      toast.error('Update faile, try again !')
-    }
-  })
+  
 
   const { data: allShowTimes } = useQuery({
     queryKey: ['SHOWTIMES'],
@@ -265,7 +257,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     logout,
     detailShowtime,
     allShowTimes,
-    userUpdateId,
+   
     removeUser,
     addShowtime,
     removeShowtime,
