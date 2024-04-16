@@ -24,8 +24,8 @@ interface TopFoodType {
   name: string
   image: string
   price: number
-  ticketId : number
-  count : number
+  ticketId: number
+  count: number
 }
 // const brandData: BRAND[] = [
 //   {
@@ -208,20 +208,14 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
             >
               <div className="flex items-center gap-3 p-2.5 xl:p-5 ">
                 <div className="flex-shrink-0">
-                  <img
-                    width={'50'}
-                    src={topfood.image}
-                    alt="Brand"
-                  />
+                  <img width={'50'} src={topfood.image} alt="Brand" />
                 </div>
                 <p className="hidden text-black dark:text-white sm:block ">
                   {topfood.name}
                 </p>
               </div>
               <div className="hidden sm:flex items-center justify-center p-2.5 xl:p-5 ">
-                <p className="text-black dark:text-white">
-                  {topfood.count}
-                </p>
+                <p className="text-black dark:text-white">{topfood.count}</p>
               </div>
 
               <div className="hidden sm:flex items-center justify-center p-2.5 xl:p-5 ">
@@ -363,11 +357,9 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
           </div>
         </div>
 
-
-        {dataTopMovie?.map((top_movie: TopMovieType, key: number) => (
+        {/* {dataTopMovie?.map((top_movie: TopMovieType, key: number) => ( */}
 
         {dataTop.map((top_movie: TopMovieType, key: number) => (
-
           <div
             className={`grid grid-cols-3 lg:grid-cols-[170px_minmax(100px,_1fr)_200px_200px_200px] ${
               key === dataTop.length - 1
@@ -378,21 +370,10 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
           >
             <div className="flex items-center gap-3 p-2.5 xl:p-5 ">
               <div className="flex-shrink-0">
-
-                <img
-                  width={'50'}
-                  src={top_movie?.movieDetails[0].image}
-                  alt="Brand"
-                />
-              </div>
-              <p className="hidden text-black dark:text-white sm:block ">
-                {top_movie?.movieDetails[0].name}
-
                 <img width={'50'} src={top_movie._id?.image} alt="Brand" />
               </div>
               <p className="hidden text-black dark:text-white sm:block ">
                 {top_movie._id?.name}
-
               </p>
             </div>
 
