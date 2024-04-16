@@ -95,8 +95,6 @@ function FilterCountry({
                 }}
                 className={`text-primary-movieColor text-2xl py-3 ps-5 my-2 mx-2 rounded-md bg-background-secondary flex justify-between hover:bg-primary-locationMovie ${query.country === '0' ? 'bg-accent text-accent-foreground' : ''}`}
               >
-                Any country
-                <Check  
                 Mọi quốc gia
                 <Check
                   className={cn(

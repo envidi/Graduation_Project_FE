@@ -28,6 +28,7 @@ export interface ShowTimeType {
   screenRoomId: string
   _id: string
   timeFrom: string
+  timeTo: string
   date: string
 }
 export interface ShowTime {
@@ -119,7 +120,8 @@ export const MovieInfoSection = () => {
     const ticketObject = {
       id_showtime: {
         _id: showtime._id,
-        timeFrom: showtime.timeFrom
+        timeFrom: showtime.timeFrom,
+        timeTo: showtime.timeTo
       },
       cinema_name: screenRoom.cinemaId.CinemaName,
       cinemaId: {
@@ -236,7 +238,7 @@ export const MovieInfoSection = () => {
                   ></iframe>
                 </DialogContent>
               </Dialog>
-              {watchListId.includes(_id) ? (
+              {!watchListId.includes(_id) && userDetail ? (
                 <Button
                   onClick={handleAddWatchList}
                   className="bg-primary-movieColor text-2xl flex items-center border-transparent hover:text-primary-movieColor hover:bg-transparent border hover:border-primary-movieColor"
