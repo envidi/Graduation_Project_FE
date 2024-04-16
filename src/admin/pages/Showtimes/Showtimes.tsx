@@ -58,13 +58,13 @@ const Showtimes = () => {
 
                 <Link to={'/admin/showtimes/restore'}>
                   <button className="bg-red-500 px-5 py-3 rounded-md text-white font-semibold tracking-wide cursor-pointer ">
-                  <FaRegTrashAlt />
+                    <FaRegTrashAlt />
 
                   </button>
                 </Link>
-               
+
               </div>
-              
+
             </div>
           </div>
           <div>
@@ -94,7 +94,7 @@ const Showtimes = () => {
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Trạng Thái
                       </th>
-                      <th  className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center" colSpan={2}>
+                      <th className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center" colSpan={2}>
                         Hành Động
                       </th>
                     </tr>
@@ -134,7 +134,7 @@ const Showtimes = () => {
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                          {item?.SeatId ? item?.SeatId.length : 0}
+                            {item?.SeatId ? item?.SeatId.length : 0}
                           </p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
@@ -146,29 +146,27 @@ const Showtimes = () => {
                             <span className="relative">{item?.status}</span>
                           </span>
                         </td>
-                        
+
                         <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm flex'>
                           <div>
-                          <Link to={`/admin/showtimes/update/${item?._id}`}>
-                            <button
-                              className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                              data-ripple-light="true"
-                            >
-                              Update
-                            </button>
-                          </Link>
+                            <Link to={`/admin/showtimes/update/${item?._id}`}>
+                              <button
+                                className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                data-ripple-light="true"
+                              >
+                                Update
+                              </button>
+                            </Link>
                           </div>
-                        <div>
-                        <button
-                            className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            data-ripple-light="true"
-                            onClick={() => handleDelete(item._id)}
-                          >
-                            Delete
-                          </button>
-                        </div>
-
-                      
+                          <div>
+                            <button
+                              className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                              data-ripple-light="true"
+                              onClick={() => handleDelete(item._id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}
