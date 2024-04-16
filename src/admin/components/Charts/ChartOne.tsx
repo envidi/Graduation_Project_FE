@@ -158,18 +158,6 @@ const ChartOne: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="flex min-w-47.5">
-            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-secondary">
-              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-[#80CAEE]"></span>
-            </span>
-            <div className="w-full">
-              <p className="font-semibold text-[#80CAEE]">Tổng lợi nhuận</p>
-              <p className="text-sm font-medium">
-                {data && data.date && data.date[0]} -{' '}
-                {data && data.date && data.date[data.date.length - 1]}
-              </p>
-            </div>
-          </div>
         </div>
         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">

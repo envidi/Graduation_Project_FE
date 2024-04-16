@@ -21,7 +21,7 @@ function MovieShowtimeSection({
           className={`movie-info-screen-container-3d bg-background-third grid ${showTimeDimension?.length > 0 ? 'grid' : ''}`}
         >
           <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
-            {showTimeDay && chuyenDoiNgay(showTimeDay[0].date)}
+            {showTimeDay && chuyenDoiNgay(showTimeDay[0]?.date)}
           </h2>
 
           {showTimeDay?.length > 0 ? (

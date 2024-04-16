@@ -357,8 +357,6 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
           </div>
         </div>
 
-        {/* {dataTopMovie?.map((top_movie: TopMovieType, key: number) => ( */}
-
         {dataTop.map((top_movie: TopMovieType, key: number) => (
           <div
             className={`grid grid-cols-3 lg:grid-cols-[170px_minmax(100px,_1fr)_200px_200px_200px] ${
