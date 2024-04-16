@@ -1,29 +1,49 @@
 import React, { useContext, useEffect, useState } from 'react'
 import DefaultLayout from '../layout/DefaultLayout'
-import { useQuery } from '@tanstack/react-query'
-import { getUser } from '@/api/auth'
+import { InvalidateQueryFilters, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getUser, updateUserId } from '@/api/auth'
 import { ContextMain } from '@/context/Context'
+import { toast } from 'react-toastify'
 
 const Users = () => {
   const [showEdit, setShowEdit] = useState(false)
   const [selectedUserIndex, setSelectedUserIndex] = useState(null)
-  const { removeUser, userUpdateId } = useContext(ContextMain)
-  const [selectedRole, setSelectedRole] = useState('');
-
+  const { removeUser } = useContext(ContextMain)
+  const [selectedRole, setSelectedRole] = useState('')
 
   useEffect(() => {
-    console.log("check id ", selectedUserIndex);
-  }, [selectedUserIndex]); // Log lại giá trị mỗi khi selectedUserIndex thay đổi
+    console.log('check id ', selectedUserIndex)
+  }, [selectedUserIndex]) // Log lại giá trị mỗi khi selectedUserIndex thay đổi
 
-  const handleOptionChange = (event :any) => {
-    setSelectedRole(event.target.value);
-  };
-  
+  const queryClient = useQueryClient()
+  const userUpdateId = useMutation({
+    mutationFn: async (user: any ) => {
+      // const { showtime } = user;
+      try {
+        const result = await updateUserId(user , selectedUserIndex )
+        return result
+      } catch (error) {
+        throw error
+      }
+    },
+    onSuccess: (data: any) => {
+      // const { showtime } = data;
+      queryClient.invalidateQueries(["SHOWTIMES"] as InvalidateQueryFilters)
+
+      toast.success('Update role thành công <3')
+    }
+
+  })
+
+  const handleOptionChange = (event: any) => {
+    setSelectedRole(event.target.value)
+  }
+
   const toggleShowEdit = (user: any) => {
-    setShowEdit(!showEdit);
-    setSelectedUserIndex(user?._id);
-    console.log("check id 2", user?._id);
-  };
+    setShowEdit(true)
+    setSelectedUserIndex(user?._id)
+    console.log('check id 2', user?._id)
+  }
 
   const { isLoading, data: allUser } = useQuery({
     queryKey: ['USER'],
@@ -38,21 +58,18 @@ const Users = () => {
   })
 
   const handleUpdateRole = (e: any) => {
-    e.preventDefault();
-  
+    e.preventDefault()
+
     if (selectedUserIndex !== null && selectedUserIndex !== undefined) {
       // Thực hiện cập nhật vai trò cho người dùng với _id được chọn
-      userUpdateId.mutate({ id: selectedUserIndex, roleName: selectedRole });
-      console.log("chekc jsjs", selectedRole);
-  
-      // Đóng modal sau khi cập nhật
-      setShowEdit(false);
-    } else {
-      console.log("lỗi");
-    }
-  };
-  
+      userUpdateId.mutate({ id: selectedUserIndex, roleIds: selectedRole })
 
+      // Đóng modal sau khi cập nhật
+      setShowEdit(false)
+    } else {
+      console.log('lỗi')
+    }
+  }
 
   console.log('check user ', allUser)
 
@@ -81,25 +98,25 @@ const Users = () => {
               <table className="min-w-full leading-normal">
                 <thead>
                   <tr>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Tên
                     </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Số Điện Thoại
                     </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Địa Chỉ
                     </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Email
                     </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Role
                     </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Trạng Thái
                     </th>
-                    <th className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center" colSpan={2}>
                       Hành Động
                     </th>
                   </tr>
@@ -152,7 +169,7 @@ const Users = () => {
                           <span className="relative">Activo</span>
                         </span>
                       </td>
-                      <td>
+                      <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm flex'> 
                         <button
                           className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           data-ripple-light="true"
@@ -174,139 +191,13 @@ const Users = () => {
                           Delete
                         </button>
                       </td>
-                      {selectedUserIndex !== null && (
-                    <>
-                    <div className="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center  bg-opacity-50">
-                        <div className="bg-white rounded  w-10/12 md:w-1/3 box" >
-                          <div className="border-b px-4 py-2 flex justify-between items-center">
-                            <h3 className="font-semibold text-lg text-black">
-                              Update Role
-                            </h3>
-                          </div>
-                          <form onSubmit={handleUpdateRole}>
-                          <div className="p-3">
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 p-4 ">
-                              <label>
-                                <input
-                                  type="radio"
-                                  value="admin"
-                                  className="peer hidden"
-                                  name="roleName"
-                                  checked={selectedRole === 'admin'}
-                                  onChange={handleOptionChange}
-                                />
-
-                                <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-                                  <h2 className="font-medium text-gray-700">
-                                    Admin
-                                  </h2>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                  </svg>
-                                </div>
-                              </label>
-
-                              <label>
-                                <input
-                                  type="radio"
-                                  value="user"
-                                  className="peer hidden"
-                                  name="roleName"
-                                  checked={selectedRole === 'user'}
-          onChange={handleOptionChange}
-                                />
-
-                                <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-                                  <h2 className="font-medium text-gray-700">
-                                    User
-                                  </h2>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                  </svg>
-                                </div>
-                              </label>
-                              <label>
-                                <input
-                                   type="radio"
-                                   value="manager"
-                                   className="peer hidden"
-                                   name="roleName"
-                                   checked={selectedRole === 'manager'}
-          onChange={handleOptionChange}
-                                />
-
-                                <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-                                  <h2 className="font-medium text-gray-700">
-                                  Manager
-                                  </h2>
-                                  <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    strokeWidth="1.5"
-                                    stroke="currentColor"
-                                    className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
-                                  >
-                                    <path
-                                      stroke-linecap="round"
-                                      stroke-linejoin="round"
-                                      d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                                    />
-                                  </svg>
-                                </div>
-                              </label>
-                            </div>
-                          </div>
-                          <div className="flex justify-end items-center w-100 border-t p-3">
-                            <button
-                              className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal"
-                              onClick={() => setShowEdit(false)}
-                            >
-                              Cancel
-                            </button>
-                            <button type='submit'
-                  className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white"
-                >
-                  Update
-                </button>
-                          </div>
-                          </form>
-                         
-                        </div>
-                      </div>
-                     
-                    </>
-                  )}
                     </tr>
-
-                    
                   ))}
 
                
                 </tbody>
               </table>
+
               <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span className="text-xs xs:text-sm text-gray-900">
                   Showing 1 to 4 of 50 Entries
@@ -325,6 +216,102 @@ const Users = () => {
           </div>
         </div>
       </div>
+
+      {showEdit && (
+                    <>
+                      <div className="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center  bg-opacity-50">
+                        <div className="bg-white rounded  w-10/12 md:w-1/3 box">
+                          <div className="border-b px-4 py-2 flex justify-between items-center">
+                            <h3 className="font-semibold text-lg text-black">
+                              Update Role
+                            </h3>
+                          </div>
+                          <form onSubmit={handleUpdateRole}>
+                            <div className="p-3">
+                              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 p-4 ">
+                                <label>
+                                  <input
+                                    type="radio"
+                                    value="659b79c6757ca91b82e2b9d0"
+                                    className="peer hidden"
+                                    name="roleIds"
+                                    checked={selectedRole === '659b79c6757ca91b82e2b9d0'}
+                                    onChange={handleOptionChange}
+                                  />
+
+                                  <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
+                                    <h2 className="font-medium text-gray-700">
+                                      Admin
+                                    </h2>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      strokeWidth="1.5"
+                                      stroke="currentColor"
+                                      className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
+                                    >
+                                      <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                      />
+                                    </svg>
+                                  </div>
+                                </label>
+
+                                <label>
+                                  <input
+                                    type="radio"
+                                    value="659919a451a235a0f4b80700"
+                                    className="peer hidden"
+                                    name="roleIds"
+                                    checked={selectedRole === '659919a451a235a0f4b80700'}
+                                    onChange={handleOptionChange}
+                                  />
+
+                                  <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
+                                    <h2 className="font-medium text-gray-700">
+                                      User
+                                    </h2>
+                                    <svg
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="none"
+                                      viewBox="0 0 24 24"
+                                      strokeWidth="1.5"
+                                      stroke="currentColor"
+                                      className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
+                                    >
+                                      <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                                      />
+                                    </svg>
+                                  </div>
+                                </label>
+                            
+                              </div>
+                            </div>
+                            <div className="flex justify-end items-center w-100 border-t p-3">
+                              <button
+                                className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal"
+                                onClick={() => setShowEdit(false)}
+                              >
+                                Cancel
+                              </button>
+                              <button
+                                type="submit"
+                                className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white"
+                              >
+                                Update
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </>
+                  )}
     </DefaultLayout>
   )
 }
