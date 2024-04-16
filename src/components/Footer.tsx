@@ -109,7 +109,7 @@ export const Footer = () => {
       <h3 className="footer-heading">Rạp phim  của chúng tôi</h3>
 
       <p className="copyright text-primary-copyright">
-      Bản quyền &copy; 2024 bởi NELOY SAHA, Inc. Mọi quyền được bảo lưu.
+      Bản quyền &copy; 2024 bởi Envidi, Inc. Mọi quyền được bảo lưu.
       </p>
 
       <div className="footer-address-container">
