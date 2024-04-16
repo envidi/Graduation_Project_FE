@@ -129,11 +129,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.name.length < 3) {
         errors.name = 'Tên phải dài ít nhất 3 ký tự'
       }
-      if (!values.image) {
-        errors.image = 'Hình ảnh bắt buộc'
-      } else if (values.image.length < 3) {
-        errors.image = 'hình ảnh phải dài ít nhất 3 ký tự'
-      }
+      // if (!values.image) {
+      //   errors.image = 'Hình ảnh bắt buộc'
+      // } 
+      // if (!values.image || !values.image.name) {
+      //   errors.image = 'Hình ảnh bắt buộc';
+      // }
       if (!values.author) {
         errors.author = 'tác giả bắt buộc'
       } else if (values.author.length < 3) {
@@ -199,7 +200,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         errors.status = 'trạng thái phải dài ít nhất 3 ký tự'
       }
       if (!values.categoryId) {
-        errors.categoryId = 'Id danh mục bắt buộc'
+        // errors.categoryId = 'Id danh mục bắt buộc'
       } else if (values.categoryId.length < 1 || values.categoryId.length > 3) {
         errors.categoryId = 'Danh mục phải từ 1 đến 3 loại'
       }
@@ -208,6 +209,34 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     },
     onSubmit: async (values) => {
       try {
+        // chuyển đồi fromDat and toDate
+        //fromDate
+        const originalDateStr = values?.fromDate
+        const originalDate = new Date(originalDateStr);
+
+        const day = originalDate.getDate();
+        const month = originalDate.getMonth() + 1; // Tháng được đánh số từ 0 đến 11
+        const year = originalDate.getFullYear();
+        const hours = originalDate.getHours();
+        const minutes = originalDate.getMinutes();
+
+        // Định dạng lại các giá trị ngày, tháng, năm, giờ, phút
+        const formattedDateStrfromdate = `${day < 10 ? '0' + day : day}-${month < 10 ? '0' + month : month}-${year} ${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`;
+        console.log('formDate', formattedDateStrfromdate);
+       // toDate
+       const originalDateStrtoDate = values?.fromDate
+       const originalDatetoDate = new Date(originalDateStrtoDate);
+
+       const dayToDate = originalDatetoDate.getDate();
+       const monthTodate = originalDatetoDate.getMonth() + 1; // Tháng được đánh số từ 0 đến 11
+       const yearTodate = originalDatetoDate.getFullYear();
+       const hoursTodate = originalDatetoDate.getHours();
+       const minutesTodate = originalDatetoDate.getMinutes();
+
+       // Định dạng lại các giá trị ngày, tháng, năm, giờ, phút
+       const formattedDateStrTodate = `${dayToDate < 10 ? '0' + dayToDate : dayToDate}-${monthTodate < 10 ? '0' + monthTodate : monthTodate}-${yearTodate} ${hoursTodate < 10 ? '0' + hoursTodate : hoursTodate}:${minutesTodate < 10 ? '0' + minutesTodate : minutesTodate}`;
+       console.log('toDate', formattedDateStrTodate);
+      //  
         const data = new FormData()
         data.set('name', values?.name)
         data.set('avatar', file[0])
@@ -215,21 +244,24 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         data.set('actor', values?.actor)
         data.set('language', values?.language)
         data.set('trailer', values?.trailer)
-        data.set('fromDate', values?.fromDate)
         data.set('age_limit', values?.age_limit)
-        data.set('toDate', values?.toDate)
         data.set('desc', values?.desc)
         data.set('duration', values?.duration)
         data.set('country', values?.country)
         data.set('status', values?.status)
         data.set('rate', values?.rate)
-
         data.set('price', values?.price)
+        data.set('fromDate', formattedDateStrfromdate)
+        data.set('toDate', formattedDateStrTodate)
+
         for (let i = 0; i < values.categoryId.length; i++) {
           data.append('categoryId[]', values.categoryId[i])
         }
+        console.log("data form movie", values)
 
-        // console.log('data movie value', bodyData)
+
+
+        // console.log('data movie value', data)
         await mutate(data)
       } catch (error) {
         throw new Error(error as string)
@@ -259,6 +291,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const selectedOptions = colourOptions?.filter((option: any) =>
     values.categoryId?.includes(option.value)
   )
+  // sử lý value date
+
 
   // select style
   const dropdownStyles = {
@@ -451,7 +485,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-
               {/* desc */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
@@ -556,7 +589,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
             <div className="p-2 mb-4.5 ml-8  flex-col gap-6 xl:flex-row">
               {/* category */}
-
               <div className="form-group">
                 <label className="block mb-2 font-medium text-primary dark:text-yellow-400">
                   Danh mục:
@@ -581,7 +613,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-
               {/* image */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
@@ -600,7 +631,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   placeholder="Nhập URL ảnh ..."
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
-
                 {touched.image && errors.image && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.image}
@@ -623,12 +653,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   name="fromDate"
                   value={values.fromDate}
                   onChange={handleChange}
+                  // onChange={(e) => {
+                  //   const convertedDate = convertToDate(e.target.value);
+                  //   setFieldValue('fromDate', convertedDate);
+                  // }}
                   onBlur={handleBlur}
-                  type="text"
+                  type="datetime-local"
                   placeholder="Nhập từ ngày ..."
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
-
                 {touched.fromDate && errors.fromDate && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.fromDate}
@@ -667,8 +700,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   name="toDate"
                   value={values.toDate}
                   onChange={handleChange}
+                  // onChange={(e) => {
+                  //   const convertedDate = convertToDate(e.target.value);
+                  //   setFieldValue('toDate', convertedDate);
+                  // }}
                   onBlur={handleBlur}
-                  type="text"
+                  type="datetime-local"
                   placeholder="Nhập đến ngày ..."
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
@@ -771,11 +808,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           </div>
 
           <button
-            className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 mt-4"
+            className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-50 transition duration-300 mt-4"
             type="submit"
           >
             {typeForm === 'ADD' ? 'Add' : 'Update'}
           </button>
+
         </form>
       </div>
     </div>
