@@ -126,19 +126,7 @@ const options: ApexOptions = {
 
 const ChartOne: React.FC = () => {
   const { data: data, isLoading } = useStatistic('CHART_REVENUE_PROFIT')
-  // const [state, setState] = useState<ChartOneState>({
-  //   series: [
-  //     {
-  //       name: 'Doanh thu',
-  //       data: [230, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45]
-  //     },
 
-  //     {
-  //       name: 'Lợi nhuận',
-  //       data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51]
-  //     }
-  //   ]
-  // })
   if (isLoading) {
     return
   }
@@ -170,23 +158,11 @@ const ChartOne: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="flex min-w-47.5">
-            <span className="mt-1 mr-2 flex h-4 w-full max-w-4 items-center justify-center rounded-full border border-secondary">
-              <span className="block h-2.5 w-full max-w-2.5 rounded-full bg-[#80CAEE]"></span>
-            </span>
-            <div className="w-full">
-              <p className="font-semibold text-[#80CAEE]">Tổng lợi nhuận</p>
-              <p className="text-sm font-medium">
-                {data && data.date && data.date[0]} - {' '}
-                {data && data.date && data.date[data.date.length - 1]}
-              </p>
-            </div>
-          </div>
         </div>
         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
             <button className="rounded bg-white py-1 px-3 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
-              Week
+              Tuần
             </button>
           </div>
         </div>

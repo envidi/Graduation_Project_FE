@@ -45,20 +45,20 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
     },
     onSuccess: () => {
       if (typeForm === 'EDIT') {
-        toast.success('Sua category thanh cong')
+        toast.success('Sửa danh mục thành công')
         setOpen(false)
         queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
         return
       }
-      toast.success('Them category thanh cong')
+      toast.success('Thêm danh mục thành công')
       setOpen(false)
     },
     onError: () => {
       if (typeForm === 'EDIT') {
-        toast.error('Sua category that bai')
+        toast.error('Sửa danh mục thất bại')
         return
       }
-      toast.error('Them category that bai')
+      toast.error('Thêm danh mục thất bại')
     }
   })
 
@@ -77,7 +77,7 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
     validate: (values) => {
       const errors: Partial<FormCategoryAdd> = {}
       if (!values.name) {
-        errors.name = 'Required category name'
+        errors.name = 'Yêu cầu tên danh mục'
       }
       return errors
     },
@@ -105,7 +105,7 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
         {typeForm == 'ADD' ? (
           <div className="text-center mb-2 flex items-center justify-start">
             <button className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full">
-              Add <FaPlusCircle size={20} className="ml-4" />
+              Thêm  <FaPlusCircle size={20} className="ml-4" />
             </button>
           </div>
         ) : (
@@ -118,7 +118,7 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>
-              {typeForm === 'ADD' ? 'Add' : 'Edit'} Category
+              {typeForm === 'ADD' ? 'Add' : 'Edit'} Danh mục
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -126,7 +126,7 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/2">
                   <label className="mb-2.5 block text-primary">
-                    Category name
+                  Tên danh mục
                   </label>
                   <input
                     name="name"
@@ -134,7 +134,7 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="text"
-                    placeholder="Enter category name"
+                    placeholder="Nhập tên danh mục"
                     className="w-full rounded border-[1.5px] border-stroke py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   />
                   {touched.name && errors.name && (

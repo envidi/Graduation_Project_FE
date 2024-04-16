@@ -138,7 +138,7 @@ export const CollectionCard = ({
       <AlertDialog>
         <AlertDialogTrigger asChild>
           <button className="book-btn bg-primary-movieColor hover:bg-primary-movieColorSecond btn">
-            Get ticket
+            Đặt vé
           </button>
         </AlertDialogTrigger>
         <AlertDialogContent>
@@ -153,7 +153,7 @@ export const CollectionCard = ({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel className="text-2xl px-9 py-3">
-              Cancel
+              Hủy
             </AlertDialogCancel>
             <AlertDialogAction
               onClick={() => {
@@ -161,7 +161,7 @@ export const CollectionCard = ({
               }}
               className="bg-primary-movieColor text-2xl px-9 py-3"
             >
-              Continue
+              Tiếp tục
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

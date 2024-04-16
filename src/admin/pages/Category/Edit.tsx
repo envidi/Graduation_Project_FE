@@ -5,7 +5,7 @@ import FormCategory from './components/FormCategory'
 const CategoryEdit = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Add Category" />
+      <Breadcrumb pageName="" />
 
       <div className="flex flex-col gap-10">
         <FormCategory typeForm="EDIT" />

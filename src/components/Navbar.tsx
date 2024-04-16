@@ -1,4 +1,3 @@
-// import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { HashLink } from 'react-router-hash-link'
 import SearchBar from './SearchBar/SearchBar'
@@ -6,8 +5,6 @@ import { useContext, useState } from 'react'
 import { SignupModal } from '@/pages/modals/SignupModal'
 import { ContextAuth, ContextMain } from '@/context/Context'
 import { LoginModal } from '@/pages/modals/LoginModal'
-import Profile from '@/pages/modals/Profile'
-// import { MdLogout } from 'react-icons/md'
 import { toast } from 'react-toastify'
 import DropDownMenu from './DropDownMenu'
 import { Bell } from 'lucide-react'
@@ -15,14 +12,17 @@ import { Separator } from './ui/separator'
 import TooltipComponent from './TooltipComponent'
 
 // eslint-disable-next-line no-unused-vars
-export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boolean) => boolean) => boolean }) => {
+export const Navbar = ({
+  setMenuState
+}: {
+  // eslint-disable-next-line no-unused-vars
+  setMenuState: (state: (prevState: boolean) => boolean) => boolean
+}) => {
   const [showSignup, setShowSignup] = useState(false)
   const [showSignIn, setShowSignIn] = useState(false)
   const [showNav, setShowNav] = useState(false)
-  // const [showProfile, setShowProfile] = useState(false)
-  const [showProfile] = useState(false)
-  // const [signUpState, setSignUpState] = useState(false)
-  const { userDetail, isLogined, setIsLogined } = useContext<ContextAuth>(ContextMain)
+
+  const { isLogined } = useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
     setShowSignup((pre) => !pre)
   }
@@ -35,11 +35,6 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
 
   const toggleShowFormSignIn = () => {
     setShowSignIn((pre) => !pre)
-  }
-  const logout = () => {
-    localStorage.removeItem('Accesstoken')
-    setIsLogined(false)
-    toast.success('Login successful')
   }
 
   return (
@@ -88,7 +83,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
                 d="M360 94.59V296M443.13 212.87L296 360M417.41 360H216M299.13 443.13l-144-144M152 416V216M68.87 299.13l144-144M94.59 152H288M212.87 68.87L360 216"
               />
             </svg>
-            <h1 className="logo-text">Asho Dekhi</h1>
+            <h1 className="logo-text ">Dream Cinema</h1>
           </HashLink>
         </div>
 
@@ -123,7 +118,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
 
         <div className="nav-signup">
           <div className="relative">
-            <TooltipComponent tooltip={'Notify'}>
+            <TooltipComponent tooltip={'Thông báo'}>
               <div>
                 <Bell size={20} className="text-primary-locationMovie" />
                 <span className="w-7 h-7 rounded-full flex justify-center items-center  bg-primary-movieColor absolute top-[-8px] right-[-5px]">
@@ -138,8 +133,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
           />
           {isLogined ? (
             <>
-              <DropDownMenu userDetail={userDetail} logout={logout} />
-              {/* <MdLogout className="text-2xl cursor-pointer " onClick={logout} /> */}
+              <DropDownMenu />
             </>
           ) : (
             <>
@@ -193,7 +187,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
                             className="signup-button"
                             onClick={toggleShowForm}
                           >
-                            Sign up
+                            Đăng Ký
                           </button>
                         </li>
                         <li>
@@ -201,7 +195,7 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
                             className="login-button"
                             onClick={toggleShowFormSignIn}
                           >
-                            Sign in
+                            Đăng Nhập
                           </button>
                         </li>
                       </ul>
@@ -217,8 +211,6 @@ export const Navbar = ({ setMenuState }: { setMenuState: (state: (prevState: boo
       {showSignup && <SignupModal />}
 
       {showSignIn && <LoginModal />}
-
-      {showProfile && <Profile />}
     </>
   )
 }

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
 const CheckboxFive = () => {
-  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [isChecked, setIsChecked] = useState<boolean>(false)
 
   return (
     <div>
@@ -15,7 +15,7 @@ const CheckboxFive = () => {
             id="checkboxLabelFive"
             className="sr-only"
             onChange={() => {
-              setIsChecked(!isChecked);
+              setIsChecked(!isChecked)
             }}
           />
           <div
@@ -26,10 +26,10 @@ const CheckboxFive = () => {
             <span className="h-2.5 w-2.5 rounded-full text-black bg-white dark:bg-transparent"></span>
           </div>
         </div>
-        Checkbox Text
+        Văn bản hộp kiểm
       </label>
     </div>
-  );
-};
+  )
+}
 
-export default CheckboxFive;
+export default CheckboxFive

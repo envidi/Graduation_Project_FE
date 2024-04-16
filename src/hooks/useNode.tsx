@@ -18,7 +18,7 @@ const useNode = () => {
   const insertNode = (
     tree: MyObjectComment,
     commentId: string,
-    like: number,
+    like: string[],
     item: string
   ): MyObjectComment => {
     if (tree._id == commentId) {
@@ -39,7 +39,7 @@ const useNode = () => {
   const editNode = (
     tree: MyObjectComment,
     commentId: string,
-    like: number,
+    like: string[],
     value: string
   ): MyObjectComment => {
     if (tree._id === commentId) {

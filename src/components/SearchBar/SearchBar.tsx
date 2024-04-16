@@ -58,7 +58,7 @@ function SearchBar() {
       >
         <input
           type="text"
-          placeholder="Type something..."
+          placeholder="Gõ cái gì đó..."
           name="q"
           autoComplete="off"
           value={searchTerm}

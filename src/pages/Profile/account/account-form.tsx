@@ -49,16 +49,16 @@ const accountFormSchema = z.object({
   name: z
     .string()
     .min(2, {
-      message: 'Name must be at least 2 characters.'
+      message: 'Tên phải có ít nhất 2 ký tự.'
     })
     .max(30, {
-      message: 'Name must not be longer than 30 characters.'
+      message: 'Tên không được dài hơn 30 ký tự.'
     }),
   dob: z.date({
-    required_error: 'A date of birth is required.'
+    required_error: 'Cần có ngày sinh.'
   }),
   language: z.string({
-    required_error: 'Please select a language.'
+    required_error: 'Vui lòng chọn một ngôn ngữ.'
   })
 })
 
@@ -99,13 +99,13 @@ export function AccountForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Name</FormLabel>
+              <FormLabel>Tên </FormLabel>
               <FormControl>
                 <Input placeholder="Your name" {...field} />
               </FormControl>
               <FormDescription>
-                This is the name that will be displayed on your profile and in
-                emails.
+                Đây là tên sẽ được hiển thị trên hồ sơ của bạn và trong
+                email.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -116,7 +116,7 @@ export function AccountForm() {
           name="dob"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Date of birth</FormLabel>
+              <FormLabel>Ngày sinh</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -130,7 +130,7 @@ export function AccountForm() {
                       {field.value ? (
                         format(field.value, 'PPP')
                       ) : (
-                        <span>Pick a date</span>
+                        <span>Chọn một ngày</span>
                       )}
                       <CalendarDays className="ml-auto h-4 w-4 opacity-50" />
                     </Button>
@@ -149,7 +149,7 @@ export function AccountForm() {
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                Your date of birth is used to calculate your age.
+              Ngày sinh của bạn được sử dụng để tính tuổi của bạn.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -160,7 +160,7 @@ export function AccountForm() {
           name="language"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>Language</FormLabel>
+              <FormLabel>Ngôn ngữ</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -187,30 +187,30 @@ export function AccountForm() {
                   <Command>
                     <CommandInput placeholder="Type a command or search..." />
                     <CommandList>
-                      <CommandEmpty>No results found.</CommandEmpty>
+                      <CommandEmpty>Không có kết quả nào được tìm thấy.</CommandEmpty>
                       <CommandGroup heading="Suggestions">
-                        <CommandItem>Calendar</CommandItem>
-                        <CommandItem>Search Emoji</CommandItem>
-                        <CommandItem>Calculator</CommandItem>
+                        <CommandItem>Lịch</CommandItem>
+                        <CommandItem>Tìm kiếm biểu tượng cảm xúc</CommandItem>
+                        <CommandItem>Máy tính</CommandItem>
                       </CommandGroup>
                       <CommandSeparator />
                       <CommandGroup heading="Settings">
-                        <CommandItem>Profile</CommandItem>
-                        <CommandItem>Billing</CommandItem>
-                        <CommandItem>Settings</CommandItem>
+                        <CommandItem>Hồ sơ</CommandItem>
+                        <CommandItem>Thanh toán</CommandItem>
+                        <CommandItem>Cài đặt</CommandItem>
                       </CommandGroup>
                     </CommandList>
                   </Command>
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                This is the language that will be used in the dashboard.
+              Đây là ngôn ngữ sẽ được sử dụng trong bảng điều khiển.
               </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Update account</Button>
+        <Button type="submit">Cập nhật tài khoản</Button>
       </form>
     </Form>
   )

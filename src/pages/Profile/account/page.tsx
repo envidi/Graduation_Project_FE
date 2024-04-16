@@ -5,10 +5,10 @@ export default function SettingsAccountPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-medium">Account</h3>
+        <h3 className="text-lg font-medium">Tài khoản</h3>
         <p className="text-sm text-muted-foreground">
-          Update your account settings. Set your preferred language and
-          timezone.
+        Cập nhật cài đặt tài khoản của bạn. Đặt ngôn ngữ ưa thích của bạn và
+           Múi giờ.
         </p>
       </div>
       <Separator />

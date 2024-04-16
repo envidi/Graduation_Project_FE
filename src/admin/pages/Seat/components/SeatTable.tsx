@@ -18,7 +18,6 @@
 //     PaginationPrevious
 // } from '@/components/ui/pagination'
 
-
 // const ITEMS_PER_PAGE = 10
 // // ...rest of your imports and TableSeat component
 // const TableSeat = () => {
@@ -76,7 +75,6 @@
 //     const [isOpenConfirm, setOpenConfirm] = useState(false)
 //     const idDelete = useRef<string>()
 //     const navigate = useNavigate()
-
 
 //     const { mutate } = useMutation({
 //         mutationFn: removeSeat,
@@ -204,13 +202,16 @@
 
 // export default TableSeat
 
-
 import { Seat } from '@/admin/types/seat'
-import { getAllSeatAdmin, removeSeat, getHalls, getShows, getShowsByHall } from '@/api/seat'
+import {
+  getAllSeatAdmin,
+  removeSeat,
+  getHalls,
+  getShows,
+  getShowsByHall
+} from '@/api/seat'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { FaEdit } from 'react-icons/fa'
-import { FaPlusCircle } from 'react-icons/fa'
-import { FaRegTrashCan } from 'react-icons/fa6'
+
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { ConfirmDialog } from '@/admin/components/Confirm'
@@ -226,68 +227,66 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination'
 
-
-
 const ITEMS_PER_PAGE = 10
 // ...rest of your imports and TableSeat component
 const TableSeat = () => {
-  const [seats, setSeats] = useState<Seat[]>([]);
+  const [seats, setSeats] = useState<Seat[]>([])
 
-  const [halls, setHalls] = useState([]);
-  const [shows, setShows] = useState([]);
-  const [selectedHall, setSelectedHall] = useState('');
-  const [selectedShow, setSelectedShow] = useState('');
+  const [halls, setHalls] = useState([])
+  const [shows, setShows] = useState([])
+  const [selectedHall, setSelectedHall] = useState('')
+  const [selectedShow, setSelectedShow] = useState('')
   useEffect(() => {
     const fetchHallsAndShows = async () => {
       try {
-        const hallsData = await getHalls();
-        const showsData = await getShows();
-        setHalls(hallsData);
-        setShows(showsData);
+        const hallsData = await getHalls()
+        const showsData = await getShows()
+        setHalls(hallsData)
+        setShows(showsData)
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error('Error fetching data:', error)
       }
-    };
+    }
 
-    fetchHallsAndShows();
-  }, []);
+    fetchHallsAndShows()
+  }, [])
 
   useEffect(() => {
     // Hàm này được gọi mỗi khi selectedHall thay đổi
     const fetchShowsForSelectedHall = async () => {
       if (!selectedHall) {
-        setShows([]);
-        setSelectedShow('');
-        return;
+        setShows([])
+        setSelectedShow('')
+        return
       }
 
       try {
-        const showsData = await getShowsByHall(selectedHall);
-        setShows(showsData);
-        setSelectedShow(''); // Reset lựa chọn lịch chiếu nếu phòng chiếu thay đổi
+        const showsData = await getShowsByHall(selectedHall)
+        setShows(showsData)
+        setSelectedShow('') // Reset lựa chọn lịch chiếu nếu phòng chiếu thay đổi
       } catch (error) {
-        console.error("Error fetching shows for hall:", error);
-        setShows([]);
-        setSelectedShow('');
+        setShows([])
+        setSelectedShow('')
       }
-    };
+    }
 
-    fetchShowsForSelectedHall();
-  }, [selectedHall]); // Phụ thuộc vào selectedHall
-
+    fetchShowsForSelectedHall()
+  }, [selectedHall]) // Phụ thuộc vào selectedHall
 
   useEffect(() => {
     const fecthSeat = async () => {
       try {
-        const seatsData = await getAllSeatAdmin({ _hallId: selectedHall, _showId: selectedShow })
-        setSeats(seatsData);
+        const seatsData = await getAllSeatAdmin({
+          _hallId: selectedHall,
+          _showId: selectedShow
+        })
+        setSeats(seatsData)
       } catch (error) {
-        console.error("Error fetching seats:", error);
+        console.error('Error fetching seats:', error)
       }
-    };
-    fecthSeat();
-  }, [selectedHall, selectedShow]);
-
+    }
+    fecthSeat()
+  }, [selectedHall, selectedShow])
 
   const { data, isLoading, isError } = useQuery<Seat[]>({
     queryKey: ['SEAT'],
@@ -311,35 +310,39 @@ const TableSeat = () => {
 
   const MAX_VISIBLE_PAGES = 5
   const renderPagination = () => {
-    const pages = [];
-    const halfWay = Math.ceil(MAX_VISIBLE_PAGES / 2);
-    const isStart = currentPage <= halfWay;
-    const isEnd = pageCount - halfWay < currentPage;
-    const isMiddle = !isStart && !isEnd;
+    const pages = []
+    const halfWay = Math.ceil(MAX_VISIBLE_PAGES / 2)
+    const isStart = currentPage <= halfWay
+    const isEnd = pageCount - halfWay < currentPage
+    const isMiddle = !isStart && !isEnd
 
-    let ellipsis = false;
+    let ellipsis = false
     for (let i = 1; i <= pageCount; i++) {
-      const pageInRange = isStart ? i <= MAX_VISIBLE_PAGES :
-        isEnd ? pageCount - MAX_VISIBLE_PAGES < i :
-          isMiddle ? currentPage - halfWay < i && i <= currentPage + halfWay - 1 :
-            false;
+      const pageInRange = isStart
+        ? i <= MAX_VISIBLE_PAGES
+        : isEnd
+          ? pageCount - MAX_VISIBLE_PAGES < i
+          : isMiddle
+            ? currentPage - halfWay < i && i <= currentPage + halfWay - 1
+            : false
 
       if (pageInRange) {
         pages.push(
-          <PaginationItem key={i} {...(currentPage === i && { active: 'true' })}>
-            <PaginationLink onClick={() => setPage(i)}>
-              {i}
-            </PaginationLink>
+          <PaginationItem
+            key={i}
+            {...(currentPage === i && { active: 'true' })}
+          >
+            <PaginationLink onClick={() => setPage(i)}>{i}</PaginationLink>
           </PaginationItem>
-        );
-        ellipsis = true;
+        )
+        ellipsis = true
       } else if (ellipsis) {
         pages.push(
           <PaginationItem key={`ellipsis-${i}`} disabled>
             <span className="px-3">...</span>
           </PaginationItem>
-        );
-        ellipsis = false;
+        )
+        ellipsis = false
       }
     }
 
@@ -361,15 +364,14 @@ const TableSeat = () => {
           </PaginationItem>
         </PaginationContent>
       </Pagination>
-    );
-  };
+    )
+  }
 
   /*------------------------------------------------- */
   const queryClient = useQueryClient()
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
   const navigate = useNavigate()
-
 
   const { mutate } = useMutation({
     mutationFn: removeSeat,
@@ -378,7 +380,6 @@ const TableSeat = () => {
       toast.success('delete successfully')
     },
     onError: (error) => {
-      console.log(error)
       toast.error('delete failed')
     }
   })
@@ -409,7 +410,9 @@ const TableSeat = () => {
         >
           <option value="">Chọn phòng chiếu</option>
           {halls.map((hall) => (
-            <option key={hall._id} value={hall._id}>{hall.name}</option>
+            <option key={hall._id} value={hall._id}>
+              {hall.name}
+            </option>
           ))}
         </select>
 
@@ -421,7 +424,8 @@ const TableSeat = () => {
           <option value="">Chọn lịch chiếu</option>
           {shows.map((show) => (
             <option key={show._id} value={show._id}>
-              {moment(show.timeFrom).format('DD-MM-YYYY HH:mm')} - {moment(show.timeTo).format('DD-MM-YYYY HH:mm')}
+              {moment(show.timeFrom).format('DD-MM-YYYY HH:mm')} -{' '}
+              {moment(show.timeTo).format('DD-MM-YYYY HH:mm')}
             </option>
           ))}
         </select>
@@ -482,7 +486,9 @@ const TableSeat = () => {
                     <p className="text-primary-white">{seat.typeSeat}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">${seat.price.toFixed(2)}</p>
+                    <p className="text-primary-white">
+                      ${seat.price.toFixed(2)}
+                    </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{seat.row}</p>
@@ -494,33 +500,22 @@ const TableSeat = () => {
                     <p className="text-primary-white">{seat.status}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{seat.ScreeningRoomId ? seat.ScreeningRoomId.name : 'Không có thông tin'}</p>
+                    <p className="text-primary-white">
+                      {seat.ScreeningRoomId
+                        ? seat.ScreeningRoomId.name
+                        : 'Không có thông tin'}
+                    </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{seat.ShowScheduleId ? `${moment(seat.ShowScheduleId.timeFrom).format('DD-MM-YYYY HH:mm')} - ${moment(seat.ShowScheduleId.timeTo).format('DD-MM-YYYY HH:mm')}` : 'Không có thông tin'}</p>
+                    <p className="text-primary-white">
+                      {seat.ShowScheduleId
+                        ? `${moment(seat.ShowScheduleId.timeFrom).format('DD-MM-YYYY HH:mm')} - ${moment(seat.ShowScheduleId.timeTo).format('DD-MM-YYYY HH:mm')}`
+                        : 'Không có thông tin'}
+                    </p>
                   </td>
-                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div className="flex items-center space-x-3.5">
-                      <button
-                        className="hover:text-primary"
-                        onClick={() => {
-                          navigate(`/admin/seat/edit/${seat._id}`)
-                        }}
-                      >
-                        <FaEdit size={20} />
-                      </button>
-                      <button
-                        className="hover:text-primary"
-                        onClick={() => handleShowConfirm(seat._id)}
-                      >
-                        <FaRegTrashCan size={20} />
-                      </button>
-                    </div>
-                  </td> */}
                 </tr>
               ))}
             </tbody>
-
           </table>
         </div>
       </div>
@@ -528,15 +523,13 @@ const TableSeat = () => {
       {renderPagination()}
       <ConfirmDialog
         open={isOpenConfirm}
-        title='Bạn có chắc chắn muốn xóa không?'
-        subTitle='Không thể hoàn tác hành động này'
+        title="Bạn có chắc chắn muốn xóa không?"
+        subTitle="Không thể hoàn tác hành động này"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveSeat}
       />
     </>
-
   )
 }
 
 export default TableSeat
-

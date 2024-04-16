@@ -10,45 +10,45 @@ import DefaultLayout from '../../layout/DefaultLayout'
 import useStatistic from '@/hooks/useStatistic'
 import { addCommasToNumber } from '@/utils'
 import IconRevenue from './IconDash/IconRevenue'
-import IconProfit from './IconDash/IconProfit'
+// import IconProfit from './IconDash/IconProfit'
 import MovieDashB from './IconDash/MovieDashB'
 import UserDashB from './IconDash/UserDashB'
+import { Layers } from 'lucide-react'
 
 const ECommerce: React.FC = () => {
   const { data: userCount, isLoading } = useStatistic('USER_COUNT')
+  const { data: cateCount, isLoading: cateLoading } = useStatistic('CATE_COUNT')
   const { data: movieCount, isLoading: loadingMovie } =
     useStatistic('MOVIE_COUNT')
   const { data: revenueProfit = {}, isLoading: loadingRevenueAndProfit } =
     useStatistic('REVENUE_PROFIT')
   //
-  const { revenue = 0, totalProfit = 0 } = revenueProfit
+  const { revenue = 0 } = revenueProfit
   return (
     <DefaultLayout>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
         <CardDataStats
           title="Doanh thu"
           total={!loadingRevenueAndProfit ? addCommasToNumber(revenue) || 0 : 0}
-          rate="0.43%"
+          rate=""
           levelUp
         >
           <IconRevenue />
         </CardDataStats>
 
         <CardDataStats
-          title="Lợi nhuận"
-          total={
-            !loadingRevenueAndProfit ? addCommasToNumber(totalProfit) || 0 : 0
-          }
-          rate="4.35%"
+          title="Số thể loại"
+          total={!cateLoading ? cateCount || 0 : 0}
+          rate=""
           levelUp
         >
-          <IconProfit />
+          <Layers size={20} />
         </CardDataStats>
 
         <CardDataStats
           title="Tổng sản phẩm"
           total={loadingMovie ? 0 : movieCount || 0}
-          rate="2.59%"
+          rate=""
           levelUp
         >
           <MovieDashB />
@@ -56,7 +56,7 @@ const ECommerce: React.FC = () => {
         <CardDataStats
           title="Số người dùng"
           total={isLoading ? 0 : userCount?.data?.countUser || 0}
-          rate="0.95%"
+          rate=""
           levelDown
         >
           <UserDashB />
@@ -81,7 +81,9 @@ const ECommerce: React.FC = () => {
         />
         {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-12">
-          <TableOne />
+          <TableOne action="TOP_MOVIE" title="Top 5 bộ phim doanh thu cao" />
+          <TableOne action="TOP_USER" title="Top 5 khách hàng" />
+          <TableOne action="TOP_FOOD" title="Top đồ ăn bán chạy" />
         </div>
         {/* <ChatCard /> */}
       </div>

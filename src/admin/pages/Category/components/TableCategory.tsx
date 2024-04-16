@@ -4,9 +4,7 @@ import { Category } from '@/admin/types/category'
 import { getAllCategory, removeCategory } from '@/api/category'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRef, useState } from 'react'
-import { FaPlusCircle } from 'react-icons/fa'
 import { FaRegTrashCan } from 'react-icons/fa6'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const TableCategory = () => {
@@ -15,13 +13,11 @@ const TableCategory = () => {
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
 
-  const navigate = useNavigate()
   // fetch category by react-query
   const { data, isLoading, isError } = useQuery<Category[]>({
     queryKey: ['CATEGORY'],
     queryFn: getAllCategory
   })
-console.log('data category:',data)
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: removeCategory,
@@ -29,8 +25,7 @@ console.log('data category:',data)
       queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
       toast.success('Xoa thành công')
     },
-    onError: (error: unknown) => {
-      console.log(error)
+    onError: () => {
       toast.error('Xoa that bai')
     }
   })
@@ -66,10 +61,10 @@ console.log('data category:',data)
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                  Category Name
+                Tên  danh mục
                 </th>
                 <th className="py-4 px-4 font-medium text-primary-white">
-                  Actions
+                  Hành động
                 </th>
               </tr>
             </thead>
@@ -105,8 +100,8 @@ console.log('data category:',data)
 
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Ban co chac muon xoa khong"
-        subTitle="Xoa di se khong the khoi phuc"
+        title="Bạn có muốn xóa không"
+        subTitle="Xóa đi không thể khôi phục "
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveCategory}
       />
