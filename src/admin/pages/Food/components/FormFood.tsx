@@ -35,19 +35,19 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
         },
         onSuccess: () => {
             if (typeForm === 'EDIT') {
-                toast.success('Edit food successfully')
+                toast.success('Sửa thức ăn thành công')
                 navigate('/admin/food')
                 return
             }
-            toast.success('Add food successfully')
+            toast.success('Thêm thức ăn thành công')
             navigate('/admin/food')
         },
         onError: () => {
             if (typeForm === 'EDIT') {
-                toast.error('Edit food failed')
+                toast.error('Sửa thức ăn thất bại')
                 return
             }
-            toast.error('Add food failed')
+            toast.error('Thêm thức ăn thất bại')
         }
     })
 
@@ -68,13 +68,16 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
         validate: (values) => {
             const errors: Partial<FormFoodAdd> = {}
             if (!values.name) {
-                errors.name = 'Required food name'
+                errors.name = 'Vui lòng nhập tên sản phẩm'
             }
             if (!values.image) {
-                errors.image = 'Required food price'
+                errors.image = 'Vui lòng chọn ảnh sản phẩm'
+            }
+            if (!values.price) {
+                errors.price = 'Vui lòng nhập giá sản phẩm'
             }
             if (values.price <= 0) {
-                errors.price = 'Price must be greater than 0'
+                errors.price = 'Giá phải lớn hơn 0'
             }
             return errors
         },
@@ -105,13 +108,13 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                Go Back
+                Quay lại
             </button>
             <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
                 <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6" encType='multipart/form-data'>
                     <div className="mb-6">
                         <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            Food name
+                            Tên
                         </label>
                         <input
                             name="name"
@@ -119,7 +122,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                             onChange={handleChange}
                             onBlur={handleBlur}
                             type="text"
-                            placeholder="Enter food name"
+                            placeholder="Nhập tên đồ ăn"
                             className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
                         />
                         {touched.name && errors.name && (
@@ -132,7 +135,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                     {/* Image Upload */}
                     <div className="mb-6">
                         <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            Food image
+                            Ảnh
                         </label>
                         <input
                             name="image"
@@ -155,7 +158,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                     {/* Price Input */}
                     <div className="mb-6">
                         <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            Price
+                            Giá
                         </label>
                         <input
                             name="price"
@@ -177,7 +180,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
                         className="w-full flex justify-center items-center rounded-md bg-indigo-600 py-3 px-6 text-xl font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300"
                         type="submit"
                     >
-                        {typeForm === 'ADD' ? 'Add Food' : 'Update Food'}
+                        {typeForm === 'ADD' ? 'Thêm mới' : 'Cập nhật'}
                     </button>
 
                 </form>

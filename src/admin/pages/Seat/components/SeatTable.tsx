@@ -436,33 +436,33 @@ const TableSeat = () => {
           Add <FaPlusCircle size={20} className="ml-4" />
         </button>
       </div> */}
-      <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
-              <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="py-4 px-4 font-medium text-primary-white xl:pl-11">
+              <tr className="bg-gray-2 text-lef">
+                <th className="py-4 px-4 font-medium-600 text-primary-white xl:pl-11">
                   STT
                 </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                <th className="min-w-[150px] py-4 px-4 font-medium-600 text-primary-white">
                   Loại
                 </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                <th className="min-w-[150px] py-4 px-4 font-medium-600 text-primary-white">
                   Giá
                 </th>
-                <th className="min-w-[120px] py-4 px-4 font-medium text-primary-white">
+                <th className="min-w-[120px] py-4 px-4 font-medium-600 text-primary-white">
                   Hàng
                 </th>
-                <th className="py-4 px-4 font-medium text-primary-white">
+                <th className="py-4 px-4 font-medium-600 text-primary-white">
                   Cột
                 </th>
-                <th className="py-4 px-4 font-medium text-primary-white">
+                <th className="py-4 px-4 font-medium-600 text-primary-white">
                   Trạng thái
                 </th>
-                <th className="py-4 px-4 font-medium text-primary-white">
+                <th className="py-4 px-4 font-medium-600 text-primary-white">
                   Phòng chiếu
                 </th>
-                <th className="py-4 px-4 font-medium text-primary-white">
+                <th className="py-4 px-4 font-medium-600 text-primary-white">
                   Lịch chiếu
                 </th>
                 {/* <th className="py-4 px-4 font-medium text-primary-white">
@@ -482,7 +482,7 @@ const TableSeat = () => {
                     <p className="text-primary-white">{seat.typeSeat}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">${seat.price.toFixed(2)}</p>
+                    <p className="text-primary-white">{seat.price.toLocaleString('vi-VN')} VND</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{seat.row}</p>

@@ -1,5 +1,5 @@
 import { Food } from '@/admin/types/food'
-import { getAllFood, softDeleteFood } from '@/api/food'
+import { getAllFoodDestroy, removeFood, restoreFood } from '@/api/food'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FaEdit } from 'react-icons/fa'
 import { FaPlusCircle } from 'react-icons/fa'
@@ -21,10 +21,10 @@ import {
 
 const ITEMS_PER_PAGE = 10
 // ...rest of your imports and TableFood component
-const TableFood = () => {
+const TableFoodDestroy = () => {
     const { data, isLoading, isError } = useQuery<Food[]>({
         queryKey: ['FOOD'],
-        queryFn: getAllFood
+        queryFn: getAllFoodDestroy
     })
     /*------------------------------------------------- */
     const [currentPage, setCurrentPage] = useState(1)
@@ -54,7 +54,7 @@ const TableFood = () => {
                         />
                     </PaginationItem>
                     {pages.map(page => (
-                        <PaginationItem key={page} {...(currentPage === page && { active: "true" })}>
+                        <PaginationItem key={page} {...(currentPage === page && { active: 'true' })}>
                             <PaginationLink onClick={() => setPage(page)}>
                                 {page}
                             </PaginationLink>
@@ -73,13 +73,13 @@ const TableFood = () => {
 
     /*------------------------------------------------- */
     const queryClient = useQueryClient()
-    const [isOpenConfirm, setOpenConfirm] = useState(false)
-    const idDelete = useRef<string>()
-    const navigate = useNavigate()
+    const [isOpenConfirmDelete, setOpenConfirmDelete] = useState(false)
+    const [isOpenConfirmRestore, setOpenConfirmRestore] = useState(false)
+    const idToOperate = useRef<string>()
 
 
-    const { mutate } = useMutation({
-        mutationFn: softDeleteFood,
+    const { mutate: remove } = useMutation({
+        mutationFn: removeFood,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['FOOD'] })
             toast.success('Xóa thực phẩm thành công')
@@ -90,13 +90,36 @@ const TableFood = () => {
         }
     })
 
+    const { mutate: restore } = useMutation({
+        mutationFn: restoreFood, // Bạn cần cung cấp hàm restoreFood tương ứng
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['FOOD'] })
+            toast.success('Khôi phục thực phẩm thành công')
+        },
+        onError: (error) => {
+            console.log(error)
+            toast.error('Khôi phục thực phẩm thất bại')
+        }
+    })
+
     const handleRemoveFood = () => {
-        mutate(idDelete.current!)
-        setOpenConfirm(false)
+        remove(idToOperate.current!)
+        setOpenConfirmDelete(false)
     }
-    const handleShowConfirm = (id: string) => {
-        idDelete.current = id
-        setOpenConfirm(true)
+
+    const handleRestoreFood = () => {
+        restore(idToOperate.current!)
+        setOpenConfirmRestore(false)
+    }
+
+    const handleShowConfirmDelete = (id: string) => {
+        idToOperate.current = id
+        setOpenConfirmDelete(true)
+    }
+
+    const handleShowConfirmRestore = (id: string) => {
+        idToOperate.current = id
+        setOpenConfirmRestore(true)
     }
 
     if (isLoading || !data) {
@@ -108,16 +131,6 @@ const TableFood = () => {
 
     return (
         <>
-            <div className="text-center mb-2 flex items-center justify-start">
-                <button
-                    onClick={() => {
-                        navigate('/admin/food/add')
-                    }}
-                    className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full"
-                >
-                    Thêm sản phẩm <FaPlusCircle size={20} className="ml-4" />
-                </button>
-            </div>
             <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
                     <table className="w-full table-auto">
@@ -161,15 +174,15 @@ const TableFood = () => {
                                         <div className="flex items-center space-x-3.5">
                                             <button
                                                 className="hover:text-primary"
-                                                onClick={() => {
-                                                    navigate(`/admin/food/edit/${food._id}`)
-                                                }}
+                                                onClick={() => handleShowConfirmRestore(food._id)}
                                             >
-                                                <FaEdit size={20} />
+                                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="28" height="28" viewBox="0 0 48 48">
+                                                    <path fill="#ffab91" d="M42.849,16.686l-3.536-3.536c-0.781-0.781-2.047-0.781-2.828,0L28,21.636l-8.485-8.485	c-0.781-0.781-2.047-0.781-2.828,0l-3.536,3.536c-0.781,0.781-0.781,2.047,0,2.828L21.636,28l-8.485,8.485	c-0.781,0.781-0.781,2.047,0,2.828l3.536,3.536c0.781,0.781,2.047,0.781,2.828,0L28,34.364l8.485,8.485	c0.781,0.781,2.047,0.781,2.828,0l3.536-3.536c0.781-0.781,0.781-2.047,0-2.828L34.364,28l8.485-8.485	C43.63,18.734,43.63,17.467,42.849,16.686z"></path><path fill="none" stroke="#18193f" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="3" d="M31.608,25.244L30.364,24l8.485-8.485c0.781-0.781,0.781-2.047,0-2.828l-3.536-3.536c-0.781-0.781-2.047-0.781-2.828,0L24,17.636	l-8.485-8.485c-0.781-0.781-2.047-0.781-2.828,0l-3.536,3.536c-0.781,0.781-0.781,2.047,0,2.828L17.636,24l-8.485,8.485	c-0.781,0.781-0.781,2.047,0,2.828l3.536,3.536c0.781,0.781,2.047,0.781,2.828,0L24,30.364"></path><path fill="none" stroke="#18193f" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="3" d="M34.5,28.5l-5,5l5,5"></path><path fill="none" stroke="#18193f" strokeLinecap="round" strokeLinejoin="round" strokeMiterlimit="10" strokeWidth="3" d="M29.5,33.5H39c3.038,0,5.5,2.462,5.5,5.5v5.5"></path>
+                                                </svg>
                                             </button>
                                             <button
                                                 className="hover:text-primary"
-                                                onClick={() => handleShowConfirm(food._id)}
+                                                onClick={() => handleShowConfirmDelete(food._id)}
                                             >
                                                 <FaRegTrashCan size={20} />
                                             </button>
@@ -185,15 +198,22 @@ const TableFood = () => {
 
             {renderPagination()}
             <ConfirmDialog
-                open={isOpenConfirm}
-                title='Bạn có chắc muốn xóa sản phẩm này?'
-                subTitle='sản phẩm sẽ được chuyển vào bảng xóa.'
-                onCancel={() => setOpenConfirm(false)}
+                open={isOpenConfirmDelete}
+                title='Bạn có chắc muốn xóa vĩnh viễn sản phẩm này?'
+                subTitle='Không thể hoàn tác hành động này'
+                onCancel={() => setOpenConfirmDelete(false)}
                 onConfirm={handleRemoveFood}
+            />
+            <ConfirmDialog
+                open={isOpenConfirmRestore}
+                title='Bạn có chắc muốn khôi phục sản phẩm này?'
+                subTitle='Sản phẩm sẽ được khôi phục lại'
+                onCancel={() => setOpenConfirmRestore(false)}
+                onConfirm={handleRestoreFood}
             />
         </>
 
     )
 }
 
-export default TableFood
+export default TableFoodDestroy
