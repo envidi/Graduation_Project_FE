@@ -125,7 +125,7 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                 </svg>
-                Go Back
+                Quay lại
             </button>
             <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
                 <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 p-6">
@@ -230,7 +230,7 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
                         className="w-full flex justify-center items-center rounded-md bg-indigo-600 py-3 px-6 text-xl font-semibold text-white hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-opacity-50 transition-colors duration-300"
                         type="submit"
                     >
-                        {typeForm === 'ADD' ? 'Add Seat' : 'Update Seat'}
+                        {typeForm === 'ADD' ? 'Thêm ghế' : 'Cập nhật ghế'}
                     </button>
 
                 </form>

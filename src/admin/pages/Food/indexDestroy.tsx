@@ -1,17 +1,17 @@
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 import DefaultLayout from '@/admin/layout/DefaultLayout'
-import FormFood from './components/FormFood'
-
-const FoodAdd = () => {
+import TableFoodDestroy from './components/TableFoodDestroy'
+const FoodAdminDestroyPage = () => {
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Thêm thực phẩm" />
+            <Breadcrumb pageName="Quản lý đồ ăn đã xóa" />
 
             <div className="flex flex-col gap-10">
-                <FormFood typeForm="ADD" />
+                <TableFoodDestroy />
             </div>
         </DefaultLayout>
     )
+
 }
 
-export default FoodAdd
+export default FoodAdminDestroyPage

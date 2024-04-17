@@ -78,6 +78,7 @@ import Showtimes from './admin/pages/Showtimes/Showtimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
 import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 import Restore from './admin/pages/Showtimes/Restore'
+import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -280,6 +281,7 @@ function App() {
             
               <Route path="food">
                 <Route index element={<FoodAdminPage />} />
+                <Route path="destroy" element={<FoodAdminDestroyPage />} />
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
               </Route>
