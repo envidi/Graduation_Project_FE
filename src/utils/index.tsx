@@ -1,5 +1,6 @@
 import { MovieType } from '@/Interface/movie'
 import { MyObjectComment } from '@/hooks/useNode'
+import { Value } from 'node_modules/react-time-picker/dist/esm/shared/types'
 
 export function countComments(comment: MyObjectComment | undefined): number {
   if (comment && Object.keys(comment).length == 0) return 0
@@ -270,4 +271,45 @@ export function addCommasToNumber(number: number) {
 
   // Kết hợp phần nguyên và phần thập phân
   return result + decimalPart
+}
+// 09-09-2024
+export function convertDayToFormatVN(input: string | undefined) {
+  // Phân tách chuỗi input để lấy ngày, tháng, năm
+  if (!input) return
+  const [day, month, year] = input.split('-').map(Number)
+
+  // Tạo một đối tượng Date mới từ các giá trị đã lấy được
+  // Lưu ý: Tháng trong JavaScript bắt đầu từ 0 đến 11, do đó cần trừ tháng đi 1
+  const date = new Date(year, month - 1, day)
+
+  // Mảng tên ngày trong tuần bằng tiếng Việt
+  const weekDays = [
+    'Chủ Nhật',
+    'Thứ Hai',
+    'Thứ Ba',
+    'Thứ Tư',
+    'Thứ Năm',
+    'Thứ Sáu',
+    'Thứ Bảy'
+  ]
+
+  // Lấy tên ngày trong tuần từ mảng dựa vào getDay() của đối tượng Date
+  const weekDayName = weekDays[date.getDay()]
+
+  // Kết hợp tên ngày trong tuần, ngày và tháng để tạo chuỗi đầu ra
+  return `${weekDayName}, ${day} tháng ${month}`
+}
+// 20:00   180
+export const getTimeToShowTime = (time: Value, duration: number) => {
+  // Chuyển đổi chuỗi thành đối tượng Date
+  if (!time) return ''
+  const startTime = new Date() // Tạo đối tượng Date mới
+  const timeParts = time.split(':') // Tách chuỗi dựa trên dấu hai chấm
+  startTime.setHours(parseInt(timeParts[0]), parseInt(timeParts[1]), 0, 0) // Đặt giờ, phút, giây, và mili giây
+
+  // Thêm 180 phút
+  startTime.setMinutes(startTime.getMinutes() + duration)
+
+  // Định dạng lại thời gian thành chuỗi HH:MM
+  return startTime.toTimeString().substring(0, 5)
 }

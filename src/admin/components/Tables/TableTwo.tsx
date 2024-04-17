@@ -13,25 +13,25 @@ const TableTwo = () => {
     <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="py-6 px-4 md:px-6 xl:px-7.5 text-black dark:text-black">
         <h4 className="text-xl font-semibold text-black dark:text-white">
-          Top Products
+        Phim hàng đầu
         </h4>
       </div>
 
       <div className="grid grid-cols-6 border-t border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
         <div className="col-span-3 flex items-center">
-          <p className="font-medium text-black dark:text-white">Product Name</p>
+          <p className="font-medium text-black dark:text-white">Tên phim</p>
         </div>
         <div className="col-span-2 hidden items-center sm:flex">
-          <p className="font-medium text-black dark:text-white">Category</p>
+          <p className="font-medium text-black dark:text-white">Danh mục</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium text-black dark:text-white">Price</p>
+          <p className="font-medium text-black dark:text-white">Gía</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium text-black dark:text-white">Sold</p>
+          <p className="font-medium text-black dark:text-white">Đã bán</p>
         </div>
         <div className="col-span-1 flex items-center">
-          <p className="font-medium text-black dark:text-white">Profit</p>
+          <p className="font-medium text-black dark:text-white">Lợi nhuận</p>
         </div>
       </div>
 

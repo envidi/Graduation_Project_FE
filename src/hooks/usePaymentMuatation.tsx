@@ -35,7 +35,7 @@ function usePaymentMuatation(
     },
     onError: (err: { response: { data: { message: string } } }) => {
       onError && onError()
-      toast.error(err?.response?.data?.message || 'Payment failed', {
+      toast.error(err?.response?.data?.message || 'Thanh toán không thành công', {
         position: 'top-right'
       })
     }

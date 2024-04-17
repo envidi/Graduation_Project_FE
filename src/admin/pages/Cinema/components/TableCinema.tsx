@@ -11,7 +11,7 @@ import { toast } from 'react-toastify'
 
 const TableCinema = () => {
   const queryClient = useQueryClient()
-  
+
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
 
@@ -22,7 +22,6 @@ const TableCinema = () => {
     queryFn: getAllCinema
   })
 
-  console.log('data:', data)
 
   // delete category by mutation react-query
   const { mutate } = useMutation({
@@ -31,8 +30,7 @@ const TableCinema = () => {
       queryClient.invalidateQueries({ queryKey: ['CINEMA'] })
       toast.success('Xoa thành công')
     },
-    onError: (error) => {
-      console.log(error)
+    onError: () => {
       toast.error('Xóa thất bại')
     }
   })
@@ -78,9 +76,11 @@ const TableCinema = () => {
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
                   Cinema Name
-                </th>                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                </th>{' '}
+                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
                   Cinema address
-                </th>                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
+                </th>{' '}
+                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
                   ScreeningRoomId
                 </th>
                 <th className="py-4 px-4 font-medium text-primary-white">
@@ -132,8 +132,8 @@ const TableCinema = () => {
 
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Ban co chac muon xoa khong"
-        subTitle="Xoa di se khong the khoi phuc"
+        title="Bạn có chắc muốn xóa không"
+        subTitle="Xóa đi không thể khôi phục"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveCinema}
       />

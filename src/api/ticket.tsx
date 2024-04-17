@@ -17,12 +17,16 @@ interface PriceTicketType {
   _id: string | undefined
   price: number | undefined
 }
+interface ShowTimeType {
+  _id?: string | undefined
+  timeFrom?: string | undefined
+}
 export interface TicketCreateType {
   ticket_id?: string | undefined
   priceId?: PriceTicketType | undefined
   seatId?: SeatTicketType[] | undefined
   foods?: FoodTicket[] | undefined
-  showtimeId?: string | undefined
+  showtimeId?: ShowTimeType | undefined
   userId?: string
   typeBank?: string | false | null
   typePayment?: string | false | null
@@ -52,7 +56,10 @@ export const getAllTicketByUser = async (query: {
   )
   return result.data.data
 }
-
+export const getAllTikets = async () => {
+  const result = await instance.get('/ticket/all')  
+  return result.data.data.docs    
+}
 export const updateTicket = async (data: TicketCreateType) => {
   const { ticket_id, ...other } = data
   const result = await InsanceTokenFn('paymentToken', 'ticket').patch(

@@ -5,7 +5,7 @@ import FormFood from './components/FormFood'
 const FoodEdit = () => {
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Edit Food" />
+            <Breadcrumb pageName="Sửa thực phẩm" />
 
             <div className="flex flex-col gap-10">
                 <FormFood typeForm="EDIT" />

@@ -1,9 +1,9 @@
 export interface Food {
     _id?: string
-    name: string
-    price: number
+    name?: string
+    price?: number
     image?: string
-    isDeleteable?: boolean
+    isDeleted?: boolean
 }
 
 export interface FormFoodAdd {

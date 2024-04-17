@@ -1,27 +1,46 @@
+import { Category } from '@/admin/types/category'
 import { Movie, FormMovieAdd } from '@/admin/types/movie'
+import { getAllCategory } from '@/api/category'
 import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import Select from 'react-select'
+import { ChangeEventHandler, useState } from 'react'
+import Flatpickr from 'react-flatpickr'
+import 'flatpickr/dist/flatpickr.css'
+import { format } from 'date-fns'
 
 type FormMovieProps = {
   typeForm: 'ADD' | 'EDIT'
 }
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
-  const navigate = useNavigate()
+  // const [date, setDate] = useState(new Date())
+  const [fromDate, setfromDate] = useState(new Date())
+  const [toDate, settoDate] = useState(new Date())
+  const [file, setFiles] = useState<File[]>([])
 
   //get id from url
   const { id } = useParams()
 
-  //get category by id
+  // fetch category by react-query
+  const {
+    data: datacate,
+    isLoading: isLoadingCategory,
+    isError: iserrCategory
+  } = useQuery<Category[]>({
+    queryKey: ['CATEGORY'],
+    queryFn: getAllCategory
+  })
+
   const { data: movieData, isLoading } = useQuery<Movie>({
     queryKey: ['MOVIE', id],
     queryFn: async () => {
       const data = await getOneMovie(id as string)
 
-      console.log('movie edit data: ', data)
+      // pricesId = data.prices
 
       setFieldValue('name', data?.name)
       setFieldValue('image', data?.image)
@@ -38,43 +57,66 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       setFieldValue('status', data?.status)
       setFieldValue('age_limit', data?.age_limit)
       setFieldValue('rate', data?.rate)
-      setFieldValue('categoryId', data?.categoryId)
       setFieldValue('showTimes', data?.showTimes)
-      setFieldValue('prices', data?.prices)
+      setFieldValue('price', data?.price)
+      setFieldValue(
+        'categoryId',
+        data?.categoryCol.map((c: any) => c._id)
+      )
+      setFieldTouched('categoryId', true)
       return data
     },
+
     enabled: typeForm === 'EDIT' && !!id
   })
 
   // mutation react-query
   const { mutate } = useMutation({
     mutationFn: async (bodyData: FormMovieAdd) => {
-      if (typeForm === 'EDIT') return editMovie(bodyData, id as string)
+      if (typeForm === 'EDIT') {
+        return editMovie(bodyData, id as string)
+      }
+
       return addMovie(bodyData)
     },
     onSuccess: () => {
       if (typeForm === 'EDIT') {
-        toast.success('Sua movie thanh cong')
-        // setTimeout(() => {
-        //   navigate('/admin/movie')
-        // }, 500);
+        toast.success('Sửa phim thành công')
+
         return
       }
-      toast.success('Them movie thanh cong')
-      // navigate('/admin/movie')
-      // setTimeout(() => {
-      //   navigate('/admin/movie')
-      // }, 500);
+      toast.success('Thêm phim thành công')
     },
     onError: () => {
       if (typeForm === 'EDIT') {
-        toast.error('Sua cinema that bai')
+        toast.error('Sửa phim thông công')
         return
       }
-      toast.error('Them cinema that bai')
+      toast.error('Thêm phim thành công')
     }
   })
 
+  // selecttor categories
+  // const [selectedCategories, setSelectedCategories] = useState([]);
+  const initialValues = {
+    name: id ? (movieData?.name as string) : '',
+    image: id ? (movieData?.image as string) : '',
+    author: id ? (movieData?.author as string) : '',
+    language: id ? (movieData?.language as string) : '',
+    actor: id ? (movieData?.actor as string) : '',
+    trailer: id ? (movieData?.trailer as string) : '',
+    fromDate: id ? (movieData?.fromDate as string) : '',
+    toDate: id ? (movieData?.toDate as string) : '',
+    desc: id ? (movieData?.desc as string) : '',
+    country: id ? (movieData?.country as string) : '',
+    status: id ? (movieData?.status as string) : '',
+    duration: id ? (movieData?.duration as number | undefined) : undefined,
+    age_limit: id ? (movieData?.age_limit as number | undefined) : undefined,
+    rate: id ? (movieData?.rate as number | undefined) : undefined,
+    categoryId: id ? (movieData?.categoryId as string[]) : [],
+    showTimes: id ? (movieData?.showTimes as string[]) : '',
+    price: id ? (movieData?.rate as number | undefined) : undefined
+  }
   const {
     values,
     touched,
@@ -82,168 +124,235 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     handleSubmit,
     handleChange,
     handleBlur,
-    setFieldValue
+    setFieldValue,
+    setFieldTouched
   } = useFormik({
-    initialValues: {
-      name: id ? (movieData?.name as string) : '',
-      image: id ? (movieData?.image as string) : '',
-      author: id ? (movieData?.author as string) : '',
-      language: id ? (movieData?.language as string) : '',
-      actor: id ? (movieData?.actor as string) : '',
-      trailer: id ? (movieData?.trailer as string) : '',
-      fromDate: id ? (movieData?.fromDate as string) : '',
-      toDate: id ? (movieData?.toDate as string) : '',
-      desc: id ? (movieData?.desc as string) : '',
-      country: id ? (movieData?.country as string) : '',
-      duration: id ? (movieData?.duration as number | undefined) : undefined,
-      status: id ? (movieData?.status as string) : '',
-      age_limit: id ? (movieData?.age_limit as number | undefined) : undefined,
-      rate: id ? (movieData?.rate as number | undefined) : undefined,
-      categoryId: id ? (movieData?.categoryId as string) : '',
-      showTimes: id ? (movieData?.showTimes as string[]) : '',
-      prices: id ? (movieData?.prices as string[]) : ''
-    },
+    initialValues,
     validate: (values) => {
       const errors: Partial<FormMovieAdd> = {}
-      if (!values.name ) {
-        errors.name = 'Required name'
+      if (!values.name) {
+        errors.name = 'Tên bắt buộc'
       } else if (values.name.length < 3) {
-        errors.name = 'Name must be at least 3 characters long'
+        errors.name = 'Tên phải dài ít nhất 3 ký tự'
       }
-      if (!values.image ) {
-        errors.image = 'Required image'
-      } else if (values.image.length < 3) {
-        errors.image = 'image must be at least 3 characters long'
+      if(!id){
+        if (!file[0]){
+          errors.image = 'Hình ảnh bắt buộc'
+        }
       }
-      if (!values.author ) {
-        errors.author = 'Required author'
+      if (!values.author) {
+        errors.author = 'tác giả bắt buộc'
       } else if (values.author.length < 3) {
-        errors.author = 'author must be at least 3 characters long'
+        errors.author = 'tác giả phải dài ít nhất 3 ký tự'
       }
-      if (!values.language ) {
-        errors.language = 'Required language'
+      if (!values.language) {
+        errors.language = 'Ngôn ngữ bắt buộc'
       } else if (values.language.length < 3) {
-        errors.language = 'language must be at least 3 characters long'
+        errors.language = 'ngôn ngữ phải dài ít nhất 3 ký tự'
       }
-      if (!values.actor ) {
-        errors.actor = 'Required actor'
+      if (!values.desc) {
+        errors.desc = 'Mô tả bắt buộc'
+      } else if (values.desc.length < 3) {
+        errors.desc = 'Mô tả phải dài ít nhất 3 ký tự'
+      }
+      if (!values.actor) {
+        errors.actor = 'Diễn viên bắt buộc'
       } else if (values.actor.length < 3) {
-        errors.actor = 'actor must be at least 3 characters long'
+        errors.actor = 'diễn viên phải dài ít nhất 3 ký tự'
       }
-      if (!values.trailer ) {
-        errors.trailer = 'Required trailer'
+      if (!values.trailer) {
+        errors.trailer = 'Đoạn giới thiệu bắt buộc'
       } else if (values.trailer.length < 3) {
-        errors.trailer = 'trailer must be at least 3 characters long'
+        errors.trailer = 'đoạn giới thiệu phải dài ít nhất 3 ký tự'
       }
-      if (!values.fromDate ) {
-        errors.fromDate = 'Required fromDate'
-      } else if (values.fromDate.length < 3) {
-        errors.fromDate = 'fromDate must be at least 3 characters long'
-      }
-      if (!values.toDate ) {
-        errors.toDate = 'Required toDate'
-      } else if (values.toDate.length < 3) {
-        errors.toDate = 'toDate must be at least 3 characters long'
-      }
-      if (!values.country ) {
-        errors.country = 'Required country'
+      // Kiểm tra nếu fromDate không hợp lệ
+      if (!values.fromDate) {
+        errors.fromDate = 'Dữ liệu bắt buộc nhập';
+    }
+    //  else {
+    //     const selectedDate = new Date(values.fromDate);
+    //     const currentDate = new Date();
+    //     // So sánh theo giá trị số của thời gian
+    //     if (selectedDate.getTime() <= currentDate.getTime()) {
+    //         errors.fromDate = 'Ngày và giờ phải lớn hơn hiện tại';
+    //     }
+    // }
+  
+      // Kiểm tra nếu toDate không hợp lệ
+      if (!values.toDate) {
+        errors.toDate = 'Dữ liệu bắt buộc nhập';
+      } 
+      if (!values.country) {
+        errors.country = 'Quốc gia bắt buộc'
       } else if (values.country.length < 3) {
-        errors.country = 'country must be at least 3 characters long'
+        errors.country = 'quốc gia phải dài ít nhất 3 ký tự'
       }
       if (!values.duration) {
-        errors.duration = 'Required duration'
+        errors.duration = 'Thời lượng bắt buộc'
       } else if (isNaN(values.duration) || Number(values.duration) <= 30) {
-        errors.duration = 'Duration must be a number and greater than 30'
+        errors.duration = 'Thời lượng phải là một số và lớn hơn 30'
       }
       if (!values.age_limit) {
-        errors.age_limit = 'Required age_limit'
+        errors.age_limit = 'Yêu cầu độ tuổi_giới hạn'
       } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 0) {
-        errors.age_limit = 'age_limit must be a number and greater than 30'
+        errors.age_limit = 'Giới hạn tuổi phải là một số và lớn hơn 0'
       }
       if (!values.rate) {
-        errors.rate = 'Required rate'
-      } else if (isNaN(values.rate) || Number(values.rate) <=0) {
-        errors.rate = 'rate must be a number and greater than 30'
+        errors.rate = 'Tỷ lệ bắt buộc'
+      } else if (isNaN(values.rate) || (Number(values.rate) <= 0 && Number(values.rate) <= 1)) {
+        errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
       }
-      if (!values.status ) {
-        errors.status = 'Required status'
+      if (!values.price) {
+        errors.price = 'Bắt buộc nhập giá'
+      } else if (isNaN(values.price) || Number(values.price) <= 0) {
+        errors.price = 'Giá phải là một số và lớn hơn 0'
+      }
+      if (!values.status) {
+        errors.status = 'trạng thái bắt buộc'
       } else if (values.status.length < 3) {
-        errors.status = 'status must be at least 3 characters long'
+        errors.status = 'trạng thái phải dài ít nhất 3 ký tự'
       }
-      // if (!values.country ) {
-      //   errors.country = 'Required country'
-      // } else if (values.country.length < 3) {
-      //   errors.country = 'country must be at least 3 characters long'
-      // }
-      // if (!values.country ) {
-      //   errors.country = 'Required country'
-      // } else if (values.country.length < 3) {
-      //   errors.country = 'country must be at least 3 characters long'
-      // }
-      if (!values.categoryId ) {
-        errors.categoryId = 'Required categoryId'
-      } else if (values.categoryId.length < 3) {
-        errors.categoryId = 'categoryId must be at least 3 characters long'
+      if (!values.categoryId) {
+        // errors.categoryId = 'Id danh mục bắt buộc'
+      } else if (values.categoryId.length < 1 || values.categoryId.length > 3) {
+        errors.categoryId = 'Danh mục phải từ 1 đến 3 loại'
       }
-      if (!values.showTimes ) {
-        errors.showTimes = 'Required showTimes'
-      } else if (values.showTimes.length < 3) {
-        errors.showTimes = 'showTimes must be at least 3 characters long'
-      }
-      if (!values.prices ) {
-        errors.prices = 'Required prices'
-      } else if (values.prices.length < 3) {
-        errors.prices = 'prices must be at least 3 characters long'
-      }
+
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value form cinema :', values)
-      // return
       try {
-        const bodyData = {
-          name: values?.name,
-          image: values?.image,
-          author: values?.author,
-          actor: values?.actor,
-          language: values?.language,
-          trailer: values?.trailer,
-          fromDate: values?.fromDate,
-          age_limit: values?.age_limit,
-          toDate: values?.toDate,
-          desc: values?.desc,
-          duration: values?.duration,
-          country: values?.country,
-          status: values?.status,
-          rate: values?.rate,
-          // price: 10000,
-          // dayType: "aaaa",
-          categoryId: values?.categoryId || [],
-          showTimes: values?.showTimes || [],
-          prices: values?.prices || []
+        // chuyển đồi fromDat and toDate
+
+        //  
+        const data = new FormData()
+        data.set('name', values?.name)
+        data.set('avatar', file[0])
+        data.set('author', values?.author)
+        data.set('actor', values?.actor)
+        data.set('language', values?.language)
+        data.set('trailer', values?.trailer)
+        data.set('age_limit', values?.age_limit)
+        data.set('desc', values?.desc)
+        data.set('duration', values?.duration)
+        data.set('country', values?.country)
+        data.set('status', values?.status)
+        data.set('rate', values?.rate)
+        data.set('price', values?.price)
+        data.set('toDate', values?.toDate)
+        data.set('fromDate', values?.fromDate)
+
+        for (let i = 0; i < values.categoryId.length; i++) {
+          data.append('categoryId[]', values.categoryId[i])
         }
-        console.log('data body movie:', bodyData)
-        const response = await mutate(bodyData)
-        console.log('res', response)
+        // console.log("data form movie", values)
+
+        console.log('data movie value', data)
+        // await mutate(data)
       } catch (error) {
-        console.log('error', error)
+        throw new Error(error as string)
       }
     }
   })
 
-  if (isLoading) return <div>Loading...</div>
+  // select style
+  const colourOptions = datacate?.map((cate) => ({
+    value: cate._id,
+    label: cate.name
+  }))
+  const handleSelectChange = (selectedOptions: any) => {
+    const selectedValues = selectedOptions.map((option: any) => option.value)
+    handleChange({
+      target: { name: 'categoryId', value: selectedValues }
+    })
+  }
+  const handleChangeFile: ChangeEventHandler<HTMLInputElement> = (e): void => {
+    const target = e.target as HTMLInputElement
+    const filesTarget = target.files
+    if (filesTarget) {
+      const filesArray = Array.from(filesTarget)
+      setFiles(filesArray)
+    }
+  }
+  const selectedOptions = colourOptions?.filter((option: any) =>
+    values.categoryId?.includes(option.value)
+  )
+  // sử lý validate  date 
+  // check from date lớn hơn hiện tại
+// Hàm kiểm tra xem một ngày có lớn hơn ngày hiện tại không
+// const isFutureDate = (date: any) => {
+//   const currentDate = new Date();
+//   return date > currentDate;
+// };
+//   // Hàm kiểm tra xem fromDate có nhỏ hơn toDate không
+// const isStartDateBeforeEndDate = (startDate, endDate) => {
+//   return new Date(startDate) < new Date(endDate);
+// };
 
+  // select style
+  const dropdownStyles = {
+    control: (provided: any) => ({
+      ...provided,
+      borderRadius: '8px',
+      borderColor: '#e2e8f0',
+      boxShadow: 'none',
+      '&:hover': {
+        borderColor: '#cbd5e0'
+      },
+      '&:focus': {
+        borderColor: '#63b3ed',
+        boxShadow: '0 0 0 2px rgba(99, 179, 237, 0.2)'
+      }
+    }),
+    option: (provided: any, state: any) => ({
+      ...provided,
+      backgroundColor: state.isSelected ? '#edf2f7' : 'white',
+      color: state.isSelected ? '#2d3748' : '#4a5568',
+      '&:hover': {
+        backgroundColor: state.isSelected ? '#edf2f7' : '#f7fafc',
+        color: state.isSelected ? '#2d3748' : '#4a5568'
+      }
+    }),
+    multiValue: (provided: any) => ({
+      ...provided,
+      backgroundColor: '#e2e8f0',
+      borderRadius: '9999px'
+    }),
+    multiValueLabel: (provided: any) => ({
+      ...provided,
+      color: '#2d3748'
+    }),
+    multiValueRemove: (provided: any) => ({
+      ...provided,
+      color: '#718096',
+      '&:hover': {
+        color: '#4a5568'
+      }
+    })
+  }
+
+  if (isLoading) return <div>Loading...</div>
+  if (isLoadingCategory) return <div>Loading category...</div>
+  if (iserrCategory) {
+    return <div>Error</div>
+  }
   return (
-    <div className="flex flex-col gap-9">
+    <div className="">
       {/* <!-- Contact Form --> */}
-      <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
-        <form onSubmit={handleSubmit}>
-          <div className="p-6.5">
-            <div className="mb-4.5  flex-col gap-6 xl:flex-row">
+      {/* <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark"> */}
+      <div className="border rounded bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+        <form
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+          className="p-6 space-y-6"
+        >
+          {/* <div className="p-6.5 flex"> */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="mb-4.5 gap-6 w-full">
               {/* name */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  movie name
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Tên Phim
                 </label>
                 <input
                   name="name"
@@ -251,49 +360,25 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter movie name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder=" Nhập tên phim ..."
+                  // className="aw-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                  // className="w-full rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white py-3 px-4 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary disabled:cursor-default disabled:bg-white disabled:text-gray-500 transition duration-300 ease-in-out transform hover:scale-105"
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
 
                 {touched.name && errors.name && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.name}
                   </div>
                 )}
               </div>
-              {/* image */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  movie image
-                </label>
-                <input
-                  name="image"
-                  value={values.image}
-                  // onChange={handleChange}
-                  // onChange={(event) => {
-                  //   setFieldValue('image', event.currentTarget.files[0]);
-                  // }}
-                  // type="file"
 
-                  onChange={handleChange}
-                  type="text"
-                  onBlur={handleBlur}
-                  placeholder="Enter movie image URL"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.image && errors.image && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.image}
-                  </div>
-                )}
-                {values.image && (
-                  <img src={values.image} alt="movie" className="w-32 h-32 object-cover rounded-lg" />
-                )}
-              </div>
+              {/*  */}
+
               {/* actor */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  actor
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Diễn viên
                 </label>
                 <input
                   name="actor"
@@ -301,19 +386,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập tên diễn viên ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
+
                 {touched.actor && errors.actor && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.actor}
                   </div>
                 )}
               </div>
               {/* author */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  author
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Tác giả
                 </label>
                 <input
                   name="author"
@@ -321,19 +407,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập tên tác giả ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
+
                 {touched.author && errors.author && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.author}
                   </div>
                 )}
               </div>
               {/* language */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  language
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Ngôn Ngữ
                 </label>
                 <input
                   name="language"
@@ -341,19 +428,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập ngôn ngữ ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
+
                 {touched.language && errors.language && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.language}
                   </div>
                 )}
               </div>
               {/* trailer */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  trailer
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Đoạn phim giới thiệu
                 </label>
                 <input
                   name="trailer"
@@ -361,19 +449,20 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter trailer"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập trailer ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
+
                 {touched.trailer && errors.trailer && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.trailer}
                   </div>
                 )}
               </div>
               {/* age_limit */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  age_limit
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Giới hạn tuổi
                 </label>
                 <input
                   name="age_limit"
@@ -381,79 +470,48 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter age_limit"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập giới hạn tuổi ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
+
                 {touched.age_limit && errors.age_limit && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.age_limit}
                   </div>
                 )}
               </div>
-              {/* fromDate */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  fromDate
-                </label>
-                <input
-                  name="fromDate"
-                  value={values.fromDate}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter fromDate"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.fromDate && errors.fromDate && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.fromDate}
-                  </div>
-                )}
-              </div>
-              {/* todate */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  toDate
-                </label>
-                <input
-                  name="toDate"
-                  value={values.toDate}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter toDate"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.toDate && errors.toDate && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.toDate}
-                  </div>
-                )}
-              </div>
               {/* desc */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  desc
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Mô tả
                 </label>
-                <input
+                {/* <input
                   name="desc"
                   value={values.desc}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter desc"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
+                  placeholder="Nhập Mô tả ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                /> */}
+                <textarea
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                  name="desc"
+                  value={values.desc}
+                  placeholder="Nhập Mô tả ..."
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                ></textarea>
                 {touched.desc && errors.desc && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.desc}
                   </div>
                 )}
               </div>
               {/* country */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  country
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Quốc gia
                 </label>
                 <input
                   name="country"
@@ -461,79 +519,50 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="text"
-                  placeholder="Enter country"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập quốc gia ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
+
                 {touched.country && errors.country && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.country}
                   </div>
                 )}
               </div>
               {/* duration */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  duration
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Thời lượng phim
                 </label>
+                {/* <input
+                  name="duration"
+                  value={values.duration}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="number"
+                  placeholder="Thời lượng phim  ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                /> */}
                 <input
                   name="duration"
                   value={values.duration}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="number"
-                  placeholder="Enter duration"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập giới hạn tuổi ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
+
                 {touched.duration && errors.duration && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.duration}
                   </div>
                 )}
               </div>
-              {/* status */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  status
-                </label>
-                <input
-                  name="status"
-                  value={values.status}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter status"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.status && errors.status && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.status}
-                  </div>
-                )}
-              </div>
-              {/* age_limit */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  age_limit
-                </label>
-                <input
-                  name="age_limit"
-                  value={values.age_limit}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="number"
-                  placeholder="Enter age_limit"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.age_limit && errors.age_limit && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.age_limit}
-                  </div>
-                )}
-              </div>
               {/* rate */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  rate
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Rate
                 </label>
                 <input
                   name="rate"
@@ -541,84 +570,223 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   type="number"
-                  placeholder="Enter rate"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Nhập rate ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
                 {touched.rate && errors.rate && (
-                  <div className="text-red-500 text-xl font-bold">
+                  <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.rate}
-                  </div>
-                )}
-              </div>
-              {/* categoryId */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  categoryId
-                </label>
-                <input
-                  name="categoryId"
-                  value={values.categoryId}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter categoryId"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.categoryId && errors.categoryId && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.categoryId}
-                  </div>
-                )}
-              </div>
-              {/* showTimes */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  showTimes
-                </label>
-                <input
-                  name="showTimes"
-                  value={values.showTimes}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter showTimes"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.showTimes && errors.showTimes && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.showTimes}
-                  </div>
-                )}
-              </div>
-              {/* prices */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  prices
-                </label>
-                <input
-                  name="prices"
-                  value={values.prices}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter prices"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.prices && errors.prices && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.prices}
                   </div>
                 )}
               </div>
               {/*  */}
             </div>
-            <button
-              className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 mt-4"
-              type="submit"
-            >
-              {typeForm === 'ADD' ? 'Add' : 'Update'}
-            </button>
+
+            <div className="p-2 mb-4.5 ml-8  flex-col gap-6 xl:flex-row">
+              {/* category */}
+              <div className="form-group">
+                <label className="block mb-2 font-medium text-primary dark:text-yellow-400">
+                  Danh mục:
+                </label>
+                <Select
+                  name="categoryId"
+                  closeMenuOnSelect={false}
+                  defaultValue={colourOptions?.filter((option) =>
+                    initialValues?.categoryId?.includes(option.value)
+                  )}
+                  isMulti
+                  options={colourOptions}
+                  value={selectedOptions}
+                  onChange={handleSelectChange}
+                  onBlur={handleBlur}
+                  styles={dropdownStyles}
+                  className="w-full mt-1 px-4 py-2 rounded-md border border-purple-400 shadow-lg focus:ring-4 focus:border-primary dark:border-yellow-400 dark:bg-purple-900 dark:text-white hover:border-pink-500 focus:outline-none focus:ring-pink-500"
+                />
+                {touched.categoryId && errors.categoryId && (
+                  <div className="text-red-500 text-sm font-bold mt-1">
+                    {errors.categoryId}
+                  </div>
+                )}
+              </div>
+              {/* image */}
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Ảnh Phim
+                </label>
+                <input
+                  name="image"
+                  onChange={handleChangeFile}
+                  onBlur={handleBlur}
+                  type="file"
+                  placeholder="Nhập URL ảnh ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                />
+                {touched.image && errors.image && (
+                  <div className="mt-1 text-red-500 text-sm font-bold">
+                    {errors.image}
+                  </div>
+                )}
+                {values.image && (
+                  <img
+                    src={values.image}
+                    alt="movie"
+                    className="w-32 h-32 object-cover rounded-lg"
+                  />
+                )}
+              </div>
+              {/* fromDate */}
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Từ ngày
+                </label>
+                <Flatpickr
+                  name="fromDate"
+                  defaultValue={initialValues?.toDate || ''}
+                  options={{
+                    dateFormat: 'd-m-Y H:i',
+                    enableTime: true,
+                    onChange: (selectedDates) => {
+                      const formattedDate = format(selectedDates[0], 'dd-MM-yyyy HH:mm');
+                      setfromDate(selectedDates[0]);
+                      setFieldValue('fromDate', formattedDate);
+                    },
+                  }}
+                  placeholder="DD/MM/YYYY"
+                  className="appearance-none block w-full bg-white text-gray-800 border border-gray-300 rounded-md py-3 px-4 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition duration-300 ease-in-out"
+                  id="grid-last-time"
+                  type="text"
+                />
+                {touched.fromDate && errors.fromDate && (
+                  <div className="mt-1 text-red-500 text-sm font-bold">
+                    {errors.fromDate}
+                  </div>
+                )}
+              </div>
+              {/* todate */}
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Đến ngày
+                </label>
+                <Flatpickr
+                  name="toDate"
+                  defaultValue={initialValues?.toDate || ''}
+                  options={{
+                    dateFormat: 'd-m-Y H:i',
+                    enableTime: true,
+                    onChange: (selectedDates) => {
+                      const formattedDate = format(
+                        selectedDates[0],
+                        'dd-MM-yyyy HH:mm'
+                      ); // Định dạng lại ngày giờ
+                      settoDate(selectedDates[0]);
+                      setFieldValue('toDate', formattedDate);
+                    }
+                  }}
+                  placeholder="DD/MM/YYYY"
+                  className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 focus:outline-none focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-1 dark:focus:ring-primary"
+                  id="grid-last-time"
+                  type="text"
+                />
+                {touched.toDate && errors.toDate && (
+                  <div className="mt-1 text-red-500 text-sm font-bold">
+                    {errors.toDate}
+                  </div>
+                )}
+              </div>
+              {/* prices */}
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Giá phim:
+                </label>
+                <input
+                  name="price"
+                  value={values?.price}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  type="number"
+                  placeholder="Nhập giá  ..."
+                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                />
+                {touched.price && errors.price && (
+                  <div className="mt-1 text-red-500 text-sm font-bold">
+                    {errors.price}
+                  </div>
+                )}
+              </div>
+              {/* status */}
+              <div className=" relative z-0 mb-6 w-full group">
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Trạng thái:
+                </label>
+                <div className="inline-block relative w-full">
+                  <select
+                    className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                    id="multiSelect"
+                    name="status"
+                    // value={selectedState}
+                    // onChange={ }
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  >
+                    <option className="text-gray-900" value="">
+                      -- Chọn trạng thái --
+                    </option>
+                    <option
+                      className="text-gray-900"
+                      value="COMING_SOON"
+                      selected={values.status === 'COMING_SOON'}
+                    >
+                      COMING_SOON
+                    </option>
+                    <option
+                      className="text-gray-900"
+                      value="IS_SHOWING"
+                      selected={values.status === 'IS_SHOWING'}
+                    >
+                      IS_SHOWING
+                    </option>
+                    <option
+                      className="text-gray-900"
+                      value="PRTMIERED"
+                      selected={values.status === 'PRTMIERED'}
+                    >
+                      PRTMIERED
+                    </option>
+                    <option
+                      className="text-gray-900"
+                      value="CANCELLED"
+                      selected={values.status === 'CANCELLED'}
+                    >
+                      CANCELLED
+                    </option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 12a2 2 0 100-4 2 2 0 000 4z"
+                      />
+                    </svg>
+                  </div>
+                </div>
+                {touched.status && errors.status && (
+                  <div className="mt-1 text-red-500 text-sm font-bold">
+                    {errors.status}
+                  </div>
+                )}
+              </div>
+              {/*  */}
+            </div>
+            {/*  */}
           </div>
+
+          <button
+            className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-50 transition duration-300 mt-4"
+            type="submit"
+          >
+            {typeForm === 'ADD' ? 'Add' : 'Update'}
+          </button>
+
         </form>
       </div>
     </div>

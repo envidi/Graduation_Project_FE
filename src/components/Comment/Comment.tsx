@@ -24,27 +24,6 @@ function Comment() {
   const highestCommentId = data && data._id
   const commentCount = countComments(data) == 0 ? 0 : countComments(data) - 1
 
-  // const { insertNode, editNode } = useNode()
-
-  // const handleInsertNode = (
-  //   folderId: string | undefined = '1',
-  //   item: string,
-  //   like: number
-  // ) => {
-  //   const finalStructure = insertNode(commentData, folderId, like, item)
-  //   setCommentData((prev: MyObjectComment) => {
-  //     return { ...prev, ...finalStructure }
-  //   })
-  // }
-  // const handleEditNode = (
-  //   folderId: string | undefined = '1',
-  //   item: string,
-  //   like: number
-  // ) => {
-  //   const finalStructure = editNode(commentData, folderId, like, item)
-  //   setCommentData(finalStructure)
-  // }
-
   return (
     <div className="xl:px-60 md:px-20 xs:px-20">
       <h2 className="heading-secondary text-primary-locationMovie border-b-4 border-primary-movieColor  md:text-5xl sm:text-4xl mt-20 font-semibold mb-20 w-fit">
@@ -54,9 +33,7 @@ function Comment() {
         <div className="w-full  h-auto shadow py-2 flex flex-col space-y-2">
           {userDetail ? (
             <div
-              className={
-                'w-full  h-auto shadow py-2 flex flex-col space-y-2'
-              }
+              className={'w-full  h-auto shadow py-2 flex flex-col space-y-2'}
             >
               <FormComment movieId={_id} commentCount={commentCount} />
             </div>

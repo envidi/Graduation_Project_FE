@@ -93,10 +93,10 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
             </SheetTrigger>
             <SheetContent className="z-50">
               <SheetHeader>
-                <SheetTitle className="text-2xl">Filter movie</SheetTitle>
+                <SheetTitle className="text-2xl">Lọc phim</SheetTitle>
               </SheetHeader>
               <div className="mt-5">
-                <div className="text-2xl mb-5">Filter by rate</div>
+                <div className="text-2xl mb-5">Lọc theo đánh giá</div>
                 <FilterRate
                   setQuery={setQuery}
                   query={query}
@@ -106,7 +106,7 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
                 <Separator className="my-7 bg-border-calendarBorder h-[0.5px] " />
               </div>
               <div className="mt-5">
-                <div className="text-2xl mb-5">Filter by country</div>
+                <div className="text-2xl mb-5">Lọc theo quốc gia</div>
                 <FilterCountry
                   query={query}
                   status={status}
@@ -117,7 +117,7 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
                 <Separator className="my-7 bg-border-calendarBorder h-[0.5px] " />
               </div>
               <div className="mt-5">
-                <div className="text-2xl mb-5">Filter by age</div>
+                <div className="text-2xl mb-5">Lọc theo tuổi</div>
                 <FilterAge
                   setQuery={setQuery}
                   query={query}
@@ -127,7 +127,7 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
               </div>
               <SheetFooter>
                 <SheetClose asChild className="sheet-close">
-                  <Button type="submit">Save changes</Button>
+                  <Button type="submit">Lưu</Button>
                 </SheetClose>
               </SheetFooter>
             </SheetContent>
@@ -153,14 +153,14 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
             className={`rounded-full border-2 text-xl px-10 py-5 hover:border-2 bg-transparent font-bold ${query.order == 'desc' ? 'bg-primary-movieColor' : ''}`}
             onClick={() => handleSort('desc')}
           >
-            Newest
+            Mới nhất
           </Button>
           <Button
             variant="outline"
             className={`rounded-full border-2 text-xl px-10 py-5 hover:border-2 bg-transparent font-bold ${query.order == 'asc' ? 'bg-primary-movieColor' : ''}`}
             onClick={() => handleSort('asc')}
           >
-            Latest
+            Lâu nhất
           </Button>
         </div>
       </div>

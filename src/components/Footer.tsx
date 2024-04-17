@@ -81,19 +81,19 @@ export const Footer = () => {
           />
         </svg>
         <h1 className="footer-logo-text text-primary-locationMovie">
-          Asho Dekhi
+        DREAM CINEMA
         </h1>
       </HashLink>
 
       <div className="footer-link-container foot-reg">
         <button className="footer-btn hover:text-primary-movieColorSecond text-foreground">
-          Create account
+          Tạo tài khoản 
         </button>
       </div>
 
       <div className="footer-link-container">
         <button className="footer-btn hover:text-primary-movieColorSecond text-foreground">
-          Sign in
+         Đăng nhập 
         </button>
       </div>
 
@@ -102,14 +102,14 @@ export const Footer = () => {
           className="footer-link text-foreground hover:text-primary-movieColorSecond"
           to="/aboutus"
         >
-          About us
+          Về chúng tôi
         </Link>
       </div>
 
-      <h3 className="footer-heading">Our Theatres</h3>
+      <h3 className="footer-heading">Rạp phim  của chúng tôi</h3>
 
       <p className="copyright text-primary-copyright">
-        Copyright &copy; 2023 by NELOY SAHA, Inc. All rights reserved.
+      Bản quyền &copy; 2024 bởi Envidi, Inc. Mọi quyền được bảo lưu.
       </p>
 
       <div className="footer-address-container">

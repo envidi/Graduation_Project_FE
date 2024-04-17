@@ -15,18 +15,33 @@ export const CreateShowtimes = async (showtime:any) => {
   const result = await baseShowtimes.post('/', showtime)
   return result
 }
+
 export const DeleteShowtimes = async (id:any) => {
   const result = await baseShowtimes.delete(`/${id}`)
   return result
 }
-export const updateShowtimes = async (showtime:any) => {
-  const result = await baseShowtimes.patch(`/${showtime._id}`, showtime)
+export const updateShowtimes = async (showtime:any,id:any) => {
+  const result = await baseShowtimes.patch(`/${id}`, showtime)
   return result
 }
+
+
 
 export const DetailShowtimes = async (id:any) => {
   const result = await baseShowtimes.get(`/${id}` )
   return result
+}
+export const deleteSoft = async (id:any) => {
+  const result = await baseShowtimes.patch(`/${id}/soft` )
+  return result
+}
+export const RestoreShowtime = async (id:any) => {
+  const result = await baseShowtimes.patch(`/${id}/restore` )
+  return result
+}
+export const getAllSoft = async () => {
+  const result = await baseShowtimes.get(`/all` )
+  return result.data.data.docs
 }
 export const getShowtimesById = async (id:string) => {
   try {
@@ -34,6 +49,6 @@ export const getShowtimesById = async (id:string) => {
     return response.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Failed to fetch cinema data');
+    throw new Error('Không thể tìm nạp dữ liệu rạp chiếu phim');
   }
 };

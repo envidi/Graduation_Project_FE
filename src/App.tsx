@@ -77,6 +77,13 @@ import Users from './admin/pages/Users'
 import Showtimes from './admin/pages/Showtimes/Showtimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
 import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
+import Restore from './admin/pages/Showtimes/Restore'
+import RoomsPage from './admin/pages/Rooms'
+import AddRooms from './admin/pages/Rooms/AddRooms'
+import EditRooms from './admin/pages/Rooms/EditRooms'
+import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
+import TicketsPage from './admin/pages/Tickets'
+import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -275,8 +282,11 @@ function App() {
                 {/* <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} /> */}
               </Route>
+            
+            
               <Route path="food">
                 <Route index element={<FoodAdminPage />} />
+                <Route path="destroy" element={<FoodAdminDestroyPage />} />
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
               </Route>
@@ -295,15 +305,27 @@ function App() {
                 <Route path="add" element={<MovieAdd />} />
                 <Route path="edit/:id" element={<MovieEdit />} />
               </Route>
+              <Route path="screeningrooms">
+                <Route index element={<RoomsPage />} />
+                <Route path="add" element={<AddRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} />
+              </Route>
+              <Route path="screeningrooms/destroy" element={<RoomsPageDestroy />} />
+              <Route path="tickets">
+                <Route index element={<TicketsPage />} />
+                <Route path="add" element={<AddRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} />
+              </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
               <Route path="users" element={<Users />} />
 
-              <Route path="showtimes">
+               <Route path="showtimes">
                 <Route index element={<Showtimes />} />
                 <Route path="create" element={<CreateShowtimes />} />
                 <Route path="update/:id" element={<UpdateShowtimes />} />
-              </Route>
+                <Route path="restore" element={<Restore />} />
+              </Route> 
 
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />
@@ -320,7 +342,7 @@ function App() {
 
         <ToastContainer
           style={{
-            fontSize: '1.8rem'
+            fontSize: '1.2rem'
           }}
           position="top-right"
           autoClose={5000}

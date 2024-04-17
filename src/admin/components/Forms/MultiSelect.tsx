@@ -1,109 +1,109 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'
 
 interface Option {
-  value: string;
-  text: string;
-  selected: boolean;
-  element?: HTMLElement;
+  value: string
+  text: string
+  selected: boolean
+  element?: HTMLElement
 }
 
 interface DropdownProps {
-  id: string;
+  id: string
 }
 
 const MultiSelect: React.FC<DropdownProps> = ({ id }) => {
-  const [options, setOptions] = useState<Option[]>([]);
-  const [selected, setSelected] = useState<number[]>([]);
-  const [show, setShow] = useState(false);
-  const dropdownRef = useRef<any>(null);
-  const trigger = useRef<any>(null);
+  const [options, setOptions] = useState<Option[]>([])
+  const [selected, setSelected] = useState<number[]>([])
+  const [show, setShow] = useState(false)
+  const dropdownRef = useRef<any>(null)
+  const trigger = useRef<any>(null)
 
   useEffect(() => {
     const loadOptions = () => {
-      const select = document.getElementById(id) as HTMLSelectElement | null;
+      const select = document.getElementById(id) as HTMLSelectElement | null
       if (select) {
-        const newOptions: Option[] = [];
+        const newOptions: Option[] = []
         for (let i = 0; i < select.options.length; i++) {
           newOptions.push({
             value: select.options[i].value,
             text: select.options[i].innerText,
-            selected: select.options[i].hasAttribute('selected'),
-          });
+            selected: select.options[i].hasAttribute('selected')
+          })
         }
-        setOptions(newOptions);
+        setOptions(newOptions)
       }
-    };
+    }
 
-    loadOptions();
-  }, [id]);
+    loadOptions()
+  }, [id])
 
-   const open = () => {
-     setShow(true);
-   };
+  const open = () => {
+    setShow(true)
+  }
 
-   const isOpen = () => {
-     return show === true;
-   };
+  const isOpen = () => {
+    return show === true
+  }
 
- const select = (index: number, event: React.MouseEvent) => {
-   const newOptions = [...options];
+  const select = (index: number, event: React.MouseEvent) => {
+    const newOptions = [...options]
 
-   if (!newOptions[index].selected) {
-     newOptions[index].selected = true;
-     newOptions[index].element = event.currentTarget as HTMLElement;
-     setSelected([...selected, index]);
-   } else {
-     const selectedIndex = selected.indexOf(index);
-     if (selectedIndex !== -1) {
-       newOptions[index].selected = false;
-       setSelected(selected.filter((i) => i !== index));
-     }
-   }
+    if (!newOptions[index].selected) {
+      newOptions[index].selected = true
+      newOptions[index].element = event.currentTarget as HTMLElement
+      setSelected([...selected, index])
+    } else {
+      const selectedIndex = selected.indexOf(index)
+      if (selectedIndex !== -1) {
+        newOptions[index].selected = false
+        setSelected(selected.filter((i) => i !== index))
+      }
+    }
 
-   setOptions(newOptions);
- };
+    setOptions(newOptions)
+  }
 
   const remove = (index: number) => {
-    const newOptions = [...options];
-    const selectedIndex = selected.indexOf(index);
+    const newOptions = [...options]
+    const selectedIndex = selected.indexOf(index)
 
     if (selectedIndex !== -1) {
-      newOptions[index].selected = false;
-      setSelected(selected.filter((i) => i !== index));
-      setOptions(newOptions);
+      newOptions[index].selected = false
+      setSelected(selected.filter((i) => i !== index))
+      setOptions(newOptions)
     }
-  };
+  }
 
   const selectedValues = () => {
-    return selected.map((option) => options[option].value);
-  };
+    return selected.map((option) => options[option].value)
+  }
 
-    useEffect(() => {
-      const clickHandler = ({ target }: MouseEvent) => {
-        if (!dropdownRef.current) return;
-        if (
-          !show ||
-          dropdownRef.current.contains(target) ||
-          trigger.current.contains(target)
-        )
-          return;
-        setShow(false);
-      };
-      document.addEventListener('click', clickHandler);
-      return () => document.removeEventListener('click', clickHandler);
-    });
+  useEffect(() => {
+    const clickHandler = ({ target }: MouseEvent) => {
+      if (!dropdownRef.current) return
+      if (
+        !show ||
+        dropdownRef.current.contains(target) ||
+        trigger.current.contains(target)
+      )
+        return
+      setShow(false)
+    }
+    document.addEventListener('click', clickHandler)
+    return () => document.removeEventListener('click', clickHandler)
+  })
 
   return (
     <div className="relative z-50">
       <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-        Multiselect Dropdown
+        Nhiều lựa chọn thả xuống
       </label>
       <div>
         <select className="hidden" id={id}>
-          <option value="1">Option 2</option>
-          <option value="2">Option 3</option>
-          <option value="3">Option 4</option>
-          <option value="4">Option 5</option>
+          <option value="1">Lựa chọn 2</option>
+          <option value="2">Lựa chọn 3</option>
+          <option value="3">Lựa chọn 4</option>
+          <option value="4">Lựa chọn 5</option>
         </select>
 
         <div className="flex flex-col items-center">
@@ -220,7 +220,7 @@ const MultiSelect: React.FC<DropdownProps> = ({ id }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default MultiSelect;
+export default MultiSelect

@@ -45,7 +45,7 @@ export function CalendarDateRangePicker({
                 format(date.from, 'LLL dd, y')
               )
             ) : (
-              <span>Pick a date</span>
+              <span>Chọn một ngày</span>
             )}
           </Button>
         </PopoverTrigger>

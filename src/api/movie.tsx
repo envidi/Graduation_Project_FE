@@ -14,7 +14,7 @@ export const getOneMovie = async (id: string) => {
   return result.data.data
 }
 export const getAllMovieHome = async () => {
-  const result = await instance.get('/movie')
+  const result = await instance.get('/movie/home')
   return result.data.data.docs
 }
 export const getMovieStatus = async (query: QueryMovie) => {
@@ -31,10 +31,10 @@ export const getMovieStatus = async (query: QueryMovie) => {
     return result.data.data.docs
   }
 }
-export const getAllMovie = async () => {
-  const result = await instance.get('/movie')
-  return result.data.data.docs
-}
+// export const getAllMovie = async () => {
+//   const result = await instance.get('/movie')
+//   return result.data.data.docs
+// }
 export const getAllHasShow = async (_cate: string) => {
   const result = await instance.get('/movie/showtime?_cate=' + _cate)
   return result.data.data.docs
@@ -51,6 +51,22 @@ export const getRelateMovie = async (id: string) => {
   const result = await instance.get('/movie/movieByCate/' + id)
   return result.data.data
 }
+
+// admin
+// get all m
+export const getAllMovie = async () => {
+  const result = await instance.get('/movie')
+  return result.data.data.docs
+}
+export const getAllScreenRoom = async () => {
+  const result = await instance.get('/screen')
+  return result.data.datas.docs
+}
+export const getOneScreenRoom = async (id:any) => {
+  const result = await instance.get(`/screen/${id}` )
+  return result
+}
+
 export const getCountMovie = async () => {
   const result = await instance.get('/movie/count')
   return result.data.data
@@ -71,5 +87,11 @@ export const addMovie = async (Movie: FormMovieAdd) => {
 //edit cinema
 export const editMovie = async (cinema: FormMovieAdd, id: string) => {
   const result = await instance.patch(`/movie/${id}`, cinema)
+  return result.data
+}
+// update price movie
+//edit cinema
+export const editMoviePice = async (cinema : any , id: any) => {
+  const result = await instance.patch(`/movies/price/${id}`, cinema)
   return result.data
 }

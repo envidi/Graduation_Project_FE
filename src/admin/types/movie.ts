@@ -5,7 +5,7 @@ export interface Movie {
     desc: string
     country: string
     age_limit: string
-    duration: string
+    duration: number
     author: string
     language: string
     actor: string
@@ -21,12 +21,14 @@ export interface Movie {
     updatedAt: Date
     fromDate: string
     toDate: string
+    
   }
   
   export interface FormMovieAdd {
     _id: string
     name: string
     author: string
+    actor: string
     image: string
     desc: string
     country: string
@@ -36,10 +38,17 @@ export interface Movie {
     trailer: string
     status: string
     rate: number
+    price: number
     categoryId: string[] | string
     showTimes: string[] | string
-    prices: string[] | string
     fromDate: string
     toDate: string
+    // prices: string[] | string
+    // prices: { price: number; dayType: string }[] | string;
+    // priceweekday: number
+    // dayTypeweekday: string
+    // pricesweekend: number
+    // dayTypeweekend: string
+
   }
   

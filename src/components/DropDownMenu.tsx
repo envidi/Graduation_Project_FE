@@ -1,7 +1,16 @@
 import {
-  Cloud,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger
+} from '@/components/ui/alert-dialog'
+import {
   CreditCard,
-  Github,
   LifeBuoy,
   LogOut,
   Mail,
@@ -29,16 +38,14 @@ import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar'
 import { Link } from 'react-router-dom'
 import TooltipComponent from './TooltipComponent'
 import { useContext } from 'react'
-interface DropDownMenuType {
-  logout: () => void
-}
 
-function DropDownMenu({ logout }: DropDownMenuType) {
-  const { userDetail } = useContext<ContextAuth>(ContextMain)
+
+function DropDownMenu() {
+  const { userDetail, logout } = useContext<ContextAuth>(ContextMain)
 
   return (
     <DropdownMenu>
-      <TooltipComponent tooltip={'Your account'}>
+      <TooltipComponent tooltip={'Tài khoản của bạn'}>
         <DropdownMenuTrigger asChild>
           <Button>
             <p
@@ -61,25 +68,25 @@ function DropDownMenu({ logout }: DropDownMenuType) {
         </DropdownMenuTrigger>
       </TooltipComponent>
       <DropdownMenuContent className="w-72">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>Tài khoản</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <Link to={'/profile/forms'}>
             <DropdownMenuItem>
               <User className="mr-2 h-6 w-6" />
-              <span>Profile</span>
+              <span>Cá nhân</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
           <DropdownMenuItem>
             <CreditCard className="mr-2 h-6 w-6" />
-            <span>Billing</span>
+            <span>Lịch sử mua</span>
             <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <Link to={'/profile/forms/appearance'}>
             <DropdownMenuItem>
               <Settings className="mr-2 h-6 w-6" />
-              <span>Settings</span>
+              <span>Cài đặt</span>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
@@ -95,12 +102,12 @@ function DropDownMenu({ logout }: DropDownMenuType) {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <MessageSquare className="mr-2 h-6 w-6" />
-                  <span>Message</span>
+                  <span>Tin nhắn</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
                   <PlusCircle className="mr-2 h-6 w-6" />
-                  <span>More...</span>
+                  <span>Hơn...</span>
                 </DropdownMenuItem>
               </DropdownMenuSubContent>
             </DropdownMenuPortal>
@@ -109,19 +116,47 @@ function DropDownMenu({ logout }: DropDownMenuType) {
         <Link to={'/admin'}>
           <DropdownMenuItem>
             <LifeBuoy className="mr-2 h-6 w-6" />
-            <span>Admin</span>
+            <span>Quản trị</span>
           </DropdownMenuItem>
         </Link>
-        <DropdownMenuItem disabled>
-          <Cloud className="mr-2 h-6 w-6" />
-          <span>API</span>
-        </DropdownMenuItem>
+
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={logout}>
-          <LogOut className="mr-2 h-6 w-6" />
-          <span>Log out</span>
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <AlertDialog>
+          {/* <DropdownMenuItem> */}
+          <AlertDialogTrigger asChild>
+            {/* <Button variant="outline"> */}
+            <div className='flex px-5 text-2xl py-3 items-center'>
+              <LogOut className="mr-2 h-6 w-6" />
+              <span>Đăng xuất</span>
+            </div>
+
+            {/* </Button> */}
+          </AlertDialogTrigger>
+          <AlertDialogContent className='bg-primary-nameMovie'>
+            <AlertDialogHeader>
+              <AlertDialogTitle className="text-2xl text-background-main mt-3 font-bold">
+                Bạn có chắc chắn muốn đăng xuất không?
+              </AlertDialogTitle>
+              <AlertDialogDescription className="text-xl py-3">
+                Đăng xuất sẽ khiến bạn thoát ra khỏi tài khoản và dừng mọi hành
+                động đặt vé. Hãy cân nhắc nếu bạn đang đặt vé hoặc không nhớ mật
+                khẩu hoặc tài khoản.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="text-2xl px-4 py-3 bg-primary-nameMovie text-background-main font-bold">
+                Hủy
+              </AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-primary-movieColor text-2xl px-4 py-3"
+                onClick={logout}
+              >
+                Tiếp tục
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+          {/* </DropdownMenuItem> */}
+        </AlertDialog>
       </DropdownMenuContent>
     </DropdownMenu>
   )

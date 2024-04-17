@@ -40,7 +40,7 @@ function UploadImage() {
   const { mutate, isPending } = useMutation({
     mutationFn: async (user: FormData) => updateClient(user),
     onSuccess() {
-      toast.success('Update image successfully ')
+      toast.success('Cập nhật hình ảnh thành công ')
       queryClient.invalidateQueries({
         queryKey: [USERDETAIL]
       })
@@ -51,7 +51,7 @@ function UploadImage() {
       }
     },
     onError() {
-      toast.error('Update faile, try again !')
+      toast.error('Cập nhật không thành công, hãy thử lại')
     }
   })
 
@@ -67,7 +67,7 @@ function UploadImage() {
     const data = new FormData()
 
     if (!file || file.length == 0) {
-      toast.error('Please select a image!', {
+      toast.error('Vui lòng chọn một hình ảnh!', {
         position: 'top-right'
       })
       return
@@ -89,7 +89,7 @@ function UploadImage() {
       <DialogTrigger asChild>
         <Button className="border-primary-movieColor text-primary-locationMovie border-2 text-2xl space-x-2 rounded-lg px-5">
           <PenLine size={12} />
-          <span>Edit</span>
+          <span>Chỉnh sửa</span>
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] xs:max-w-[320px] ">
@@ -104,18 +104,18 @@ function UploadImage() {
               name="avatar"
               render={() => (
                 <FormItem>
-                  <FormLabel className="text-2xl">Username</FormLabel>
+                  <FormLabel className="text-2xl">Tên</FormLabel>
                   <FormControl>
                     <div className="flex justify-around">
                       <div className="flex flex-col items-center">
                         <span className="text-3xl my-2 mb-5  font-semibold text-primary-movieColor">
-                          Upload image
+                          Tải ảnh
                         </span>
                         <Label
                           htmlFor="picture"
                           className="sm:w-80 sm:h-80 xs:w-52 xs:h-52 text-2xl bg-background-secondary flex justify-center items-center border-primary-movieColor border-dashed border"
                         >
-                          Upload
+                          Tải lên
                         </Label>
                         <Input
                           id="picture"
@@ -126,7 +126,7 @@ function UploadImage() {
                       </div>
                       <div className="flex flex-col items-center">
                         <span className="text-3xl my-2 mb-5 font-semibold text-primary-movieColor">
-                          Current image
+                          Ảnh hiện tại
                         </span>
                         <Avatar className="sm:w-80 sm:h-80 xs:w-52 xs:h-52">
                           <AvatarImage
@@ -156,7 +156,7 @@ function UploadImage() {
                   type="button"
                   className="text-2xl px-10 bg-background-secondary mt-3"
                 >
-                  Close
+                  Đóng
                 </Button>
               </DialogClose>
             </DialogFooter>

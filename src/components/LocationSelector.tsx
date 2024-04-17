@@ -61,13 +61,13 @@ export const LocationSelector = ({
       </Select>
 
       <p className="selected-location text-primary-movieColor">
-        Location:{' '}
+      Vị trí:{' '}
         <span className="text-primary-locationMovie">
           {defaultLocation.CinemaAdress ?? ''}
         </span>
       </p>
       <p className="selected-theatre text-primary-movieColor">
-        Theatre:{' '}
+      Rạp phim :{' '}
         <span className="text-primary-locationMovie">
           {defaultLocation.CinemaName ?? ''}
         </span>

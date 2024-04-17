@@ -1,5 +1,5 @@
 import { Food } from '@/admin/types/food'
-import { getAllFood, removeFood } from '@/api/food'
+import { getAllFood, softDeleteFood } from '@/api/food'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FaEdit } from 'react-icons/fa'
 import { FaPlusCircle } from 'react-icons/fa'
@@ -10,101 +10,102 @@ import { ConfirmDialog } from '@/admin/components/Confirm'
 import { useState, useRef } from 'react'
 import Loader from '@/admin/common/Loader'
 import {
-    Pagination,
-    PaginationContent,
-    PaginationItem,
-    PaginationLink,
-    PaginationNext,
-    PaginationPrevious
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
 } from '@/components/ui/pagination'
-
 
 const ITEMS_PER_PAGE = 10
 // ...rest of your imports and TableFood component
 const TableFood = () => {
-    const { data, isLoading, isError } = useQuery<Food[]>({
-        queryKey: ['FOOD'],
-        queryFn: getAllFood
-    })
-    /*------------------------------------------------- */
-    const [currentPage, setCurrentPage] = useState(1)
-    const [itemsPerPage] = useState(ITEMS_PER_PAGE)
-    //tính mục phân trang
-    const endIndex = currentPage * itemsPerPage
-    const startIndex = endIndex - itemsPerPage
-    const currentItems = (data && data.slice(startIndex, endIndex)) || []
-    // Tính số trang
-    const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0
+  const { data, isLoading, isError } = useQuery<Food[]>({
+    queryKey: ['FOOD'],
+    queryFn: getAllFood
+  })
+  /*------------------------------------------------- */
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(ITEMS_PER_PAGE)
+  //tính mục phân trang
+  const endIndex = currentPage * itemsPerPage
+  const startIndex = endIndex - itemsPerPage
+  const currentItems = (data && data.slice(startIndex, endIndex)) || []
+  // Tính số trang
+  const pageCount = data ? Math.ceil(data.length / itemsPerPage) : 0
 
-    //phương thức chuyển trang
-    const setPage = (page: number) => {
-        const newPage = Math.max(1, Math.min(page, pageCount))
-        setCurrentPage(newPage)
-    }
+  //phương thức chuyển trang
+  const setPage = (page: number) => {
+    const newPage = Math.max(1, Math.min(page, pageCount))
+    setCurrentPage(newPage)
+  }
 
-    const renderPagination = () => {
-        const pages = Array.from({ length: pageCount }, (_, i) => i + 1)
-        return (
-            <Pagination>
-                <PaginationContent>
-                    <PaginationItem>
-                        <PaginationPrevious
-                            onClick={() => setPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                        />
-                    </PaginationItem>
-                    {pages.map(page => (
-                        <PaginationItem key={page} {...(currentPage === page && { active: "true" })}>
-                            <PaginationLink onClick={() => setPage(page)}>
-                                {page}
-                            </PaginationLink>
-                        </PaginationItem>
-                    ))}
-                    <PaginationItem>
-                        <PaginationNext
-                            onClick={() => setPage(currentPage + 1)}
-                            disabled={currentPage === pageCount}
-                        />
-                    </PaginationItem>
-                </PaginationContent>
-            </Pagination>
-        )
-    }
+  const renderPagination = () => {
+    const pages = Array.from({ length: pageCount }, (_, i) => i + 1)
+    return (
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => setPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+          {pages.map((page) => (
+            <PaginationItem
+              key={page}
+              {...(currentPage === page && { active: 'true' })}
+            >
+              <PaginationLink onClick={() => setPage(page)}>
+                {page}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => setPage(currentPage + 1)}
+              disabled={currentPage === pageCount}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    )
+  }
 
-    /*------------------------------------------------- */
-    const queryClient = useQueryClient()
-    const [isOpenConfirm, setOpenConfirm] = useState(false)
-    const idDelete = useRef<string>()
-    const navigate = useNavigate()
-
+  /*------------------------------------------------- */
+  const queryClient = useQueryClient()
+  const [isOpenConfirm, setOpenConfirm] = useState(false)
+  const idDelete = useRef<string>()
+  const navigate = useNavigate()
 
     const { mutate } = useMutation({
-        mutationFn: removeFood,
+        mutationFn: softDeleteFood,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['FOOD'] })
-            toast.success('delete successfully')
+            toast.success('Xóa thực phẩm thành công')
         },
         onError: (error) => {
             console.log(error)
-            toast.error('delete failed')
+            toast.error('Xóa thực phẩm thất bại')
         }
     })
 
-    const handleRemoveFood = () => {
-        mutate(idDelete.current!)
-        setOpenConfirm(false)
-    }
-    const handleShowConfirm = (id: string) => {
-        idDelete.current = id
-        setOpenConfirm(true)
-    }
+  const handleRemoveFood = () => {
+    mutate(idDelete.current!)
+    setOpenConfirm(false)
+  }
+  const handleShowConfirm = (id: string) => {
+    idDelete.current = id
+    setOpenConfirm(true)
+  }
 
-    if (isLoading || !data) {
-        return <Loader />
-    }
-    if (isError) {
-        return <div>Error</div>
-    }
+  if (isLoading || !data) {
+    return <Loader />
+  }
+  if (isError) {
+    return <div>Lỗi</div>
+  }
 
     return (
         <>
@@ -115,28 +116,28 @@ const TableFood = () => {
                     }}
                     className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full"
                 >
-                    Add <FaPlusCircle size={20} className="ml-4" />
+                    Thêm sản phẩm <FaPlusCircle size={20} className="ml-4" />
                 </button>
             </div>
-            <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+            <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default sm:px-7.5 xl:pb-1">
                 <div className="max-w-full overflow-x-auto">
                     <table className="w-full table-auto">
                         <thead>
-                            <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                                <th className="py-4 px-4 font-medium text-primary-white xl:pl-11">
+                            <tr className="bg-gray-2 text-left">
+                                <th className="py-4 px-4 font-medium-600 text-primary-white xl:pl-11">
                                     STT
                                 </th>
-                                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                                    Name
+                                <th className="min-w-[150px] py-4 px-4 font-medium-600 text-primary-white">
+                                    Tên
                                 </th>
-                                <th className="min-w-[150px] py-4 px-4 font-medium text-primary-white">
-                                    Image
+                                <th className="min-w-[150px] py-4 px-4 font-medium-600 text-primary-white">
+                                    Ảnh
                                 </th>
-                                <th className="min-w-[120px] py-4 px-4 font-medium text-primary-white">
-                                    Price
+                                <th className="min-w-[120px] py-4 px-4 font-medium-600 text-primary-white">
+                                    Giá
                                 </th>
-                                <th className="py-4 px-4 font-medium text-primary-white">
-                                    Actions
+                                <th className="py-4 px-4 font-medium-600 text-primary-white">
+                                    Hành động
                                 </th>
                             </tr>
                         </thead>
@@ -155,7 +156,7 @@ const TableFood = () => {
                                         <img src={food.image} alt={food.name} className="w-20 h-20 object-cover rounded-full" />
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                                        <p className="text-primary-white">${food.price.toFixed(2)}</p>
+                                        <p className="text-primary-white">{(food.price).toLocaleString('vi-VN')} VND</p>
                                     </td>
                                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                                         <div className="flex items-center space-x-3.5">
@@ -183,24 +184,11 @@ const TableFood = () => {
                 </div>
             </div>
 
-            {/* <div className='pagination-controls'>
-        {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
-          <button
-            key={page}
-            disabled={currentPage === page}
-            onClick={() => setPage(page)}
-            // style={{ visibility: pageCount > 1 ? 'visible' : 'hidden' }}
-          >
-            {page}
-          </button>
-        ))}
-      </div> */}
-
             {renderPagination()}
             <ConfirmDialog
                 open={isOpenConfirm}
-                title='Are you sure you want to delete it?'
-                subTitle='This action cannot be undone'
+                title='Bạn có chắc muốn xóa sản phẩm này?'
+                subTitle='sản phẩm sẽ được chuyển vào bảng xóa.'
                 onCancel={() => setOpenConfirm(false)}
                 onConfirm={handleRemoveFood}
             />

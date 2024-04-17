@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 import HashLoader from 'react-spinners/HashLoader'
 import { useAllCategory } from '../hooks'
 import { useShowTimeContext } from '../contexts'
-export const CategorySelector = () => {
+export const CategorySelector = ({ cls }: { cls?: string }) => {
   const { handleFilterMovieByCategory } = useShowTimeContext()
 
   const [searchParams, setSearchParams] = useSearchParams()
@@ -10,7 +10,11 @@ export const CategorySelector = () => {
 
   const { data: categoryData, isLoading } = useAllCategory()
 
-  const handleSelectedCategoryId = (cate: { _id:string, name: string, products: [] }) => {
+  const handleSelectedCategoryId = (cate: {
+    _id: string
+    name: string
+    products: []
+  }) => {
     setSearchParams({ category: cate.name })
     handleFilterMovieByCategory(cate._id)
   }
@@ -33,7 +37,7 @@ export const CategorySelector = () => {
 
   const renderCategory = () => {
     return categoryData?.map(
-      (cate: { _id:string; name: string; products: [] }, idx: number) => {
+      (cate: { _id: string; name: string; products: [] }, idx: number) => {
         return (
           <div
             className="genre-input-container shadow-md"
@@ -61,7 +65,7 @@ export const CategorySelector = () => {
   }
 
   return (
-    <div className="genre-container">
+    <div className={`genre-container ${cls}`}>
       <div className="genre-icon-container">
         <svg
           xmlns="http://www.w3.org/2000/svg"

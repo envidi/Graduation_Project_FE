@@ -15,13 +15,13 @@ function MovieShowtimeSection({
     return (
       <div
         key={index}
-        className="movie-info-screen-container md:basis-3/5 lg:basis-2/3 sm:w-full xs:w-full"
+        className="movie-info-screen-container md:basis-3/5 lg:basis-[47%] sm:w-full xs:w-full"
       >
         <div
           className={`movie-info-screen-container-3d bg-background-third grid ${showTimeDimension?.length > 0 ? 'grid' : ''}`}
         >
           <h2 className="showtimes-screen bg-background-headerShow shadow-lg dark:shadow-2xl text-primary-locationMovie">
-            {showTimeDay && chuyenDoiNgay(showTimeDay[0].date)}
+            {showTimeDay && chuyenDoiNgay(showTimeDay[0]?.date)}
           </h2>
 
           {showTimeDay?.length > 0 ? (
@@ -40,7 +40,7 @@ function MovieShowtimeSection({
             })
           ) : (
             <div className="h-32 text-3xl flex items-center justify-center w-full">
-              No showtime in this day
+             Không có lịch chiếu vào ngày này
             </div>
           )}
         </div>

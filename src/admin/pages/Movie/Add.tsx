@@ -7,7 +7,7 @@ import FormMovie from './components/FormMovie'
 const MovieAdd = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Add Movie" />
+      <Breadcrumb pageName="Add Movie" pageLink="/admin/movie" pageRetun="Movie"/>
 
       <div className="flex flex-col gap-10">
         <FormMovie typeForm="ADD" />
