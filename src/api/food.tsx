@@ -25,6 +25,8 @@ export const editFood = async (food: Food, id: string) => {
   return result.data
 }
 export const removeFood = async (id: string) => {
+  
   const result = await instance.delete(`/food/${id}`)
+  console.log(result)
   return result.data
 }
