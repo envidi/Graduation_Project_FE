@@ -1,14 +1,27 @@
-import { TimeSlot } from './timeslots'
 
+
+ 
 export interface Screeningrooms {
   _id?: string
   name: string
   NumberSeat: number
   projector: string
-  CinemaId: string[]
-  TimeSlotId: TimeSlot[]
+  // CinemaId: Cinema,
+  CinemaId:string
+  // ShowtimesId: Showtimes[]
   status: string
   destroy: boolean
   createdAt: string
   updatedAt: string
 }
+
+export interface AddandEditRooms {
+  name: string
+  projector: string
+  CinemaId:string
+  status: string
+  // ShowtimesId: string
+  // CinemaId:CinemaRooms
+  // ShowtimesId: ShowTimeRooms
+}
+

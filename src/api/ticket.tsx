@@ -56,7 +56,10 @@ export const getAllTicketByUser = async (query: {
   )
   return result.data.data
 }
-
+export const getAllTikets = async () => {
+  const result = await instance.get('/ticket/all')  
+  return result.data.data.docs    
+}
 export const updateTicket = async (data: TicketCreateType) => {
   const { ticket_id, ...other } = data
   const result = await InsanceTokenFn('paymentToken', 'ticket').patch(
