@@ -35,8 +35,8 @@ export function ConfirmDialog({
           <AlertDialogDescription>{subTitle}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel onClick={onCancel}>Hủy bỏ </AlertDialogCancel>
-          <AlertDialogAction onClick={onConfirm}>Tiếp tục </AlertDialogAction>
+          <AlertDialogCancel onClick={onCancel}>Cancel</AlertDialogCancel>
+          <AlertDialogAction className='bg-red-500' onClick={onConfirm}>Continue</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

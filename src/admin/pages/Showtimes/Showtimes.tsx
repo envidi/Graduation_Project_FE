@@ -1,9 +1,9 @@
 import DefaultLayout from '@/admin/layout/DefaultLayout'
 import { ContextMain } from '@/context/Context'
-import { useContext, useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { FaRegTrashAlt } from 'react-icons/fa'
+import { FaRegTrashAlt } from "react-icons/fa";
 
 const Showtimes = () => {
   const { allShowTimes, removeShowtime, showTimeSoft, removeShowtimeSoft } =
@@ -16,6 +16,7 @@ const Showtimes = () => {
     const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
     return formattedDate
   }
+  console.log('check soft ', showTimeSoft)
 
   const handleDelete = (itemId: any) => {
     setConfirmItemId(itemId) // Lưu id của item được chọn vào state
@@ -58,9 +59,12 @@ const Showtimes = () => {
                 <Link to={'/admin/showtimes/restore'}>
                   <button className="bg-red-500 px-5 py-3 rounded-md text-white font-semibold tracking-wide cursor-pointer ">
                     <FaRegTrashAlt />
+
                   </button>
                 </Link>
+
               </div>
+
             </div>
           </div>
           <div>
@@ -85,15 +89,12 @@ const Showtimes = () => {
                         Kết Thúc Phim
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider ">
-                        Số ghế
+                        Số  ghế
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Trạng Thái
                       </th>
-                      <th
-                        className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center"
-                        colSpan={2}
-                      >
+                      <th className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center" colSpan={2}>
                         Hành Động
                       </th>
                     </tr>
@@ -146,7 +147,7 @@ const Showtimes = () => {
                           </span>
                         </td>
 
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex">
+                        <td className='px-5 py-5 border-b border-gray-200 bg-white text-sm flex'>
                           <div>
                             <Link to={`/admin/showtimes/update/${item?._id}`}>
                               <button

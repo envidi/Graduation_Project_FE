@@ -8,12 +8,18 @@ import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 import { ChangeEventHandler, useState } from 'react'
+import Flatpickr from 'react-flatpickr'
+import 'flatpickr/dist/flatpickr.css'
+import { format } from 'date-fns'
 
 type FormMovieProps = {
   typeForm: 'ADD' | 'EDIT'
 }
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
+  // const [date, setDate] = useState(new Date())
+  const [fromDate, setfromDate] = useState(new Date())
+  const [toDate, settoDate] = useState(new Date())
   const [file, setFiles] = useState<File[]>([])
 
   //get id from url
@@ -129,10 +135,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.name.length < 3) {
         errors.name = 'Tên phải dài ít nhất 3 ký tự'
       }
-      if (!values.image) {
-        errors.image = 'Hình ảnh bắt buộc'
-      } else if (values.image.length < 3) {
-        errors.image = 'hình ảnh phải dài ít nhất 3 ký tự'
+      if(!id){
+        if (!file[0]){
+          errors.image = 'Hình ảnh bắt buộc'
+        }
       }
       if (!values.author) {
         errors.author = 'tác giả bắt buộc'
@@ -159,12 +165,23 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.trailer.length < 3) {
         errors.trailer = 'đoạn giới thiệu phải dài ít nhất 3 ký tự'
       }
+      // Kiểm tra nếu fromDate không hợp lệ
       if (!values.fromDate) {
-        errors.fromDate = 'Bắt buộc từ Ngày'
-      }
+        errors.fromDate = 'Dữ liệu bắt buộc nhập';
+    }
+    //  else {
+    //     const selectedDate = new Date(values.fromDate);
+    //     const currentDate = new Date();
+    //     // So sánh theo giá trị số của thời gian
+    //     if (selectedDate.getTime() <= currentDate.getTime()) {
+    //         errors.fromDate = 'Ngày và giờ phải lớn hơn hiện tại';
+    //     }
+    // }
+  
+      // Kiểm tra nếu toDate không hợp lệ
       if (!values.toDate) {
-        errors.toDate = 'Bắt buộc toDate'
-      }
+        errors.toDate = 'Dữ liệu bắt buộc nhập';
+      } 
       if (!values.country) {
         errors.country = 'Quốc gia bắt buộc'
       } else if (values.country.length < 3) {
@@ -182,10 +199,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.rate) {
         errors.rate = 'Tỷ lệ bắt buộc'
-      } else if (
-        isNaN(values.rate) ||
-        (Number(values.rate) <= 0 && Number(values.rate) <= 1)
-      ) {
+      } else if (isNaN(values.rate) || (Number(values.rate) <= 0 && Number(values.rate) <= 1)) {
         errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
       }
       if (!values.price) {
@@ -199,7 +213,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         errors.status = 'trạng thái phải dài ít nhất 3 ký tự'
       }
       if (!values.categoryId) {
-        errors.categoryId = 'Id danh mục bắt buộc'
+        // errors.categoryId = 'Id danh mục bắt buộc'
       } else if (values.categoryId.length < 1 || values.categoryId.length > 3) {
         errors.categoryId = 'Danh mục phải từ 1 đến 3 loại'
       }
@@ -208,6 +222,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     },
     onSubmit: async (values) => {
       try {
+        // chuyển đồi fromDat and toDate
+
+        //  
         const data = new FormData()
         data.set('name', values?.name)
         data.set('avatar', file[0])
@@ -215,22 +232,23 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         data.set('actor', values?.actor)
         data.set('language', values?.language)
         data.set('trailer', values?.trailer)
-        data.set('fromDate', values?.fromDate)
         data.set('age_limit', values?.age_limit)
-        data.set('toDate', values?.toDate)
         data.set('desc', values?.desc)
         data.set('duration', values?.duration)
         data.set('country', values?.country)
         data.set('status', values?.status)
         data.set('rate', values?.rate)
-
         data.set('price', values?.price)
+        data.set('toDate', values?.toDate)
+        data.set('fromDate', values?.fromDate)
+
         for (let i = 0; i < values.categoryId.length; i++) {
           data.append('categoryId[]', values.categoryId[i])
         }
+        // console.log("data form movie", values)
 
-        // console.log('data movie value', bodyData)
-        await mutate(data)
+        console.log('data movie value', data)
+        // await mutate(data)
       } catch (error) {
         throw new Error(error as string)
       }
@@ -259,6 +277,17 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const selectedOptions = colourOptions?.filter((option: any) =>
     values.categoryId?.includes(option.value)
   )
+  // sử lý validate  date 
+  // check from date lớn hơn hiện tại
+// Hàm kiểm tra xem một ngày có lớn hơn ngày hiện tại không
+// const isFutureDate = (date: any) => {
+//   const currentDate = new Date();
+//   return date > currentDate;
+// };
+//   // Hàm kiểm tra xem fromDate có nhỏ hơn toDate không
+// const isStartDateBeforeEndDate = (startDate, endDate) => {
+//   return new Date(startDate) < new Date(endDate);
+// };
 
   // select style
   const dropdownStyles = {
@@ -451,7 +480,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-
               {/* desc */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
@@ -556,7 +584,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
             <div className="p-2 mb-4.5 ml-8  flex-col gap-6 xl:flex-row">
               {/* category */}
-
               <div className="form-group">
                 <label className="block mb-2 font-medium text-primary dark:text-yellow-400">
                   Danh mục:
@@ -581,7 +608,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-
               {/* image */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
@@ -589,18 +615,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 </label>
                 <input
                   name="image"
-                  // value={values.image}
-                  // // onChange={handleChange}
                   onChange={handleChangeFile}
-                  // type="file"
-
-                  // onChange={handleChange}
                   onBlur={handleBlur}
                   type="file"
                   placeholder="Nhập URL ảnh ..."
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
-
                 {touched.image && errors.image && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.image}
@@ -619,60 +639,54 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   Từ ngày
                 </label>
-                <input
+                <Flatpickr
                   name="fromDate"
-                  value={values.fromDate}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  defaultValue={initialValues?.toDate || ''}
+                  options={{
+                    dateFormat: 'd-m-Y H:i',
+                    enableTime: true,
+                    onChange: (selectedDates) => {
+                      const formattedDate = format(selectedDates[0], 'dd-MM-yyyy HH:mm');
+                      setfromDate(selectedDates[0]);
+                      setFieldValue('fromDate', formattedDate);
+                    },
+                  }}
+                  placeholder="DD/MM/YYYY"
+                  className="appearance-none block w-full bg-white text-gray-800 border border-gray-300 rounded-md py-3 px-4 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition duration-300 ease-in-out"
+                  id="grid-last-time"
                   type="text"
-                  placeholder="Nhập từ ngày ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
-
                 {touched.fromDate && errors.fromDate && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.fromDate}
                   </div>
                 )}
               </div>
-              {/* <div className="relative z-0 mb-6 w-full group">
-                <Flatpickr
-                  name="date"
-                  // value={date}
-                  options={{
-                    dateFormat: 'd-m-Y H:i',
-                    enableTime: true,
-                    onChange: (selectedDates) => {
-                      const formattedDate = format(selectedDates[0], 'dd-MM-yyyy HH:mm'); // Định dạng lại ngày giờ
-                      setDate(selectedDates[0]);
-                      formikValidate.setFieldValue('date', formattedDate);
-                    }
-                  }}
-                  placeholder="Nhập  ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500 pt-3"
-                />
-                <label
-                  htmlFor="date"
-                  className="mb-2 block text-sm font-medium text-black dark:text-white"
-                >
-                  Ngày Khởi Chiếu
-                </label>
-              </div> */}
               {/* todate */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   Đến ngày
                 </label>
-                <input
+                <Flatpickr
                   name="toDate"
-                  value={values.toDate}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
+                  defaultValue={initialValues?.toDate || ''}
+                  options={{
+                    dateFormat: 'd-m-Y H:i',
+                    enableTime: true,
+                    onChange: (selectedDates) => {
+                      const formattedDate = format(
+                        selectedDates[0],
+                        'dd-MM-yyyy HH:mm'
+                      ); // Định dạng lại ngày giờ
+                      settoDate(selectedDates[0]);
+                      setFieldValue('toDate', formattedDate);
+                    }
+                  }}
+                  placeholder="DD/MM/YYYY"
+                  className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 focus:outline-none focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-1 dark:focus:ring-primary"
+                  id="grid-last-time"
                   type="text"
-                  placeholder="Nhập đến ngày ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
-
                 {touched.toDate && errors.toDate && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
                     {errors.toDate}
@@ -699,8 +713,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-
-              {/*  */}
               {/* status */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
@@ -763,19 +775,18 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                 )}
               </div>
-
               {/*  */}
             </div>
-            {/*  */}
             {/*  */}
           </div>
 
           <button
-            className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90 mt-4"
+            className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-50 transition duration-300 mt-4"
             type="submit"
           >
             {typeForm === 'ADD' ? 'Add' : 'Update'}
           </button>
+
         </form>
       </div>
     </div>

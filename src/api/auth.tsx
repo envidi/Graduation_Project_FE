@@ -24,8 +24,14 @@ export const updateClient = (user: any) => {
   if (!user) return {}
   return InsanceToken.patch('/updateClient', user)
 }
-export const updateUserId = (user: any) => {
-  return baseAuth.put(`/${user._id}`, user)
+export const updateUserId = (user:any, id :any ) => {
+  return baseAuth.put(`/${id}`, user)
+}
+export const block = (user:any, id :any ) => {
+  return InsanceToken.patch(`/block/${id}`, user)
+}
+export const unblock = (user:any, id :any ) => {
+  return baseAuth.patch(`/unBlock/${id}`, user)
 }
 export const deleteUser = (id: string | number) => {
   return InsanceToken.delete(`/${id}`)

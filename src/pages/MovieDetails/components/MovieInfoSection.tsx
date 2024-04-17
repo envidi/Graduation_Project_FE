@@ -111,6 +111,12 @@ export const MovieInfoSection = () => {
   } = dataMovie
 
   const handleChooseShowtime = (showtime: ShowTimeType) => {
+    if (userDetail && userDetail.message.isBlocked) {
+      toast.error('Bạn đã bị block do vi phạm quy định', {
+        position: 'top-right'
+      })
+      return
+    }
     const screenRoom = dataMovie.showTimeCol.find(
       (screen: { screenRoomId: { _id: string } }) => {
         return screen.screenRoomId._id == showtime.screenRoomId

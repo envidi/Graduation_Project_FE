@@ -4,7 +4,7 @@ import TableFood from './components/TableFood'
 const FoodAdminPage = () => {
     return (
         <DefaultLayout>
-            <Breadcrumb pageName="Food" />
+            <Breadcrumb pageName="Quản lý đồ ăn trong kho" />
 
             <div className="flex flex-col gap-10">
                 <TableFood />
