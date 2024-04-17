@@ -148,8 +148,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  
-
   const { data: allShowTimes } = useQuery({
     queryKey: ['SHOWTIMES'],
     queryFn: async () => {
@@ -174,10 +172,11 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  const addShowtime = useMutation({
+  const { mutateAsync: addShowtime, isSuccess: successShowtime = false } = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
     onSuccess() {
       queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
+      toast.success('Tạo lịch chiếu thành công!')
     }
   })
   const removeShowtime = useMutation({
@@ -257,7 +256,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     logout,
     detailShowtime,
     allShowTimes,
-   
+
     removeUser,
     addShowtime,
     removeShowtime,
@@ -266,7 +265,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     screenRoom,
     removeShowtimeSoft,
     showTimeSoft,
-    restoreShowtime
+    restoreShowtime,
+    successShowtime
   }
   return <ContextMain.Provider value={values}>{children}</ContextMain.Provider>
 }

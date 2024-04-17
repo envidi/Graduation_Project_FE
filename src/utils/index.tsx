@@ -1,5 +1,6 @@
 import { MovieType } from '@/Interface/movie'
 import { MyObjectComment } from '@/hooks/useNode'
+import { Value } from 'node_modules/react-time-picker/dist/esm/shared/types'
 
 export function countComments(comment: MyObjectComment | undefined): number {
   if (comment && Object.keys(comment).length == 0) return 0
@@ -297,4 +298,18 @@ export function convertDayToFormatVN(input: string | undefined) {
 
   // Kết hợp tên ngày trong tuần, ngày và tháng để tạo chuỗi đầu ra
   return `${weekDayName}, ${day} tháng ${month}`
+}
+// 20:00   180
+export const getTimeToShowTime = (time: Value, duration: number) => {
+  // Chuyển đổi chuỗi thành đối tượng Date
+  if (!time) return ''
+  const startTime = new Date() // Tạo đối tượng Date mới
+  const timeParts = time.split(':') // Tách chuỗi dựa trên dấu hai chấm
+  startTime.setHours(parseInt(timeParts[0]), parseInt(timeParts[1]), 0, 0) // Đặt giờ, phút, giây, và mili giây
+
+  // Thêm 180 phút
+  startTime.setMinutes(startTime.getMinutes() + duration)
+
+  // Định dạng lại thời gian thành chuỗi HH:MM
+  return startTime.toTimeString().substring(0, 5)
 }
