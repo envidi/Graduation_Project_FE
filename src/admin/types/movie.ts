@@ -5,7 +5,7 @@ export interface Movie {
     desc: string
     country: string
     age_limit: string
-    duration: string
+    duration: number
     author: string
     language: string
     actor: string

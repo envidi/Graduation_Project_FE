@@ -71,6 +71,7 @@
     "react-select": "^5.8.0",
     "react-spinners": "^0.13.8",
     "react-swipeable": "^7.0.1",
+    "react-time-picker": "^6.6.0",
     "react-toastify": "^10.0.4",
     "sort-by": "^1.2.0",
     "swiper": "^11.0.6",
