@@ -47,17 +47,36 @@ const Users = () => {
       // const { showtime } = user;
       try {
         const result = await block(user, checkBlock)
+        if (result.status === 200) {
+          queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
+
+          toast.success('Block thành công <3')
+          // setTimeout(() =>{
+          //   window.location.href="/blog"
+          // },2000)
+        }
         return result
-      } catch (error) {
-        throw error
+      } catch (error: any) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          const errorMessage = error.response.data.message
+
+          toast.error(`Có lỗi xảy ra: ${errorMessage}`)
+        } else {
+
+          toast.error('Có lỗi xảy ra, vui lòng thử lại sau.')
+        }
       }
     },
-    onSuccess: (data: any) => {
-      // const { showtime } = data;
-      queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
+    // onSuccess: (data: any) => {
+    //   // const { showtime } = data;
+    //   queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
-      toast.success('Block thành công <3')
-    }
+    //   toast.success('Block thành công <3')
+    // }
   })
   const unBlockUser = useMutation({
     mutationFn: async (user: any) => {
@@ -162,12 +181,8 @@ const Users = () => {
           </div>
           <div className="flex items-center justify-between">
             <div className="lg:ml-40 ml-10 space-x-8">
-              <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                New Report
-              </button>
-              <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                Create
-              </button>
+             
+            
             </div>
           </div>
         </div>
@@ -227,7 +242,7 @@ const Users = () => {
                           {item?.mobile}
                         </p>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className=" border-b border-gray-200 bg-white text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
                           {item?.address}
                         </p>
@@ -292,7 +307,7 @@ const Users = () => {
                 </tbody>
               </table>
 
-              <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+              {/* <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                 <span className="text-xs xs:text-sm text-gray-900">
                   Showing 1 to 4 of 50 Entries
                 </span>
@@ -305,7 +320,7 @@ const Users = () => {
                     Next
                   </button>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -313,16 +328,16 @@ const Users = () => {
 
       {showEdit && (
         <>
-          <div className="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center  bg-opacity-50">
-            <div className="bg-white rounded  w-10/12 md:w-1/3 box">
-              <div className="border-b px-4 py-2 flex justify-between items-center">
-                <h3 className="font-semibold text-lg text-black">
+          <div className="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center  border border-black bg-opacity-50" style={{boxShadow: "3px 2px 10px 1px #d1c8c8;"}}>
+            <div className="bg-white rounded  w-10/12 md:w-1/3 shadow shadow-xl" style={{boxShadow: "3px 2px 10px 1px #d1c8c8;"}}>
+              <div className="border-b px-4 py-2 flex justify-center items-center text-center">
+                <h3 className="font-semibold text-lg text-black ">
                   Update Role
                 </h3>
               </div>
               <form onSubmit={handleUpdateRole}>
-                <div className="p-3">
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2 p-4 ">
+                <div className="p-3 justify-center">
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-2 p-4 ">
                     <label>
                       <input
                         type="radio"
@@ -382,7 +397,7 @@ const Users = () => {
                     </label>
                   </div>
                 </div>
-                <div className="flex justify-end items-center w-100 border-t p-3">
+                <div className="flex justify-center items-center border-t p-3">
                   <button
                     className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal"
                     onClick={() => setShowEdit(false)}
