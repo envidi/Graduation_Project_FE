@@ -15,7 +15,6 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
   // const _id='65d30a80a047aeebd3c78c72';
   const navigate = useNavigate()
   const { id } = useParams()
-  console.log(id)
   const { data: roomsData, isLoading } = useQuery<Screeningrooms>({
     queryKey: ['ROOMS', id],
     queryFn: async () => {
