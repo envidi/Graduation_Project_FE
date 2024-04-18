@@ -39,7 +39,7 @@ const CreateShowtimes = () => {
   const [screen, setScreen] = React.useState(false)
   const [value, setValue] = React.useState<Movie>()
   const [screenValue, setScreenValue] = React.useState('')
-  const { addShowtime, screenRoom, successShowtime } =
+  const { addShowtime, screenRoom } =
     useContext<any>(ContextMain)
   const [date, setDate] = useState<Date | string>('')
   const [loading, setLoading] = useState(false)
@@ -93,11 +93,12 @@ const CreateShowtimes = () => {
     onSubmit: async (values) => {
       try {
         setLoading(true)
+        console.log(values)
         const response = await addShowtime(values)
         if (response.status === 200) {
           setLoading(false)
 
-          toast.success('Tạo lịch chiếu thành công <3')
+          toast.success('Tạo lịch chiếu thành công ')
         }
       } catch (error: any) {
         if (
@@ -138,7 +139,6 @@ const CreateShowtimes = () => {
     formikValidate.setFieldValue('timeFrom', timeFrom)
     formikValidate.setFieldValue('timeTo', timeTo)
   }
-  console.log(date)
   return (
     <>
       <DefaultLayout>
@@ -361,7 +361,7 @@ const CreateShowtimes = () => {
                           const formattedDate =
                             format(selectedDates[0], 'dd-MM-yyyy') +
                             ' ' +
-                            '00:00'
+                            '07:01'
                           setDate(selectedDates[0])
                           handleTimeInit('')
                           formikValidate.setFieldValue('date', formattedDate)
