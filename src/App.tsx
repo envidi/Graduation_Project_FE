@@ -84,6 +84,7 @@ import EditRooms from './admin/pages/Rooms/EditRooms'
 import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
+import PolicyPage from './pages/Policy/PolicyPage'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -201,6 +202,7 @@ function App() {
                 }
               />
               <Route path="*" element={<NotFound />} />
+              <Route path="/policy" element={<PolicyPage />} />
               <Route
                 path="/movies"
                 element={

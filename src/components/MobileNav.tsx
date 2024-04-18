@@ -1,4 +1,8 @@
-import { CSSProperties } from 'react'
+import { ContextMain } from '@/context/Context'
+import { LoginModal } from '@/pages/modals/LoginModal'
+import ModalPortal from '@/pages/modals/ModalPortal'
+import { SignupModal } from '@/pages/modals/SignupModal'
+import { CSSProperties, useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 interface MobileNav {
   menuState: boolean
@@ -8,8 +12,17 @@ interface MobileNav {
 }
 
 const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
+  const { userDetail } = useContext(ContextMain)
   const navigate = useNavigate()
-
+  const [showSignup, setShowSignup] = useState(false)
+  const [showSignIn, setShowSignIn] = useState(false)
+  const toggleShowFormSignIn = () => {
+    setShowSignIn((pre) => !pre)
+  }
+  const toggleShowForm = () => {
+    console.log(showSignup)
+    setShowSignup((pre) => !pre)
+  }
   return (
     <>
       <div className="mobile-nav-menu z-50" style={menuState ? menuStyle : {}}>
@@ -53,7 +66,7 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
                 navigate('/showtimes')
               }}
             >
-              Lịch chiếu 
+              Lịch chiếu
             </button>
           </li>
           <li className="mobile-nav-list-item">
@@ -61,35 +74,10 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
               className="mobile-nav-item"
               onClick={() => {
                 setMenuState((prev: boolean) => !prev)
-                navigate('/aboutus')
+                navigate('/movies')
               }}
             >
-              Về chúng tôi
-            </button>
-          </li>
-          {/* {Object.keys(signedPerson).length !== 0 &&
-            signedPerson.person_type === 'Admin' && (
-              <li className="mobile-nav-list-item">
-                <button
-                  className="mobile-nav-item"
-                  onClick={() => {
-                    setMenuState((prev: any) => !prev)
-                    navigate('/admin')
-                  }}
-                >
-                  Admin
-                </button>
-              </li>
-            )} */}
-
-          <li className="mobile-nav-list-item">
-            <button
-              className="mobile-nav-item"
-              onClick={() => {
-                setMenuState((prev: boolean) => !prev)
-              }}
-            >
-             Đăng nhập 
+              Phim
             </button>
           </li>
           <li className="mobile-nav-list-item">
@@ -97,33 +85,46 @@ const MobileNav = ({ menuState, menuStyle, setMenuState }: MobileNav) => {
               className="mobile-nav-item"
               onClick={() => {
                 setMenuState((prev: boolean) => !prev)
+                navigate('/policy')
               }}
             >
-              Đăng ký 
+              Quy định
             </button>
           </li>
-
-          {/* {Object.keys(signedPerson).length > 0 && (
+          {!userDetail ? (
             <li className="mobile-nav-list-item">
               <button
                 className="mobile-nav-item"
-                onClick={() => {
-                  handlelogout()
-                  setMenuState((prev: any) => !prev)
-                }}
+                onClick={toggleShowFormSignIn}
               >
-                Log out
+                Đăng nhập
               </button>
             </li>
-          )} */}
+          ) : (
+            ''
+          )}
+          {!userDetail ? (
+            <li className="mobile-nav-list-item">
+              <button className="mobile-nav-item" onClick={toggleShowForm}>
+                Đăng ký
+              </button>
+            </li>
+          ) : (
+            ''
+          )}
         </ul>
-
-        {/* {Object.keys(signedPerson).length !== 0 && (
-          <p className="mobile-nav-name">
-            Signed in as ({signedPerson.first_name})
-          </p>
-        )} */}
       </div>
+      {showSignup && (
+        <ModalPortal>
+          <SignupModal />
+        </ModalPortal>
+      )}
+
+      {showSignIn && (
+        <ModalPortal>
+          <LoginModal />
+        </ModalPortal>
+      )}
     </>
   )
 }
