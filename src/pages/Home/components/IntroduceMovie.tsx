@@ -3,6 +3,7 @@ import '@/styles/introduce.css'
 import { TicketCheck } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import imgBg from '/Images/movies/money_heist-bg.jpg'
+import { Link } from 'react-router-dom'
 
 function IntroduceMovie() {
   return (
@@ -21,16 +22,19 @@ function IntroduceMovie() {
               />
 
               <div className="flex mt-5">
-                <Button variant="home_btn" className="btn btn-light m-2">
-                  <TicketCheck size={20} /> Nhận vé
-                </Button>
+                <Link to={'/movie/money-heist'}>
+                  <Button variant="home_btn" className="btn btn-light m-2">
+                    <TicketCheck size={20} /> Nhận vé
+                  </Button>
+                </Link>
                 <Dialog>
                   <DialogTrigger asChild>
                     <Button
                       variant="home_outline"
                       className="ms-5 btn btn-secondary text-white m-2 "
                     >
-                      <i className="bi bi-info-circle p-0"></i> Đoạn phim giới thiệu
+                      <i className="bi bi-info-circle p-0"></i> Đoạn phim giới
+                      thiệu
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="p-0 w-fit">
@@ -45,11 +49,10 @@ function IntroduceMovie() {
                 </Dialog>
               </div>
               <div className="mt-10 ms-2 xs:hidden sm:block xs:text-xl sm:text-2xl md:text-2xl lg:text-3xl text-white leading-loose ">
-                Money Heist (La Casa de Papel) là loạt phim nổi tiếng của Netflix về
-                một nhóm cướp có tên giả. Giáo sư là
-                kẻ chủ mưu đằng sau các vụ cướp và có một cốt truyện bi thảm
-                thúc đẩy hành động của mình. Chương trình quy tụ dàn diễn viên đa dạng
-                nhân vật
+                Money Heist (La Casa de Papel) là loạt phim nổi tiếng của
+                Netflix về một nhóm cướp có tên giả. Giáo sư là kẻ chủ mưu đằng
+                sau các vụ cướp và có một cốt truyện bi thảm thúc đẩy hành động
+                của mình. Chương trình quy tụ dàn diễn viên đa dạng nhân vật
               </div>
             </section>
           </div>
