@@ -135,8 +135,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.name.length < 3) {
         errors.name = 'Tên phải dài ít nhất 3 ký tự'
       }
-      if(!id){
-        if (!file[0]){
+      if (!id) {
+        if (!file[0]) {
           errors.image = 'Hình ảnh bắt buộc'
         }
       }
@@ -167,21 +167,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       // Kiểm tra nếu fromDate không hợp lệ
       if (!values.fromDate) {
-        errors.fromDate = 'Dữ liệu bắt buộc nhập';
-    }
-    //  else {
-    //     const selectedDate = new Date(values.fromDate);
-    //     const currentDate = new Date();
-    //     // So sánh theo giá trị số của thời gian
-    //     if (selectedDate.getTime() <= currentDate.getTime()) {
-    //         errors.fromDate = 'Ngày và giờ phải lớn hơn hiện tại';
-    //     }
-    // }
-  
+        errors.fromDate = 'Dữ liệu bắt buộc nhập'
+      }
+
       // Kiểm tra nếu toDate không hợp lệ
       if (!values.toDate) {
-        errors.toDate = 'Dữ liệu bắt buộc nhập';
-      } 
+        errors.toDate = 'Dữ liệu bắt buộc nhập'
+      }
       if (!values.country) {
         errors.country = 'Quốc gia bắt buộc'
       } else if (values.country.length < 3) {
@@ -199,7 +191,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
       if (!values.rate) {
         errors.rate = 'Tỷ lệ bắt buộc'
-      } else if (isNaN(values.rate) || (Number(values.rate) <= 0 && Number(values.rate) <= 1)) {
+      } else if (
+        isNaN(values.rate) ||
+        (Number(values.rate) <= 0 && Number(values.rate) <= 1)
+      ) {
         errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
       }
       if (!values.price) {
@@ -224,7 +219,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       try {
         // chuyển đồi fromDat and toDate
 
-        //  
         const data = new FormData()
         data.set('name', values?.name)
         data.set('avatar', file[0])
@@ -238,17 +232,25 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         data.set('country', values?.country)
         data.set('status', values?.status)
         data.set('rate', values?.rate)
-        data.set('price', values?.price)
+        // data.set('price', values?.price)
         data.set('toDate', values?.toDate)
         data.set('fromDate', values?.fromDate)
+        const priceObj: any = [
+          {
+            dayType: 'weekday',
+            price: values?.price
+          },
+          {
+            dayType: 'weekend',
+            price: values?.price * 1.5
+          }
+        ]
 
         for (let i = 0; i < values.categoryId.length; i++) {
           data.append('categoryId[]', values.categoryId[i])
         }
-        // console.log("data form movie", values)
-
-        console.log('data movie value', data)
-        // await mutate(data)
+        data.append('prices[]', JSON.stringify(priceObj))
+        await mutate(data)
       } catch (error) {
         throw new Error(error as string)
       }
@@ -277,17 +279,17 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const selectedOptions = colourOptions?.filter((option: any) =>
     values.categoryId?.includes(option.value)
   )
-  // sử lý validate  date 
+  // sử lý validate  date
   // check from date lớn hơn hiện tại
-// Hàm kiểm tra xem một ngày có lớn hơn ngày hiện tại không
-// const isFutureDate = (date: any) => {
-//   const currentDate = new Date();
-//   return date > currentDate;
-// };
-//   // Hàm kiểm tra xem fromDate có nhỏ hơn toDate không
-// const isStartDateBeforeEndDate = (startDate, endDate) => {
-//   return new Date(startDate) < new Date(endDate);
-// };
+  // Hàm kiểm tra xem một ngày có lớn hơn ngày hiện tại không
+  // const isFutureDate = (date: any) => {
+  //   const currentDate = new Date();
+  //   return date > currentDate;
+  // };
+  //   // Hàm kiểm tra xem fromDate có nhỏ hơn toDate không
+  // const isStartDateBeforeEndDate = (startDate, endDate) => {
+  //   return new Date(startDate) < new Date(endDate);
+  // };
 
   // select style
   const dropdownStyles = {
@@ -361,8 +363,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   onBlur={handleBlur}
                   type="text"
                   placeholder=" Nhập tên phim ..."
-                  // className="aw-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
-                  // className="w-full rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-white py-3 px-4 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-primary focus:border-primary disabled:cursor-default disabled:bg-white disabled:text-gray-500 transition duration-300 ease-in-out transform hover:scale-105"
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 />
 
@@ -646,10 +646,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     dateFormat: 'd-m-Y H:i',
                     enableTime: true,
                     onChange: (selectedDates) => {
-                      const formattedDate = format(selectedDates[0], 'dd-MM-yyyy HH:mm');
-                      setfromDate(selectedDates[0]);
-                      setFieldValue('fromDate', formattedDate);
-                    },
+                      const formattedDate = format(
+                        selectedDates[0],
+                        'dd-MM-yyyy HH:mm'
+                      )
+                      setfromDate(selectedDates[0])
+                      setFieldValue('fromDate', formattedDate)
+                    }
                   }}
                   placeholder="DD/MM/YYYY"
                   className="appearance-none block w-full bg-white text-gray-800 border border-gray-300 rounded-md py-3 px-4 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition duration-300 ease-in-out"
@@ -677,9 +680,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       const formattedDate = format(
                         selectedDates[0],
                         'dd-MM-yyyy HH:mm'
-                      ); // Định dạng lại ngày giờ
-                      settoDate(selectedDates[0]);
-                      setFieldValue('toDate', formattedDate);
+                      ) // Định dạng lại ngày giờ
+                      settoDate(selectedDates[0])
+                      setFieldValue('toDate', formattedDate)
                     }
                   }}
                   placeholder="DD/MM/YYYY"
@@ -786,7 +789,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           >
             {typeForm === 'ADD' ? 'Add' : 'Update'}
           </button>
-
         </form>
       </div>
     </div>
