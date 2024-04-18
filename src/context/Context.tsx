@@ -172,11 +172,10 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  const { mutateAsync: addShowtime, isSuccess: successShowtime = false } = useMutation({
+  const { mutateAsync: addShowtime } = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
     onSuccess() {
       queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
-      toast.success('Tạo lịch chiếu thành công!')
     }
   })
   const removeShowtime = useMutation({
@@ -265,8 +264,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     screenRoom,
     removeShowtimeSoft,
     showTimeSoft,
-    restoreShowtime,
-    successShowtime
+    restoreShowtime
   }
   return <ContextMain.Provider value={values}>{children}</ContextMain.Provider>
 }

@@ -279,6 +279,7 @@ export const MovieInfoSection = () => {
             <MovieShowtimeSection
               handleChooseShowtime={handleChooseShowtime}
               showTimeDimension={showTimeDimension}
+              dataMovie={dataMovie}
             />
           )}
           {!showTimeDimension ||
