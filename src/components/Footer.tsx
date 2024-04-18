@@ -6,7 +6,7 @@ import { HashLink } from 'react-router-hash-link'
 
 export const Footer = () => {
   return (
-    <section className="grid grid-cols-5 pl-8 pt-32 pb-9">
+    <section className="grid grid-cols-5 pl-8 pt-32 pb-9 ml-48">
       <div>
 
         <HashLink className="logo-container" to="#headerTop">
