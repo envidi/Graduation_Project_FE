@@ -102,7 +102,8 @@ export function chuyenDoiNgay(dateString: Date | string) {
   return `${thu}, ${ngayTrongThang} ${tenThangHienThi}`
 }
 // 01-02-2024
-export function chuyenDoiThu(dateString: string) {
+export function chuyenDoiThu(dateString: string | undefined) {
+  if (!dateString) return
   const parts = dateString.split('.')
   const ngay = parseInt(parts[0], 10) // Phải chuyển về kiểu số nguyên
   const thang = parseInt(parts[1], 10) - 1 // Phải chuyển về kiểu số nguyên và trừ đi 1 vì tháng bắt đầu từ 0

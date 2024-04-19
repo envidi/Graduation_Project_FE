@@ -1,8 +1,4 @@
 import { Product } from '../../types/product';
-import ProductOne from '../../images/product/product-01.png';
-import ProductTwo from '../../images/product/product-02.png';
-import ProductThree from '../../images/product/product-03.png';
-import ProductFour from '../../images/product/product-04.png';
 
 const productData: Product[] = [
   // ... (giữ nguyên dữ liệu sản phẩm)

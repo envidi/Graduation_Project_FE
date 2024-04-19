@@ -19,8 +19,8 @@ export interface Movie {
     destroy: boolean
     createdAt: Date
     updatedAt: Date
-    fromDate: string
-    toDate: string
+    fromDate: Date
+    toDate: Date
     
   }
   
