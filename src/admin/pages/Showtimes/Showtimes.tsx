@@ -141,13 +141,23 @@ const Showtimes = () => {
                           </p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight">
+                        {item?.status === 'Cancelled' ? (
+                          <span className="relative inline-block px-3 py-1 font-semibold  text-red-900 leading-tight w-full text-center ">
                             <span
                               aria-hidden
-                              className="absolute inset-0 bg-green-200 opacity-50 rounded-full"
+                              className="absolute inset-0 bg-red-200 opacity-50 rounded-full "
                             ></span>
-                            <span className="relative">{item?.status}</span>
+                            <span className="relative ">{item?.status}</span>
                           </span>
+                        ) : (
+                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight w-full text-center ">
+                            <span
+                              aria-hidden
+                              className="absolute inset-0 bg-green-200 opacity-50 rounded-full "
+                            ></span>
+                            <span className="relative ">{item?.status}</span>
+                          </span>
+                        )}
                         </td>
 
                         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex">
