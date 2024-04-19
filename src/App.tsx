@@ -85,6 +85,7 @@ import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
 import PolicyPage from './pages/Policy/PolicyPage'
+import DetailMovie from './admin/pages/Movie/DetailMovie'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -306,6 +307,7 @@ function App() {
                 <Route index element={<MoviePageadmin />} />
                 <Route path="add" element={<MovieAdd />} />
                 <Route path="edit/:id" element={<MovieEdit />} />
+                <Route path=":slug" element={<DetailMovie />} />
               </Route>
               <Route path="screeningrooms">
                 <Route index element={<RoomsPage />} />
