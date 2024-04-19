@@ -132,7 +132,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   } = useFormik({
     initialValues,
     validate: (values) => {
-      const errors: Partial<FormMovieAdd> = {}
+      const errors: Partial<any> = {}
       if (!values.name) {
         errors.name = 'Tên bắt buộc'
       } else if (values.name.length < 3) {
@@ -218,7 +218,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
       return errors
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values : any) => {
       try {
         // chuyển đồi fromDat and toDate
 
@@ -253,7 +253,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
           data.append('categoryId[]', values.categoryId[i])
         }
         data.append('prices[]', JSON.stringify(priceObj))
-        await mutate(data)
+        await mutate(data as any)
       } catch (error) {
         throw new Error(error as string)
       }
@@ -372,7 +372,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.name && errors.name && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.name}
+                      {errors.name as any}
                     </div>
                   )}
                 </div>
@@ -396,7 +396,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.actor && errors.actor && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.actor}
+                      {errors.actor as any}
                     </div>
                   )}
                 </div>
@@ -417,7 +417,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.author && errors.author && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.author}
+                      {errors.author as any}
                     </div>
                   )}
                 </div>
@@ -438,7 +438,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.language && errors.language && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.language}
+                      {errors.language as any}
                     </div>
                   )}
                 </div>
@@ -459,7 +459,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.trailer && errors.trailer && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.trailer}
+                      {errors.trailer as any}
                     </div>
                   )}
                 </div>
@@ -480,7 +480,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.age_limit && errors.age_limit && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.age_limit}
+                      {errors.age_limit as any}
                     </div>
                   )}
                 </div>
@@ -508,7 +508,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   ></textarea>
                   {touched.desc && errors.desc && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.desc}
+                      {errors.desc as any}
                     </div>
                   )}
                 </div>
@@ -529,7 +529,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.country && errors.country && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.country}
+                      {errors.country as any}
                     </div>
                   )}
                 </div>
@@ -559,7 +559,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                   {touched.duration && errors.duration && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.duration}
+                      {errors.duration as any}
                     </div>
                   )}
                 </div>
@@ -579,7 +579,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   />
                   {touched.rate && errors.rate && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.rate}
+                      {errors.rate as any}
                     </div>
                   )}
                 </div>
@@ -608,7 +608,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   />
                   {touched.categoryId && errors.categoryId && (
                     <div className="text-red-500 text-sm font-bold mt-1">
-                      {errors.categoryId}
+                      {errors.categoryId as any}
                     </div>
                   )}
                 </div>
@@ -627,7 +627,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   />
                   {touched.image && errors.image && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.image}
+                      {errors.image as any}
                     </div>
                   )}
                   {values.image && (
@@ -665,7 +665,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   />
                   {touched.fromDate && errors.fromDate && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.fromDate}
+                      {errors.fromDate as any}
                     </div>
                   )}
                 </div>
@@ -696,7 +696,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   />
                   {touched.toDate && errors.toDate && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.toDate}
+                      {errors.toDate as any}
                     </div>
                   )}
                 </div>
@@ -716,7 +716,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   />
                   {touched.price && errors.price && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.price}
+                      {errors.price as any}
                     </div>
                   )}
                 </div>
@@ -778,7 +778,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </div>
                   {touched.status && errors.status && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.status}
+                      {errors.status as any}
                     </div>
                   )}
                 </div>
