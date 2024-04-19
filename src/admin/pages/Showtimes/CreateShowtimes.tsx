@@ -308,7 +308,7 @@ const CreateShowtimes = () => {
                               ) : (
                                 <CommandGroup>
                                   {screenRoom?.map(
-                                    (item: { name: string; _id: string }) => (
+                                    (item: { name: string; _id: string, duration:number }) => (
                                       <CommandItem
                                         className="w-[250px] justify-between text-sm"
                                         key={item._id}
@@ -322,8 +322,12 @@ const CreateShowtimes = () => {
                                           ) // Cập nhật giá trị của screen
                                         }}
                                       >
-                                        {item.name}
-                                        {/* Thêm hình ảnh nếu cần */}
+                                      <div className="grid grid-cols-2  w-full">
+                                        <span className='text-sm'>{item.name}</span>
+                                        <span className="text-gray-500 text-end">
+                                          {item.duration} phút
+                                        </span>
+                                      </div>
                                       </CommandItem>
                                     )
                                   )}
