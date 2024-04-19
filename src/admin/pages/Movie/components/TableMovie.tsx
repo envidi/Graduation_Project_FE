@@ -227,8 +227,8 @@ const TableMovie = () => {
         subTitle="Xóa đi không thể khôi phục"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveMovie}
-        titleStyle={{ fontSize: '1.5rem', color: '#000', fontWeight: 'bold', marginBottom: '0.5rem' }}
-        subTitleStyle={{ fontSize: '1.2rem', color: '#000', marginBottom: '1rem' }}
+        // titleStyle={{ fontSize: '1.5rem', color: '#000', fontWeight: 'bold', marginBottom: '0.5rem' }}
+        // subTitleStyle={{ fontSize: '1.2rem', color: '#000', marginBottom: '1rem' }}
       />
 
 

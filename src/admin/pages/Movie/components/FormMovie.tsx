@@ -129,7 +129,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   } = useFormik({
     initialValues,
     validate: (values) => {
-      const errors: Partial<FormMovieAdd> = {}
+      const errors: Partial<any> = {}
       if (!values.name) {
         errors.name = 'Tên bắt buộc'
       } else if (values.name.length < 3) {
@@ -169,14 +169,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       if (!values.fromDate) {
         errors.fromDate = 'Dữ liệu bắt buộc nhập';
     }
-    //  else {
-    //     const selectedDate = new Date(values.fromDate);
-    //     const currentDate = new Date();
-    //     // So sánh theo giá trị số của thời gian
-    //     if (selectedDate.getTime() <= currentDate.getTime()) {
-    //         errors.fromDate = 'Ngày và giờ phải lớn hơn hiện tại';
-    //     }
-    // }
+
   
       // Kiểm tra nếu toDate không hợp lệ
       if (!values.toDate) {
@@ -220,7 +213,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
       return errors
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values : any) => {
       try {
         // chuyển đồi fromDat and toDate
 
@@ -247,8 +240,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         }
         // console.log("data form movie", values)
 
-        console.log('data movie value', data)
-        // await mutate(data)
+        // console.log('data movie value', data)
+        await mutate(data as any)
       } catch (error) {
         throw new Error(error as string)
       }
@@ -277,18 +270,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const selectedOptions = colourOptions?.filter((option: any) =>
     values.categoryId?.includes(option.value)
   )
-  // sử lý validate  date 
-  // check from date lớn hơn hiện tại
-// Hàm kiểm tra xem một ngày có lớn hơn ngày hiện tại không
-// const isFutureDate = (date: any) => {
-//   const currentDate = new Date();
-//   return date > currentDate;
-// };
-//   // Hàm kiểm tra xem fromDate có nhỏ hơn toDate không
-// const isStartDateBeforeEndDate = (startDate, endDate) => {
-//   return new Date(startDate) < new Date(endDate);
-// };
-
   // select style
   const dropdownStyles = {
     control: (provided: any) => ({
@@ -368,13 +349,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.name && errors.name && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.name}
+                    {errors.name as any}
                   </div>
                 )}
               </div>
-
-              {/*  */}
-
               {/* actor */}
               <div className=" relative z-0 mb-6 w-full group">
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
@@ -392,7 +370,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.actor && errors.actor && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.actor}
+                    {errors.actor as any}
                   </div>
                 )}
               </div>
@@ -413,7 +391,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.author && errors.author && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.author}
+                    {errors.author as any}
                   </div>
                 )}
               </div>
@@ -434,7 +412,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.language && errors.language && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.language}
+                    {errors.language as any}
                   </div>
                 )}
               </div>
@@ -455,7 +433,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.trailer && errors.trailer && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.trailer}
+                    {errors.trailer as any}
                   </div>
                 )}
               </div>
@@ -476,7 +454,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.age_limit && errors.age_limit && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.age_limit}
+                    {errors.age_limit as any}
                   </div>
                 )}
               </div>
@@ -504,7 +482,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 ></textarea>
                 {touched.desc && errors.desc && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.desc}
+                    {errors.desc as any}
                   </div>
                 )}
               </div>
@@ -525,7 +503,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.country && errors.country && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.country}
+                    {errors.country as any}
                   </div>
                 )}
               </div>
@@ -534,15 +512,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                   Thời lượng phim
                 </label>
-                {/* <input
-                  name="duration"
-                  value={values.duration}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="number"
-                  placeholder="Thời lượng phim  ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
-                /> */}
                 <input
                   name="duration"
                   value={values.duration}
@@ -555,7 +524,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
                 {touched.duration && errors.duration && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.duration}
+                    {errors.duration as any}
                   </div>
                 )}
               </div>
@@ -575,7 +544,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 />
                 {touched.rate && errors.rate && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.rate}
+                    {errors.rate as any}
                   </div>
                 )}
               </div>
@@ -604,7 +573,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 />
                 {touched.categoryId && errors.categoryId && (
                   <div className="text-red-500 text-sm font-bold mt-1">
-                    {errors.categoryId}
+                    {errors.categoryId as any}
                   </div>
                 )}
               </div>
@@ -623,7 +592,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 />
                 {touched.image && errors.image && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.image}
+                    {errors.image as any}
                   </div>
                 )}
                 {values.image && (
@@ -658,7 +627,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 />
                 {touched.fromDate && errors.fromDate && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.fromDate}
+                    {errors.fromDate as any}
                   </div>
                 )}
               </div>
@@ -689,7 +658,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 />
                 {touched.toDate && errors.toDate && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.toDate}
+                    {errors.toDate as any}
                   </div>
                 )}
               </div>
@@ -709,7 +678,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 />
                 {touched.price && errors.price && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.price}
+                    {errors.price as any}
                   </div>
                 )}
               </div>
@@ -771,7 +740,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 </div>
                 {touched.status && errors.status && (
                   <div className="mt-1 text-red-500 text-sm font-bold">
-                    {errors.status}
+                    {errors.status as any}
                   </div>
                 )}
               </div>
