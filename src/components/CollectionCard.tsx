@@ -2,17 +2,6 @@ import { useNavigate } from 'react-router-dom'
 import { MovieType } from '@/Interface/movie'
 import { convertMintuteToHour, getDay } from '@/utils'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
 
 export const CollectionCard = ({
   className,
@@ -22,7 +11,7 @@ export const CollectionCard = ({
   movie: MovieType
 }) => {
   const navigate = useNavigate()
-  const { slug, name, image, rate, categoryId, fromDate, duration, age_limit } =
+  const { slug, name, image, rate, categoryId, fromDate, duration } =
     movie
   const categorySection = categoryId?.map((category, index) => {
     return (
@@ -134,38 +123,14 @@ export const CollectionCard = ({
           <p className="category-value">{convertMintuteToHour(duration)}</p>
         </div>
       </div>
-
-      <AlertDialog>
-        <AlertDialogTrigger asChild>
-          <button className="book-btn bg-primary-movieColor hover:bg-primary-movieColorSecond btn">
-            Đặt vé
-          </button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle className="text-3xl mb-4 mt-2">
-              Xác nhận mua vé?
-            </AlertDialogTitle>
-            <AlertDialogDescription className="text-2xl">
-              Phim này chỉ dành cho trẻ em trên {age_limit} tuổi. Vui lòng cân
-              nhắc khi mua vé. BQL Rạp sẽ phải từ chối cho vào nếu sai quy định.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="text-2xl px-9 py-3">
-              Hủy
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={() => {
-                navigate('/movie/' + slug)
-              }}
-              className="bg-primary-movieColor text-2xl px-9 py-3"
-            >
-              Tiếp tục
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <button
+        onClick={() => {
+          navigate('/movie/' + slug)
+        }}
+        className="book-btn bg-primary-movieColor hover:bg-primary-movieColorSecond btn"
+      >
+        Đặt vé
+      </button>
     </div>
   )
 }
