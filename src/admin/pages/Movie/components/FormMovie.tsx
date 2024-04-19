@@ -579,7 +579,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   />
                   {touched.rate && errors.rate && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.rate}
+                      {errors.rate as any}
                     </div>
                   )}
                 </div>
