@@ -26,16 +26,30 @@ const Users = () => {
       // const { showtime } = user;
       try {
         const result = await updateUserId(user, selectedUserIndex)
+        if (result.status === 200) {
+          queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
+
+          toast.success('Cập nhật Role thành công <3')
+          // setTimeout(() =>{
+          //   window.location.href="/blog"
+          // },2000)
+        }
         return result
-      } catch (error) {
-        throw new Error(error as string)
+      } catch (error: any) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          const errorMessage = error.response.data.message
+
+          toast.error(`Có lỗi xảy ra: ${errorMessage}`)
+        } else {
+          toast.error('Có lỗi xảy ra, vui lòng thử lại sau.')
+        }
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
-
-      toast.success('Update role thành công <3')
-    }
+   
   })
 
   const blockUser = useMutation({
