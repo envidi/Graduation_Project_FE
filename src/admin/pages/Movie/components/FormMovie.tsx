@@ -20,8 +20,8 @@ type FormMovieProps = {
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
   // const [date, setDate] = useState(new Date())
-  const [fromDate, setfromDate] = useState(new Date())
-  const [toDate, settoDate] = useState(new Date())
+  const [, setfromDate] = useState(new Date())
+  const [, settoDate] = useState(new Date())
   const [file, setFiles] = useState<File[]>([])
 
   //get id from url
@@ -43,6 +43,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       const data = await getOneMovie(id as string)
 
       // pricesId = data.prices
+      const priceMovie =
+        data &&
+        data?.prices.find((price: any) => {
+          return price.dayType == 'weekday'
+        })
 
       setFieldValue('name', data?.name)
       setFieldValue('image', data?.image)
@@ -60,7 +65,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       setFieldValue('age_limit', data?.age_limit)
       setFieldValue('rate', data?.rate)
       setFieldValue('showTimes', data?.showTimes)
-      setFieldValue('price', data?.price)
+      setFieldValue('prices', priceMovie.price)
       setFieldValue(
         'categoryId',
         data?.categoryCol.map((c: any) => c._id)
@@ -69,7 +74,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       return data
     },
 
-    enabled: typeForm === 'EDIT' && !!id
+    enabled: typeForm === 'EDIT' && !!id,
+    refetchOnWindowFocus: false
   })
 
   // mutation react-query
@@ -99,17 +105,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     }
   })
 
-  // selecttor categories
-  // const [selectedCategories, setSelectedCategories] = useState([]);
   const initialValues = {
-    name: id ? (movieData?.name as string) : '',
+    // name: id ? (movieData?.name as string) : '',
     image: id ? (movieData?.image as string) : '',
     author: id ? (movieData?.author as string) : '',
     language: id ? (movieData?.language as string) : '',
     actor: id ? (movieData?.actor as string) : '',
     trailer: id ? (movieData?.trailer as string) : '',
-    fromDate: id ? (movieData?.fromDate as string) : '',
-    toDate: id ? (movieData?.toDate as string) : '',
+    fromDate: id ? (movieData?.fromDate as unknown as string) : '',
+    toDate: id ? (movieData?.toDate as unknown as string) : '',
     desc: id ? (movieData?.desc as string) : '',
     country: id ? (movieData?.country as string) : '',
     status: id ? (movieData?.status as string) : '',
@@ -118,7 +122,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     rate: id ? (movieData?.rate as number | undefined) : undefined,
     categoryId: id ? (movieData?.categoryId as string[]) : [],
     showTimes: id ? (movieData?.showTimes as string[]) : '',
-    price: id ? (movieData?.rate as number | undefined) : undefined
+    price: movieData ? movieData.prices[0].price : 0
   }
   const {
     values,
@@ -200,10 +204,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       ) {
         errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
       }
-      if (!values.price) {
-        errors.price = 'Bắt buộc nhập giá'
-      } else if (isNaN(values.price) || Number(values.price) <= 0) {
-        errors.price = 'Giá phải là một số và lớn hơn 0'
+      if (!values.prices) {
+        errors.prices = 'Bắt buộc nhập giá'
+      } else if (isNaN(values.prices) || Number(values.prices) <= 0) {
+        errors.prices = 'Giá phải là một số và lớn hơn 0'
       }
       if (!values.status) {
         errors.status = 'trạng thái bắt buộc'
@@ -218,13 +222,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
       return errors
     },
-    onSubmit: async (values : any) => {
+    onSubmit: async (values: any) => {
       try {
         // chuyển đồi fromDat and toDate
-
         const data = new FormData()
         data.set('name', values?.name)
-        data.set('avatar', file[0])
+        data.set('image', file[0] ? file[0] : movieData?.image || '')
         data.set('author', values?.author)
         data.set('actor', values?.actor)
         data.set('language', values?.language)
@@ -241,11 +244,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         const priceObj: any = [
           {
             dayType: 'weekday',
-            price: values?.price
+            price: values?.prices
           },
           {
             dayType: 'weekend',
-            price: values?.price * 1.5
+            price: values?.prices * 1.5
           }
         ]
 
@@ -259,7 +262,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
     }
   })
-
+  if (isLoading && isLoadingCategory) return <Loading />
+  if (iserrCategory) {
+    return <div>Error</div>
+  }
   // select style
   const colourOptions = datacate?.map((cate) => ({
     value: cate._id,
@@ -336,11 +342,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     })
   }
 
-  if (isLoading) return <div>Loading...</div>
-  if (isLoadingCategory) return <div>Loading category...</div>
-  if (iserrCategory) {
-    return <div>Error</div>
-  }
   return (
     <div className="">
       {isPending ? (
@@ -367,7 +368,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="text"
                     placeholder=" Nhập tên phim ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.name && errors.name && (
@@ -391,7 +392,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="text"
                     placeholder="Nhập tên diễn viên ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.actor && errors.actor && (
@@ -412,7 +413,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="text"
                     placeholder="Nhập tên tác giả ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.author && errors.author && (
@@ -433,7 +434,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="text"
                     placeholder="Nhập ngôn ngữ ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.language && errors.language && (
@@ -454,7 +455,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="text"
                     placeholder="Nhập trailer ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.trailer && errors.trailer && (
@@ -475,7 +476,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="text"
                     placeholder="Nhập giới hạn tuổi ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.age_limit && errors.age_limit && (
@@ -499,7 +500,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
                 /> */}
                   <textarea
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                     name="desc"
                     value={values.desc}
                     placeholder="Nhập Mô tả ..."
@@ -524,7 +525,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="text"
                     placeholder="Nhập quốc gia ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.country && errors.country && (
@@ -554,7 +555,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="number"
                     placeholder="Nhập giới hạn tuổi ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
 
                   {touched.duration && errors.duration && (
@@ -575,7 +576,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="number"
                     placeholder="Nhập rate ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
                   {touched.rate && errors.rate && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
@@ -604,7 +605,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onChange={handleSelectChange}
                     onBlur={handleBlur}
                     styles={dropdownStyles}
-                    className="w-full mt-1 px-4 py-2 rounded-md border border-purple-400 shadow-lg focus:ring-4 focus:border-primary dark:border-yellow-400 dark:bg-purple-900 dark:text-white hover:border-pink-500 focus:outline-none focus:ring-pink-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
                   {touched.categoryId && errors.categoryId && (
                     <div className="text-red-500 text-sm font-bold mt-1">
@@ -623,7 +624,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     onBlur={handleBlur}
                     type="file"
                     placeholder="Nhập URL ảnh ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
                   {touched.image && errors.image && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
@@ -646,6 +647,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <Flatpickr
                     name="fromDate"
                     defaultValue={initialValues?.toDate || ''}
+                    value={values?.fromDate || ''}
                     options={{
                       dateFormat: 'd-m-Y H:i',
                       enableTime: true,
@@ -659,7 +661,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       }
                     }}
                     placeholder="DD/MM/YYYY"
-                    className="appearance-none block w-full bg-white text-gray-800 border border-gray-300 rounded-md py-3 px-4 shadow-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary focus:ring-opacity-50 transition duration-300 ease-in-out"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                     id="grid-last-time"
                     type="text"
                   />
@@ -676,7 +678,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </label>
                   <Flatpickr
                     name="toDate"
-                    defaultValue={initialValues?.toDate || ''}
+                    defaultValue={values?.toDate || ''}
+                    value={values?.toDate || ''}
                     options={{
                       dateFormat: 'd-m-Y H:i',
                       enableTime: true,
@@ -690,7 +693,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       }
                     }}
                     placeholder="DD/MM/YYYY"
-                    className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4 focus:outline-none focus:bg-white focus:border-primary focus:ring-1 focus:ring-primary dark:bg-gray-800 dark:border-gray-600 dark:text-white dark:focus:border-primary dark:focus:ring-1 dark:focus:ring-primary"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                     id="grid-last-time"
                     type="text"
                   />
@@ -706,13 +709,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Giá phim:
                   </label>
                   <input
-                    name="price"
-                    value={values?.price}
+                    name="prices"
+                    value={values?.prices}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="number"
                     placeholder="Nhập giá  ..."
-                    className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
                   {touched.price && errors.price && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
@@ -727,7 +730,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </label>
                   <div className="inline-block relative w-full">
                     <select
-                      className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                       id="multiSelect"
                       name="status"
                       // value={selectedState}

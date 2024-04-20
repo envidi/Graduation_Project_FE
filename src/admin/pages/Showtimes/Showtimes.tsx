@@ -1,30 +1,32 @@
 import DefaultLayout from '@/admin/layout/DefaultLayout'
 import { ContextMain } from '@/context/Context'
-import React, { useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { FaRegTrashAlt } from 'react-icons/fa'
-import moment from 'moment'
+import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
 
 const Showtimes = () => {
-  const { allShowTimes, removeShowtime, showTimeSoft, removeShowtimeSoft } =
+  const { allShowTimes, showTimeSoft, removeShowtimeSoft } =
     useContext(ContextMain)
   const [confirmItemId, setConfirmItemId] = useState(null) // State để lưu id của item được chọn xóa
   const [conFirm, setConFirm] = useState(false)
-  console.log('check', allShowTimes)
-  const formatDate = (dateTimeString: any) => {
+  const formatDate = (dateTimeString: any, type: string) => {
     const date = new Date(dateTimeString)
     const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
-    return formattedDate
+    if (type == 'hour') {
+      return getHourAndMinute(convertAmPm(formattedDate))
+    }
+    return getDay(convertAmPm(formattedDate))
   }
 
-  const isPastTime = (endTime:any) => {
-    return moment().isAfter(endTime);
-  }
-  const handleDelete = (itemId: any) => {
-    setConfirmItemId(itemId) // Lưu id của item được chọn vào state
-    setConFirm(true) // Hiển thị modal
-  }
+  // const isPastTime = (endTime: any) => {
+  //   return moment().isAfter(endTime)
+  // }
+  // const handleDelete = (itemId: any) => {
+  //   setConfirmItemId(itemId) // Lưu id của item được chọn vào state
+  //   setConFirm(true) // Hiển thị modal
+  // }
 
   const handleConfirmDelete = () => {
     if (confirmItemId) {
@@ -45,7 +47,7 @@ const Showtimes = () => {
   return (
     <>
       <DefaultLayout>
-        <div className="bg-white p-8 rounded-md w-full">
+        <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
             <div>
               <h2 className="text-gray-600 font-semibold">Lịch chiếu</h2>
@@ -55,7 +57,7 @@ const Showtimes = () => {
               <div className="lg:ml-40   space-x-8">
                 <Link to={'/admin/showtimes/create'}>
                   <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                    Create
+                    Tạo lịch chiếu
                   </button>
                 </Link>
 
@@ -70,7 +72,7 @@ const Showtimes = () => {
           <div>
             <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
               <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                <table className="min-w-full leading-normal">
+                <table className="w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                   <thead>
                     <tr>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
@@ -80,13 +82,13 @@ const Showtimes = () => {
                         Tên Phim
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
-                        Ngày Chiếu Phim
+                        Ngày Chiếu
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
-                        Bắt Đầu Chiếu Phim
+                        Giờ chiếu
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
-                        Kết Thúc Phim
+                        Kết thúc
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider ">
                         Số ghế
@@ -105,7 +107,7 @@ const Showtimes = () => {
                   <tbody>
                     {allShowTimes?.map((item: any, index: any) => (
                       <tr key={index}>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm">
                           <div className="flex items-center">
                             <div className="ml-3">
                               <p className="text-gray-900 whitespace-no-wrap">
@@ -114,57 +116,57 @@ const Showtimes = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {' '}
                             {item?.movieId?.name}
                           </p>
                         </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td className="px-4 py-5 border-b border-gray-200  text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {formatDate(item?.date)}
+                            {formatDate(item?.date, 'day')}
                           </p>
                         </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {formatDate(item?.timeFrom)}
+                            {formatDate(item?.timeFrom, 'hour')}
                           </p>
                         </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
-                            {formatDate(item?.timeTo)}
+                            {formatDate(item?.timeTo, 'hour')}
                           </p>
                         </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm">
                           <p className="text-gray-900 whitespace-no-wrap">
                             {item?.SeatId ? item?.SeatId.length : 0}
                           </p>
                         </td>
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
-                        {item?.status === 'Cancelled' ? (
-                          <span className="relative inline-block px-3 py-1 font-semibold  text-red-900 leading-tight w-full text-center ">
-                            <span
-                              aria-hidden
-                              className="absolute inset-0 bg-red-200 opacity-50 rounded-full "
-                            ></span>
-                            <span className="relative ">{item?.status}</span>
-                          </span>
-                        ) : (
-                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight w-full text-center ">
-                            <span
-                              aria-hidden
-                              className="absolute inset-0 bg-green-200 opacity-50 rounded-full "
-                            ></span>
-                            <span className="relative ">{item?.status}</span>
-                          </span>
-                        )}
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm">
+                          {item?.status === 'Cancelled' ? (
+                            <span className="relative inline-block px-3 py-1 font-semibold  text-red-900 leading-tight w-full text-center ">
+                              <span
+                                aria-hidden
+                                className="absolute inset-0 bg-red-200 opacity-50 rounded-full "
+                              ></span>
+                              <span className="relative ">{item?.status}</span>
+                            </span>
+                          ) : (
+                            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight w-full text-center ">
+                              <span
+                                aria-hidden
+                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full "
+                              ></span>
+                              <span className="relative ">{item?.status}</span>
+                            </span>
+                          )}
                         </td>
 
-                        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex">
+                        <td className="px-3 py-5 border-b border-gray-200 text-sm ">
                           <div>
                             <Link to={`/admin/showtimes/update/${item?._id}`}>
                               <button
-                                className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                className="middle none center  rounded-lg bg-blue-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 data-ripple-light="true"
                               >
                                 Update
@@ -190,7 +192,7 @@ const Showtimes = () => {
                     ))}
                   </tbody>
                 </table>
-                <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
+                <div className="px-5 py-5 bg-white dark:bg-boxdark border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
                   <span className="text-xs xs:text-sm text-gray-900"></span>
                   <div className="inline-flex mt-2 xs:mt-0">
                     <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
