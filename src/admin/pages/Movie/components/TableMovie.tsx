@@ -22,6 +22,7 @@ const TableMovie = () => {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
+  
   // page
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
