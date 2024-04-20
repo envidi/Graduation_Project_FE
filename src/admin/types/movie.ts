@@ -43,12 +43,5 @@ export interface Movie {
     showTimes: string[] | string
     fromDate: string
     toDate: string
-    // prices: string[] | string
-    // prices: { price: number; dayType: string }[] | string;
-    // priceweekday: number
-    // dayTypeweekday: string
-    // pricesweekend: number
-    // dayTypeweekend: string
-
   }
   
