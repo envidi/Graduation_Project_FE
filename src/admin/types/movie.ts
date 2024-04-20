@@ -13,7 +13,7 @@ export interface Movie {
     status: string
     rate: string
     categoryId: string[] | string
-    prices: string[] | string
+    prices: any
     showTimes: string[] | string
     slug: string
     destroy: boolean

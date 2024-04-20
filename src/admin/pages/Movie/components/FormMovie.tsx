@@ -20,8 +20,8 @@ type FormMovieProps = {
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
   // const [date, setDate] = useState(new Date())
-  const [fromDate, setfromDate] = useState(new Date())
-  const [toDate, settoDate] = useState(new Date())
+  const [, setfromDate] = useState(new Date())
+  const [, settoDate] = useState(new Date())
   const [file, setFiles] = useState<File[]>([])
 
   //get id from url
@@ -43,6 +43,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       const data = await getOneMovie(id as string)
 
       // pricesId = data.prices
+      const priceMovie =
+        data &&
+        data?.prices.find((price: any) => {
+          return price.dayType == 'weekday'
+        })
 
       setFieldValue('name', data?.name)
       setFieldValue('image', data?.image)
@@ -60,7 +65,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       setFieldValue('age_limit', data?.age_limit)
       setFieldValue('rate', data?.rate)
       setFieldValue('showTimes', data?.showTimes)
-      setFieldValue('price', data?.price)
+      setFieldValue('prices', priceMovie.price)
       setFieldValue(
         'categoryId',
         data?.categoryCol.map((c: any) => c._id)
@@ -69,7 +74,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       return data
     },
 
-    enabled: typeForm === 'EDIT' && !!id
+    enabled: typeForm === 'EDIT' && !!id,
+    refetchOnWindowFocus: false
   })
 
   // mutation react-query
@@ -99,17 +105,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     }
   })
 
-  // selecttor categories
-  // const [selectedCategories, setSelectedCategories] = useState([]);
   const initialValues = {
-    name: id ? (movieData?.name as string) : '',
+    // name: id ? (movieData?.name as string) : '',
     image: id ? (movieData?.image as string) : '',
     author: id ? (movieData?.author as string) : '',
     language: id ? (movieData?.language as string) : '',
     actor: id ? (movieData?.actor as string) : '',
     trailer: id ? (movieData?.trailer as string) : '',
-    fromDate: id ? (movieData?.fromDate as string) : '',
-    toDate: id ? (movieData?.toDate as string) : '',
+    fromDate: id ? (movieData?.fromDate as unknown as string) : '',
+    toDate: id ? (movieData?.toDate as unknown as string) : '',
     desc: id ? (movieData?.desc as string) : '',
     country: id ? (movieData?.country as string) : '',
     status: id ? (movieData?.status as string) : '',
@@ -118,7 +122,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     rate: id ? (movieData?.rate as number | undefined) : undefined,
     categoryId: id ? (movieData?.categoryId as string[]) : [],
     showTimes: id ? (movieData?.showTimes as string[]) : '',
-    price: id ? (movieData?.rate as number | undefined) : undefined
+    price: movieData ? movieData.prices[0].price : 0
   }
   const {
     values,
@@ -200,10 +204,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       ) {
         errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
       }
-      if (!values.price) {
-        errors.price = 'Bắt buộc nhập giá'
-      } else if (isNaN(values.price) || Number(values.price) <= 0) {
-        errors.price = 'Giá phải là một số và lớn hơn 0'
+      if (!values.prices) {
+        errors.prices = 'Bắt buộc nhập giá'
+      } else if (isNaN(values.prices) || Number(values.prices) <= 0) {
+        errors.prices = 'Giá phải là một số và lớn hơn 0'
       }
       if (!values.status) {
         errors.status = 'trạng thái bắt buộc'
@@ -218,13 +222,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
       return errors
     },
-    onSubmit: async (values : any) => {
+    onSubmit: async (values: any) => {
       try {
         // chuyển đồi fromDat and toDate
-
         const data = new FormData()
         data.set('name', values?.name)
-        data.set('avatar', file[0])
+        data.set('image', file[0] ? file[0] : movieData?.image || '')
         data.set('author', values?.author)
         data.set('actor', values?.actor)
         data.set('language', values?.language)
@@ -241,11 +244,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         const priceObj: any = [
           {
             dayType: 'weekday',
-            price: values?.price
+            price: values?.prices
           },
           {
             dayType: 'weekend',
-            price: values?.price * 1.5
+            price: values?.prices * 1.5
           }
         ]
 
@@ -259,7 +262,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       }
     }
   })
-
+  if (isLoading && isLoadingCategory) return <Loading />
+  if (iserrCategory) {
+    return <div>Error</div>
+  }
   // select style
   const colourOptions = datacate?.map((cate) => ({
     value: cate._id,
@@ -336,11 +342,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
     })
   }
 
-  if (isLoading) return <div>Loading...</div>
-  if (isLoadingCategory) return <div>Loading category...</div>
-  if (iserrCategory) {
-    return <div>Error</div>
-  }
   return (
     <div className="">
       {isPending ? (
@@ -646,6 +647,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <Flatpickr
                     name="fromDate"
                     defaultValue={initialValues?.toDate || ''}
+                    value={values?.fromDate || ''}
                     options={{
                       dateFormat: 'd-m-Y H:i',
                       enableTime: true,
@@ -676,7 +678,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   </label>
                   <Flatpickr
                     name="toDate"
-                    defaultValue={initialValues?.toDate || ''}
+                    defaultValue={values?.toDate || ''}
+                    value={values?.toDate || ''}
                     options={{
                       dateFormat: 'd-m-Y H:i',
                       enableTime: true,
@@ -706,8 +709,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Giá phim:
                   </label>
                   <input
-                    name="price"
-                    value={values?.price}
+                    name="prices"
+                    value={values?.prices}
                     onChange={handleChange}
                     onBlur={handleBlur}
                     type="number"

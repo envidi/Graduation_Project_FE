@@ -23,7 +23,6 @@ const TableMovie = () => {
     queryFn: getAllMovie
   })
   // page
-  console.log(data)
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(ITEMS_PER_PAGE)
@@ -32,7 +31,7 @@ const TableMovie = () => {
   const startIndex = endIndex - itemsPerPage
   const currentItems = (data && data.slice(startIndex, endIndex)) || []
   // Tính số trang
-  const pageCount = data ? Math.floor(data.length / itemsPerPage) : 0
+  const pageCount = data ? Math.round(data.length / ITEMS_PER_PAGE) : 0
   //phương thức chuyển trang
   const setPage = (page: number) => {
     setCurrentPage(page)
@@ -71,25 +70,27 @@ const TableMovie = () => {
   // render
   return (
     <>
-      <div className="text-center mb-2 flex items-center justify-start">
-        <button
-          onClick={() => {
-            navigate('/admin/movie/add')
-          }}
-          className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full hover:bg-gray-200"
-        >
-          <span className="mr-2">Add</span>
-          <FaPlusCircle size={20} />
-        </button>
-      </div>
-
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-        <div className="max-w-full overflow-x-auto">
-          <table className="w-full table-auto border border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
+        <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md">
+          <div className="text-center mb-5 flex items-center justify-start ">
+            <button
+              onClick={() => {
+                navigate('/admin/movie/add')
+              }}
+              className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+            >
+              <span className="mr-2">Add</span>
+              <FaPlusCircle size={20} />
+            </button>
+            {/* <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
+                    Tạo lịch chiếu
+                  </button> */}
+          </div>
+          <table className="w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
             <thead>
               {/* <tr className="bg-gray-200 text-left dark:bg-meta-4 border border-gray-400 dark:border-strokedark"> */}
-              <tr className="bg-gray-200 text-left dark:bg-meta-4">
-                <th className="py-4 px-4 font-medium text-gray-800 xl:pl-11 border-b border-gray-400 dark:border-strokedark">
+              <tr className="bg-gray-200 text-left dark:bg-meta-4 ">
+                <th className="py-4 px-4 font-medium text-gray-800 xl:pl-11 border-b border-gray-400 dark:border-strokedark ">
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">

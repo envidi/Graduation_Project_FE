@@ -13,8 +13,8 @@ export function countComments(comment: MyObjectComment | undefined): number {
   return count
 }
 // Lấy giờ không lấy ngày VD 19:30
-export const getHourAndMinute = (date: string) => {
-  if (date.toString().length === 0) {
+export const getHourAndMinute = (date: string | undefined) => {
+  if (!date || date.toString().length === 0) {
     return
   }
   const hourAndMinute = date.split(' ')[1]
