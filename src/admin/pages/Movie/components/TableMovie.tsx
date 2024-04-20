@@ -98,9 +98,9 @@ const TableMovie = () => {
                 <th className="min-w-[110px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Hình ảnh
                 </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Ngôn ngữ
-                </th>
+                </th> */}
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Diễn viên
                 </th>
@@ -113,18 +113,18 @@ const TableMovie = () => {
                 <th className="min-w-[130px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Giới hạn tuổi
                 </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Từ ngày
-                </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                </th> */}
+                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Đến ngày
-                </th>
+                </th> */}
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Tác giả
                 </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Ngôn ngữ
-                </th>
+                </th> */}
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Diễn viên
                 </th>
@@ -154,9 +154,9 @@ const TableMovie = () => {
                   <td className="py-5 px-4 dark:border-strokedark">
                     <img src={movie.image} alt="" className="w-16" />
                   </td>
-                  <td className="py-5 px-4 dark:border-strokedark">
+                  {/* <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.language}</p>
-                  </td>
+                  </td> */}
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.actor}</p>
                   </td>
@@ -171,7 +171,7 @@ const TableMovie = () => {
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.age_limit}</p>
                   </td>
-                  <td className="py-5 px-4 dark:border-strokedark">
+                  {/* <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">
                       {getDay(selectCalendar(movie.fromDate))}
                     </p>
@@ -180,13 +180,13 @@ const TableMovie = () => {
                     <p className="text-gray-800">
                       {getDay(selectCalendar(movie.toDate))}
                     </p>
-                  </td>
+                  </td> */}
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.author}</p>
                   </td>
-                  <td className="py-5 px-4 dark:border-strokedark">
+                  {/* <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.language}</p>
-                  </td>
+                  </td> */}
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.actor}</p>
                   </td>
