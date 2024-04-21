@@ -15,7 +15,7 @@ export function countComments(comment: MyObjectComment | undefined): number {
 // Lấy giờ không lấy ngày VD 19:30
 export const getHourAndMinute = (date: string | undefined) => {
   if (!date || date.toString().length === 0) {
-    return
+    return ''
   }
   const hourAndMinute = date.split(' ')[1]
   return hourAndMinute
@@ -313,4 +313,19 @@ export const getTimeToShowTime = (time: Value, duration: number) => {
 
   // Định dạng lại thời gian thành chuỗi HH:MM
   return startTime.toTimeString().substring(0, 5)
+}
+export function compareTime(t1:string, t2:string) {
+  // Chuyển đổi chuỗi thành các phần tử giờ và phút
+  const [hours1, minutes1] = t1.split(':').map(Number)
+  const [hours2, minutes2] = t2.split(':').map(Number)
+
+  // So sánh giờ
+  if (hours1 < hours2) return -1 // t1 sớm hơn t2
+  if (hours1 > hours2) return 1 // t1 muộn hơn t2
+
+  // Nếu giờ bằng nhau, so sánh phút
+  if (minutes1 < minutes2) return -1 // t1 sớm hơn t2
+  if (minutes1 > minutes2) return 1 // t1 muộn hơn t2
+
+  return 0 // t1 và t2 bằng nhau
 }

@@ -33,6 +33,7 @@ import {
 import Loading from '@/admin/components/Loading/Loading'
 import { getDay, getTimeToShowTime } from '@/utils'
 import { Value } from 'node_modules/react-time-picker/dist/esm/shared/types'
+import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 
 const CreateShowtimes = () => {
   const [open, setOpen] = React.useState(false)
@@ -92,7 +93,6 @@ const CreateShowtimes = () => {
     onSubmit: async (values) => {
       try {
         setLoading(true)
-        console.log(values)
         const response = await addShowtime(values)
         if (response.status === 200) {
           setLoading(false)
@@ -121,9 +121,7 @@ const CreateShowtimes = () => {
       toast.error('Hãy chọn ngày trước', {
         position: 'top-right'
       })
-      setTimeout(() => {
-        handleTimeInit('')
-      }, 100)
+      
 
       return
     }
@@ -141,6 +139,11 @@ const CreateShowtimes = () => {
   return (
     <>
       <DefaultLayout>
+        <Breadcrumb
+          pageName="Thêm lịch chiếu"
+          pageLink="/admin/showtimes"
+          pageRetun="Lịch chiếu / Thêm lịch chiếu"
+        />
         <div className=" mx-auto mt-10">
           {loading ? (
             <Loading /> // Hiển thị thông báo hoặc spinner khi đang load
@@ -182,8 +185,11 @@ const CreateShowtimes = () => {
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className=" p-0">
-                          <Command className='dark:bg-boxdark'>
-                            <CommandInput className='caret-black dark:caret-white' placeholder="Tìm Kiếm Phim..." />
+                          <Command className="dark:bg-boxdark">
+                            <CommandInput
+                              className="caret-black dark:caret-white"
+                              placeholder="Tìm Kiếm Phim..."
+                            />
                             <CommandList>
                               {data?.length === 0 ? (
                                 <CommandEmpty>

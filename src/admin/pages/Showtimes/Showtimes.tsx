@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
+import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 
 const Showtimes = () => {
-  const { allShowTimes, showTimeSoft, removeShowtimeSoft } =
-    useContext(ContextMain)
+  const { allShowTimes, removeShowtimeSoft } = useContext<any>(ContextMain)
   const [confirmItemId, setConfirmItemId] = useState(null) // State để lưu id của item được chọn xóa
   const [conFirm, setConFirm] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
@@ -77,6 +77,11 @@ const Showtimes = () => {
   return (
     <>
       <DefaultLayout>
+        <Breadcrumb
+          pageName="Lịch chiếu"
+          pageLink="/admin/showtimes"
+          pageRetun="Lịch chiếu"
+        />
         <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
             <div>
