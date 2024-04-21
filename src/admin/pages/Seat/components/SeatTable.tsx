@@ -377,10 +377,10 @@ const TableSeat = () => {
     mutationFn: removeSeat,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['SEAT'] })
-      toast.success('delete successfully')
+      toast.success('xóa thành công')
     },
     onError: (error) => {
-      toast.error('delete failed')
+      toast.error('xóa không thành công')
     }
   })
 
