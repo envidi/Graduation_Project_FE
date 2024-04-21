@@ -24,6 +24,7 @@ export const Navbar = ({
   const { isLogined } = useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
     setShowSignup((pre) => !pre)
+    setShowSignIn(false)
   }
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
@@ -31,6 +32,7 @@ export const Navbar = ({
 
   const toggleShowFormSignIn = () => {
     setShowSignIn((pre) => !pre)
+    setShowSignup(false)
   }
 
   return (
@@ -204,6 +206,7 @@ export const Navbar = ({
         </div>
       </header>
 
+      
       {showSignup && <SignupModal />}
 
       {showSignIn && <LoginModal />}
