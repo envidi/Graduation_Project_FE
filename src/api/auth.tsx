@@ -31,7 +31,7 @@ export const block = (user:any, id :any ) => {
   return InsanceToken.patch(`/block/${id}`, user)
 }
 export const unblock = (user:any, id :any ) => {
-  return baseAuth.patch(`/unBlock/${id}`, user)
+  return InsanceToken.patch(`/unBlock/${id}`, user)
 }
 export const deleteUser = (id: string | number) => {
   return InsanceToken.delete(`/${id}`)

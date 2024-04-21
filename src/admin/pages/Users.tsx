@@ -53,6 +53,12 @@ const Users = () => {
   ) {
     pageNumbers.push(i)
   }
+
+  const handleNextPage = () =>{
+    if(currentPage < pageNumbers.length){
+      setCurrentPage((pre) => pre + 1)
+    }
+  }
   const queryClient = useQueryClient()
   const userUpdateId = useMutation({
     mutationFn: async (user: any) => {
@@ -356,7 +362,7 @@ const Users = () => {
               >
                 <ul className="inline-flex space-x-2">
                 <li>
-                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100">
+                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100" onClick={handleNextPage}>
                           <svg
                             className="w-4 h-4 fill-current"
                             viewBox="0 0 20 20"
