@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query'
 import { block, getUser, unblock, updateUserId } from '@/api/auth'
 import { toast } from 'react-toastify'
+import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 
 const Users = () => {
   const [showEdit, setShowEdit] = useState(false)
@@ -162,8 +163,7 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setShowEdit(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
   const handleBlock = (e: any) => {
@@ -175,8 +175,7 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setConfirmBlock(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
 
@@ -189,13 +188,17 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setConfirmUnBlock(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
 
   return (
     <DefaultLayout>
+      <Breadcrumb
+        pageName="Người dùng"
+        pageLink="/admin/users"
+        pageRetun="Người dùng"
+      />
       <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
         <div className=" flex items-center justify-between pb-6">
           <div>
