@@ -92,7 +92,7 @@ const Users = () => {
         if (result.status === 200) {
           queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
-          toast.success('Block thành công <3')
+          toast.success('Block thành công!')
           // setTimeout(() =>{
           //   window.location.href="/blog"
           // },2000)
