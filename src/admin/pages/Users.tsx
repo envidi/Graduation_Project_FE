@@ -8,6 +8,7 @@ import {
 } from '@tanstack/react-query'
 import { block, getUser, unblock, updateUserId } from '@/api/auth'
 import { toast } from 'react-toastify'
+import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 
 const Users = () => {
   const [showEdit, setShowEdit] = useState(false)
@@ -129,8 +130,7 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setShowEdit(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
   const handleBlock = (e: any) => {
@@ -142,8 +142,7 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setConfirmBlock(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
 
@@ -156,13 +155,17 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setConfirmUnBlock(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
 
   return (
     <DefaultLayout>
+      <Breadcrumb
+        pageName="Người dùng"
+        pageLink="/admin/users"
+        pageRetun="Người dùng"
+      />
       <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
         <div className=" flex items-center justify-between pb-6">
           <div>
@@ -208,7 +211,7 @@ const Users = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {allUser?.response?.map((item: any, index: any) => (
+                  {allUser?.response?.map((item: any, index: number) => (
                     <tr key={index}>
                       <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         <div className="flex items-center">
@@ -266,7 +269,7 @@ const Users = () => {
                         )}
                       </td>
                       <td className="px-3 py-5 border-b border-gray-200  text-sm ">
-                        <div className='flex gap-4'>
+                        <div className="flex gap-4">
                           <button
                             className="middle none center  rounded-lg bg-blue-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-light="true"
