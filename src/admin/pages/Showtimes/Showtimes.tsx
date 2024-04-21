@@ -11,6 +11,36 @@ const Showtimes = () => {
     useContext(ContextMain)
   const [confirmItemId, setConfirmItemId] = useState(null) // State để lưu id của item được chọn xóa
   const [conFirm, setConFirm] = useState(false)
+  const [currentPage, setCurrentPage] = useState(1)
+  const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
+
+  const indexOfLastUser = currentPage * usersPerPage
+  const indexOfFirstUser = indexOfLastUser - usersPerPage
+
+  // Lấy mảng người dùng cho trang hiện tại
+  const currentShowtime = allShowTimes?.slice(
+    indexOfFirstUser,
+    indexOfLastUser
+  )
+
+  // Logic xử lý khi chuyển trang
+  const paginate = (pageNumber: any) => setCurrentPage(pageNumber)
+  // Tính toán số trang
+  const pageNumbers = []
+  for (
+    let i = 1;
+    i <= Math.ceil(allShowTimes?.length / usersPerPage);
+    i++
+  ) {
+    pageNumbers.push(i)
+  }
+
+  const handleNextPage = () =>{
+    if(currentPage < pageNumbers.length){
+      setCurrentPage((pre) => pre + 1)
+    }
+  }
+
   const formatDate = (dateTimeString: any, type: string) => {
     const date = new Date(dateTimeString)
     const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
@@ -75,6 +105,9 @@ const Showtimes = () => {
                 <table className="w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                   <thead>
                     <tr>
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                        STT
+                      </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Phòng Chiếu
                       </th>
@@ -105,12 +138,21 @@ const Showtimes = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {allShowTimes?.map((item: any, index: any) => (
+                    {currentShowtime?.map((item: any, index: any) => (
                       <tr key={index}>
-                        <td className="px-5 py-5 border-b border-gray-200  text-sm">
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm ">
                           <div className="flex items-center">
                             <div className="ml-3">
-                              <p className="text-gray-900 whitespace-no-wrap">
+                              <p className="text-gray-900 whitespace-no-wrap ">
+                                {index +1}
+                              </p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="px-5 py-5 border-b border-gray-200  text-sm ">
+                          <div className="flex items-center text-center">
+                            <div className="ml-3">
+                              <p className="text-gray-900 whitespace-no-wrap text-center">
                                 {item?.screenRoomId?.name}
                               </p>
                             </div>
@@ -191,19 +233,61 @@ const Showtimes = () => {
                       </tr>
                     ))}
                   </tbody>
+
+
+              
                 </table>
-                <div className="px-5 py-5 bg-white dark:bg-boxdark border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                  <span className="text-xs xs:text-sm text-gray-900"></span>
-                  <div className="inline-flex mt-2 xs:mt-0">
-                    <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                      Prev
-                    </button>
-                    &nbsp; &nbsp;
-                    <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                      Next
-                    </button>
-                  </div>
-                </div>
+                <nav
+                aria-label="Page navigation"
+                className="flex items-center justify-center mt-3"
+              >
+                <ul className="inline-flex space-x-2">
+                <li>
+                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100" onClick={handleNextPage}>
+                          <svg
+                            className="w-4 h-4 fill-current"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"
+                              fill-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </button>
+                      </li>
+                  {pageNumbers.map((number) => (
+                    <>
+                     
+                      <li>
+                        <button
+                          className="w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100"
+                          onClick={() => paginate(number)}
+                        >
+                          {number}
+                        </button>
+                      </li>
+
+                    
+                    </>
+                  ))}
+                    <li>
+                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-indigo-100">
+                          <svg
+                            className="w-4 h-4 fill-current"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"
+                              fill-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </button>
+                      </li>
+                </ul>
+              </nav>
+              
               </div>
             </div>
           </div>
