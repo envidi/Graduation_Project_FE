@@ -18,6 +18,7 @@ export const RESERVED = 'Reserved'
 //Ghế không khả dụng cho việc đặt chỗ, có thể do nó đã bị đặt trước đó cho một suất chiếu khác
 //hoặc vấn đề kỹ thuật khác
 export const UNAVAILABLE = 'Unavailable'
+export const TICKET = 'TICKET'
 export const statusSeat = [AVAILABLE, SOLD, RESERVED, UNAVAILABLE]
 export const NORMAL = 'normal'
 export const VIP = 'VIP'
