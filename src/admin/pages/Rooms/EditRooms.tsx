@@ -8,7 +8,7 @@ import FormRooms from './components/FormRoom'
 const EditRooms = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="EditRooms" />
+      <Breadcrumb pageName="Chỉnh sửa phòng chiếu" />
 
       <div className="flex flex-col gap-10">
         <FormRooms typeForm="EDIT" />

@@ -1,13 +1,14 @@
 
 
- 
+
 export interface Screeningrooms {
   _id?: string
   name: string
   NumberSeat: number
+  ShowtimesId?: string[]
   projector: string
   // CinemaId: Cinema,
-  CinemaId:string
+  CinemaId: string
   // ShowtimesId: Showtimes[]
   status: string
   destroy: boolean
@@ -18,7 +19,7 @@ export interface Screeningrooms {
 export interface AddandEditRooms {
   name: string
   projector: string
-  CinemaId:string
+  CinemaId: string
   status: string
   // ShowtimesId: string
   // CinemaId:CinemaRooms
