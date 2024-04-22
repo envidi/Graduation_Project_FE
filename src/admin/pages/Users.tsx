@@ -218,8 +218,8 @@ const Users = () => {
           </div>
         </div>
         <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-            <div className="inline-block  shadow rounded-lg overflow-hidden">
+          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto scrollable-table">
+            <div className="inline-block  shadow rounded-lg overflow-hidden ">
               <table className="w-full  border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                 <thead>
                   <tr>

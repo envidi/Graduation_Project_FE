@@ -86,6 +86,7 @@ import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
 import PolicyPage from './pages/Policy/PolicyPage'
 import DetailMovie from './admin/pages/Movie/DetailMovie'
+import DetailTicket from './admin/pages/Tickets/components/DetailTicket'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -317,6 +318,7 @@ function App() {
               <Route path="screeningrooms/destroy" element={<RoomsPageDestroy />} />
               <Route path="tickets">
                 <Route index element={<TicketsPage />} />
+                <Route path='detail/:id' element={<DetailTicket />} />
                 <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} />
               </Route>
