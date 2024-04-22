@@ -33,14 +33,14 @@ import {
 import Loading from '@/admin/components/Loading/Loading'
 import { getDay, getTimeToShowTime } from '@/utils'
 import { Value } from 'node_modules/react-time-picker/dist/esm/shared/types'
+import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 
 const CreateShowtimes = () => {
   const [open, setOpen] = React.useState(false)
   const [screen, setScreen] = React.useState(false)
   const [value, setValue] = React.useState<Movie>()
   const [screenValue, setScreenValue] = React.useState('')
-  const { addShowtime, screenRoom } =
-    useContext<any>(ContextMain)
+  const { addShowtime, screenRoom } = useContext<any>(ContextMain)
   const [date, setDate] = useState<Date | string>('')
   const [loading, setLoading] = useState(false)
   const [timeInit, handleTimeInit] = useState<Value>('')
@@ -93,7 +93,6 @@ const CreateShowtimes = () => {
     onSubmit: async (values) => {
       try {
         setLoading(true)
-        console.log(values)
         const response = await addShowtime(values)
         if (response.status === 200) {
           setLoading(false)
@@ -122,9 +121,7 @@ const CreateShowtimes = () => {
       toast.error('Hãy chọn ngày trước', {
         position: 'top-right'
       })
-      setTimeout(() => {
-        handleTimeInit('')
-      }, 100)
+      
 
       return
     }
@@ -142,49 +139,18 @@ const CreateShowtimes = () => {
   return (
     <>
       <DefaultLayout>
+        <Breadcrumb
+          pageName="Thêm lịch chiếu"
+          pageLink="/admin/showtimes"
+          pageRetun="Lịch chiếu / Thêm lịch chiếu"
+        />
         <div className=" mx-auto mt-10">
           {loading ? (
             <Loading /> // Hiển thị thông báo hoặc spinner khi đang load
           ) : (
             <form onSubmit={formikValidate.handleSubmit}>
-              <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+              <div className="w-full border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
                 <div className="-mx-3 md:flex mb-6">
-                  {/* <div className="md:w-1/2 px-3">
-                    <label
-                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                      htmlFor="grid-last-time"
-                    >
-                      Thời Gian Kết Thúc
-                    </label>
-
-                    <Flatpickr
-                      name="timeTo"
-                      // value={timeTo}
-                      options={{
-                        dateFormat: 'd-m-Y H:i',
-                        enableTime: true,
-                        onChange: (selectedDates) => {
-                          const formattedDate = format(
-                            selectedDates[0],
-                            'dd-MM-yyyy HH:mm'
-                          ) // Định dạng lại ngày giờ
-                          setTimeTo(selectedDates[0])
-                          formikValidate.setFieldValue('timeTo', formattedDate)
-                        }
-                      }}
-                      placeholder="DD/MM/YYYY"
-                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                      id="grid-last-time"
-                      type="text"
-                    />
-                    {formikValidate.touched.timeTo &&
-                      formikValidate.errors.timeTo && (
-                        <span className="text-red-500 text-xs italic">
-                          {formikValidate.errors.timeTo}
-                        </span>
-                      )}
-                  </div> */}
-
                   <div className="grid-cols-2 flex w-full">
                     <div className="px-3">
                       <label
@@ -200,7 +166,7 @@ const CreateShowtimes = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className=" justify-between border border-grey-lighter rounded hover:text-white text-sm h-12"
+                            className=" justify-between border border-grey-lighter rounded hover:text-white text-sm h-12 w-full  border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                           >
                             <p>
                               {value
@@ -219,8 +185,11 @@ const CreateShowtimes = () => {
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className=" p-0">
-                          <Command>
-                            <CommandInput placeholder="Tìm Kiếm Phim..." />
+                          <Command className="dark:bg-boxdark">
+                            <CommandInput
+                              className="caret-black dark:caret-white"
+                              placeholder="Tìm Kiếm Phim..."
+                            />
                             <CommandList>
                               {data?.length === 0 ? (
                                 <CommandEmpty>
@@ -242,7 +211,7 @@ const CreateShowtimes = () => {
                                       }}
                                     >
                                       <div className="  w-full">
-                                        <span className="text-sm">
+                                        <span className="text-sm dark:text-white">
                                           {item.name.toLocaleLowerCase()}
                                         </span>
                                         {/* <span className="text-gray-500 text-end">
@@ -279,7 +248,7 @@ const CreateShowtimes = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className="w-[250px] justify-between border border-grey-lighter rounded hover:text-white text-sm h-12"
+                            className="w-[250px] justify-between border border-grey-lighter rounded hover:text-white text-sm h-12  border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                           >
                             {screenValue
                               ? (screenRoom &&
@@ -297,10 +266,10 @@ const CreateShowtimes = () => {
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-full p-0">
-                          <Command className="w-full justify-between">
+                          <Command className="w-full justify-between dark:bg-boxdark">
                             <CommandInput
                               placeholder="Tìm kiếm phòng chiếu..."
-                              className=""
+                              className="caret-black dark:caret-white"
                             />
                             <CommandList className="w-[250px] justify-between">
                               {screenRoom?.length === 0 ? (
@@ -308,7 +277,11 @@ const CreateShowtimes = () => {
                               ) : (
                                 <CommandGroup>
                                   {screenRoom?.map(
-                                    (item: { name: string; _id: string }) => (
+                                    (item: {
+                                      name: string
+                                      _id: string
+                                      duration: number
+                                    }) => (
                                       <CommandItem
                                         className="w-[250px] justify-between text-sm"
                                         key={item._id}
@@ -322,8 +295,11 @@ const CreateShowtimes = () => {
                                           ) // Cập nhật giá trị của screen
                                         }}
                                       >
-                                        {item.name}
-                                        {/* Thêm hình ảnh nếu cần */}
+                                        <div className="grid grid-cols-2  w-full">
+                                          <span className="text-sm">
+                                            {item.name}
+                                          </span>
+                                        </div>
                                       </CommandItem>
                                     )
                                   )}
@@ -368,7 +344,7 @@ const CreateShowtimes = () => {
                         }
                       }}
                       placeholder="DD/MM/YYYY"
-                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                       id="grid-first-name"
                       type="text"
                     />
@@ -389,7 +365,7 @@ const CreateShowtimes = () => {
                     {/* <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="Doe" /> */}
                     <TimePicker
                       disabled={date == ''}
-                      className="w-54"
+                      className="w-54 rounded-lg border-[1.5px] border-stroke bg-transparent  text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                       aria-label={true}
                       onChange={handleChangeTime}
                       value={timeInit}

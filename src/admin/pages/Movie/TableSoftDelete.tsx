@@ -1,3 +1,4 @@
+
 import { ConfirmDialog } from '@/admin/components/Confirm'
 // import { Cinema } from '@/admin/types/cenima'
 import { Movie } from '@/admin/types/movie'
@@ -11,7 +12,7 @@ import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-const TableMovie = () => {
+const TableSoftDelete = () => {
   const queryClient = useQueryClient()
 
   const [isOpenConfirm, setOpenConfirm] = useState(false)
@@ -22,8 +23,8 @@ const TableMovie = () => {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
-  
   // page
+  console.log(data)
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
   const [itemsPerPage] = useState(ITEMS_PER_PAGE)
@@ -32,12 +33,11 @@ const TableMovie = () => {
   const startIndex = endIndex - itemsPerPage
   const currentItems = (data && data.slice(startIndex, endIndex)) || []
   // Tính số trang
-  const pageCount = data ? Math.round(data.length / ITEMS_PER_PAGE) : 0
+  const pageCount = data ? Math.floor(data.length / itemsPerPage) : 0
   //phương thức chuyển trang
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: removeMovie,
@@ -71,27 +71,25 @@ const TableMovie = () => {
   // render
   return (
     <>
+      <div className="text-center mb-2 flex items-center justify-start">
+        <button
+          onClick={() => {
+            navigate('/admin/movie/add')
+          }}
+          className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full hover:bg-gray-200"
+        >
+          <span className="mr-2">Add</span>
+          <FaPlusCircle size={20} />
+        </button>
+      </div>
+
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-        <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md">
-          <div className="text-center mb-5 flex items-center justify-start ">
-            <button
-              onClick={() => {
-                navigate('/admin/movie/add')
-              }}
-              className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
-            >
-              <span className="mr-2">Add</span>
-              <FaPlusCircle size={20} />
-            </button>
-            {/* <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                    Tạo lịch chiếu
-                  </button> */}
-          </div>
-          <table className="w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
+        <div className="max-w-full overflow-x-auto">
+          <table className="w-full table-auto border border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
             <thead>
               {/* <tr className="bg-gray-200 text-left dark:bg-meta-4 border border-gray-400 dark:border-strokedark"> */}
-              <tr className="bg-gray-200 text-left dark:bg-meta-4 ">
-                <th className="py-4 px-4 font-medium text-gray-800 xl:pl-11 border-b border-gray-400 dark:border-strokedark ">
+              <tr className="bg-gray-200 text-left dark:bg-meta-4">
+                <th className="py-4 px-4 font-medium text-gray-800 xl:pl-11 border-b border-gray-400 dark:border-strokedark">
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
@@ -100,9 +98,9 @@ const TableMovie = () => {
                 <th className="min-w-[110px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Hình ảnh
                 </th>
-                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Ngôn ngữ
-                </th> */}
+                </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Diễn viên
                 </th>
@@ -115,18 +113,18 @@ const TableMovie = () => {
                 <th className="min-w-[130px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Giới hạn tuổi
                 </th>
-                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Từ ngày
-                </th> */}
-                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                </th>
+                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Đến ngày
-                </th> */}
+                </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Tác giả
                 </th>
-                {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Ngôn ngữ
-                </th> */}
+                </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Diễn viên
                 </th>
@@ -156,9 +154,9 @@ const TableMovie = () => {
                   <td className="py-5 px-4 dark:border-strokedark">
                     <img src={movie.image} alt="" className="w-16" />
                   </td>
-                  {/* <td className="py-5 px-4 dark:border-strokedark">
+                  <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.language}</p>
-                  </td> */}
+                  </td>
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.actor}</p>
                   </td>
@@ -173,7 +171,7 @@ const TableMovie = () => {
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.age_limit}</p>
                   </td>
-                  {/* <td className="py-5 px-4 dark:border-strokedark">
+                  <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">
                       {getDay(selectCalendar(movie.fromDate))}
                     </p>
@@ -182,13 +180,13 @@ const TableMovie = () => {
                     <p className="text-gray-800">
                       {getDay(selectCalendar(movie.toDate))}
                     </p>
-                  </td> */}
+                  </td>
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.author}</p>
                   </td>
-                  {/* <td className="py-5 px-4 dark:border-strokedark">
+                  <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.language}</p>
-                  </td> */}
+                  </td>
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.actor}</p>
                   </td>
@@ -279,4 +277,4 @@ const TableMovie = () => {
   )
 }
 
-export default TableMovie
+export default TableSoftDelete
