@@ -34,6 +34,7 @@ function useTicket(
           return checkoutTicket(newTodo)
         case COMPLETE_TICKET:
           return updateTicket(newTodo)
+
         case DELETE_TICKET:
           return deleteTicket(newTodo)
         default:

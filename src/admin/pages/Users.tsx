@@ -53,6 +53,12 @@ const Users = () => {
   ) {
     pageNumbers.push(i)
   }
+
+  const handleNextPage = () =>{
+    if(currentPage < pageNumbers.length){
+      setCurrentPage((pre) => pre + 1)
+    }
+  }
   const queryClient = useQueryClient()
   const userUpdateId = useMutation({
     mutationFn: async (user: any) => {
@@ -92,7 +98,7 @@ const Users = () => {
         if (result.status === 200) {
           queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
-          toast.success('Block thành công <3')
+          toast.success('Block thành công!')
           // setTimeout(() =>{
           //   window.location.href="/blog"
           // },2000)
@@ -212,8 +218,8 @@ const Users = () => {
           </div>
         </div>
         <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-            <div className="inline-block  shadow rounded-lg overflow-hidden">
+          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto scrollable-table">
+            <div className="inline-block  shadow rounded-lg overflow-hidden ">
               <table className="w-full  border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                 <thead>
                   <tr>
@@ -356,7 +362,7 @@ const Users = () => {
               >
                 <ul className="inline-flex space-x-2">
                 <li>
-                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100">
+                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100" onClick={handleNextPage}>
                           <svg
                             className="w-4 h-4 fill-current"
                             viewBox="0 0 20 20"

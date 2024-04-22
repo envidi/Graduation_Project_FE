@@ -71,8 +71,8 @@ const TableMovie = () => {
   // render
   return (
     <>
-      <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-        <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md">
+      <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto ">
+        <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md scrollable-table">
           <div className="text-center mb-5 flex items-center justify-start ">
             <button
               onClick={() => {
@@ -87,7 +87,7 @@ const TableMovie = () => {
                     Tạo lịch chiếu
                   </button> */}
           </div>
-          <table className="w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
+          <table className=" w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
             <thead>
               {/* <tr className="bg-gray-200 text-left dark:bg-meta-4 border border-gray-400 dark:border-strokedark"> */}
               <tr className="bg-gray-200 text-left dark:bg-meta-4 ">

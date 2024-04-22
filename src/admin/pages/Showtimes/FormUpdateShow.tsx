@@ -8,7 +8,7 @@ import {
 } from '@tanstack/react-query'
 import React, { useContext } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Flatpickr from 'react-flatpickr'
 import { format } from 'date-fns'
@@ -50,6 +50,7 @@ import {
 } from '@/utils'
 import Joi from 'joi'
 import { joiResolver } from '@hookform/resolvers/joi'
+import Loading from '@/admin/components/Loading/Loading'
 
 const showTimeFormSchema = Joi.object({
   movieId: Joi.string().min(2).label('Phim').messages({
@@ -84,6 +85,7 @@ interface ShowType {
 }
 function FormUpdateShow({ show }: { show: FormUpdateShowType }) {
   const { id = '' } = useParams<{ id: string }>()
+  const naviagte = useNavigate()
   const { screenRoom } = useContext<any>(ContextMain)
   const [open] = React.useState(false)
 
@@ -92,12 +94,13 @@ function FormUpdateShow({ show }: { show: FormUpdateShowType }) {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
-  const { mutate: updateShow } = useMutation({
+  const { mutate: updateShow, isPending } = useMutation({
     mutationFn: async (data: ShowType) => updateShowtimes(data, id as string),
     onSuccess: () => {
       queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
 
       toast.success('Cập nhật lịch chiếu thành công!')
+      naviagte('/admin/showtimes')
     },
     onError: (err: { response: { data: { message: string } } }) => {
       toast.error(`Cập nhật lịch chiếu thất bại! ${err.response.data.message}`)
@@ -121,7 +124,6 @@ function FormUpdateShow({ show }: { show: FormUpdateShowType }) {
     screenRoomId: string
     date: Date
   }> = (data) => {
-
     const formattedDate = format(data.date!, 'dd-MM-yyyy HH:mm')
     const timeFrom = getDay(formattedDate) + ' ' + data.timeFrom
     if (compareTime(getHourAndMinute(formattedDate), data.timeFrom) == 1) {
@@ -142,6 +144,7 @@ function FormUpdateShow({ show }: { show: FormUpdateShowType }) {
       date: formattedDate
     })
   }
+  if (isPending) return <Loading />
 
   // Function to log changes
   return (

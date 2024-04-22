@@ -49,7 +49,7 @@ const TableFood = () => {
           <PaginationItem>
             <PaginationPrevious
               onClick={() => setPage(currentPage - 1)}
-              disabled={currentPage === 1}
+            // disabled={currentPage === 1}
             />
           </PaginationItem>
           {pages.map((page) => (
@@ -65,7 +65,7 @@ const TableFood = () => {
           <PaginationItem>
             <PaginationNext
               onClick={() => setPage(currentPage + 1)}
-              disabled={currentPage === pageCount}
+            // disabled={currentPage === pageCount}
             />
           </PaginationItem>
         </PaginationContent>
@@ -94,7 +94,7 @@ const TableFood = () => {
     mutate(idDelete.current!)
     setOpenConfirm(false)
   }
-  const handleShowConfirm = (id: string) => {
+  const handleShowConfirm = (id: string | undefined) => {
     idDelete.current = id
     setOpenConfirm(true)
   }
@@ -160,7 +160,7 @@ const TableFood = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">
-                      {food.price.toLocaleString('vi-VN')} VND
+                      {food && food?.price?.toLocaleString('vi-VN')} VND
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
