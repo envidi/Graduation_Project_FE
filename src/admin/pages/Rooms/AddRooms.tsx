@@ -7,13 +7,13 @@ import FormRooms from './components/FormRoom'
 const AddRooms = () => {
   return (
     <DefaultLayout>
-    <Breadcrumb pageName="ADDRooms" />
+      <Breadcrumb pageName="Thêm phòng chiếu" />
 
-    <div className="flex flex-col gap-10">
-      <FormRooms typeForm="ADD" />
-    </div>
-  </DefaultLayout>
+      <div className="flex flex-col gap-10">
+        <FormRooms typeForm="ADD" />
+      </div>
+    </DefaultLayout>
   )
 
-  }
+}
 export default AddRooms

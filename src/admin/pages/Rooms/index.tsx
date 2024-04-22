@@ -6,10 +6,10 @@ import TableRooms from './components/TableRoosm'
 const RoomsPage = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Rooms" />
+      <Breadcrumb pageName="Quản lý phòng chiếu" />
 
       <div className="flex flex-col gap-10">
-        <TableRooms/>
+        <TableRooms />
       </div>
     </DefaultLayout>
   )
