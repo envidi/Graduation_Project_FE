@@ -9,7 +9,7 @@ const RoomsPage = () => {
       <Breadcrumb pageName="Phòng chiếu" pageRetun='Danh sách phòng chiếu' pageLink='/admin/screeningrooms' />
 
       <div className="flex flex-col gap-10">
-        <TableRooms/>
+        <TableRooms />
       </div>
     </DefaultLayout>
   )

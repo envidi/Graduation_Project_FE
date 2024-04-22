@@ -113,16 +113,12 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                       {rooms.projector ?? ''}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">
-                      {rooms.CinemaId?.CinemaName ?? ''}
-                    </p>
+                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                    <p className="text-primary-white">{rooms.CinemaId?.CinemaName ?? ''}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">
-                      {rooms.CinemaId?.CinemaAdress ?? ''}
-                    </p>
-                  </td>
+                    <p className="text-primary-white">{rooms.CinemaId?.CinemaAdress ?? ''}</p>
+                  </td> */}
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p
                       className={`text-primary-white ${rooms.status ? 'text-success' : 'text-error'}`}
@@ -132,10 +128,12 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-2">
+
+
                       <button
                         onClick={() => {
                           if (window.confirm('Bạn có muốn khôi phục không?')) {
-                            handleRemoveRooms(rooms._id as string, true)
+                            handleRemoveRooms(rooms._id as string, true);
                           }
                         }}
                         className="flex items-center justify-center text-gray-6 hover:text-gray-9"
@@ -145,13 +143,14 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                       <button
                         onClick={() => {
                           if (window.confirm('Bạn có muốn xóa cứng không?')) {
-                            handleRemoveRooms(rooms._id as string, false)
+                            handleRemoveRooms(rooms._id as string, false);
                           }
                         }}
                         className="flex items-center justify-center text-gray-6 hover:text-gray-9"
                       >
                         <FaTrashAlt size={16} />
                       </button>
+
                     </div>
                   </td>
                 </tr>
