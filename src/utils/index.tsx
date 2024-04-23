@@ -314,7 +314,7 @@ export const getTimeToShowTime = (time: Value, duration: number) => {
   // Định dạng lại thời gian thành chuỗi HH:MM
   return startTime.toTimeString().substring(0, 5)
 }
-export function compareTime(t1:string, t2:string) {
+export function compareTime(t1: string, t2: string) {
   // Chuyển đổi chuỗi thành các phần tử giờ và phút
   const [hours1, minutes1] = t1.split(':').map(Number)
   const [hours2, minutes2] = t2.split(':').map(Number)
@@ -328,4 +328,19 @@ export function compareTime(t1:string, t2:string) {
   if (minutes1 > minutes2) return 1 // t1 muộn hơn t2
 
   return 0 // t1 và t2 bằng nhau
+}
+export function checkDateAdded(end: Date) {
+  // Tạo đối tượng Date từ các ngày nhập vào
+  const startDate = new Date()
+  // Tính toán sự khác biệt giữa hai ngày theo tháng
+  const months =
+    (end.getFullYear() - startDate.getFullYear()) * 12 +
+    (end.getMonth() - startDate.getMonth())
+
+  // Kiểm tra nếu khoảng thời gian là hơn 2 tháng
+  if (months > 2 || (months === 2 && end.getDate() > startDate.getDate())) {
+    return true
+  } else {
+    return false
+  }
 }
