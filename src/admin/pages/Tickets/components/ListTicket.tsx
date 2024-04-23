@@ -66,7 +66,7 @@ const ListTickets = () => {
     return (
         <>
             <div className="flex justify-between items-center py-3">
-                <h2>Product List</h2>
+                <h2>Vé</h2>
                 {/* <Link to="/admin/products/add" className="flex items-center">
                     <Button>
                         <Plus />

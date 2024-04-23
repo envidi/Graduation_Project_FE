@@ -82,10 +82,6 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                 <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">NameRooms</th>
                 <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">NumberSeat</th>
                 <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Projector</th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">CinemaName</th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">CinemaAdress</th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Status</th>
-                <th className="py-4 px-4 font-medium text-primary-white">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -103,17 +99,6 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{rooms.projector ?? ''}</p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{rooms.CinemaId?.CinemaName ?? ''}</p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{rooms.CinemaId?.CinemaAdress ?? ''}</p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className={`text-primary-white ${rooms.status ? 'text-success' : 'text-error'}`}>
-                      {rooms.status ?? ''}
-                    </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
   <div className="flex items-center space-x-2">

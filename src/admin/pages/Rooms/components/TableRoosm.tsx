@@ -9,7 +9,6 @@ type Props = {};
 
 const TableRooms: React.FC<Props> = () => {
   const navigate = useNavigate();
-  
   const queryClient = useQueryClient()
   const { data, isLoading, isError } = useQuery<Screeningrooms[]>({
     queryKey: ['ROOMS'],
@@ -55,7 +54,7 @@ const TableRooms: React.FC<Props> = () => {
         </button>
       </div>
       {/* Room Table */}
-      <div className="rounded-sm border border-stroke bg-primary px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto">
             <thead>
@@ -64,9 +63,6 @@ const TableRooms: React.FC<Props> = () => {
                 <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Tên Phòng Chiếu</th>
                 <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Số Ghế</th>
                 <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Máy chiếu</th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Tên rạp</th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Địa Chỉ rạp</th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">Trạng thái</th>
                 <th className="py-4 px-4 font-medium text-primary-white">Actions</th>
               </tr>
             </thead>
@@ -87,23 +83,10 @@ const TableRooms: React.FC<Props> = () => {
                     <p className="text-primary-white">{rooms.projector ?? ''}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{rooms.CinemaId?.CinemaName ?? ''}</p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className="text-primary-white">{rooms.CinemaId?.CinemaAdress ?? ''}</p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <p className={`text-primary-white ${rooms.status ? 'text-success' : 'text-error'}`}>
-                      {rooms.status ?? '' }
-                    </p>
-                  </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
   <div className="flex items-center space-x-2">
-    
-  
     <button
       onClick={() => {
-        navigate(`/admin/screeningrooms/edit/${rooms._id}`);
+        navigate(`/admin/screeningrooms/edit/${rooms._id}`,{ state: { showId: false } });
       }}
       className="flex items-center justify-center text-gray-6 hover:text-gray-9"
     >
@@ -119,6 +102,13 @@ const TableRooms: React.FC<Props> = () => {
     >
         <FaTrashRestoreAlt size={16} />
     </button>
+    <button 
+    onClick={() => {
+      navigate(`/admin/screeningrooms/${rooms._id}`, { state: { showId: false } });
+    }}
+    className="flex items-center justify-center text-gray-6 hover:text-gray-9">
+       <FaTrashRestoreAlt size={16} />
+      </button>
 
   </div>
 </td>

@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { convertNumberToAlphabet } from "@/utils/seatAlphaIndex";
 import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 
 export const columns: ColumnDef<TicketBill>[] = [
     
@@ -48,30 +48,46 @@ export const columns: ColumnDef<TicketBill>[] = [
             return <img src={movieId?.image} width={50} />;
         },
     },
-    {
-        accessorKey: "movieId?.name",
-        header: "Tên phim",
-        cell: ({ row }) => {
-            return <div>{row?.original?.movieId?.name}</div>;
-        },
-    },
-    // {
-    //     accessorKey: "movieId?.categoryId",
-    //     header: "Tên phim",
-    //     cell: ({ row }) => {
-    //         const data=row?.original?.movieId?.categoryId
-    //         return <div>{data[0].name}</div>;
-    //     },
-    // },
+  {
+      accessorKey: "movieId?.name",
+      header: ({ column }) => (
+          <Button
+              variant="ghost"
+              onClick={() =>
+                  column.toggleSorting(column.getIsSorted() === "asc" ? true : false)
+              }
+          >
+              Tên ghế
+              <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+      ),
+      cell: ({ row }) => {
+        const data =row?.original?.movieId
+          return <div>{data.getValue('name')}</div>;
+      },
+  },
     {
         accessorKey: "SeatId",
-        header: "Tên ghế",
-        cell: ({ row }) => {
-            const data= row?.original?.seatId;
-            return <div>{convertNumberToAlphabet(data[0]?.row)}{data[0]?.column}</div>;
-        },
-    },
-    
+        header: ({ column }) => (
+          <Button
+            variant="ghost"
+            onClick={() =>
+              column.toggleSorting(column.getIsSorted() === "asc")
+            }
+          >
+            Tên ghế
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        ),
+        // sortType: "basic",
+        // sortDescFirst: false,
+        cell: ({ row }) => (
+          <div>
+            {convertNumberToAlphabet(row.original.seatId[0]?.row)}
+            {row.original.seatId[0]?.column}
+          </div>
+        ),
+      },
     {
         accessorKey: "SeatId[0]?.typeSeat",
         header: "Loại Ghế",

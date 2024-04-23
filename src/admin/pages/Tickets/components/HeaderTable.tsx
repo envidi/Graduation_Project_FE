@@ -10,9 +10,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 const HeaderTable = ({ table }: any) => {
+    
+
     return (
         <>
-            <Input placeholder="Filter emails..." className="max-w-sm" />
+       <Input
+  placeholder="Filter movie..."
+  value={(table.getColumn("movieId?.name")?.getFilterValue() as string) ?? ""}
+  onChange={(event) =>
+    table.getColumn("movieId?.name")?.setFilterValue(event.target.value)
+  }
+  className="max-w-sm"
+    />
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <Button variant="outline" className="ml-auto">

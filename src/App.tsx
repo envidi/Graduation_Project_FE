@@ -84,6 +84,7 @@ import EditRooms from './admin/pages/Rooms/EditRooms'
 import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
+import DetailsRoomsPage from './admin/pages/Rooms/GetDetail'
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -307,14 +308,13 @@ function App() {
               </Route>
               <Route path="screeningrooms">
                 <Route index element={<RoomsPage />} />
+                <Route path=':id' element={<DetailsRoomsPage/>}/>
                 <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} />
               </Route>
               <Route path="screeningrooms/destroy" element={<RoomsPageDestroy />} />
               <Route path="tickets">
                 <Route index element={<TicketsPage />} />
-                <Route path="add" element={<AddRooms />} />
-                <Route path="edit/:id" element={<EditRooms />} />
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />

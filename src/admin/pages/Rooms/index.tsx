@@ -6,7 +6,7 @@ import TableRooms from './components/TableRoosm'
 const RoomsPage = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Rooms" />
+      <Breadcrumb pageName="Rooms" pageLink={''} />
 
       <div className="flex flex-col gap-10">
         <TableRooms/>
