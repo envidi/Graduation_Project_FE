@@ -22,47 +22,50 @@ import { useTicketQuery } from '@/admin/common/hooks/useTicketQuery'
 
 
 const ListTickets = () => {
-  const { data, isLoading } = useTicketQuery()
-  // const queryClient = useQueryClient()
-  // const { mutate } = useMutation({
-  //     mutationFn : SoftDeleteTicket,
-
-  //     onSuccess: () => {
-  //       queryClient.invalidateQueries({queryKey:["TICKET_KEY"]});
-  //       toast.success('Xóa mềm thành công');
-  //     },
-  //     onError: (error) => {
-  //       console.log(error);
-  //       toast.error('Xóa mềm thất bại');
-  //     },
-
-  //   });
-  const [sorting, setSorting] = useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
-  const table = useReactTable({
-    data: data ?? [],
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection
-    }
-  })
-  return (
-    <>
-      {/* <div className="flex justify-between items-center py-3"> */}
-        {/* <Link to="/admin/products/add" className="flex items-center">
+    const { data, isLoading } = useTicketQuery();
+    // const queryClient = useQueryClient()
+    // const { mutate } = useMutation({
+    //     mutationFn : SoftDeleteTicket, 
+        
+    //     onSuccess: () => {
+    //       queryClient.invalidateQueries({queryKey:["TICKET_KEY"]});
+    //       toast.success('Xóa mềm thành công');
+    //     },
+    //     onError: (error) => {
+    //       console.log(error);
+    //       toast.error('Xóa mềm thất bại');
+    //     },
+    
+    //   });
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+        {},
+    );
+    const [rowSelection, setRowSelection] = useState({});
+    const table = useReactTable({
+        data: data ?? [],
+        columns,
+        onSortingChange: setSorting,
+        onColumnFiltersChange: setColumnFilters,
+        getCoreRowModel: getCoreRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        getSortedRowModel: getSortedRowModel(),
+        getFilteredRowModel: getFilteredRowModel(),
+        onColumnVisibilityChange: setColumnVisibility,
+        onRowSelectionChange: setRowSelection,
+        state: {
+            sorting,
+            columnFilters,
+            columnVisibility,
+            rowSelection,
+        },
+    });
+    return (
+        <>
+            <div className="flex justify-between items-center py-3">
+                <h2>Vé</h2>
+                {/* <Link to="/admin/products/add" className="flex items-center">
                     <Button>
                         <Plus />
                         Add Product

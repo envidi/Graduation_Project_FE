@@ -18,9 +18,14 @@ export interface Screeningrooms {
 
 export interface AddandEditRooms {
   name: string
+  NumberSeat:number
   projector: string
+<<<<<<< HEAD
+ 
+=======
   CinemaId: string
   status: string
+>>>>>>> 4d26298a8521ef7b0b4cd3356069c61082781560
   // ShowtimesId: string
   // CinemaId:CinemaRooms
   // ShowtimesId: ShowTimeRooms

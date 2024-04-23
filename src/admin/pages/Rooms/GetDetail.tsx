@@ -1,18 +1,18 @@
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 import DefaultLayout from '@/admin/layout/DefaultLayout'
-import TableRooms from './components/TableRoosm'
+import GetDetailRoons from './components/GetDetailRoons'
 
 
-const RoomsPage = () => {
+const DetailsRoomsPage = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Rooms" />
+      <Breadcrumb pageName="Rooms" pageLink={''} />
 
       <div className="flex flex-col gap-10">
-        <TableRooms />
+        <GetDetailRoons/>
       </div>
     </DefaultLayout>
   )
 }
 
-export default RoomsPage
+export default DetailsRoomsPage
