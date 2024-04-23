@@ -1,8 +1,8 @@
-import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
-import TableOne from '../components/Tables/TableOne';
-import TableThree from '../components/Tables/TableThree';
-import TableTwo from '../components/Tables/TableTwo';
-import DefaultLayout from '../layout/DefaultLayout';
+import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
+import TableOne from '../components/Tables/TableOne'
+import TableThree from '../components/Tables/TableThree'
+import TableTwo from '../components/Tables/TableTwo'
+import DefaultLayout from '../layout/DefaultLayout'
 
 const Tables = () => {
   return (
@@ -15,7 +15,7 @@ const Tables = () => {
         <TableThree />
       </div>
     </DefaultLayout>
-  );
-};
+  )
+}
 
-export default Tables;
+export default Tables

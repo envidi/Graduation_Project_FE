@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { flexRender } from "@tanstack/react-table";
+import { flexRender } from '@tanstack/react-table'
 
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
+} from '@/components/ui/table'
 const DataTable = ({ table, columns }: any) => {
     return (
         <Table>
@@ -62,4 +62,4 @@ const DataTable = ({ table, columns }: any) => {
     );
 };
 
-export default DataTable;
+export default DataTable

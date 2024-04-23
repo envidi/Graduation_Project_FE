@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { Button } from '@/components/ui/button'
+import { ChevronDown } from 'lucide-react'
 
 import {
-    DropdownMenu,
-    DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Input } from "@/components/ui/input";
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { Input } from '@/components/ui/input'
 const HeaderTable = ({ table }: any) => {
     
 
@@ -57,4 +57,4 @@ const HeaderTable = ({ table }: any) => {
     );
 };
 
-export default HeaderTable;
+export default HeaderTable

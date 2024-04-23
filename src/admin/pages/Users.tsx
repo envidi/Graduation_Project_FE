@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import DefaultLayout from '../layout/DefaultLayout'
 import {
   InvalidateQueryFilters,
@@ -7,8 +7,8 @@ import {
   useQueryClient
 } from '@tanstack/react-query'
 import { block, getUser, unblock, updateUserId } from '@/api/auth'
-import { ContextMain } from '@/context/Context'
 import { toast } from 'react-toastify'
+import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
 
 const Users = () => {
   const [showEdit, setShowEdit] = useState(false)
@@ -18,39 +18,57 @@ const Users = () => {
   const [checkBlock, setCheckBlock] = useState(null)
   const [checkUnblockId, setCheckUnblockId] = useState(null)
   const [selectedRole, setSelectedRole] = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+  const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
 
-  useEffect(() => {
-    console.log('check id ', checkBlock)
-  }, [selectedUserIndex, checkBlock, checkUnblockId]) // Log lại giá trị mỗi khi selectedUserIndex thay đổi
+  useEffect(() => {}, [selectedUserIndex, checkBlock, checkUnblockId])
+  const { data: allUser } = useQuery({
+    queryKey: ['USER'],
+    queryFn: async () => {
+      try {
+        const { data } = await getUser()
+        return data
+      } catch (error) {
+        throw new Error(error as string)
+      }
+    }
+  }) // Log lại giá trị mỗi khi selectedUserIndex thay đổi
+  const indexOfLastUser = currentPage * usersPerPage
+  const indexOfFirstUser = indexOfLastUser - usersPerPage
 
+  // Lấy mảng người dùng cho trang hiện tại
+  const currentUsers = allUser?.response?.slice(
+    indexOfFirstUser,
+    indexOfLastUser
+  )
+
+  // Logic xử lý khi chuyển trang
+  const paginate = (pageNumber: any) => setCurrentPage(pageNumber)
+  // Tính toán số trang
+  const pageNumbers = []
+  for (
+    let i = 1;
+    i <= Math.ceil(allUser?.response?.length / usersPerPage);
+    i++
+  ) {
+    pageNumbers.push(i)
+  }
+
+  const handleNextPage = () =>{
+    if(currentPage < pageNumbers.length){
+      setCurrentPage((pre) => pre + 1)
+    }
+  }
   const queryClient = useQueryClient()
   const userUpdateId = useMutation({
     mutationFn: async (user: any) => {
       // const { showtime } = user;
       try {
         const result = await updateUserId(user, selectedUserIndex)
-        return result
-      } catch (error) {
-        throw error
-      }
-    },
-    onSuccess: (data: any) => {
-      // const { showtime } = data;
-      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
-
-      toast.success('Update role thành công <3')
-    }
-  })
-
-  const blockUser = useMutation({
-    mutationFn: async (user: any) => {
-      // const { showtime } = user;
-      try {
-        const result = await block(user, checkBlock)
         if (result.status === 200) {
           queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
-          toast.success('Block thành công <3')
+          toast.success('Cập nhật Role thành công <3')
           // setTimeout(() =>{
           //   window.location.href="/blog"
           // },2000)
@@ -66,11 +84,40 @@ const Users = () => {
 
           toast.error(`Có lỗi xảy ra: ${errorMessage}`)
         } else {
-
           toast.error('Có lỗi xảy ra, vui lòng thử lại sau.')
         }
       }
-    },
+    }
+  })
+
+  const blockUser = useMutation({
+    mutationFn: async (user: any) => {
+      // const { showtime } = user;
+      try {
+        const result = await block(user, checkBlock)
+        if (result.status === 200) {
+          queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
+
+          toast.success('Block thành công!')
+          // setTimeout(() =>{
+          //   window.location.href="/blog"
+          // },2000)
+        }
+        return result
+      } catch (error: any) {
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          const errorMessage = error.response.data.message
+
+          toast.error(`Có lỗi xảy ra: ${errorMessage}`)
+        } else {
+          toast.error('Có lỗi xảy ra, vui lòng thử lại sau.')
+        }
+      }
+    }
     // onSuccess: (data: any) => {
     //   // const { showtime } = data;
     //   queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
@@ -85,10 +132,10 @@ const Users = () => {
         const result = await unblock(user, checkUnblockId)
         return result
       } catch (error) {
-        throw error
+        throw new Error(error as string)
       }
     },
-    onSuccess: (data: any) => {
+    onSuccess: () => {
       // const { showtime } = data;
       queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
@@ -102,8 +149,6 @@ const Users = () => {
   const toggleCheckUnBlockId = (user: any) => {
     setConfirmUnBlock(true)
     setCheckUnblockId(user?._id)
-    console.log( " Check unlock id", checkUnblockId);
-    
   }
 
   const handleOptionChange = (event: any) => {
@@ -113,20 +158,7 @@ const Users = () => {
   const toggleShowEdit = (user: any) => {
     setShowEdit(true)
     setSelectedUserIndex(user?._id)
-    console.log('check id 2', user?._id)
   }
-
-  const { isLoading, data: allUser } = useQuery({
-    queryKey: ['USER'],
-    queryFn: async () => {
-      try {
-        const { data } = await getUser()
-        return data
-      } catch (error) {
-        console.log('error', error)
-      }
-    }
-  })
 
   const handleUpdateRole = (e: any) => {
     e.preventDefault()
@@ -137,8 +169,7 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setShowEdit(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
   const handleBlock = (e: any) => {
@@ -150,8 +181,7 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setConfirmBlock(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
 
@@ -164,32 +194,33 @@ const Users = () => {
 
       // Đóng modal sau khi cập nhật
       setConfirmUnBlock(false)
-    } else {
-      console.log('lỗi')
+      return
     }
   }
 
-  console.log('check user ', allUser)
-
   return (
     <DefaultLayout>
-      <div className="bg-white p-8 rounded-md w-full">
+      <Breadcrumb
+        pageName="Người dùng"
+        pageLink="/admin/users"
+        pageRetun="Người dùng"
+      />
+      <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
         <div className=" flex items-center justify-between pb-6">
           <div>
-            <h2 className="text-gray-600 font-semibold">Danh Sách User</h2>
-            <span className="text-xs">Tất Cả User</span>
+            <h2 className="text-gray-600 font-semibold">
+              Danh sách người dùng
+            </h2>
+            <span className="text-xs">Tất Cả người dùng</span>
           </div>
           <div className="flex items-center justify-between">
-            <div className="lg:ml-40 ml-10 space-x-8">
-             
-            
-            </div>
+            <div className="lg:ml-40 ml-10 space-x-8"></div>
           </div>
         </div>
         <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-            <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-              <table className="min-w-full leading-normal">
+          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto scrollable-table">
+            <div className="inline-block  shadow rounded-lg overflow-hidden ">
+              <table className="w-full  border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                 <thead>
                   <tr>
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
@@ -198,7 +229,7 @@ const Users = () => {
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Số Điện Thoại
                     </th>
-                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider w-[600px]">
                       Địa Chỉ
                     </th>
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
@@ -219,9 +250,9 @@ const Users = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {allUser?.response?.map((item: any, index: any) => (
+                  {currentUsers?.map((item: any, index: any) => (
                     <tr key={index}>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         <div className="flex items-center">
                           <div className="flex-shrink-0 w-10 h-10">
                             <img
@@ -237,27 +268,27 @@ const Users = () => {
                           </div>
                         </div>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
                           {item?.mobile}
                         </p>
                       </td>
-                      <td className=" border-b border-gray-200 bg-white text-sm">
+                      <td className=" border-b border-gray-200  text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
                           {item?.address}
                         </p>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
                           {item?.email}
                         </p>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
                           {item?.roleIds?.roleName}
                         </p>
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+                      <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         {item?.status === 'Blocked' ? (
                           <span className="relative inline-block px-3 py-1 font-semibold  text-red-900 leading-tight w-full text-center ">
                             <span
@@ -267,7 +298,7 @@ const Users = () => {
                             <span className="relative ">{item?.status}</span>
                           </span>
                         ) : (
-                          <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight w-full text-center ">
+                          <span className="relative inline-block px-3 py-2 font-semibold text-green-900 leading-tight w-full text-center ">
                             <span
                               aria-hidden
                               className="absolute inset-0 bg-green-200 opacity-50 rounded-full "
@@ -276,31 +307,33 @@ const Users = () => {
                           </span>
                         )}
                       </td>
-                      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm flex">
-                        <button
-                          className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true"
-                          onClick={() => toggleShowEdit(item)}
-                        >
-                          Update
-                        </button>
-                        {item?.status === 'Blocked' ? (
+                      <td className="px-3 py-5 border-b border-gray-200  text-sm ">
+                        <div className="flex gap-4">
                           <button
-                            className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            className="middle none center  rounded-lg bg-blue-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-light="true"
-                            onClick={() => toggleCheckUnBlockId(item)}
+                            onClick={() => toggleShowEdit(item)}
                           >
-                            UnBlock
+                            Update
                           </button>
-                        ) : (
-                          <button
-                            className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full"
-                            data-ripple-light="true"
-                            onClick={() => toggleCheckBlock(item)}
-                          >
-                            Block
-                          </button>
-                        )}
+                          {item?.status === 'Blocked' ? (
+                            <button
+                              className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                              data-ripple-light="true"
+                              onClick={() => toggleCheckUnBlockId(item)}
+                            >
+                              UnBlock
+                            </button>
+                          ) : (
+                            <button
+                              className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full"
+                              data-ripple-light="true"
+                              onClick={() => toggleCheckBlock(item)}
+                            >
+                              Block
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -321,6 +354,58 @@ const Users = () => {
                   </button>
                 </div>
               </div> */}
+              {/* Phân trang--------------------------------  */}
+         
+              <nav
+                aria-label="Page navigation"
+                className="flex items-center justify-center mt-3"
+              >
+                <ul className="inline-flex space-x-2">
+                <li>
+                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100" onClick={handleNextPage}>
+                          <svg
+                            className="w-4 h-4 fill-current"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                              clip-rule="evenodd"
+                              fill-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </button>
+                      </li>
+                  {pageNumbers.map((number) => (
+                    <>
+                     
+                      <li>
+                        <button
+                          className="w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100"
+                          onClick={() => paginate(number)}
+                        >
+                          {number}
+                        </button>
+                      </li>
+
+                    
+                    </>
+                  ))}
+                    <li>
+                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-indigo-100">
+                          <svg
+                            className="w-4 h-4 fill-current"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                              clip-rule="evenodd"
+                              fill-rule="evenodd"
+                            ></path>
+                          </svg>
+                        </button>
+                      </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </div>
@@ -328,8 +413,14 @@ const Users = () => {
 
       {showEdit && (
         <>
-          <div className="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center  border border-black bg-opacity-50" style={{boxShadow: "3px 2px 10px 1px #d1c8c8;"}}>
-            <div className="bg-white rounded  w-10/12 md:w-1/3 shadow shadow-xl" style={{boxShadow: "3px 2px 10px 1px #d1c8c8;"}}>
+          <div
+            className="modal h-screen w-full fixed left-0 top-0 flex justify-center items-center  border border-black bg-opacity-50"
+            style={{ boxShadow: '3px 2px 10px 1px #d1c8c8;' }}
+          >
+            <div
+              className="bg-white rounded  w-10/12 md:w-1/3  shadow-xl"
+              style={{ boxShadow: '3px 2px 10px 1px #d1c8c8;' }}
+            >
               <div className="border-b px-4 py-2 flex justify-center items-center text-center">
                 <h3 className="font-semibold text-lg text-black ">
                   Update Role
@@ -441,24 +532,24 @@ const Users = () => {
 
       {confirmUnBlock && (
         <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 h-screen">
-        <div className="bg-white px-16 py-14 rounded-md text-center">
-          <h1 className="text-xl mb-4 font-bold text-slate-500">
-            Bạn có chắc muốn mở block người này
-          </h1>
-          <button
-            className="bg-red-500 px-4 py-2 rounded-md text-md text-white"
-            onClick={() => setConfirmUnBlock(false)}
-          >
-            Cancel
-          </button>
-          <button
-            className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold"
-            onClick={handleUnBlock}
-          >
-            Ok
-          </button>
+          <div className="bg-white px-16 py-14 rounded-md text-center">
+            <h1 className="text-xl mb-4 font-bold text-slate-500">
+              Bạn có chắc muốn mở block người này
+            </h1>
+            <button
+              className="bg-red-500 px-4 py-2 rounded-md text-md text-white"
+              onClick={() => setConfirmUnBlock(false)}
+            >
+              Cancel
+            </button>
+            <button
+              className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold"
+              onClick={handleUnBlock}
+            >
+              Ok
+            </button>
+          </div>
         </div>
-      </div>
       )}
     </DefaultLayout>
   )

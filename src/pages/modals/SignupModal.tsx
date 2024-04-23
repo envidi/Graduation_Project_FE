@@ -47,12 +47,7 @@ export const SignupModal = () => {
       if (!values.name || values.name.length <= 6) {
         errors.name = 'Phải chứa ít nhất 6 ký tự '
       }
-      // if (!values.address || values.address.length <= 6) {
-      //   errors.address = 'Address required and length > 6 '
-      // }
-      // if (!values.mobile || values.mobile.length <= 6) {
-      //   errors.mobile = 'Mobile required and length > 6 '
-      // }
+
       if (!values.email) {
         errors.email = 'Yêu cầu  email'
       } else if (
@@ -96,7 +91,7 @@ export const SignupModal = () => {
       try {
         await CreateUser.mutateAsync(data)
         resetFormik()
-      } catch (error:any) {
+      } catch (error: any) {
         throw new Error(error)
       }
     }

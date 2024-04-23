@@ -6,13 +6,17 @@ import { toast } from 'react-toastify'
 import 'flatpickr/dist/flatpickr.css'
 import Flatpickr from 'react-flatpickr'
 import { format } from 'date-fns'
-import { getAllMovie, getAllScreenRoom } from '@/api/movie'
+import { getAllMovie } from '@/api/movie'
 import { useQuery } from '@tanstack/react-query'
 import { Movie } from '@/admin/types/movie'
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { ChevronsUpDown } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+
+import TimePicker from 'react-time-picker'
+import 'react-time-picker/dist/TimePicker.css'
+import 'react-clock/dist/Clock.css'
+import './showtime.css'
 import {
   Command,
   CommandEmpty,
@@ -27,33 +31,32 @@ import {
   PopoverTrigger
 } from '@/components/ui/popover'
 import Loading from '@/admin/components/Loading/Loading'
+import { getDay, getTimeToShowTime } from '@/utils'
+import { Value } from 'node_modules/react-time-picker/dist/esm/shared/types'
+import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 
 const CreateShowtimes = () => {
   const [open, setOpen] = React.useState(false)
   const [screen, setScreen] = React.useState(false)
-  const [value, setValue] = React.useState('')
+  const [value, setValue] = React.useState<Movie>()
   const [screenValue, setScreenValue] = React.useState('')
-  const { addShowtime, screenRoom } = useContext(ContextMain)
-  const [date, setDate] = useState(new Date())
-  const [timeFrom, setTimeFrom] = useState(new Date())
-  const [timeTo, setTimeTo] = useState(new Date())
+  const { addShowtime, screenRoom } = useContext<any>(ContextMain)
+  const [date, setDate] = useState<Date | string>('')
   const [loading, setLoading] = useState(false)
+  const [timeInit, handleTimeInit] = useState<Value>('')
   const { data } = useQuery<Movie[]>({
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
-  console.log(' check data', data)
 
-  console.log('check screen ', screenRoom)
-
-  const handleItemClick = (itemName: any) => {
-    setValue(itemName)
-    console.log('check click ', itemName)
+  const handleItemClick = (movie: Movie) => {
+    setValue(movie)
+    handleTimeInit('')
     // Đặt giá trị cho 'value' khi người dùng chọn một phim
   }
-  const handleItemScreen = (itemName: any) => {
+  const handleItemScreen = (itemName: string) => {
     setScreenValue(itemName)
-    console.log('check itemScreen ', itemName)
+    handleTimeInit('')
     // Đặt giá trị cho 'value' khi người dùng chọn một phim
   }
 
@@ -75,32 +78,26 @@ const CreateShowtimes = () => {
       if (!values.timeFrom) {
         errors.timeFrom = 'Hãy nhập thời gian'
       }
-      if (!values.timeTo) {
-        errors.timeTo = 'Hãy nhập thời gian'
-      }
+      // if (!values.timeTo) {
+      //   errors.timeTo = 'Hãy nhập thời gian'
+      // }
       if (!values.screenRoomId) {
         errors.screenRoomId = 'Hãy chọn phòng chiếu'
       }
       if (!values.movieId) {
-        errors.movieId = 'Hãy chọn tên bộ phim phim '
+        errors.movieId = 'Hãy chọn tên bộ phim !'
       }
 
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value ', values)
-      setLoading(true)
-
       try {
-        const response = await addShowtime.mutateAsync(values)
-        console.log('check tạo lịch chiếu ', response)
+        setLoading(true)
+        const response = await addShowtime(values)
         if (response.status === 200) {
           setLoading(false)
 
-          toast.success('Tạo lịch chiếu thành công <3')
-          // setTimeout(() =>{
-          //   window.location.href="/blog"
-          // },2000)
+          toast.success('Tạo lịch chiếu thành công ')
         }
       } catch (error: any) {
         if (
@@ -114,137 +111,48 @@ const CreateShowtimes = () => {
           toast.error(`Có lỗi xảy ra: ${errorMessage}`)
         } else {
           setLoading(false)
-
           toast.error('Có lỗi xảy ra, vui lòng thử lại sau.')
         }
       }
     }
-    
   })
+  const handleChangeTime = (time: Value) => {
+    if (date === '') {
+      toast.error('Hãy chọn ngày trước', {
+        position: 'top-right'
+      })
+      
+
+      return
+    }
+    handleTimeInit(time)
+    const formattedDate = format(date, 'dd-MM-yyyy HH:mm')
+    const timeFrom = getDay(formattedDate) + ' ' + time
+    const timeTo =
+      getDay(formattedDate) +
+      ' ' +
+      getTimeToShowTime(time, value?.duration || 0)
+
+    formikValidate.setFieldValue('timeFrom', timeFrom)
+    formikValidate.setFieldValue('timeTo', timeTo)
+  }
   return (
     <>
       <DefaultLayout>
+        <Breadcrumb
+          pageName="Thêm lịch chiếu"
+          pageLink="/admin/showtimes"
+          pageRetun="Lịch chiếu / Thêm lịch chiếu"
+        />
         <div className=" mx-auto mt-10">
           {loading ? (
             <Loading /> // Hiển thị thông báo hoặc spinner khi đang load
           ) : (
             <form onSubmit={formikValidate.handleSubmit}>
-              <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
+              <div className="w-full border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark shadow-md rounded px-8 pt-6 pb-8 mb-4 flex flex-col my-2">
                 <div className="-mx-3 md:flex mb-6">
-                  <div className="md:w-1/2 px-3 mb-6 md:mb-0">
-                    <label
-                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                      htmlFor="grid-first-name"
-                    >
-                      Ngày khởi chiếu
-                    </label>
-                    {/* <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="Jane" /> */}
-                    <Flatpickr
-                      name="date"
-                      // value={date}
-                      options={{
-                        dateFormat: 'd-m-Y H:i',
-                        enableTime: true,
-                        onChange: (selectedDates) => {
-                          const formattedDate = format(
-                            selectedDates[0],
-                            'dd-MM-yyyy HH:mm'
-                          ) // Định dạng lại ngày giờ
-                          setDate(selectedDates[0])
-                          formikValidate.setFieldValue('date', formattedDate)
-                        }  
-                      }}
-                      placeholder="DD/MM/YYYY"
-                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3"
-                      id="grid-first-name"
-                      type="text"
-                    />
-                    {formikValidate.touched.date &&
-                      formikValidate.errors.date && (
-                        <p className="text-red-500 text-xs italic">
-                          {formikValidate.errors.date}
-                        </p>
-                      )}
-                  </div>
-                  <div className="md:w-1/2 px-3">
-                    <label
-                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                      htmlFor="grid-last-name"
-                    >
-                      Thời Gian Khởi Chiếu
-                    </label>
-                    {/* <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="Doe" /> */}
-                    <Flatpickr
-                      name="timeFrom"
-                      // value={timeFrom}
-                      options={{
-                        dateFormat: 'd-m-y H:i',
-                        enableTime: true,
-                        onChange: (selectedDates) => {
-                          const formattedDate = format(
-                            selectedDates[0],
-                            'dd-MM-yyyy HH:mm'
-                          ) // Định dạng lại ngày giờ
-                          setTimeFrom(selectedDates[0])
-                          formikValidate.setFieldValue(
-                            'timeFrom',
-                            formattedDate
-                          )
-                        }
-                      }}
-                      placeholder="DD/MM/YYYY"
-                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                      id="grid-last-name"
-                      type="text"
-                    />
-                    {formikValidate.touched.timeFrom &&
-                      formikValidate.errors.timeFrom && (
-                        <span className="text-red-500 text-xs italic">
-                          {formikValidate.errors.timeFrom}
-                        </span>
-                      )}
-                  </div>
-                </div>
-
-                <div className="-mx-3 md:flex mb-6">
-                  <div className="md:w-1/2 px-3">
-                    <label
-                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
-                      htmlFor="grid-last-time"
-                    >
-                      Thời Gian Kết Thúc
-                    </label>
-
-                    <Flatpickr
-                      name="timeTo"
-                      // value={timeTo}
-                      options={{
-                        dateFormat: 'd-m-Y H:i',
-                        enableTime: true,
-                        onChange: (selectedDates) => {
-                          const formattedDate = format(
-                            selectedDates[0],
-                            'dd-MM-yyyy HH:mm'
-                          ) // Định dạng lại ngày giờ
-                          setTimeTo(selectedDates[0])
-                          formikValidate.setFieldValue('timeTo', formattedDate)
-                        }
-                      }}
-                      placeholder="DD/MM/YYYY"
-                      className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4"
-                      id="grid-last-time"
-                      type="text"
-                    />
-                    {formikValidate.touched.timeTo &&
-                      formikValidate.errors.timeTo && (
-                        <span className="text-red-500 text-xs italic">
-                          {formikValidate.errors.timeTo}
-                        </span>
-                      )}
-                  </div>
-
-                  <div className="grid-cols-2 flex">
-                    <div className="md:w-1/2 px-3">
+                  <div className="grid-cols-2 flex w-full">
+                    <div className="px-3">
                       <label
                         className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
                         htmlFor="movie"
@@ -258,14 +166,17 @@ const CreateShowtimes = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className="w-[250px] justify-between border border-grey-lighter rounded hover:text-white text-sm h-12"
+                            className=" justify-between border border-grey-lighter rounded hover:text-white text-sm h-12 w-full  border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                           >
-                            {value
-                              ? (data &&
-                                  data.find((movie) => movie.name === value)
-                                    ?.name) ||
-                                'Select movie'
-                              : 'Chọn Phim'}
+                            <p>
+                              {value
+                                ? (data &&
+                                    data.find(
+                                      (movie) => movie.name == value.name
+                                    )?.name) ||
+                                  'Select movie'
+                                : 'Chọn Phim'}
+                            </p>
 
                             <ChevronsUpDown
                               size={16}
@@ -273,32 +184,39 @@ const CreateShowtimes = () => {
                             />
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-[200px] p-0">
-                          <Command>
-                            <CommandInput placeholder="Tìm Kiếm Phim..." />
+                        <PopoverContent className=" p-0">
+                          <Command className="dark:bg-boxdark">
+                            <CommandInput
+                              className="caret-black dark:caret-white"
+                              placeholder="Tìm Kiếm Phim..."
+                            />
                             <CommandList>
-                              {data.length === 0 ? (
-                                <CommandEmpty>Không tìm thấy phim.</CommandEmpty>
+                              {data?.length === 0 ? (
+                                <CommandEmpty>
+                                  Không tìm thấy phim.
+                                </CommandEmpty>
                               ) : (
                                 <CommandGroup>
-                                  {data.map((item) => (
+                                  {data?.map((item) => (
                                     <CommandItem
                                       key={item._id}
                                       role="option"
                                       value={item.name}
                                       onSelect={() => {
-                                        handleItemClick(item.name)
+                                        handleItemClick(item)
                                         formikValidate.setFieldValue(
                                           'movieId',
                                           item._id
                                         ) // Cập nhật giá trị của movieId
                                       }}
                                     >
-                                      <div className="grid grid-cols-2  w-full">
-                                        <span className='text-sm'>{item.name}</span>
-                                        <span className="text-gray-500 text-end">
-                                          {item.duration} phút
+                                      <div className="  w-full">
+                                        <span className="text-sm dark:text-white">
+                                          {item.name.toLocaleLowerCase()}
                                         </span>
+                                        {/* <span className="text-gray-500 text-end">
+                                          {item.duration} phút
+                                        </span> */}
                                       </div>
                                     </CommandItem>
                                   ))}
@@ -330,12 +248,13 @@ const CreateShowtimes = () => {
                             variant="outline"
                             role="combobox"
                             aria-expanded={open}
-                            className="w-[250px] justify-between border border-grey-lighter rounded hover:text-white text-sm h-12"
+                            className="w-[250px] justify-between border border-grey-lighter rounded hover:text-white text-sm h-12  border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                           >
                             {screenValue
                               ? (screenRoom &&
                                   screenRoom?.find(
-                                    (screen: any) => screen.name === screenValue
+                                    (screen: { name: string }) =>
+                                      screen.name === screenValue
                                   )?.name) ||
                                 'Select frameworkeeee...' // Sử dụng toán tử && để kiểm tra giá trị của 'screenRoom'
                               : 'Chọn Phòng Chiếu'}
@@ -347,34 +266,43 @@ const CreateShowtimes = () => {
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-full p-0">
-                          <Command className="w-full justify-between">
+                          <Command className="w-full justify-between dark:bg-boxdark">
                             <CommandInput
                               placeholder="Tìm kiếm phòng chiếu..."
-                              className=""
+                              className="caret-black dark:caret-white"
                             />
                             <CommandList className="w-[250px] justify-between">
                               {screenRoom?.length === 0 ? (
                                 <CommandEmpty>No country found.</CommandEmpty>
                               ) : (
                                 <CommandGroup>
-                                  {screenRoom?.map((item) => (
-                                    <CommandItem
-                                      className="w-[250px] justify-between text-sm"
-                                      key={item._id}
-                                      role="option"
-                                      value={item.name}
-                                      onSelect={() => {
-                                        handleItemScreen(item.name)
-                                        formikValidate.setFieldValue(
-                                          'screenRoomId',
-                                          item._id
-                                        ) // Cập nhật giá trị của screen
-                                      }}
-                                    >
-                                      {item.name}
-                                      {/* Thêm hình ảnh nếu cần */}
-                                    </CommandItem>
-                                  ))}
+                                  {screenRoom?.map(
+                                    (item: {
+                                      name: string
+                                      _id: string
+                                      duration: number
+                                    }) => (
+                                      <CommandItem
+                                        className="w-[250px] justify-between text-sm"
+                                        key={item._id}
+                                        role="option"
+                                        value={item.name}
+                                        onSelect={() => {
+                                          handleItemScreen(item.name)
+                                          formikValidate.setFieldValue(
+                                            'screenRoomId',
+                                            item._id
+                                          ) // Cập nhật giá trị của screen
+                                        }}
+                                      >
+                                        <div className="grid grid-cols-2  w-full">
+                                          <span className="text-sm">
+                                            {item.name}
+                                          </span>
+                                        </div>
+                                      </CommandItem>
+                                    )
+                                  )}
                                 </CommandGroup>
                               )}
                             </CommandList>
@@ -388,6 +316,66 @@ const CreateShowtimes = () => {
                           </div>
                         )}
                     </div>
+                  </div>
+                </div>
+                <div className="-mx-3 md:flex mb-6">
+                  <div className="md:w-1/2 px-3 mb-6 md:mb-0">
+                    <label
+                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                      htmlFor="grid-first-name"
+                    >
+                      Ngày khởi chiếu
+                    </label>
+                    {/* <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-red rounded py-3 px-4 mb-3" id="grid-first-name" type="text" placeholder="Jane" /> */}
+                    <Flatpickr
+                      name="date"
+                      // value={date}
+                      options={{
+                        dateFormat: 'd-m-Y',
+                        enableTime: true,
+                        onChange: (selectedDates) => {
+                          const formattedDate =
+                            format(selectedDates[0], 'dd-MM-yyyy') +
+                            ' ' +
+                            '07:01'
+                          setDate(selectedDates[0])
+                          handleTimeInit('')
+                          formikValidate.setFieldValue('date', formattedDate)
+                        }
+                      }}
+                      placeholder="DD/MM/YYYY"
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                      id="grid-first-name"
+                      type="text"
+                    />
+                    {formikValidate.touched.date &&
+                      formikValidate.errors.date && (
+                        <p className="text-red-500 text-xs italic">
+                          {formikValidate.errors.date}
+                        </p>
+                      )}
+                  </div>
+                  <div className="md:w-1/2 px-3">
+                    <label
+                      className="block uppercase tracking-wide text-grey-darker text-xs font-bold mb-2"
+                      htmlFor="grid-last-name"
+                    >
+                      Thời Gian Khởi Chiếu
+                    </label>
+                    {/* <input className="appearance-none block w-full bg-grey-lighter text-grey-darker border border-grey-lighter rounded py-3 px-4" id="grid-last-name" type="text" placeholder="Doe" /> */}
+                    <TimePicker
+                      disabled={date == ''}
+                      className="w-54 rounded-lg border-[1.5px] border-stroke bg-transparent  text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                      aria-label={true}
+                      onChange={handleChangeTime}
+                      value={timeInit}
+                    />
+                    {formikValidate.touched.timeFrom &&
+                      formikValidate.errors.timeFrom && (
+                        <span className="text-red-500 text-xs italic">
+                          {formikValidate.errors.timeFrom}
+                        </span>
+                      )}
                   </div>
                 </div>
 

@@ -148,8 +148,6 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  
-
   const { data: allShowTimes } = useQuery({
     queryKey: ['SHOWTIMES'],
     queryFn: async () => {
@@ -174,7 +172,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  const addShowtime = useMutation({
+  const { mutateAsync: addShowtime } = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
     onSuccess() {
       queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
@@ -257,7 +255,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     logout,
     detailShowtime,
     allShowTimes,
-   
+
     removeUser,
     addShowtime,
     removeShowtime,

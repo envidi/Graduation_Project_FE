@@ -9,13 +9,13 @@ import {
   AlertDialogTitle
 } from '@/components/ui/alert-dialog'
 
-type ConfirmDialogProps = {
-  open: boolean
-  title: string
-  subTitle: string
-  onCancel: () => void
-  onConfirm: () => void
-}
+// type ConfirmDialogProps = {
+//   open?: boolean
+//   title: string
+//   subTitle: string
+//   onCancel: () => void
+//   onConfirm: () => void
+// }
 
 export function ConfirmDialog({
   open,
@@ -23,7 +23,7 @@ export function ConfirmDialog({
   subTitle,
   onCancel,
   onConfirm
-}: ConfirmDialogProps) {
+}: any) {
   return (
     <AlertDialog open={open}>
       {/* <AlertDialogTrigger asChild>

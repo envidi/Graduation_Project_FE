@@ -5,7 +5,7 @@ export interface Movie {
     desc: string
     country: string
     age_limit: string
-    duration: string
+    duration: number
     author: string
     language: string
     actor: string
@@ -13,14 +13,14 @@ export interface Movie {
     status: string
     rate: string
     categoryId: string[] | string
-    prices: string[] | string
+    prices: any
     showTimes: string[] | string
     slug: string
     destroy: boolean
     createdAt: Date
     updatedAt: Date
-    fromDate: string
-    toDate: string
+    fromDate: Date
+    toDate: Date
     
   }
   
@@ -43,12 +43,5 @@ export interface Movie {
     showTimes: string[] | string
     fromDate: string
     toDate: string
-    // prices: string[] | string
-    // prices: { price: number; dayType: string }[] | string;
-    // priceweekday: number
-    // dayTypeweekday: string
-    // pricesweekend: number
-    // dayTypeweekend: string
-
   }
   

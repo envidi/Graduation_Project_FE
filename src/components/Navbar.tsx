@@ -5,11 +5,10 @@ import { useContext, useState } from 'react'
 import { SignupModal } from '@/pages/modals/SignupModal'
 import { ContextAuth, ContextMain } from '@/context/Context'
 import { LoginModal } from '@/pages/modals/LoginModal'
-import { toast } from 'react-toastify'
 import DropDownMenu from './DropDownMenu'
-import { Bell } from 'lucide-react'
+// import { Bell } from 'lucide-react'
 import { Separator } from './ui/separator'
-import TooltipComponent from './TooltipComponent'
+// import TooltipComponent from './TooltipComponent'
 
 // eslint-disable-next-line no-unused-vars
 export const Navbar = ({
@@ -25,24 +24,23 @@ export const Navbar = ({
   const { isLogined } = useContext<ContextAuth>(ContextMain)
   const toggleShowForm = () => {
     setShowSignup((pre) => !pre)
+    setShowSignIn(false)
   }
   const toggleShowNav = () => {
     setShowNav((pre) => !pre)
   }
-  // const toggleShowProfile = () => {
-  //   setShowProfile((pre) => !pre)
-  // }
 
   const toggleShowFormSignIn = () => {
     setShowSignIn((pre) => !pre)
+    setShowSignup(false)
   }
 
   return (
-    <>
+    <div className='modal'>
       <header>
         <div>
           <button
-            className="btn-menu"
+            className="btn-menu "
             onClick={() => setMenuState((prevState: boolean) => !prevState)}
           >
             <svg
@@ -105,7 +103,7 @@ export const Navbar = ({
               </Link>
             </li>
             <li>
-              <Link className="nav-item" to="/aboutus">
+              <Link className="nav-item" to="/policy">
                 Quy định
               </Link>
             </li>
@@ -117,7 +115,7 @@ export const Navbar = ({
         </nav>
 
         <div className="nav-signup">
-          <div className="relative">
+          {/* <div className="relative">
             <TooltipComponent tooltip={'Thông báo'}>
               <div>
                 <Bell size={20} className="text-primary-locationMovie" />
@@ -126,7 +124,7 @@ export const Navbar = ({
                 </span>
               </div>
             </TooltipComponent>
-          </div>
+          </div> */}
           <Separator
             className="bg-border-borderSocialLink h-9 ms-8 mr-4"
             orientation="vertical"
@@ -179,7 +177,7 @@ export const Navbar = ({
                 </button>
 
                 {showNav && (
-                  <div className="signup-options">
+                  <div className="signup-options md:block hidden">
                     {
                       <ul className="signup-buttons">
                         <li>
@@ -208,9 +206,10 @@ export const Navbar = ({
         </div>
       </header>
 
+      
       {showSignup && <SignupModal />}
 
       {showSignIn && <LoginModal />}
-    </>
+    </div>
   )
 }

@@ -125,7 +125,7 @@ export const ShowTimesCollection = () => {
               currentDay={daySelect.currentDay}
             />
           )
-        }) : 'Not Found'}
+        }) : 'Không tìm thấy'}
       </div>
     </section>
   )
