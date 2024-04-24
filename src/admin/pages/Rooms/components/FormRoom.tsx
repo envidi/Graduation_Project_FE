@@ -1,10 +1,12 @@
 import { AddandEditRooms } from '@/Interface/screeningrooms'
+import { AddandEditRooms } from '@/Interface/screeningrooms'
 import Loader from '@/admin/common/Loader'
 import { editRooms, getOneRooms, newRooms } from '@/api/screeningrooms'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import {  useNavigate, useParams } from 'react-router-dom'
+import {   useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+
 
 
 type FormRoomsProps = {
@@ -16,14 +18,20 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
   const handleBack = () => {
     navigate(-1)
   }
+  const handleBack = () => {
+    navigate(-1)
+  }
   const { id } = useParams()
+  const { data: roomsData, isLoading } = useQuery<AddandEditRooms>({
   const { data: roomsData, isLoading } = useQuery<AddandEditRooms>({
     queryKey: ['ROOMS', id],
     queryFn: async () => {
       const data = await getOneRooms(id as string)
       setFieldValue('name', data?.name)
       setFieldValue('NumberSeat',data?.NumberSeat)
+      setFieldValue('NumberSeat',data?.NumberSeat)
       setFieldValue('projector', data?.projector)
+    
     
       return data
     },
@@ -64,7 +72,9 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
     initialValues: {
       name: id ? (roomsData?.name as string) : '',
       NumberSeat:id ? (roomsData?.NumberSeat as number) :undefined,
+      NumberSeat:id ? (roomsData?.NumberSeat as number) :undefined,
       projector: id ? (roomsData?.projector as string) : '',
+      
       
     },
     validate: (values) => {
@@ -78,14 +88,19 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
       if(!values.NumberSeat){
         // errors.NumberSeat="Bắt buộc phải nhập"
       }   
+      }  
+      if(!values.NumberSeat){
+        // errors.NumberSeat="Bắt buộc phải nhập"
+      }   
       return errors
     },
     onSubmit: async (values) => {
       try {
         const bodyData ={  
           name: values.name,
-          NumberSeat:values.NumberSeat || 0,
+          NumberSeat:values.NumberSeat  || 0,
           projector:values.projector,
+         
          
         }
         console.log(bodyData)
@@ -103,7 +118,10 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
   if (isLoading) return <Loader />
   return (
     
+    
     <div className="flex flex-col gap-9 items-center justify-center p-8">
+      
+      <button
       
       <button
         onClick={handleBack}
@@ -124,6 +142,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
           />
         </svg>
         Trở lại
+      </button>
       </button>
       <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
         <form
@@ -208,9 +227,13 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
             )} */}
           </div>
       
+      
           {/* status */}
           <div className="mb-6">
             <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
+              Số ghế
+            </label>     
+              <div className="inline-block relative w-full">
               Số ghế
             </label>     
               <div className="inline-block relative w-full">
@@ -219,32 +242,44 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
                     id="multiSelect"
                     name="NumberSeat"
                     // value={'49'}
+                    name="NumberSeat"
+                    // value={'49'}
                     // onChange={ }
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
                     <option className="text-gray-900" value="">
                       -- Chọn ghế --
+                      -- Chọn ghế --
                     </option>
                     <option
                       className="text-gray-900"
                       value={49}
                       selected={values.NumberSeat === 49}
+                      value={49}
+                      selected={values.NumberSeat === 49}
                     >
+                    49
                     49
                     </option>
                     <option
                       className="text-gray-900"
                       value={64}
                       selected={values.NumberSeat=== 64}
+                      value={64}
+                      selected={values.NumberSeat=== 64}
                     >
+                      64
                       64
                     </option>
                     <option
                       className="text-gray-900"
                       value={72}
                       selected={values.NumberSeat === 72}
+                      value={72}
+                      selected={values.NumberSeat === 72}
                     >
+                      72
                       72
                     </option>
                 
