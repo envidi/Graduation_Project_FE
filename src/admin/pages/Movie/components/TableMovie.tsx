@@ -1,12 +1,12 @@
 import { ConfirmDialog } from '@/admin/components/Confirm'
 // import { Cinema } from '@/admin/types/cenima'
 import { Movie } from '@/admin/types/movie'
-import { getAllMovie, removeMovie } from '@/api/movie'
+import { getAllMovie, removeMovie, softDeleteMovie } from '@/api/movie'
 import { convertMintuteToHour, getDay, selectCalendar } from '@/utils'
 // import { getAllCinema, removeCinema } from '@/api/cinema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRef, useState } from 'react'
-import { FaPlusCircle } from 'react-icons/fa'
+import { FaPlusCircle, FaRegTrashAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -22,7 +22,7 @@ const TableMovie = () => {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
-  
+
   // page
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
@@ -40,7 +40,7 @@ const TableMovie = () => {
 
   // delete category by mutation react-query
   const { mutate } = useMutation({
-    mutationFn: removeMovie,
+    mutationFn: softDeleteMovie,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['MOVIE'] })
       toast.success('Xóa thành công')
@@ -54,7 +54,6 @@ const TableMovie = () => {
     mutate(idDelete.current!)
     setOpenConfirm(false)
   }
-
   const handleShowConfirm = (id: string) => {
     idDelete.current = id
     setOpenConfirm(true)
@@ -68,25 +67,32 @@ const TableMovie = () => {
     return <div>Error</div>
   }
 
+
+
   // render
   return (
     <>
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto ">
         <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md scrollable-table">
-          <div className="text-center mb-5 flex items-center justify-start ">
+          <div className="text-center mb-5 flex items-center justify-start space-x-4">
             <button
               onClick={() => {
-                navigate('/admin/movie/add')
+                navigate('/admin/movie/add');
               }}
-              className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+              className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700 transition duration-300"
             >
               <span className="mr-2">Add</span>
               <FaPlusCircle size={20} />
             </button>
-            {/* <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
-                    Tạo lịch chiếu
-                  </button> */}
+            <button
+              onClick={() => {
+                navigate('/admin/movie/softdelete');
+              }}
+              className="bg-red-500 px-5 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-red-600 transition duration-300">
+              <FaRegTrashAlt />
+            </button>
           </div>
+
           <table className=" w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
             <thead>
               {/* <tr className="bg-gray-200 text-left dark:bg-meta-4 border border-gray-400 dark:border-strokedark"> */}
@@ -141,6 +147,7 @@ const TableMovie = () => {
             </thead>
             <tbody>
               {currentItems.map((movie, index) => (
+
                 <tr
                   key={movie.name}
                   className="border-b border-gray-400 dark:border-strokedark"
@@ -203,8 +210,24 @@ const TableMovie = () => {
                     </a>
                   </td> */}
                   <td className="py-5 px-4 dark:border-strokedark">
-                    <p className="text-gray-800">{movie.status}</p>
+                    <p className="text-gray-800">
+                      {(() => {
+                        switch (movie.status) {
+                          case 'COMING_SOON':
+                            return 'Sắp Công Chiếu';
+                          case 'IS_SHOWING':
+                            return 'Đang Công Chiếu';
+                          case 'PRTMIERED':
+                            return 'Đã Công Chiếu';
+                          case 'CANCELLED':
+                            return 'Đã Hủy';
+                          default:
+                            return movie.status;
+                        }
+                      })()}
+                    </p>
                   </td>
+
 
                   <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex w-65 flex-wrap justify-center gap-y-3">
                     <div>
@@ -213,7 +236,7 @@ const TableMovie = () => {
                           className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           data-ripple-light="true"
                         >
-                          Update
+                          Cập nhật
                         </button>
                       </Link>
                     </div>
@@ -222,8 +245,9 @@ const TableMovie = () => {
                         className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         data-ripple-light="true"
                         onClick={() => handleShowConfirm(movie._id)}
+
                       >
-                        Delete
+                        Xóa
                       </button>
                     </div>
                     <div>
@@ -260,7 +284,7 @@ const TableMovie = () => {
       <ConfirmDialog
         open={isOpenConfirm}
         title="Bạn có chắc muốn xóa không"
-        subTitle="Xóa đi không thể khôi phục"
+        subTitle="Xóa đi sẽ đưa vào thùng rác"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveMovie}
         titleStyle={{
