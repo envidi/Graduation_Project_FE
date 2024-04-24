@@ -84,13 +84,13 @@ import EditRooms from './admin/pages/Rooms/EditRooms'
 import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
-<<<<<<< HEAD
+
 import DetailsRoomsPage from './admin/pages/Rooms/GetDetail'
-=======
+
 import PolicyPage from './pages/Policy/PolicyPage'
 import DetailMovie from './admin/pages/Movie/DetailMovie'
 import DetailTicket from './admin/pages/Tickets/components/DetailTicket'
->>>>>>> 4d26298a8521ef7b0b4cd3356069c61082781560
+
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -290,8 +290,7 @@ function App() {
                 {/* <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} /> */}
               </Route>
-            
-            
+
               <Route path="food">
                 <Route index element={<FoodAdminPage />} />
                 <Route path="destroy" element={<FoodAdminDestroyPage />} />
@@ -316,30 +315,31 @@ function App() {
               </Route>
               <Route path="screeningrooms">
                 <Route index element={<RoomsPage />} />
-                <Route path=':id' element={<DetailsRoomsPage/>}/>
+                <Route path=":id" element={<DetailsRoomsPage />} />
                 <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} />
               </Route>
-              <Route path="screeningrooms/destroy" element={<RoomsPageDestroy />} />
+              <Route
+                path="screeningrooms/destroy"
+                element={<RoomsPageDestroy />}
+              />
               <Route path="tickets">
                 <Route index element={<TicketsPage />} />
-<<<<<<< HEAD
-=======
-                <Route path='detail/:id' element={<DetailTicket />} />
+
+                <Route path="detail/:id" element={<DetailTicket />} />
                 <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} />
->>>>>>> 4d26298a8521ef7b0b4cd3356069c61082781560
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
               <Route path="users" element={<Users />} />
 
-               <Route path="showtimes">
+              <Route path="showtimes">
                 <Route index element={<Showtimes />} />
                 <Route path="create" element={<CreateShowtimes />} />
                 <Route path="update/:id" element={<UpdateShowtimes />} />
                 <Route path="restore" element={<Restore />} />
-              </Route> 
+              </Route>
 
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />
