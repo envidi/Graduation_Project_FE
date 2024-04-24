@@ -22,8 +22,8 @@ const TableMovie = () => {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
-  console.log('data movie:',data)
-  
+  console.log('data movie:', data)
+
   // page
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
@@ -38,8 +38,8 @@ const TableMovie = () => {
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-  console.log('data movie 2:',currentItems)
-  
+  console.log('data movie 2:', currentItems)
+
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: softDeleteMovie,
@@ -233,22 +233,40 @@ const TableMovie = () => {
 
 
                   <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex flex-wrap justify-center gap-x-3 gap-y-3">
-                    <div >
-                        <button
+                    <div
+                      title={
+                        movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
+                          ? 'Không thể cập nhật phim đang chiếu'
+                          : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
+                            ? 'Không thể cập nhật phim đã có xuất chiếu'
+                            : '' // Title mặc định
+                      }
+                    >
+                      <button
                         onClick={() => navigate(`/admin/movie/edit/${movie._id}`)}
-                          className="rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true"
-                          // disabled={movie.status === 'IS_SHOWING'}
-                          disabled={movie.status === 'IS_SHOWING' || movie.showTimes.length > 0}
-                        >
-                          Cập nhật
-                        </button>
+                        className="rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        data-ripple-light="true"
+                        // disabled={movie.status === 'IS_SHOWING'}
+                        disabled={movie.status === 'IS_SHOWING' || movie.showTimes.length > 0}
+
+                      >
+                        Cập nhật
+                      </button>
                     </div>
-                    <div>
+                    <div
+                      title={
+                        movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
+                          ? 'Không thể xóa phim đang chiếu'
+                          : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
+                            ? 'Không thể xóa phim đã có xuất chiếu'
+                            : '' // Title mặc định
+                      }
+                    >
                       <button
                         className="rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         data-ripple-light="true"
                         onClick={() => handleShowConfirm(movie._id)}
+
                         disabled={movie.status === 'IS_SHOWING' || movie.showTimes.length > 0}
                       >
                         Xóa
@@ -259,6 +277,7 @@ const TableMovie = () => {
                         <button
                           className="rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-400/20 transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           data-ripple-light="true"
+                        // title='abc'
                         >
                           Chi tiết
                         </button>
