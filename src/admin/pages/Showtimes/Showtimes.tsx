@@ -6,6 +6,18 @@ import { toast } from 'react-toastify'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Button } from '@/components/ui/button'
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger
+} from '@/components/ui/dialog'
+import ExchangeForm from './ExchangeForm'
+import { CANCELLED_SHOW } from '@/utils/constant'
 
 const Showtimes = () => {
   const { allShowTimes, removeShowtimeSoft } = useContext<any>(ContextMain)
@@ -13,9 +25,10 @@ const Showtimes = () => {
   const [conFirm, setConFirm] = useState(false)
   const [currentPage, setCurrentPage] = useState(1)
   const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
-
+  const [changeShow, setChangeShow] = useState(false)
   const indexOfLastUser = currentPage * usersPerPage
   const indexOfFirstUser = indexOfLastUser - usersPerPage
+  const [chooseShow, setChooseShow] = useState<any>([])
 
   // Lấy mảng người dùng cho trang hiện tại
   const currentShowtime = allShowTimes?.slice(indexOfFirstUser, indexOfLastUser)
@@ -43,13 +56,24 @@ const Showtimes = () => {
     return getDay(convertAmPm(formattedDate))
   }
 
-  // const isPastTime = (endTime: any) => {
-  //   return moment().isAfter(endTime)
-  // }
-  // const handleDelete = (itemId: any) => {
-  //   setConfirmItemId(itemId) // Lưu id của item được chọn vào state
-  //   setConFirm(true) // Hiển thị modal
-  // }
+  const handleChangeBox = (
+    value: any,
+    item: { isCheck: boolean; _id: string; seatSold: number }
+  ) => {
+    setChooseShow((prev: any) => {
+      if (item.seatSold > 0) {
+        toast.error('Lịch chiếu này đã được đặt. Không thể sửa', {
+          position: 'top-right'
+        })
+        return
+      }
+      if (prev && prev?.length >= 2) return
+      if (!value) return [...prev].filter((show) => show._id !== item._id)
+      return [...prev, { ...item, isCheck: value }].filter(
+        (show) => show.isCheck
+      )
+    })
+  }
 
   const handleConfirmDelete = () => {
     if (confirmItemId) {
@@ -67,6 +91,7 @@ const Showtimes = () => {
         })
     }
   }
+
   return (
     <>
       <DefaultLayout>
@@ -90,6 +115,22 @@ const Showtimes = () => {
                   </button>
                 </Link>
 
+                <button
+                  onClick={() =>
+                    setChangeShow((prev) => {
+                      if (!prev) {
+                        toast.success('Hãy chọn 2 lịch chiếu mà bạn muốn đổi', {
+                          position: 'top-center'
+                        })
+                      }
+                      return !prev
+                    })
+                  }
+                  className="bg-success px-3 py-2 w-40 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                >
+                  {changeShow ? 'Hủy' : 'Đổi lịch chiếu'}
+                </button>
+
                 <Link to={'/admin/showtimes/restore'}>
                   <button className="bg-red-500 px-5 py-3 rounded-md text-white font-semibold tracking-wide cursor-pointer ">
                     <FaRegTrashAlt />
@@ -99,11 +140,19 @@ const Showtimes = () => {
             </div>
           </div>
           <div>
-            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-              <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
-                <table className="w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
+            <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto scrollable-table">
+              <div className="inline-block min-w-full shadow rounded-lg  scrollable-table">
+                <table className="w-[950px] table-auto border   border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                   <thead>
                     <tr>
+                      {changeShow ? (
+                        <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                          Check
+                        </th>
+                      ) : (
+                        ''
+                      )}
+
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         STT
                       </th>
@@ -119,8 +168,8 @@ const Showtimes = () => {
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Giờ chiếu
                       </th>
-                      <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
-                        Kết thúc
+                      <th className="w-[100px] py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                        Ghế đặt
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider ">
                         Số ghế
@@ -139,6 +188,27 @@ const Showtimes = () => {
                   <tbody>
                     {currentShowtime?.map((item: any, index: any) => (
                       <tr key={index}>
+                        {changeShow ? (
+                          <td className="px-5 py-5 border-b border-gray-200  text-sm ">
+                            <Checkbox
+                              onCheckedChange={(value) =>
+                                handleChangeBox(value, item)
+                              }
+                              checked={chooseShow
+                                ?.map((show: { _id: string }) => show._id)
+                                .includes(item._id)}
+                              disabled={
+                                chooseShow && chooseShow.length >= 2 || item.seatSold > 0||item.status === CANCELLED_SHOW
+                                  ? true
+                                  : false
+                              }
+                              className="bg-white"
+                            />
+                          </td>
+                        ) : (
+                          ''
+                        )}
+
                         <td className="px-5 py-5 border-b border-gray-200  text-sm ">
                           <div className="flex items-center">
                             <div className="ml-3">
@@ -148,6 +218,7 @@ const Showtimes = () => {
                             </div>
                           </div>
                         </td>
+
                         <td className="px-5 py-5 border-b border-gray-200  text-sm ">
                           <div className="flex items-center text-center">
                             <div className="ml-3">
@@ -174,8 +245,8 @@ const Showtimes = () => {
                           </p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200  text-sm">
-                          <p className="text-gray-900 whitespace-no-wrap">
-                            {formatDate(item?.timeTo, 'hour')}
+                          <p className="text-gray-900 whitespace-no-wrap text-center">
+                            {item?.seatSold || 0}
                           </p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200  text-sm">
@@ -238,7 +309,7 @@ const Showtimes = () => {
                   className="flex items-center justify-center mt-3"
                 >
                   <ul className="inline-flex space-x-2">
-                    <li>
+                    <li key={'1'}>
                       <button
                         className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100"
                         onClick={handleNextPage}
@@ -249,15 +320,15 @@ const Showtimes = () => {
                         >
                           <path
                             d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                            clip-rule="evenodd"
-                            fill-rule="evenodd"
+                            clipRule="evenodd"
+                            fillRule="evenodd"
                           ></path>
                         </svg>
                       </button>
                     </li>
-                    {pageNumbers.map((number) => (
+                    {pageNumbers.map((number, index) => (
                       <>
-                        <li>
+                        <li key={index}>
                           <button
                             className="w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100"
                             onClick={() => paginate(number)}
@@ -275,8 +346,8 @@ const Showtimes = () => {
                         >
                           <path
                             d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                            clip-rule="evenodd"
-                            fill-rule="evenodd"
+                            clipRule="evenodd"
+                            fillRule="evenodd"
                           ></path>
                         </svg>
                       </button>
@@ -287,7 +358,15 @@ const Showtimes = () => {
             </div>
           </div>
         </div>
-
+        <Dialog open={chooseShow &&chooseShow.length >= 2 ? true : false}>
+          <DialogTrigger asChild></DialogTrigger>
+          <DialogContent className="w-fit">
+            <DialogHeader>
+              <DialogTitle>Chuyển đổi lịch chiếu</DialogTitle>
+            </DialogHeader>
+            <ExchangeForm shows={chooseShow} setChooseShow={setChooseShow} />
+          </DialogContent>
+        </Dialog>
         {/* modal */}
         {conFirm && (
           <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 h-screen">

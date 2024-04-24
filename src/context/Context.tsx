@@ -153,7 +153,8 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     queryFn: async () => {
       try {
         const response = await getAllShowTimes()
-        return response.data.response.docs
+
+        return response.data.response
       } catch (error) {
         throw new Error(error as string)
       }
