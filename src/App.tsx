@@ -78,18 +78,19 @@ import Showtimes from './admin/pages/Showtimes/Showtimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
 import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 import Restore from './admin/pages/Showtimes/Restore'
-import RoomsPage from './admin/pages/Rooms'
-import AddRooms from './admin/pages/Rooms/AddRooms'
-import EditRooms from './admin/pages/Rooms/EditRooms'
-import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
+// import RoomsPage from './admin/pages/Rooms'
+// import AddRooms from './admin/pages/Rooms/AddRooms'
+// import EditRooms from './admin/pages/Rooms/EditRooms'
+// import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
 
- 
+// import DetailsRoomsPage from './admin/pages/Rooms/GetDetail'
 
 import PolicyPage from './pages/Policy/PolicyPage'
 import DetailMovie from './admin/pages/Movie/DetailMovie'
 import DetailTicket from './admin/pages/Tickets/components/DetailTicket'
+import TableSoftDeleteMovie from './admin/pages/Movie/TableSoftDelete'
 
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
@@ -311,23 +312,26 @@ function App() {
                 <Route index element={<MoviePageadmin />} />
                 <Route path="add" element={<MovieAdd />} />
                 <Route path="edit/:id" element={<MovieEdit />} />
+                <Route path="softdelete" element={<TableSoftDeleteMovie />} />
                 <Route path=":slug" element={<DetailMovie />} />
+
               </Route>
               <Route path="screeningrooms">
-                <Route index element={<RoomsPage />} />
+                {/* <Route index element={<RoomsPage />} />
+                <Route path=":id" element={<DetailsRoomsPage />} />
                 <Route path="add" element={<AddRooms />} />
-                <Route path="edit/:id" element={<EditRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} /> */}
               </Route>
-              <Route
+              {/* <Route
                 path="screeningrooms/destroy"
                 element={<RoomsPageDestroy />}
-              />
+              /> */}
               <Route path="tickets">
                 <Route index element={<TicketsPage />} />
 
                 <Route path="detail/:id" element={<DetailTicket />} />
-                <Route path="add" element={<AddRooms />} />
-                <Route path="edit/:id" element={<EditRooms />} />
+                {/* <Route path="add" element={<AddRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} /> */}
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
