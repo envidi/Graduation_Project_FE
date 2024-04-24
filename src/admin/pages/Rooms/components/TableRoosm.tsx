@@ -262,74 +262,11 @@ const TableRooms = () => {
         }}
       >
         <h2 style={{ color: 'red', borderBottom: '2px solid #ddd', paddingBottom: '10px', fontWeight: 'bold' }}>Chi tiết phòng chiếu</h2>
-        {/* {loadingDetail ?<div>loading</div> : (
-           
-          <table className="w-full table-auto" style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px' }}>
-            <tbody>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Tên phòng:</td>
-                <td style={{ padding: '10px 0' }}>{roomsData?.name}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Chọn lịch chiếu:</td>
-                <td style={{ padding: '10px 0' }}> <select
-          value={selectedShow}
-          onChange={(e) => setSelectedShow(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        >
-          <option value="">Chọn lịch chiếu</option>
-          {roomsData.ShowtimesId?.map((show:any) => (
-            <option key={show._id} value={show._id}>
-              {(show.timeFrom)} -{' '}
-              {(show.timeTo)}
-            </option>
-          ))}
-        </select></td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Tên Phim:</td>
-                <td style={{ padding: '10px 0' }}>{roomsData?.ShowtimesId &&roomsData?.ShowtimesId[0]?.movieId?.name}</td>
-              </tr>
-
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Số ghế:</td>
-                <td style={{ padding: '10px 0' }}>{roomsData.NumberSeat}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Số ghế đã đặt:</td>
-                {roomsData?.ShowtimesId &&roomsData?.ShowtimesId[0]?.SeatId?.seatSold}
-              </tr>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Số ghế trống:</td>
-                <td style={{ padding: '10px 0' }}>{roomsData?.ShowtimesId &&roomsData?.ShowtimesId[0]?.SeatId?.seatNotSold}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Ghế Vip:</td>
-                {roomsData?.ShowtimesId &&roomsData?.ShowtimesId[0]?.SeatId?.seatVip.length}<br/> 
-                {roomsData?.ShowtimesId &&roomsData?.ShowtimesId[0]?.SeatId?.seatVip[0]?.price+"VĐN"} 
-              </tr>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Ghế Thường:</td>
-                {roomsData?.ShowtimesId &&roomsData?.ShowtimesId[0]?.SeatId?.seatNormal.length} <br/>
-                {roomsData?.ShowtimesId &&roomsData?.ShowtimesId[0]?.SeatId?.seatNormal[0]?.price+"VĐN"} 
-              </tr>
-               
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Máy chiếu:</td>
-                <td style={{ padding: '10px 0' }}>{roomsData.projector}</td>
-              </tr>
-              <tr>
-                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Trạng thái:</td>
-                <td style={{ padding: '10px 0' }}>{roomsData.status}</td>
-              </tr>
-            </tbody>
-          </table>
-        )}  */}
-          <div>
+          
             {loadingDetail ? (
               <div>Loading...</div>
             ) : (
-              <table className="w-full table-auto" style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px' }}>
+              <table className="w-full  table-auto" style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px', zIndex:1000 }}>
                 <tbody>
                   <tr>
                     <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Tên phòng:</td>
@@ -402,10 +339,18 @@ const TableRooms = () => {
                       </tr>
                     </>
                   )}
+                  <tr>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Máy chiếu:</td>
+                    <td style={{ padding: '10px 0' }}>{roomsData?.projector}</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Trạng thái:</td>
+                    <td style={{ padding: '10px 0' }}>{roomsData?.status}</td>
+                  </tr>
                 </tbody>
               </table>
             )}
-          </div>
+          
         
        
         <button
