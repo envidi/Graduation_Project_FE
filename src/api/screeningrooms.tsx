@@ -43,8 +43,7 @@ export const undoSoftDeleteRooms = async (id: string) => {
     })
     return result.data.datas
   } catch (error) {
-    console.error('Error while performing undo soft delete:', error)
-    throw error
+    throw new Error(error as string)
   }
 }
 export const newRooms = async (rooms: AddandEditRoomsType) => {

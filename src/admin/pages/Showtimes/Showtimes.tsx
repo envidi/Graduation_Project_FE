@@ -10,6 +10,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -18,6 +19,7 @@ import {
 } from '@/components/ui/dialog'
 import ExchangeForm from './ExchangeForm'
 import { CANCELLED_SHOW } from '@/utils/constant'
+import { Info } from 'lucide-react'
 
 const Showtimes = () => {
   const { allShowTimes, removeShowtimeSoft } = useContext<any>(ContextMain)
@@ -100,7 +102,37 @@ const Showtimes = () => {
           pageLink="/admin/showtimes"
           pageRetun="Lịch chiếu"
         />
-
+        <Dialog>
+          <DialogTrigger asChild>
+            <h2 className="flex items-center gap-2 hover:cursor-pointer mb-5">
+              Lưu ý <Info size={20} />
+            </h2>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle className="text-[red]">Lưu ý</DialogTitle>
+            </DialogHeader>
+            <ul className="w-full ">
+              <li className="list-disc text-sm my-1">
+                Để chuyển đổi phim sang lịch chiếu khác khi và chỉ khi cả 2 lịch
+                chiêú chưa được đặt và chưa bị hủy
+              </li>
+              <li className="list-disc text-sm my-1">
+                Số ghế của một lịch chiếu phụ thuộc vào số ghế một phòng chiếu
+              </li>
+              <li className="list-disc text-sm my-1">
+                Khi thêm phòng chiếu, hãy chắc chắn thông tin đã được kiểm tra
+              </li>
+            </ul>
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button type="button" variant="secondary" className="text-sm">
+                  Đóng
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
         <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
             <div>
@@ -198,7 +230,9 @@ const Showtimes = () => {
                                 ?.map((show: { _id: string }) => show._id)
                                 .includes(item._id)}
                               disabled={
-                                chooseShow && chooseShow.length >= 2 || item.seatSold > 0||item.status === CANCELLED_SHOW
+                                (chooseShow && chooseShow.length >= 2) ||
+                                item.seatSold > 0 ||
+                                item.status === CANCELLED_SHOW
                                   ? true
                                   : false
                               }
@@ -358,7 +392,7 @@ const Showtimes = () => {
             </div>
           </div>
         </div>
-        <Dialog open={chooseShow &&chooseShow.length >= 2 ? true : false}>
+        <Dialog open={chooseShow && chooseShow.length >= 2 ? true : false}>
           <DialogTrigger asChild></DialogTrigger>
           <DialogContent className="w-fit">
             <DialogHeader>

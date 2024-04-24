@@ -109,7 +109,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
   if (isLoading) return <Loader />
   return (
     <div className="flex flex-col gap-9 items-center justify-center p-8">
-      <button
+      {/* <button
         onClick={handleBack}
         className="self-start mb-4 flex items-center text-lg text-gray-700 dark:text-gray-200 hover:text-gray-500 dark:hover:text-gray-400"
       >
@@ -128,11 +128,11 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
           />
         </svg>
         Trở lại
-      </button>
-      <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
+      </button> */}
+      <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden dark:bg-boxdark">
         <form
           onSubmit={handleSubmit}
-          className="bg-white dark:bg-gray-800 p-6"
+          className=" dark:bg-gray-800 p-6"
           encType="multipart/form-data"
         >
           <div className="mb-6">
@@ -146,7 +146,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
               onBlur={handleBlur}
               type="text"
               placeholder="Nhập tên phòng"
-              className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
+              className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
             />
             {touched.name && errors.name && (
               <div className="mt-2 text-sm text-red-600 dark:text-red-400">
@@ -162,7 +162,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
             </label>
             <div className="inline-block relative w-full">
               <select
-                className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                 id="multiSelect"
                 name="projector"
                 // value={selectedState}
@@ -218,7 +218,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
             </label>
             <div className="inline-block relative w-full">
               <select
-                className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+                className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                 id="multiSelect"
                 name="NumberSeat"
                 // value={'49'}

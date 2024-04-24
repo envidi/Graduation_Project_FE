@@ -190,9 +190,6 @@ const CreateShowtimes = () => {
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle className="text-[red]">Lưu ý</DialogTitle>
-              {/* <DialogDescription>
-                Những lưu ý khi thêm lịch chiếu
-              </DialogDescription> */}
             </DialogHeader>
             <ul className="w-full ">
               <li className="list-disc text-sm my-1">
