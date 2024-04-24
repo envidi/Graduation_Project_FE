@@ -1,4 +1,4 @@
-import { AddandEditRooms, Screeningrooms } from '@/Interface/screeningrooms'
+import { AddandEditRooms} from '@/Interface/screeningrooms'
 import instance from '@/api/config'
 
 export const getAllRooms = async () => {
@@ -17,9 +17,13 @@ export const getAllRoomsDestroy = async () => {
     throw error
   }
 }
-export const getOneRooms = async (id: string) => {
+export const getOneRooms = async (id: string | undefined) => {
+  if(id ===''){
+    return []
+  }
   const result = await instance.get(`/screen/${id}`)
-  return result.data.datas as Screeningrooms
+  console.log(result)
+  return result.data.datas 
 }
 
 export const HarddeleteRooms = async (id: string) => {

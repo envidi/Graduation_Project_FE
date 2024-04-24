@@ -1,12 +1,11 @@
-import { AddandEditRooms, Screeningrooms } from '@/Interface/screeningrooms'
+import { AddandEditRooms } from '@/Interface/screeningrooms'
 import Loader from '@/admin/common/Loader'
-
-
 import { editRooms, getOneRooms, newRooms } from '@/api/screeningrooms'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useNavigate, useParams } from 'react-router-dom'
+import {  useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
+
 
 type FormRoomsProps = {
   typeForm: 'ADD' | 'EDIT'
@@ -14,20 +13,22 @@ type FormRoomsProps = {
 const FormRooms = ({ typeForm }: FormRoomsProps) => {
   // const _id='65d30a80a047aeebd3c78c72';
   const navigate = useNavigate()
+  const handleBack = () => {
+    navigate(-1)
+  }
   const { id } = useParams()
-  const { data: roomsData, isLoading } = useQuery<Screeningrooms>({
+  const { data: roomsData, isLoading } = useQuery<AddandEditRooms>({
     queryKey: ['ROOMS', id],
     queryFn: async () => {
       const data = await getOneRooms(id as string)
       setFieldValue('name', data?.name)
+      setFieldValue('NumberSeat',data?.NumberSeat)
       setFieldValue('projector', data?.projector)
-      setFieldValue('CinemaId',data?.CinemaId)
-      setFieldValue('status', data?.status)
+    
       return data
     },
     enabled: typeForm === 'EDIT' && !!id
   })
-  console.log(roomsData)
   const { mutate } = useMutation({
     mutationFn: async (bodyData: AddandEditRooms) => {
       if (typeForm === 'EDIT') return editRooms(bodyData,id as string)
@@ -62,9 +63,9 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
   } = useFormik({
     initialValues: {
       name: id ? (roomsData?.name as string) : '',
+      NumberSeat:id ? (roomsData?.NumberSeat as number) :undefined,
       projector: id ? (roomsData?.projector as string) : '',
-      CinemaId: id ? (roomsData?.CinemaId as string) : '',
-      status: id ? (roomsData?.status as string) : '',
+      
     },
     validate: (values) => {
       const errors: Partial<AddandEditRooms> = {}
@@ -73,16 +74,19 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
       }
       if (!values.projector) {
         errors.name = 'Tên máy chiếu bắt buộc'
-      }     
+      }  
+      if(!values.NumberSeat){
+        // errors.NumberSeat="Bắt buộc phải nhập"
+      }   
       return errors
     },
     onSubmit: async (values) => {
       try {
         const bodyData ={  
           name: values.name,
+          NumberSeat:values.NumberSeat  || 0,
           projector:values.projector,
-          CinemaId:values.CinemaId,
-          status:values.status
+         
         }
         console.log(bodyData)
         const response = mutate(bodyData)
@@ -98,8 +102,10 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
 
   if (isLoading) return <Loader />
   return (
+    
     <div className="flex flex-col gap-9 items-center justify-center p-8">
-      {/* <button
+      
+      <button
         onClick={handleBack}
         className="self-start mb-4 flex items-center text-lg text-gray-700 dark:text-gray-200 hover:text-gray-500 dark:hover:text-gray-400"
       >
@@ -118,7 +124,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
           />
         </svg>
         Trở lại
-      </button> */}
+      </button>
       <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
         <form
           onSubmit={handleSubmit}
@@ -201,93 +207,45 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
               </div>
             )} */}
           </div>
-            {/*CinemaId*/}
-            <div className="mb-6">
-            <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-              Cinema
-            </label>
-            {/* <div className="inline-block relative w-full">
-                  <select
-                    className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-                    id="multiSelect"
-                    name="CinameId"
-                    // value={selectedState}
-                    // onChange={ }
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >       
-                    <option
-                      className="text-gray-900"
-                      value="CinemaId"
-                      selected={values.CinemaId === _id}
-                    >
-                     BHD Star
-                    </option>
-                    
-                
-                  </select>
-                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                    <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
-                      <path
-                        fillRule="evenodd"
-                        d="M10 12a2 2 0 100-4 2 2 0 000 4z"
-                      />
-                    </svg>
-                  </div>
-                </div> */}
-            <input
-              name="CinemaId"
-              value={values.CinemaId}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              type="text"
-              placeholder="Nhập Cinemaid"
-              className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
-            />
-            {/* {touched.name && errors.name && (
-              <div className="mt-2 text-sm text-red-600 dark:text-red-400">
-                {errors.name}
-              </div>
-            )} */}
-          </div>
+      
           {/* status */}
           <div className="mb-6">
             <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-              Trạng thái
-            </label>
-            <div className="inline-block relative w-full">
+              Số ghế
+            </label>     
+              <div className="inline-block relative w-full">
                   <select
                     className="block appearance-none w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     id="multiSelect"
-                    name="status"
-                    // value={selectedState}
+                    name="NumberSeat"
+                    // value={'49'}
                     // onChange={ }
                     onChange={handleChange}
                     onBlur={handleBlur}
                   >
                     <option className="text-gray-900" value="">
-                      -- Chọn trạng thái --
+                      -- Chọn ghế --
                     </option>
                     <option
                       className="text-gray-900"
-                      value="Available"
-                      selected={values.status === 'Available'}
+                      value={49}
+                      selected={values.NumberSeat === 49}
                     >
-                      Available
+                    49
                     </option>
                     <option
                       className="text-gray-900"
-                      value="Cancelled"
-                      selected={values.status === 'Cancelled'}
+                      value={64}
+                      selected={values.NumberSeat=== 64}
                     >
-                      Cancelled
+                      64
                     </option>
                     <option
                       className="text-gray-900"
-                      value="Full"
-                      selected={values.status === 'Full'}
+                      value={72}
+                      selected={values.NumberSeat === 72}
                     >
-                      Full
+                      72
                     </option>
                 
                   </select>
