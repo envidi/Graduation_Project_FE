@@ -79,22 +79,10 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                 <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">
                   Projector
                 </th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">
-                  CinemaName
-                </th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">
-                  CinemaAdress
-                </th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">
-                  Status
-                </th>
-                <th className="py-4 px-4 font-medium text-primary-white">
-                  Actions
-                </th>
               </tr>
             </thead>
             <tbody>
-              {data?.map((rooms:any, index:number) => (
+              {data?.map((rooms: any, index: number) => (
                 <tr key={rooms._id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <p className="text-sm font-medium text-primary-white">
@@ -124,12 +112,10 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-2">
-
-
                       <button
                         onClick={() => {
                           if (window.confirm('Bạn có muốn khôi phục không?')) {
-                            handleRemoveRooms(rooms._id as string, true);
+                            handleRemoveRooms(rooms._id as string, true)
                           }
                         }}
                         className="flex items-center justify-center text-gray-6 hover:text-gray-9"
@@ -139,14 +125,13 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                       <button
                         onClick={() => {
                           if (window.confirm('Bạn có muốn xóa cứng không?')) {
-                            handleRemoveRooms(rooms._id as string, false);
+                            handleRemoveRooms(rooms._id as string, false)
                           }
                         }}
                         className="flex items-center justify-center text-gray-6 hover:text-gray-9"
                       >
                         <FaTrashAlt size={16} />
                       </button>
-
                     </div>
                   </td>
                 </tr>

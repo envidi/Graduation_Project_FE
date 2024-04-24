@@ -43,6 +43,7 @@ import { getAllMovie } from '@/api/movie'
 import { Movie } from '@/admin/types/movie'
 import TimePicker from 'react-time-picker'
 import {
+  checkDateAdded,
   compareTime,
   getDay,
   getHourAndMinute,
@@ -128,6 +129,12 @@ function FormUpdateShow({ show }: { show: FormUpdateShowType }) {
     const timeFrom = getDay(formattedDate) + ' ' + data.timeFrom
     if (compareTime(getHourAndMinute(formattedDate), data.timeFrom) == 1) {
       toast.error('Giờ chiếu phải lớn hơn 30 phút hiện tại', {
+        position: 'top-right'
+      })
+      return
+    }
+    if (checkDateAdded(data.date)) {
+      toast.error('Chỉ có thể sửa lịch chiếu trong 2 tháng', {
         position: 'top-right'
       })
       return
@@ -317,6 +324,8 @@ function FormUpdateShow({ show }: { show: FormUpdateShowType }) {
                           enableTime: true,
                           onChange: (selectedDates) => {
                             if (
+                              selectedDates[0].getMonth() ==
+                                new Date().getMonth() &&
                               selectedDates[0].getDate() == new Date().getDate()
                             ) {
                               const now = new Date()

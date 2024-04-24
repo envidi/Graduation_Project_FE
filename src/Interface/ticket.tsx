@@ -48,6 +48,7 @@ export interface TicketBill {
   seatId: TicketSeatBill[]
   userId: string
   movieId: {
+    getValue(arg0: string): import("react").ReactNode
     _id: string
     name: string
     image: string
