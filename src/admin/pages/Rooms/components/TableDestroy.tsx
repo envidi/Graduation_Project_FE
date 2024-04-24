@@ -9,6 +9,8 @@ import {
 } from '@/api/screeningrooms'
 import { Screeningrooms } from '@/Interface/screeningrooms'
 
+type Props={}
+
 const TableRoomsDestroy: React.FC<Props> = () => {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
@@ -100,7 +102,7 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                       {rooms.projector ?? ''}
                     </p>
                   </td>
-
+  
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p
                       className={`text-primary-white ${rooms.status ? 'text-success' : 'text-error'}`}

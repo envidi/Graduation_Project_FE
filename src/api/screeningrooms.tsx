@@ -16,7 +16,10 @@ export const getAllRoomsDestroy = async () => {
     throw error
   }
 }
-export const getOneRooms = async (id: string) => {
+export const getOneRooms = async (id: string | undefined) => {
+  if(id ===''){
+    return []
+  }
   const result = await instance.get(`/screen/${id}`)
   return result.data.datas
 }

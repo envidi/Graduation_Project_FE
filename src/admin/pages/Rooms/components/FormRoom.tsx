@@ -1,4 +1,5 @@
 import { AddandEditRooms } from '@/Interface/screeningrooms'
+import { AddandEditRooms } from '@/Interface/screeningrooms'
 import Loader from '@/admin/common/Loader'
 import { editRooms, getOneRooms, newRooms } from '@/api/screeningrooms'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -12,6 +13,9 @@ type FormRoomsProps = {
 const FormRooms = ({ typeForm }: FormRoomsProps) => {
   // const _id='65d30a80a047aeebd3c78c72';
   const navigate = useNavigate()
+  const handleBack = () => {
+    navigate(-1)
+  }
   const handleBack = () => {
     navigate(-1)
   }

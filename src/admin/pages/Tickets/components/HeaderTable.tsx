@@ -10,51 +10,44 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
 const HeaderTable = ({ table }: any) => {
-    
-
-    return (
-        <>
+  return (
+    <>
        <Input
-  placeholder="Filter movie..."
-  value={(table.getColumn("movieId?.name")?.getFilterValue() as string) ?? ""}
-  onChange={(event) =>
-    table.getColumn("movieId?.name")?.setFilterValue(event.target.value)
-  }
-  className="max-w-sm"
-    />
-            <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="ml-auto">
-                        Tùy chỉnh cột
-                        <ChevronDown className="ml-2 h-4 w-4" />
-                    </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                    {table
-                        .getAllColumns()
-                        .filter((column: { getCanHide: () => void }) =>
-                            column.getCanHide(),
-                        )
-                        .map((column: any) => {
-                          
-                            return (
-                                <DropdownMenuCheckboxItem
-                                    key={column.id}
-                                    className="capitalize"
-                                    checked={column.getIsVisible()}
-                                    onCheckedChange={(value) =>
-                                        column.toggleVisibility(!!value)
-                                    }
-                                >
-                                    {column?.columnDef?.header}
-                                    {/* {column?.id} */}
-                                </DropdownMenuCheckboxItem>
-                            );
-                        })}
-                </DropdownMenuContent>
-            </DropdownMenu>
-        </>
-    );
-};
+          placeholder="Filter Movie..."
+          value={(table.getColumn("movieId?.name")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("movieId?.name")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" className="ml-auto text-sm">
+            Tùy chỉnh cột
+            <ChevronDown className="ml-2 h-4 w-4" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          {table
+            .getAllColumns()
+            .filter((column: { getCanHide: () => void }) => column.getCanHide())
+            .map((column: any) => {
+              return (
+                <DropdownMenuCheckboxItem
+                  key={column.id}
+                  className="capitalize text-sm"
+                  checked={column.getIsVisible()}
+                  onCheckedChange={(value) => column.toggleVisibility(!!value)}
+                >
+                  {column?.columnDef?.header}
+                  {/* {column?.id} */}
+                </DropdownMenuCheckboxItem>
+              )
+            })}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </>
+  )
+}
 
 export default HeaderTable
