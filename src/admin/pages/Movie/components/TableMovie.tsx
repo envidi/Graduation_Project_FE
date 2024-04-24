@@ -22,7 +22,8 @@ const TableMovie = () => {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
-
+  console.log('data movie:',data)
+  
   // page
   const ITEMS_PER_PAGE = 10
   const [currentPage, setCurrentPage] = useState(1)
@@ -37,7 +38,8 @@ const TableMovie = () => {
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-
+  console.log('data movie 2:',currentItems)
+  
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: softDeleteMovie,
@@ -49,6 +51,7 @@ const TableMovie = () => {
       toast.error('Xóa thất bại')
     }
   })
+
 
   const handleRemoveMovie = () => {
     mutate(idDelete.current!)
@@ -229,39 +232,40 @@ const TableMovie = () => {
                   </td>
 
 
-                  <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex w-65 flex-wrap justify-center gap-y-3">
-                    <div>
-                      <Link to={`/admin/movie/edit/${movie._id}`}>
+                  <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex flex-wrap justify-center gap-x-3 gap-y-3">
+                    <div >
                         <button
-                          className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        onClick={() => navigate(`/admin/movie/edit/${movie._id}`)}
+                          className="rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           data-ripple-light="true"
+                          // disabled={movie.status === 'IS_SHOWING'}
+                          disabled={movie.status === 'IS_SHOWING'}
                         >
                           Cập nhật
                         </button>
-                      </Link>
                     </div>
                     <div>
                       <button
-                        className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                        className="rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         data-ripple-light="true"
                         onClick={() => handleShowConfirm(movie._id)}
-
+                        disabled={movie.status === 'IS_SHOWING'}
                       >
                         Xóa
                       </button>
                     </div>
                     <div>
-                      <Link to={'/admin/movie/' + movie.slug}>
+                      <Link to={`/admin/movie/${movie.slug}`} className="inline-block">
                         <button
-                          className="middle none center mr-4 rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          className="rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-400/20 transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           data-ripple-light="true"
-                          onClick={() => handleShowConfirm(movie._id)}
                         >
                           Chi tiết
                         </button>
                       </Link>
                     </div>
                   </td>
+
                 </tr>
               ))}
             </tbody>
