@@ -67,22 +67,17 @@ const TableRoomsDestroy: React.FC<Props> = () => {
           <table className="w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
             <thead>
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
-                <th className="py-2 px-2 font-medium text-primary-white xl:pl-11">
-                  STT
-                </th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">
-                  NameRooms
-                </th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">
-                  NumberSeat
-                </th>
-                <th className="min-w-[100px] py-4 px-4 font-medium text-primary-white">
-                  Projector
-                </th>
+              <th className="py-2 px-2 font-medium-600 text-primary-white xl:pl-11">STT</th>
+                <th className="min-w-[100px] py-4 px-4 font-medium-600 text-primary-white">Tên Phòng Chiếu</th>
+                <th className="min-w-[100px] py-4 px-4 font-medium-600 text-primary-white">Số Ghế</th>
+                <th className="min-w-[100px] py-4 px-4 font-medium-600 text-primary-white">Máy chiếu</th>
+                <th className="min-w-[100px] py-4 px-4 font-medium-600 text-primary-white">Trạng thái</th>
+                <th className="py-4 px-4 font-medium-600 text-primary-white">Hành động</th>
+                
               </tr>
             </thead>
             <tbody>
-              {data?.map((rooms: any, index: number) => (
+              {data?.map((rooms:any, index:number) => (
                 <tr key={rooms._id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <p className="text-sm font-medium text-primary-white">
@@ -112,10 +107,12 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <div className="flex items-center space-x-2">
+
+
                       <button
                         onClick={() => {
                           if (window.confirm('Bạn có muốn khôi phục không?')) {
-                            handleRemoveRooms(rooms._id as string, true)
+                            handleRemoveRooms(rooms._id as string, true);
                           }
                         }}
                         className="flex items-center justify-center text-gray-6 hover:text-gray-9"
@@ -125,13 +122,14 @@ const TableRoomsDestroy: React.FC<Props> = () => {
                       <button
                         onClick={() => {
                           if (window.confirm('Bạn có muốn xóa cứng không?')) {
-                            handleRemoveRooms(rooms._id as string, false)
+                            handleRemoveRooms(rooms._id as string, false);
                           }
                         }}
                         className="flex items-center justify-center text-gray-6 hover:text-gray-9"
                       >
                         <FaTrashAlt size={16} />
                       </button>
+
                     </div>
                   </td>
                 </tr>

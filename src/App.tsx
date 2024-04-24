@@ -85,7 +85,7 @@ import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
 
-import DetailsRoomsPage from './admin/pages/Rooms/GetDetail'
+ 
 
 import PolicyPage from './pages/Policy/PolicyPage'
 import DetailMovie from './admin/pages/Movie/DetailMovie'
@@ -315,7 +315,6 @@ function App() {
               </Route>
               <Route path="screeningrooms">
                 <Route index element={<RoomsPage />} />
-                <Route path=":id" element={<DetailsRoomsPage />} />
                 <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} />
               </Route>
