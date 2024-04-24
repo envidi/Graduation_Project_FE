@@ -7,7 +7,7 @@ import TableRoomsDestroy from './components/TableDestroy'
 const RoomsPageDestroy = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Quản lý phòng chiếu đã xóa" />
+      <Breadcrumb pageName="Danh sách phòng chiếu đã xóa" />
 
       <div className="flex flex-col gap-10">
         <TableRoomsDestroy />

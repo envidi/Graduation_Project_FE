@@ -2,15 +2,129 @@ import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query';
 import { FaTrashAlt, FaUndo } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getAllRoomsDestroy, HarddeleteRooms, undoSoftDeleteRooms } from '@/api/screeningrooms';
-import { Screeningrooms } from '@/Interface/screeningrooms';
-const TableRoomsDestroy: React.FC<Props> = () => {
+import { getAllRoomAdmin, getAllRoomsDestroy, HarddeleteRooms, undoSoftDeleteRooms } from '@/api/screeningrooms';
+import { Screeningrooms } from '@/Interface/screeningrooms'
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious
+} from '@/components/ui/pagination'
+import { useState, useEffect } from 'react';
+import Loader from '@/admin/common/Loader';
+
+
+
+const ITEMS_PER_PAGE = 10
+const TableRoomsDestroy = () => {
+
+  const [rooms, setRooms] = useState<Screeningrooms[]>([])
+
+  /*---------------Phân trang---------------- */
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(ITEMS_PER_PAGE)
+  //tính mục phân trang
+  const endIndex = currentPage * itemsPerPage
+  const startIndex = endIndex - itemsPerPage
+  const currentItems = (rooms && rooms.slice(startIndex, endIndex)) || []
+  // Tính số trang
+  const pageCount = rooms ? Math.ceil(rooms.length / itemsPerPage) : 0
+
+  //phương thức chuyển trang
+  const setPage = (page: number) => {
+    const newPage = Math.max(1, Math.min(page, pageCount))
+    setCurrentPage(newPage)
+  }
+
+  const MAX_VISIBLE_PAGES = 5
+  const renderPagination = () => {
+    const pages = []
+    const halfWay = Math.ceil(MAX_VISIBLE_PAGES / 2)
+    const isStart = currentPage <= halfWay
+    const isEnd = pageCount - halfWay < currentPage
+    const isMiddle = !isStart && !isEnd
+
+    let ellipsis = false
+    for (let i = 1; i <= pageCount; i++) {
+      const pageInRange = isStart
+        ? i <= MAX_VISIBLE_PAGES
+        : isEnd
+          ? pageCount - MAX_VISIBLE_PAGES < i
+          : isMiddle
+            ? currentPage - halfWay < i && i <= currentPage + halfWay - 1
+            : false
+
+      if (pageInRange) {
+        pages.push(
+          <PaginationItem
+            key={i}
+            {...(currentPage === i && { active: 'true' })}
+          >
+            <PaginationLink onClick={() => setPage(i)}>{i}</PaginationLink>
+          </PaginationItem>
+        )
+        ellipsis = true
+      } else if (ellipsis) {
+        pages.push(
+          <PaginationItem key={`ellipsis-${i}`} disabled>
+            <span className="px-3">...</span>
+          </PaginationItem>
+        )
+        ellipsis = false
+      }
+    }
+
+    return (
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={() => setPage(currentPage - 1)}
+              disabled={currentPage === 1}
+            />
+          </PaginationItem>
+          {pages}
+          <PaginationItem>
+            <PaginationNext
+              onClick={() => setPage(currentPage + 1)}
+              disabled={currentPage === pageCount}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
+    )
+  }
+  useEffect(() => {
+    const fecthRooms = async () => {
+      try {
+        const roomData = await getAllRoomsDestroy()
+        setRooms(roomData)
+      } catch (error) {
+        console.error('Error fetching seats:', error)
+      }
+    }
+    fecthRooms()
+  }, [])
+  /*------------------------------------------------- */
+
+
+
+
+
+
+
+
+
+
+
   const navigate = useNavigate();
   // const history = useHistory();
   const queryClient = useQueryClient()
   const { data, isLoading, isError } = useQuery<Screeningrooms[]>({
     queryKey: ['ROOMS'],
-    queryFn: () => getAllRoomsDestroy()
+    queryFn: getAllRoomsDestroy
 
   })
 
@@ -54,7 +168,7 @@ const TableRoomsDestroy: React.FC<Props> = () => {
   };
 
   if (isLoading || !data) {
-    return <div>Loading...</div>;
+    return <Loader />
   }
 
   if (isError) {
@@ -81,7 +195,7 @@ const TableRoomsDestroy: React.FC<Props> = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((rooms, index) => (
+              {currentItems.map((rooms, index) => (
                 <tr key={rooms._id}>
 
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
@@ -140,6 +254,7 @@ const TableRoomsDestroy: React.FC<Props> = () => {
           </table>
         </div>
       </div>
+      {renderPagination()}
     </>
   );
 };

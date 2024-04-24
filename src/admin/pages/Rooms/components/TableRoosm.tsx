@@ -338,20 +338,6 @@ const TableRooms = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
 
@@ -359,12 +345,10 @@ const TableRooms = () => {
     mutationFn: SoftDeleteRooms,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ROOMS'] })
-      toast.success('Xóa mềm thành công')
-      queryClient.invalidateQueries({ queryKey: ['ROOMS'] })
-      toast.success('Xóa phòng thành công')
+      toast.success('Xóa mềm phòng thành công')
     },
     onError: () => {
-      toast.error('Xóa phòng thất bại')
+      toast.error('Xóa mềm phòng thất bại')
     }
   })
   const handleRemoveRoom = () => {
@@ -455,6 +439,7 @@ const TableRooms = () => {
     const fecthRooms = async () => {
       try {
         const roomData = await getAllRoomAdmin({ id: selectedRoom, _showId: selectedShow })
+        console.log(roomData)
         setRooms(roomData)
       } catch (error) {
         console.error('Error fetching seats:', error)
