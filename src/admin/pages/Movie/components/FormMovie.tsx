@@ -746,28 +746,28 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         value="COMING_SOON"
                         selected={values.status === 'COMING_SOON'}
                       >
-                        COMING_SOON
+                        Sắp Công Chiếu
                       </option>
                       <option
                         className="text-gray-900"
                         value="IS_SHOWING"
                         selected={values.status === 'IS_SHOWING'}
                       >
-                        IS_SHOWING
+                        Đang Công Chiếu
                       </option>
                       <option
                         className="text-gray-900"
                         value="PRTMIERED"
                         selected={values.status === 'PRTMIERED'}
                       >
-                        PRTMIERED
+                        Đã Công Chiếu
                       </option>
                       <option
                         className="text-gray-900"
                         value="CANCELLED"
                         selected={values.status === 'CANCELLED'}
                       >
-                        CANCELLED
+                        Đã Hủy
                       </option>
                     </select>
                     <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">

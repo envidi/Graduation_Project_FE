@@ -35,9 +35,19 @@ export interface Showtimes{
 export interface AddandEditRooms {
   name: string
   projector: string
-  NumberSeat: number
-  // CinemaId: string
-  // status: string
+  CinemaId: string
+  status: string
+
+  // ShowtimesId: string
+  // CinemaId:CinemaRooms
+  // ShowtimesId: ShowTimeRooms
+}
+export interface AddandEditRoomsType {
+  name: string
+  NumberSeat:number
+  projector: string
+  status?: string
+
   // ShowtimesId: string
   // CinemaId:CinemaRooms
   // ShowtimesId: ShowTimeRooms

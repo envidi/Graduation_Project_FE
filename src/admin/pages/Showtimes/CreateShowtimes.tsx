@@ -190,9 +190,6 @@ const CreateShowtimes = () => {
           <DialogContent className="sm:max-w-[425px]">
             <DialogHeader>
               <DialogTitle className="text-[red]">Lưu ý</DialogTitle>
-              {/* <DialogDescription>
-                Những lưu ý khi thêm lịch chiếu
-              </DialogDescription> */}
             </DialogHeader>
             <ul className="w-full ">
               <li className="list-disc text-sm my-1">
@@ -216,7 +213,7 @@ const CreateShowtimes = () => {
           </DialogContent>
         </Dialog>
 
-        <div className=" mx-auto mt-10">
+        <div className=" mx-auto mt-5 mb-203">
           {loading ? (
             <Loading /> // Hiển thị thông báo hoặc spinner khi đang load
           ) : (
