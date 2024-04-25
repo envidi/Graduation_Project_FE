@@ -24,6 +24,10 @@ export const updateShowtimes = async (showtime: any, id: any) => {
   const result = await baseShowtimes.patch(`/${id}`, showtime)
   return result
 }
+export const exchangeShowtimes = async (showtime: any, id: any) => {
+  const result = await baseShowtimes.patch(`/exchange/${id}`, showtime)
+  return result
+}
 
 export const DetailShowtimes = async (id: any) => {
   const result = await baseShowtimes.get(`/${id}`)

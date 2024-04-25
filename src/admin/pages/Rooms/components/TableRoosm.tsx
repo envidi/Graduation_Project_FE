@@ -1,10 +1,15 @@
-import  { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
-import { FaEdit, FaPlusCircle, FaTrashRestoreAlt, FaInfoCircle } from 'react-icons/fa'
-import { useNavigate} from 'react-router-dom'
+import { FaEdit, FaPlusCircle, FaTrashRestoreAlt } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal'
-import { getAllRoomAdmin, getAllRooms, getOneRooms,  SoftDeleteRooms } from '@/api/screeningrooms'
+import {
+  getAllRoomAdmin,
+  getAllRooms,
+  getOneRooms,
+  SoftDeleteRooms
+} from '@/api/screeningrooms'
 import { Screeningrooms } from '@/Interface/screeningrooms'
 import { ConfirmDialog } from '@/admin/components/Confirm'
 import {
@@ -35,8 +40,8 @@ const TableRooms = () => {
   })
   const { data: roomsData , isLoading: loadingDetail } = useQuery({
     queryKey: ['ROOMS', idRoom],
-    queryFn:() => getOneRooms(idRoom)
-   })
+    queryFn: () => getOneRooms(idRoom)
+  })
 
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
@@ -106,8 +111,9 @@ const TableRooms = () => {
         ellipsis = true
       } else if (ellipsis) {
         pages.push(
-          <PaginationItem key={`ellipsis-${i}`} 
-          // disabled
+          <PaginationItem
+            key={`ellipsis-${i}`}
+            // disabled
           >
             <span className="px-3">...</span>
           </PaginationItem>
@@ -140,10 +146,13 @@ const TableRooms = () => {
   useEffect(() => {
     const fecthRooms = async () => {
       try {
-        const roomData = await getAllRoomAdmin({ id: selectedRoom, _showId: selectedShow })
+        const roomData = await getAllRoomAdmin({
+          id: selectedRoom,
+          _showId: selectedShow
+        })
         setRooms(roomData)
       } catch (error) {
-        throw new Error ('Error fetching seats:')
+        throw new Error('Error fetching seats:')
       }
     }
     fecthRooms()
@@ -152,12 +161,10 @@ const TableRooms = () => {
 
 
 
-
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  
 
   const handleOpenModal = (room: Screeningrooms) => {
-   setIdRoom(room?._id!)
+    setIdRoom(room?._id!)
     setModalIsOpen(true)
   }
 
@@ -166,13 +173,10 @@ const TableRooms = () => {
     // Thực hiện xử lý logic để trả về dữ liệu trống
   setSelectedShow(""); // Đặt giá trị mặc định cho selectedShow là ""
   }
-  
-  
 
   if (isLoading) {
-    return < Loader />
+    return <Loader />
   }
-  if (isError) return <div>Error</div>
 
   return (
     <>
@@ -227,12 +231,11 @@ const TableRooms = () => {
                     </div>
                   </td>
                 </tr>
-              ))}
+              )) : ''}
             </tbody>
           </table>
         </div>
       </div>
-
 
       {/* Hiển thị chi tiết phòng chiếu */}
       <Modal
@@ -360,7 +363,6 @@ const TableRooms = () => {
           Đóng
         </button>
       </Modal>
-
 
       {renderPagination()}
       <ConfirmDialog
