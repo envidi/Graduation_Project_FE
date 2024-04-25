@@ -1,6 +1,20 @@
+.footer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Màn 92em - 5 cột */
+  gap: 1rem;
+  margin-left: 10rem;
+  margin-top: 2rem
+}
+
 @media (max-width: 92em) {
   html {
     font-size: 56.25%;
+  }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+    margin-left: 10rem;
   }
 }
 
@@ -120,6 +134,15 @@
 
   .btn-reg {
     margin-top: 1.2rem;
+  }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+    /* margin-left: 10rem; */
+  }
+  .feadback{
+    display: none;
   }
 }
 
@@ -327,6 +350,19 @@
   .nav-signed-name {
     display: none;
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
+  }
+  .feadback{
+    display: none;
+  }
+  .footer h1{
+    font-size: 11px;;
+  }
 }
 
 @media (max-width: 57em) {
@@ -346,7 +382,14 @@
   .ticket-heading {
     width: 32.5rem;
   }
-
+  
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
+  }
 }
 
 /* *************************** */
@@ -548,6 +591,13 @@
   .showtimes-details-btn {
     margin-top: auto;
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
+  }
 }
 
 /* *************************** */
@@ -737,12 +787,26 @@
     width: 100%;
     margin-left: 0;
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
+  }
 }
 
 @media ((max-width: 600px) and (min-width: 410px)) {
   .movie-info-screen-container-3d {
     grid-template-columns: repeat(2, 1fr);
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+   
+  }
+
 }
 
 @media (min-width: 600px) and (max-width: 1280px) {
@@ -753,4 +817,30 @@
     top: 15px;
     /* z-index: 3; */
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+    margin-left: 6rem;
+  }
+  .feadback{
+    display: none;
+  }
+}
+
+.hashlink-container {
+  display: flex;
+  align-items: center; /* Canh giữa theo chiều dọc */
+}
+
+/* Đảm bảo icon có kích thước cố định */
+.main-logo-icon {
+  width: 2.5rem; /* Đặt kích thước tùy ý */
+  height: 2.5rem; /* Đặt kích thước tùy ý */
+  margin-right: 1rem; /* Khoảng cách giữa icon và chữ */
+}
+
+/* Đảm bảo chữ có kích thước cố định */
+.logo-text {
+  font-size: 1.5rem; /* Đặt kích thước tùy ý */
 }

@@ -78,14 +78,20 @@ import Showtimes from './admin/pages/Showtimes/Showtimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
 import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 import Restore from './admin/pages/Showtimes/Restore'
-import RoomsPage from './admin/pages/Rooms'
-import AddRooms from './admin/pages/Rooms/AddRooms'
-import EditRooms from './admin/pages/Rooms/EditRooms'
-import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
+// import RoomsPage from './admin/pages/Rooms'
+// import AddRooms from './admin/pages/Rooms/AddRooms'
+// import EditRooms from './admin/pages/Rooms/EditRooms'
+// import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
+
+// import DetailsRoomsPage from './admin/pages/Rooms/GetDetail'
+
 import PolicyPage from './pages/Policy/PolicyPage'
 import DetailMovie from './admin/pages/Movie/DetailMovie'
+import DetailTicket from './admin/pages/Tickets/components/DetailTicket'
+import TableSoftDeleteMovie from './admin/pages/Movie/TableSoftDelete'
+
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
@@ -285,8 +291,7 @@ function App() {
                 {/* <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} /> */}
               </Route>
-            
-            
+
               <Route path="food">
                 <Route index element={<FoodAdminPage />} />
                 <Route path="destroy" element={<FoodAdminDestroyPage />} />
@@ -307,29 +312,37 @@ function App() {
                 <Route index element={<MoviePageadmin />} />
                 <Route path="add" element={<MovieAdd />} />
                 <Route path="edit/:id" element={<MovieEdit />} />
+                <Route path="softdelete" element={<TableSoftDeleteMovie />} />
                 <Route path=":slug" element={<DetailMovie />} />
+
               </Route>
               <Route path="screeningrooms">
-                <Route index element={<RoomsPage />} />
+                {/* <Route index element={<RoomsPage />} />
+                <Route path=":id" element={<DetailsRoomsPage />} />
                 <Route path="add" element={<AddRooms />} />
-                <Route path="edit/:id" element={<EditRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} /> */}
               </Route>
-              <Route path="screeningrooms/destroy" element={<RoomsPageDestroy />} />
+              {/* <Route
+                path="screeningrooms/destroy"
+                element={<RoomsPageDestroy />}
+              /> */}
               <Route path="tickets">
                 <Route index element={<TicketsPage />} />
-                <Route path="add" element={<AddRooms />} />
-                <Route path="edit/:id" element={<EditRooms />} />
+
+                <Route path="detail/:id" element={<DetailTicket />} />
+                {/* <Route path="add" element={<AddRooms />} />
+                <Route path="edit/:id" element={<EditRooms />} /> */}
               </Route>
               <Route path="calendar" element={<Calendar />} />
               <Route path="profile" element={<Profile />} />
               <Route path="users" element={<Users />} />
 
-               <Route path="showtimes">
+              <Route path="showtimes">
                 <Route index element={<Showtimes />} />
                 <Route path="create" element={<CreateShowtimes />} />
                 <Route path="update/:id" element={<UpdateShowtimes />} />
                 <Route path="restore" element={<Restore />} />
-              </Route> 
+              </Route>
 
               <Route path="forms/form-elements" element={<FormElements />} />
               <Route path="forms/form-layout" element={<FormLayout />} />

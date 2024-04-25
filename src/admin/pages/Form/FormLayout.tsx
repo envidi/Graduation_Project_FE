@@ -26,7 +26,7 @@ const FormLayout = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="Enter your first name"
+                      placeholder="Nhập tên của bạn"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                   </div>
@@ -37,7 +37,7 @@ const FormLayout = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="Enter your last name"
+                      placeholder="Nhập họ của bạn"
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                     />
                   </div>
@@ -49,7 +49,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="nhập địa chỉ email của bạn"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -60,7 +60,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="text"
-                    placeholder="Select subject"
+                    placeholder="Chọn chủ đề"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -73,7 +73,7 @@ const FormLayout = () => {
                   </label>
                   <textarea
                     rows={6}
-                    placeholder="Type your message"
+                    placeholder="Nhập tin nhắn của bạn"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   ></textarea>
                 </div>
@@ -102,7 +102,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="nhập địa chỉ email của bạn"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -113,7 +113,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="password"
-                    placeholder="Enter password"
+                    placeholder="Nhập mật khẩu"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -176,7 +176,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter your full name"
+                    placeholder="Nhập tên đầy đủ của bạn"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -187,7 +187,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="email"
-                    placeholder="Enter your email address"
+                    placeholder="nhập địa chỉ email của bạn"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -198,7 +198,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="password"
-                    placeholder="Enter password"
+                    placeholder="Nhập mật khẩu"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>
@@ -209,7 +209,7 @@ const FormLayout = () => {
                   </label>
                   <input
                     type="password"
-                    placeholder="Re-enter password"
+                    placeholder="Nhập lại mật khẩu"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                 </div>

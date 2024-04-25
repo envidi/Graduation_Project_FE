@@ -20,7 +20,6 @@ import FooterTable from './FooterTable'
 import HeaderTable from './HeaderTable'
 import { useTicketQuery } from '@/admin/common/hooks/useTicketQuery'
 
-
 const ListTickets = () => {
   const { data, isLoading } = useTicketQuery()
   // const queryClient = useQueryClient()
@@ -61,14 +60,15 @@ const ListTickets = () => {
   })
   return (
     <>
-      {/* <div className="flex justify-between items-center py-3"> */}
+      <div className="flex justify-between items-center py-3">
+        <h2>Vé</h2>
         {/* <Link to="/admin/products/add" className="flex items-center">
                     <Button>
                         <Plus />
                         Add Product
                     </Button>
                 </Link> */}
-      {/* </div> */}
+      </div>
       <div className="mb-5">
         <div className="w-full">
           <div className="flex items-center py-4">

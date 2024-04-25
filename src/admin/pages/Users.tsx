@@ -218,9 +218,9 @@ const Users = () => {
           </div>
         </div>
         <div>
-          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
-            <div className="inline-block  shadow rounded-lg overflow-hidden">
-              <table className="w-full  border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
+          <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto scrollable-table">
+            <div className="inline-block  shadow rounded-lg overflow-hidden ">
+              <table className="w-[1100px]  border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                 <thead>
                   <tr>
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
@@ -229,7 +229,7 @@ const Users = () => {
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Số Điện Thoại
                     </th>
-                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider w-[600px]">
+                    <th className="py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider w-[600px]">
                       Địa Chỉ
                     </th>
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">

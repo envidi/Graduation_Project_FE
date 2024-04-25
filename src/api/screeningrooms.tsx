@@ -1,11 +1,10 @@
-import { AddandEditRooms, Screeningrooms } from '@/Interface/screeningrooms'
+import { AddandEditRooms, AddandEditRoomsType, Screeningrooms } from '@/Interface/screeningrooms'
 import instance from '@/api/config'
 
 export const getAllRooms = async () => {
   const result = await instance.get('/screen/')
 
   return result.data.datas.docs
-
 }
 export const getAllRoomsDestroy = async () => {
   try {
@@ -17,9 +16,12 @@ export const getAllRoomsDestroy = async () => {
     throw error
   }
 }
-export const getOneRooms = async (id: string) => {
+export const getOneRooms = async (id: string | undefined) => {
+  if(id ===''){
+    return []
+  }
   const result = await instance.get(`/screen/${id}`)
-  return result.data.datas as Screeningrooms
+  return result.data.datas
 }
 
 export const HarddeleteRooms = async (id: string) => {
@@ -28,7 +30,9 @@ export const HarddeleteRooms = async (id: string) => {
 }
 export const SoftDeleteRooms = async (id: string) => {
   try {
-    const result = await instance.patch(`/screen/${id}/soft`, { data: { destroy: true } })
+    const result = await instance.patch(`/screen/${id}/soft`, {
+      data: { destroy: true }
+    })
     return result.data.datas
   } catch (error) {
     console.error('Error while performing soft delete:', error)
@@ -37,21 +41,20 @@ export const SoftDeleteRooms = async (id: string) => {
 }
 export const undoSoftDeleteRooms = async (id: string) => {
   try {
-    const result = await instance.patch(`/screen/${id}/restore`, { data: { destroy: true } })
+    const result = await instance.patch(`/screen/${id}/restore`, {
+      data: { destroy: true }
+    })
     return result.data.datas
   } catch (error) {
-    console.error('Error while performing undo soft delete:', error)
-    throw error
+    throw new Error(error as string)
   }
 }
-export const newRooms = async (rooms: AddandEditRooms) => {
-  console.log(rooms)
+export const newRooms = async (rooms: AddandEditRoomsType) => {
   const response = await instance.post('/screen', rooms)
   return response.data
 }
 
-
-export const editRooms = async (rooms: AddandEditRooms, id: string) => {
+export const editRooms = async (rooms: AddandEditRoomsType, id: string) => {
   const result = await instance.patch(`/screen/${id}`, rooms)
   return result.data.datas
 }
@@ -67,10 +70,7 @@ export const getShowsByRoom = async (id: string) => {
   return result.data.response.docs
 }
 
-export const getAllRoomAdmin = async (params: {
-  id?: any
-  _showId?: any
-}) => {
+export const getAllRoomAdmin = async (params: { id?: any; _showId?: any }) => {
   // Đảm bảo thêm tham số `destroy=false` vào params trước khi tạo query string
   const paramsWithDestroy = { ...params }
   const queryString = new URLSearchParams(paramsWithDestroy as any).toString()

@@ -12,6 +12,7 @@ import {
 import { convertNumberToAlphabet } from '@/utils/seatAlphaIndex'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export const columns: ColumnDef<TicketBill>[] = [
   {
@@ -67,7 +68,7 @@ export const columns: ColumnDef<TicketBill>[] = [
     cell: ({ row }) => {
       const data = row?.original?.seatId
       return (
-        <div className='w-20'>
+        <div className="w-20">
           {convertNumberToAlphabet(data[0]?.row)}
           {data[0]?.column}
         </div>
@@ -80,14 +81,14 @@ export const columns: ColumnDef<TicketBill>[] = [
     header: 'Loại Ghế',
     cell: ({ row }) => {
       const data = row?.original?.seatId
-      return <div className='w-20'>{data[0]?.typeSeat}</div>
+      return <div className="w-20">{data[0]?.typeSeat}</div>
     }
   },
   {
     accessorKey: 'userId?.name',
     header: 'Khách hàng',
     cell: ({ row }) => {
-      return <div className='w-35'>{row?.original?.userId?.name}</div>
+      return <div className="w-35">{row?.original?.userId?.name}</div>
     }
   },
   //   {
@@ -108,7 +109,7 @@ export const columns: ColumnDef<TicketBill>[] = [
     accessorKey: 'screenRoomId?.name',
     header: 'Tên phòng',
     cell: ({ row }) => {
-      return <div className='w-25'>{row?.original?.screenRoomId?.name}</div>
+      return <div className="w-25">{row?.original?.screenRoomId?.name}</div>
     }
   },
   //   {
@@ -181,17 +182,20 @@ export const columns: ColumnDef<TicketBill>[] = [
     cell: ({ row }) => {
       return (
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+          <DropdownMenuTrigger asChild className=''>
+            <Button variant="ghost" className="h-8 w-8 p-0 ">
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+            <DropdownMenuLabel className='text-sm px-3 py-2'>Actions</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Xóa Cứng</DropdownMenuItem>
-            <DropdownMenuItem>Xóa Mềm</DropdownMenuItem>
+            <DropdownMenuItem className='text-sm px-3 py-2'>Xóa Cứng</DropdownMenuItem>
+            <DropdownMenuItem className='text-sm px-3 py-2'>Xóa Mềm</DropdownMenuItem>
+            <DropdownMenuItem className='text-sm px-3 py-2'>
+              <Link to={`/admin/tickets/detail/${row.original._id}`}>Chi tiết</Link>
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )

@@ -47,19 +47,19 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
         },
         onSuccess: () => {
             if (typeForm === 'EDIT') {
-                toast.success('Edit seat successfully')
+                toast.success('Chỉnh sửa chỗ ngồi thành công')
                 navigate('/admin/seat')
                 return
             }
-            toast.success('Add seat successfully')
+            toast.success('Thêm chỗ ngồi thành công')
             navigate('/admin/seat')
         },
         onError: () => {
             if (typeForm === 'EDIT') {
-                toast.error('Edit seat failed')
+                toast.error('Chỉnh sửa chỗ ngồi không thành công')
                 return
             }
-            toast.error('Add seat failed')
+            toast.error('Thêm chỗ ngồi không thành công')
         }
     })
 
@@ -84,22 +84,22 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
         validate: (values) => {
             const errors: Partial<FormSeatAdd> = {}
             if (!values.typeSeat) {
-                errors.typeSeat = 'Required type of seat'
+                errors.typeSeat = 'Loại ghế bắt buộc'
             }
             if (values.price <= 0) {
-                errors.price = 'Price must be greater than 0'
+                errors.price = 'Giá phải lớn hơn 0'
             }
             if (values.row <= 0) {
-                errors.row = 'Row must be greater than 0'
+                errors.row = 'Hàng phải lớn hơn 0'
             }
             if (values.column <= 0) {
-                errors.column = 'Column must be greater than 0'
+                errors.column = 'Cột phải lớn hơn 0'
             }
             if (!values.ScreeningRoomId) {
-                errors.ScreeningRoomId = 'Required Screening Room ID'
+                errors.ScreeningRoomId = 'ID phòng chiếu bắt buộc'
             }
             if (!values.ShowScheduleId) {
-                errors.ShowScheduleId = 'Required Show Schedule ID'
+                errors.ShowScheduleId = 'Bắt buộc Hiển thị ID lịch trình'
             }
             return errors
         },
@@ -139,8 +139,8 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
                             onChange={handleChange}
                             className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
                         >
-                            <option value="Unavailable">Unavailable</option>
-                            <option value="normal">Normal</option>
+                            <option value="Unavailable">Không có sẵn</option>
+                            <option value="normal">Bình thường</option>
                             <option value="VIP">VIP</option>
                         </select>
                         {touched.typeSeat && errors.typeSeat && (
@@ -150,7 +150,7 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
 
                     <div>
                         <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            Price
+                        Giá
                         </label>
                         <input
                             name="price"
@@ -170,7 +170,7 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
 
                     <div>
                         <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            Row
+                        Hàng ngang
                         </label>
                         <input
                             name="row"
@@ -178,7 +178,7 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
                             value={values.row}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            placeholder="Enter seat row"
+                            placeholder="Nhập hàng ghế"
                             className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
                         />
                         {errors.row && (
@@ -190,7 +190,7 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
 
                     <div>
                         <label className="mb-2 block text-lg font-semibold text-gray-700 dark:text-gray-200">
-                            Column
+                        Cột
                         </label>
                         <input
                             name="column"
@@ -198,7 +198,7 @@ const SeatForm = ({ typeForm }: FormSeatProps) => {
                             value={values.column}
                             onChange={handleChange}
                             onBlur={handleBlur}
-                            placeholder="Enter seat row"
+                            placeholder="Nhập hàng ghế"
                             className="w-full rounded-md border-gray-300 shadow-sm py-3 px-5 text-lg text-gray-700 dark:border-gray-600 dark:bg-gray-700 dark:text-white focus:border-indigo-500 focus:ring focus:ring-indigo-300 focus:ring-opacity-50 transition ease-in-out duration-150"
                         />
                         {errors.column && (
