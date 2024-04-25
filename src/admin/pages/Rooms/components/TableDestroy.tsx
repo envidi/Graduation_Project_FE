@@ -199,7 +199,7 @@ const TableRoomsDestroy = () => {
                 <tr key={rooms._id}>
 
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                    <p className="text-sm font-medium text-primary-white">{index + 1}</p>
+                    <p className="text-sm font-medium text-primary-white">{(currentPage - 1) * itemsPerPage + index + 1}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{rooms.name ?? ''}</p>
