@@ -31,7 +31,6 @@ const SeatPage = () => {
     _hallId: ticket?.hall_id?._id || '',
     _showId: ticket?.id_showtime?._id || ''
   })
-
   const [, setSelectedSeat] = useState<SeatUserList>()
   useEffect(() => {
     if (!seats || seats.length == 0) return

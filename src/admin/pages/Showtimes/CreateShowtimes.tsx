@@ -213,7 +213,7 @@ const CreateShowtimes = () => {
           </DialogContent>
         </Dialog>
 
-        <div className=" mx-auto mt-10">
+        <div className=" mx-auto mt-5 mb-203">
           {loading ? (
             <Loading /> // Hiển thị thông báo hoặc spinner khi đang load
           ) : (

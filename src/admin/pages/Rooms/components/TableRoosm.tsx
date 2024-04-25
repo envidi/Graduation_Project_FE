@@ -1,10 +1,15 @@
-import  { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
-import { FaEdit, FaPlusCircle, FaTrashRestoreAlt, FaInfoCircle } from 'react-icons/fa'
-import { useNavigate} from 'react-router-dom'
+import { FaEdit, FaPlusCircle, FaTrashRestoreAlt } from 'react-icons/fa'
+import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal'
-import { getAllRoomAdmin, getAllRooms, getOneRooms,  SoftDeleteRooms } from '@/api/screeningrooms'
+import {
+  getAllRoomAdmin,
+  getAllRooms,
+  getOneRooms,
+  SoftDeleteRooms
+} from '@/api/screeningrooms'
 import { Screeningrooms } from '@/Interface/screeningrooms'
 import { ConfirmDialog } from '@/admin/components/Confirm'
 import {
@@ -25,13 +30,13 @@ const TableRooms = () => {
   const [rooms, setRooms] = useState<Screeningrooms[]>([])
   const [selectedRoom, setSelectedRoom] = useState('')
   const [selectedShow, setSelectedShow] = useState('')
-  
-  const [idRoom, setIdRoom]=useState('')
-  
-  const { data: roomsData , isLoading: loadingDetail } = useQuery({
+
+  const [idRoom, setIdRoom] = useState('')
+
+  const { data: roomsData, isLoading: loadingDetail } = useQuery({
     queryKey: ['ROOMS', idRoom],
-    queryFn:() => getOneRooms(idRoom)
-   })
+    queryFn: () => getOneRooms(idRoom)
+  })
 
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
@@ -102,8 +107,9 @@ const TableRooms = () => {
         ellipsis = true
       } else if (ellipsis) {
         pages.push(
-          <PaginationItem key={`ellipsis-${i}`} 
-          // disabled
+          <PaginationItem
+            key={`ellipsis-${i}`}
+            // disabled
           >
             <span className="px-3">...</span>
           </PaginationItem>
@@ -136,42 +142,40 @@ const TableRooms = () => {
   useEffect(() => {
     const fecthRooms = async () => {
       try {
-        const roomData = await getAllRoomAdmin({ id: selectedRoom, _showId: selectedShow })
+        const roomData = await getAllRoomAdmin({
+          id: selectedRoom,
+          _showId: selectedShow
+        })
         setRooms(roomData)
       } catch (error) {
-        throw new Error ('Error fetching seats:')
+        throw new Error('Error fetching seats:')
       }
     }
     fecthRooms()
   }, [])
   /*------------------------------------------------- */
 
-
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { isLoading, isError } = useQuery<Screeningrooms[]>({
     queryKey: ['ROOMS'],
-    queryFn:()=> getAllRooms()
+    queryFn: () => getAllRooms()
   })
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
-  
 
   const handleOpenModal = (room: Screeningrooms) => {
-   setIdRoom(room?._id!)
+    setIdRoom(room?._id!)
     setModalIsOpen(true)
   }
 
   const handleCloseModal = () => {
     setModalIsOpen(false)
   }
-  
-  
 
   if (isLoading) {
-    return < Loader />
+    return <Loader />
   }
-  if (isError) return <div>Error</div>
 
   return (
     <>
@@ -218,8 +222,11 @@ const TableRooms = () => {
               </tr>
             </thead>
             <tbody>
-              {data?.map((rooms:any, index) => (
-                <tr key={rooms._id} className='bg-white border-stroke dark:bg-boxdark'>
+              {rooms ? rooms?.map((rooms: any, index) => (
+                <tr
+                  key={rooms._id}
+                  className="bg-white border-stroke dark:bg-boxdark"
+                >
                   <td className="border-b border-[#eee]  py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                     <p className="text-sm font-medium text-primary-white">
                       {index}
@@ -274,12 +281,11 @@ const TableRooms = () => {
                     </div>
                   </td>
                 </tr>
-              ))}
+              )) : ''}
             </tbody>
           </table>
         </div>
       </div>
-
 
       {/* Hiển thị chi tiết phòng chiếu */}
       <Modal
@@ -308,98 +314,148 @@ const TableRooms = () => {
           }
         }}
       >
-        <h2 style={{ color: 'red', borderBottom: '2px solid #ddd', paddingBottom: '10px', fontWeight: 'bold' }}>Chi tiết phòng chiếu</h2>
-          
-            {loadingDetail ? (
-              <div>Loading...</div>
-            ) : (
-              <table className="w-full  table-auto" style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px', zIndex:1000 }}>
-                <tbody>
+        <h2
+          style={{
+            color: 'red',
+            borderBottom: '2px solid #ddd',
+            paddingBottom: '10px',
+            fontWeight: 'bold'
+          }}
+        >
+          Chi tiết phòng chiếu
+        </h2>
+
+        {loadingDetail ? (
+          <div>Loading...</div>
+        ) : (
+          <table
+            className="w-full  table-auto"
+            style={{
+              marginTop: '20px',
+              lineHeight: '1.5',
+              fontSize: '16px',
+              zIndex: 1000
+            }}
+          >
+            <tbody>
+              <tr>
+                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                  Tên phòng:
+                </td>
+                <td style={{ padding: '10px 0' }}>{roomsData?.name}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                  Chọn lịch chiếu:
+                </td>
+                <td style={{ padding: '10px 0' }}>
+                  <select
+                    value={selectedShow}
+                    onChange={(e) => setSelectedShow(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  >
+                    <option value="">Chọn lịch chiếu</option>
+                    {roomsData.ShowtimesId?.map((show: any) => (
+                      <option key={show._id} value={show._id}>
+                        {show.timeFrom} - {show.timeTo}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+              {selectedShow && (
+                <>
                   <tr>
-                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Tên phòng:</td>
-                    <td style={{ padding: '10px 0' }}>{roomsData?.name}</td>
-                  </tr>
-                  <tr>
-                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Chọn lịch chiếu:</td>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      Tên Phim:
+                    </td>
                     <td style={{ padding: '10px 0' }}>
-                      <select
-                        value={selectedShow}
-                        onChange={(e) => setSelectedShow(e.target.value)}
-                        className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                      >
-                        <option value="">Chọn lịch chiếu</option>
-                        {roomsData.ShowtimesId?.map((show: any) => (
-                          <option key={show._id} value={show._id}>
-                            {show.timeFrom} - {show.timeTo}
-                          </option>
-                        ))}
-                      </select>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.movieId?.name}
                     </td>
                   </tr>
-                  {selectedShow && (
-                    <>
-                      <tr>
-                        <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Tên Phim:</td>
-                        <td style={{ padding: '10px 0' }}>
-                          {roomsData?.ShowtimesId &&
-                            roomsData?.ShowtimesId.find((show: any) => show._id === selectedShow)?.movieId?.name}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Số ghế:</td>
-                        <td style={{ padding: '10px 0' }}>{roomsData.NumberSeat}</td>
-                      </tr>
-                      <tr>
-                        <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Số ghế đã đặt:</td>
-                        <td style={{ padding: '10px 0' }}>
-                          {roomsData?.ShowtimesId &&
-                            roomsData?.ShowtimesId.find((show: any) => show._id === selectedShow)?.SeatId?.seatSold}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Số ghế trống:</td>
-                        <td style={{ padding: '10px 0' }}>
-                          {roomsData?.ShowtimesId &&
-                            roomsData?.ShowtimesId.find((show: any) => show._id === selectedShow)?.SeatId?.seatNotSold}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Ghế Vip:</td>
-                        <td style={{ padding: '10px 0' }}>
-                          {roomsData?.ShowtimesId &&
-                            roomsData?.ShowtimesId.find((show: any) => show._id === selectedShow)?.SeatId?.seatVip.length}
-                          <br />
-                          {roomsData?.ShowtimesId &&
-                            roomsData?.ShowtimesId.find((show: any) => show._id === selectedShow)?.SeatId?.seatVip[0]?.price + 'VĐN'}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Ghế Thường:</td>
-                        <td style={{ padding: '10px 0' }}>
-                          {roomsData?.ShowtimesId &&
-                            roomsData?.ShowtimesId.find((show: any) => show._id === selectedShow)?.SeatId?.seatNormal.length}
-                          <br />
-                          {roomsData?.ShowtimesId &&
-                            roomsData?.ShowtimesId.find((show: any) => show._id === selectedShow)?.SeatId?.seatNormal[0]?.price +
-                              'VĐN'}
-                        </td>
-                      </tr>
-                    </>
-                  )}
                   <tr>
-                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Máy chiếu:</td>
-                    <td style={{ padding: '10px 0' }}>{roomsData?.projector}</td>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      Số ghế:
+                    </td>
+                    <td style={{ padding: '10px 0' }}>
+                      {roomsData.NumberSeat}
+                    </td>
                   </tr>
                   <tr>
-                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>Trạng thái:</td>
-                    <td style={{ padding: '10px 0' }}>{roomsData?.status}</td>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      Số ghế đã đặt:
+                    </td>
+                    <td style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatSold}
+                    </td>
                   </tr>
-                </tbody>
-              </table>
-            )}
-          
-        
-       
+                  <tr>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      Số ghế trống:
+                    </td>
+                    <td style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatNotSold}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      Ghế Vip:
+                    </td>
+                    <td style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatVip.length}
+                      <br />
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatVip[0]?.price + 'VĐN'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      Ghế Thường:
+                    </td>
+                    <td style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatNormal.length}
+                      <br />
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatNormal[0]?.price + 'VĐN'}
+                    </td>
+                  </tr>
+                </>
+              )}
+              <tr>
+                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                  Máy chiếu:
+                </td>
+                <td style={{ padding: '10px 0' }}>{roomsData?.projector}</td>
+              </tr>
+              <tr>
+                <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                  Trạng thái:
+                </td>
+                <td style={{ padding: '10px 0' }}>{roomsData?.status}</td>
+              </tr>
+            </tbody>
+          </table>
+        )}
+
         <button
           onClick={handleCloseModal}
           style={{
@@ -412,13 +468,16 @@ const TableRooms = () => {
             cursor: 'pointer',
             transition: 'background-color 0.3s'
           }}
-          onMouseOver={e => e.currentTarget.style.backgroundColor = '#003580'}
-          onMouseOut={e => e.currentTarget.style.backgroundColor = '#0056b3'}
+          onMouseOver={(e) =>
+            (e.currentTarget.style.backgroundColor = '#003580')
+          }
+          onMouseOut={(e) =>
+            (e.currentTarget.style.backgroundColor = '#0056b3')
+          }
         >
           Đóng
         </button>
       </Modal>
-
 
       {renderPagination()}
       <ConfirmDialog

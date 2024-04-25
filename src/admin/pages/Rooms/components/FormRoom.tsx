@@ -1,5 +1,3 @@
-import { AddandEditRooms } from '@/Interface/screeningrooms'
-import { AddandEditRooms } from '@/Interface/screeningrooms'
 import Loader from '@/admin/common/Loader'
 import { editRooms, getOneRooms, newRooms } from '@/api/screeningrooms'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -13,12 +11,12 @@ type FormRoomsProps = {
 const FormRooms = ({ typeForm }: FormRoomsProps) => {
   // const _id='65d30a80a047aeebd3c78c72';
   const navigate = useNavigate()
-  const handleBack = () => {
-    navigate(-1)
-  }
-  const handleBack = () => {
-    navigate(-1)
-  }
+  // const handleBack = () => {
+  //   navigate(-1)
+  // }
+  // const handleBack = () => {
+  //   navigate(-1)
+  // }
   const { id } = useParams()
   const { data: roomsData, isLoading } = useQuery({
     queryKey: ['ROOMS', id],
@@ -79,11 +77,11 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
         errors.name = 'Tên phòng bắt buộc'
       }
       if (!values.projector) {
-        errors.name = 'Tên máy chiếu bắt buộc'
+        errors.projector = 'Tên máy chiếu bắt buộc'
       }
-      if (!values.NumberSeat) {
-        // errors.NumberSeat="Bắt buộc phải nhập"
-      }
+      // if (!values.NumberSeat) {
+      // errors.NumberSeat="Bắt buộc phải nhập"
+      // }
 
       return errors
     },
@@ -94,7 +92,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
           NumberSeat: parseInt(values.NumberSeat!) || 0,
           projector: values.projector
         }
-        if (roomsData.ShowtimesId.length > 0) {
+        if (typeForm === 'EDIT' && roomsData.ShowtimesId.length > 0) {
           toast.error('Phòng chiếu đã có lịch chiếu', {
             position: 'top-right'
           })
@@ -187,7 +185,7 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
                 <option
                   className="text-gray-900"
                   value="Projector_2"
-                  selected={values.projector === 'Projector_1'}
+                  selected={values.projector === 'Projector_2'}
                 >
                   Máy chiếu 2
                 </option>
@@ -235,10 +233,10 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
                 </option>
                 <option
                   className="text-gray-900"
-                  value={49}
-                  selected={values.NumberSeat === 49}
+                  value={56}
+                  selected={values.NumberSeat === 56}
                 >
-                  49
+                  56
                 </option>
                 <option
                   className="text-gray-900"
