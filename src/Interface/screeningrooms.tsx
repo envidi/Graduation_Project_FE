@@ -34,7 +34,6 @@ export interface Showtimes{
 
 export interface AddandEditRooms {
   name: string
-  NumberSeat:number
   projector: string
   CinemaId: string
   status: string
@@ -53,4 +52,3 @@ export interface AddandEditRoomsType {
   // CinemaId:CinemaRooms
   // ShowtimesId: ShowTimeRooms
 }
-
