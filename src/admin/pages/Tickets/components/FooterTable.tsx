@@ -11,7 +11,7 @@ const FooterTable = ({ table }: any) => {
       <div className="space-x-2">
         <Button
           variant="outline"
-          size="sm"
+          className='text-sm'
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
@@ -19,7 +19,7 @@ const FooterTable = ({ table }: any) => {
         </Button>
         <Button
           variant="outline"
-          size="sm"
+          className='text-sm'
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >

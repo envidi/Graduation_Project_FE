@@ -99,7 +99,7 @@ const TableMovie = () => {
             <thead>
               {/* <tr className="bg-gray-200 text-left dark:bg-meta-4 border border-gray-400 dark:border-strokedark"> */}
               <tr className="bg-gray-200 text-left dark:bg-meta-4 ">
-                <th className="py-4 px-4 font-medium text-gray-800 xl:pl-11 border-b border-gray-400 dark:border-strokedark ">
+                <th className="py-4 px-2 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark ">
                   STT
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
@@ -139,10 +139,10 @@ const TableMovie = () => {
                   Diễn viên
                 </th>
                 {/* <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">Đoạn phim giới thiệu</th> */}
-                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
+                <th className="min-w-[180px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Trạng thái
                 </th>
-                <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark text-center">
+                <th className="min-w-[350px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark text-center">
                   Hành động
                 </th>
               </tr>
@@ -153,7 +153,7 @@ const TableMovie = () => {
                   key={movie.name}
                   className="border-b border-gray-400 dark:border-strokedark"
                 >
-                  <td className="py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
+                  <td className="py-5 px-5 dark:border-strokedark">
                     <p className="text-sm font-medium text-gray-800">
                       {index + 1}
                     </p>
@@ -164,9 +164,7 @@ const TableMovie = () => {
                   <td className="py-5 px-4 dark:border-strokedark">
                     <img src={movie.image} alt="" className="w-16" />
                   </td>
-                  {/* <td className="py-5 px-4 dark:border-strokedark">
-                    <p className="text-gray-800">{movie.language}</p>
-                  </td> */}
+
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.actor}</p>
                   </td>
@@ -181,100 +179,82 @@ const TableMovie = () => {
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.age_limit}</p>
                   </td>
-                  {/* <td className="py-5 px-4 dark:border-strokedark">
-                    <p className="text-gray-800">
-                      {getDay(selectCalendar(movie.fromDate))}
-                    </p>
-                  </td>
-                  <td className="py-5 px-4 dark:border-strokedark">
-                    <p className="text-gray-800">
-                      {getDay(selectCalendar(movie.toDate))}
-                    </p>
-                  </td> */}
+
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.author}</p>
                   </td>
-                  {/* <td className="py-5 px-4 dark:border-strokedark">
-                    <p className="text-gray-800">{movie.language}</p>
-                  </td> */}
+
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">{movie.actor}</p>
                   </td>
-                  {/* <td className="py-5 px-4 dark:border-strokedark">
-                    <a
-                      href={movie.trailer}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-gray-800 hover:underline"
-                    >
-                      Xem đoạn giới thiệu
-                    </a>
-                  </td> */}
+
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">
                       {filterStatusMovie(movie.status)}
                     </p>
                   </td>
 
-                  <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex flex-wrap justify-center gap-x-3 gap-y-3">
-                    <div
-                      title={
-                        movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
-                          ? 'Không thể cập nhật phim đang chiếu'
-                          : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
-                            ? 'Không thể cập nhật phim đã có xuất chiếu'
-                            : '' // Title mặc định
-                      }
-                    >
-                      <button
-                        onClick={() =>
-                          navigate(`/admin/movie/edit/${movie._id}`)
+                  <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm ">
+                    <div className='flex flex-wrap justify-center gap-x-3 gap-y-3'>
+                      <div
+                        title={
+                          movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
+                            ? 'Không thể cập nhật phim đang chiếu'
+                            : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
+                              ? 'Không thể cập nhật phim đã có xuất chiếu'
+                              : '' // Title mặc định
                         }
-                        className="rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        data-ripple-light="true"
-                        // disabled={movie.status === 'IS_SHOWING'}
-                        disabled={
-                          movie.status === 'IS_SHOWING' ||
-                          movie.showTimes.length > 0
-                        }
-                      >
-                        Cập nhật
-                      </button>
-                    </div>
-                    <div
-                      title={
-                        movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
-                          ? 'Không thể xóa phim đang chiếu'
-                          : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
-                            ? 'Không thể xóa phim đã có xuất chiếu'
-                            : '' // Title mặc định
-                      }
-                    >
-                      <button
-                        className="rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                        data-ripple-light="true"
-                        onClick={() => handleShowConfirm(movie._id)}
-                        disabled={
-                          movie.status === 'IS_SHOWING' ||
-                          movie.showTimes.length > 0
-                        }
-                      >
-                        Xóa
-                      </button>
-                    </div>
-                    <div>
-                      <Link
-                        to={`/admin/movie/${movie.slug}`}
-                        className="inline-block"
                       >
                         <button
-                          className="rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-400/20 transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          onClick={() =>
+                            navigate(`/admin/movie/edit/${movie._id}`)
+                          }
+                          className="rounded-lg bg-blue-500 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           data-ripple-light="true"
-                          // title='abc'
+                          // disabled={movie.status === 'IS_SHOWING'}
+                          disabled={
+                            movie.status === 'IS_SHOWING' ||
+                            movie.showTimes.length > 0
+                          }
                         >
-                          Chi tiết
+                          Cập nhật
                         </button>
-                      </Link>
+                      </div>
+                      <div
+                        title={
+                          movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
+                            ? 'Không thể xóa phim đang chiếu'
+                            : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
+                              ? 'Không thể xóa phim đã có xuất chiếu'
+                              : '' // Title mặc định
+                        }
+                      >
+                        <button
+                          className="rounded-lg bg-red-500 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                          data-ripple-light="true"
+                          onClick={() => handleShowConfirm(movie._id)}
+                          disabled={
+                            movie.status === 'IS_SHOWING' ||
+                            movie.showTimes.length > 0
+                          }
+                        >
+                          Xóa
+                        </button>
+                      </div>
+                      <div>
+                        <Link
+                          to={`/admin/movie/${movie.slug}`}
+                          className="inline-block"
+                        >
+                          <button
+                            className="rounded-lg bg-green-400 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-400/20 transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            data-ripple-light="true"
+                            // title='abc'
+                          >
+                            Chi tiết
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </td>
                 </tr>

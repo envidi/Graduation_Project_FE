@@ -3,7 +3,6 @@ import { ContextMain } from '@/context/Context'
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { FaRegTrashAlt } from 'react-icons/fa'
 import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -77,7 +76,7 @@ const Showtimes = () => {
     return getDay(convertAmPm(formattedDate))
   }
 
-  const handleChangeBox = (value: boolean, item: Showtype) => {
+  const handleChangeBox = (value: boolean|string, item: Showtype) => {
     setChooseShow((prev: any) => {
       if (item.seatSold > 0) {
         toast.error('Lịch chiếu này đã được đặt. Không thể sửa', {

@@ -17,14 +17,9 @@ function useQuery() {
 function PendingResult() {
   const [ticket, setTicket] = useLocalStorage<TicketType>('ticket')
   const [, setCountdown] = useLocalStorage<number | null>('countdown')
+  const [toastShown, setToastShown] = useState(false)
   const navigate = useNavigate()
   const query = useQuery()
-
-  const typeBank = query.has('partnerCode') && query.get('partnerCode')
-  const typePayment = 'ATM'
-  const amount = query.has('amount') && query.get('amount')
-  const [toastShown, setToastShown] = useState(false)
-
   const onSuccess = (data: string) => {
     if (!toastShown) {
       toast.success('Post ticket successfully !', {
@@ -49,10 +44,9 @@ function PendingResult() {
     onSuccess,
     onError
   )
-  const override = {
-    display: 'block',
-    margin: '1.6rem auto'
-  }
+  const typeBank = query.has('partnerCode') && query.get('partnerCode')
+  const typePayment = 'ATM'
+  const amount = query.has('amount') && query.get('amount')
 
   useLayoutEffect(() => {
     if (!ticket || Object.keys(ticket).length == 0) return navigate('/')
@@ -82,9 +76,18 @@ function PendingResult() {
       seatId: mapData(ticket.seat),
       foods: foodObject,
       showtimeId: ticket.id_showtime,
-      totalFood : ticket.totalFood
+      totalFood: ticket.totalFood
     })
   }, [])
+  if (!query.has('partnerCode') || !query.has('amount')) {
+    navigate('/')
+    return
+  }
+
+  const override = {
+    display: 'block',
+    margin: '1.6rem auto'
+  }
 
   return (
     <div className="h-[35vw] flex items-center ">

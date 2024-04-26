@@ -184,15 +184,15 @@ const TableRooms = () => {
 
   return (
     <>
-      <div className="text-center mb-2 flex items-center justify-start">
-        <button
-          onClick={() => navigate('/admin/screeningrooms/add')}
-          className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full"
-        >
-          Thêm <FaPlusCircle size={20} className="ml-4" />
-        </button>
-      </div>
       <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+        <div className="text-center flex items-center justify-start mb-6">
+          <button
+            onClick={() => navigate('/admin/screeningrooms/add')}
+            className="bg-indigo-600 px-4 flex gap-x-3 py-2 text-sm rounded-md text-white font-semibold tracking-wide cursor-pointer"
+          >
+            Thêm <FaPlusCircle size={20} />
+          </button>
+        </div>
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto border-stroke">
             <thead>
@@ -269,6 +269,7 @@ const TableRooms = () => {
       {/* Hiển thị chi tiết phòng chiếu */}
       <Modal
         isOpen={modalIsOpen}
+        // className='dark:bg-boxdark absolute top-1/2 w-1/2 left-1/2'
         onRequestClose={handleCloseModal}
         style={{
           overlay: {
@@ -316,16 +317,22 @@ const TableRooms = () => {
             >
               <tbody>
                 <tr>
-                  <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                  <td
+                    className="dark:text-black"
+                    style={{ padding: '10px 0', fontWeight: 'bold' }}
+                  >
                     Tên phòng:
                   </td>
-                  <td style={{ padding: '10px 0' }}>{roomsData?.name}</td>
+                  <td className="dark:text-black">{roomsData?.name}</td>
                 </tr>
                 <tr>
-                  <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                  <td
+                    className="dark:text-black"
+                    style={{ padding: '10px 0', fontWeight: 'bold' }}
+                  >
                     Chọn lịch chiếu:
                   </td>
-                  <td style={{ padding: '10px 0' }}>
+                  <td className="dark:text-black" style={{ padding: '10px 0' }}>
                     <select
                       value={selectedShow}
                       onChange={(e) => setSelectedShow(e.target.value)}
@@ -343,10 +350,16 @@ const TableRooms = () => {
                 {selectedShow && (
                   <>
                     <tr>
-                      <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0', fontWeight: 'bold' }}
+                      >
                         Tên Phim:
                       </td>
-                      <td style={{ padding: '10px 0' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0' }}
+                      >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
                             (show: any) => show._id === selectedShow
@@ -354,18 +367,30 @@ const TableRooms = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0', fontWeight: 'bold' }}
+                      >
                         Số ghế:
                       </td>
-                      <td style={{ padding: '10px 0' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0' }}
+                      >
                         {roomsData.NumberSeat}
                       </td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0', fontWeight: 'bold' }}
+                      >
                         Số ghế đã đặt:
                       </td>
-                      <td style={{ padding: '10px 0' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0' }}
+                      >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
                             (show: any) => show._id === selectedShow
@@ -373,10 +398,16 @@ const TableRooms = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0', fontWeight: 'bold' }}
+                      >
                         Số ghế trống:
                       </td>
-                      <td style={{ padding: '10px 0' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0' }}
+                      >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
                             (show: any) => show._id === selectedShow
@@ -384,10 +415,16 @@ const TableRooms = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0', fontWeight: 'bold' }}
+                      >
                         Ghế Vip:
                       </td>
-                      <td style={{ padding: '10px 0' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0' }}
+                      >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
                             (show: any) => show._id === selectedShow
@@ -400,10 +437,16 @@ const TableRooms = () => {
                       </td>
                     </tr>
                     <tr>
-                      <td style={{ padding: '10px 0', fontWeight: 'bold' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0', fontWeight: 'bold' }}
+                      >
                         Ghế Thường:
                       </td>
-                      <td style={{ padding: '10px 0' }}>
+                      <td
+                        className="dark:text-black"
+                        style={{ padding: '10px 0' }}
+                      >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
                             (show: any) => show._id === selectedShow

@@ -54,8 +54,8 @@ const Users = () => {
     pageNumbers.push(i)
   }
 
-  const handleNextPage = () =>{
-    if(currentPage < pageNumbers.length){
+  const handleNextPage = () => {
+    if (currentPage < pageNumbers.length) {
       setCurrentPage((pre) => pre + 1)
     }
   }
@@ -250,7 +250,7 @@ const Users = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentUsers?.map((item: any, index: any) => (
+                  {currentUsers?.map((item: any, index: number) => (
                     <tr key={index}>
                       <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         <div className="flex items-center">
@@ -340,44 +340,27 @@ const Users = () => {
                 </tbody>
               </table>
 
-              {/* <div className="px-5 py-5 bg-white border-t flex flex-col xs:flex-row items-center xs:justify-between          ">
-                <span className="text-xs xs:text-sm text-gray-900">
-                  Showing 1 to 4 of 50 Entries
-                </span>
-                <div className="inline-flex mt-2 xs:mt-0">
-                  <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-l">
-                    Prev
-                  </button>
-                  &nbsp; &nbsp;
-                  <button className="text-sm text-indigo-50 transition duration-150 hover:bg-indigo-500 bg-indigo-600 font-semibold py-2 px-4 rounded-r">
-                    Next
-                  </button>
-                </div>
-              </div> */}
-              {/* Phân trang--------------------------------  */}
-         
               <nav
                 aria-label="Page navigation"
                 className="flex items-center justify-center mt-3"
               >
                 <ul className="inline-flex space-x-2">
-                <li>
-                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100" onClick={handleNextPage}>
-                          <svg
-                            className="w-4 h-4 fill-current"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                              clip-rule="evenodd"
-                              fill-rule="evenodd"
-                            ></path>
-                          </svg>
-                        </button>
-                      </li>
+                  <li>
+                    <button
+                      className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100"
+                      onClick={handleNextPage}
+                    >
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path
+                          d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                          clipRule="evenodd"
+                          fillRule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </li>
                   {pageNumbers.map((number) => (
                     <>
-                     
                       <li>
                         <button
                           className="w-10 h-10 text-indigo-600 transition-colors duration-150 rounded-full focus:shadow-outline hover:bg-indigo-100"
@@ -386,24 +369,19 @@ const Users = () => {
                           {number}
                         </button>
                       </li>
-
-                    
                     </>
                   ))}
-                    <li>
-                        <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-indigo-100">
-                          <svg
-                            className="w-4 h-4 fill-current"
-                            viewBox="0 0 20 20"
-                          >
-                            <path
-                              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                              clip-rule="evenodd"
-                              fill-rule="evenodd"
-                            ></path>
-                          </svg>
-                        </button>
-                      </li>
+                  <li>
+                    <button className="flex items-center justify-center w-10 h-10 text-indigo-600 transition-colors duration-150 bg-white rounded-full focus:shadow-outline hover:bg-indigo-100">
+                      <svg className="w-4 h-4 fill-current" viewBox="0 0 20 20">
+                        <path
+                          d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                          clipRule="evenodd"
+                          fillRule="evenodd"
+                        ></path>
+                      </svg>
+                    </button>
+                  </li>
                 </ul>
               </nav>
             </div>
@@ -418,12 +396,12 @@ const Users = () => {
             style={{ boxShadow: '3px 2px 10px 1px #d1c8c8;' }}
           >
             <div
-              className="bg-white rounded  w-10/12 md:w-1/3  shadow-xl"
+              className="bg-white  rounded  w-10/12 md:w-1/3  shadow-xl"
               style={{ boxShadow: '3px 2px 10px 1px #d1c8c8;' }}
             >
               <div className="border-b px-4 py-2 flex justify-center items-center text-center">
                 <h3 className="font-semibold text-lg text-black ">
-                  Update Role
+                  Cập nhật vai trò
                 </h3>
               </div>
               <form onSubmit={handleUpdateRole}>
@@ -439,8 +417,8 @@ const Users = () => {
                         onChange={handleOptionChange}
                       />
 
-                      <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-                        <h2 className="font-medium text-gray-700">Admin</h2>
+                      <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 dark:border-graydark border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
+                        <h2 className="font-medium text-gray-700 dark:text-black">Admin</h2>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -468,8 +446,8 @@ const Users = () => {
                         onChange={handleOptionChange}
                       />
 
-                      <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-                        <h2 className="font-medium text-gray-700">User</h2>
+                      <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 dark:border-graydark group peer-checked:border-blue-500">
+                        <h2 className="font-medium text-gray-700 dark:text-black">User</h2>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
@@ -479,8 +457,8 @@ const Users = () => {
                           className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
                         >
                           <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                             d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                           />
                         </svg>
