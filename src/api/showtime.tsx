@@ -10,6 +10,15 @@ export const getAllShowTimes = async () => {
   const result = await baseShowtimes.get('/')
   return result
 }
+export const getApprovalShowTimes = async () => {
+  const result = await baseShowtimes.get('/approval')
+ 
+  return result.data.response
+}
+export const updateApprovalShowTimes = async (id : string) => {
+  const result = await baseShowtimes.patch(`/${id}/approval`)
+  return result
+}
 
 export const CreateShowtimes = async (showtime: any) => {
   const result = await baseShowtimes.post('/', showtime)
@@ -43,7 +52,7 @@ export const RestoreShowtime = async (id: any) => {
 }
 export const getAllSoft = async () => {
   const result = await baseShowtimes.get('/all')
-  return result.data.data.docs
+  return result
 }
 export const getShowtimesById = async (id: string) => {
   try {
