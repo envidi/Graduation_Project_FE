@@ -3,6 +3,7 @@ import { ConfirmDialog } from '@/admin/components/Confirm'
 import { Movie } from '@/admin/types/movie'
 import { getAllMovie, removeMovie, softDeleteMovie } from '@/api/movie'
 import { convertMintuteToHour, getDay, selectCalendar } from '@/utils'
+import { filterStatusMovie } from '@/utils/methodArray'
 // import { getAllCinema, removeCinema } from '@/api/cinema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useRef, useState } from 'react'
@@ -52,7 +53,6 @@ const TableMovie = () => {
     }
   })
 
-
   const handleRemoveMovie = () => {
     mutate(idDelete.current!)
     setOpenConfirm(false)
@@ -70,8 +70,6 @@ const TableMovie = () => {
     return <div>Error</div>
   }
 
-
-
   // render
   return (
     <>
@@ -80,7 +78,7 @@ const TableMovie = () => {
           <div className="text-center mb-5 flex items-center justify-start space-x-4">
             <button
               onClick={() => {
-                navigate('/admin/movie/add');
+                navigate('/admin/movie/add')
               }}
               className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700 transition duration-300"
             >
@@ -89,9 +87,10 @@ const TableMovie = () => {
             </button>
             <button
               onClick={() => {
-                navigate('/admin/movie/softdelete');
+                navigate('/admin/movie/softdelete')
               }}
-              className="bg-red-500 px-5 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-red-600 transition duration-300">
+              className="bg-red-500 px-5 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-red-600 transition duration-300"
+            >
               <FaRegTrashAlt />
             </button>
           </div>
@@ -150,7 +149,6 @@ const TableMovie = () => {
             </thead>
             <tbody>
               {currentItems.map((movie, index) => (
-
                 <tr
                   key={movie.name}
                   className="border-b border-gray-400 dark:border-strokedark"
@@ -214,23 +212,9 @@ const TableMovie = () => {
                   </td> */}
                   <td className="py-5 px-4 dark:border-strokedark">
                     <p className="text-gray-800">
-                      {(() => {
-                        switch (movie.status) {
-                          case 'COMING_SOON':
-                            return 'Sắp Công Chiếu';
-                          case 'IS_SHOWING':
-                            return 'Đang Công Chiếu';
-                          case 'PRTMIERED':
-                            return 'Đã Công Chiếu';
-                          case 'CANCELLED':
-                            return 'Đã Hủy';
-                          default:
-                            return movie.status;
-                        }
-                      })()}
+                      {filterStatusMovie(movie.status)}
                     </p>
                   </td>
-
 
                   <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex flex-wrap justify-center gap-x-3 gap-y-3">
                     <div
@@ -243,12 +227,16 @@ const TableMovie = () => {
                       }
                     >
                       <button
-                        onClick={() => navigate(`/admin/movie/edit/${movie._id}`)}
+                        onClick={() =>
+                          navigate(`/admin/movie/edit/${movie._id}`)
+                        }
                         className="rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         data-ripple-light="true"
                         // disabled={movie.status === 'IS_SHOWING'}
-                        disabled={movie.status === 'IS_SHOWING' || movie.showTimes.length > 0}
-
+                        disabled={
+                          movie.status === 'IS_SHOWING' ||
+                          movie.showTimes.length > 0
+                        }
                       >
                         Cập nhật
                       </button>
@@ -266,25 +254,29 @@ const TableMovie = () => {
                         className="rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                         data-ripple-light="true"
                         onClick={() => handleShowConfirm(movie._id)}
-
-                        disabled={movie.status === 'IS_SHOWING' || movie.showTimes.length > 0}
+                        disabled={
+                          movie.status === 'IS_SHOWING' ||
+                          movie.showTimes.length > 0
+                        }
                       >
                         Xóa
                       </button>
                     </div>
                     <div>
-                      <Link to={`/admin/movie/${movie.slug}`} className="inline-block">
+                      <Link
+                        to={`/admin/movie/${movie.slug}`}
+                        className="inline-block"
+                      >
                         <button
                           className="rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-400/20 transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                           data-ripple-light="true"
-                        // title='abc'
+                          // title='abc'
                         >
                           Chi tiết
                         </button>
                       </Link>
                     </div>
                   </td>
-
                 </tr>
               ))}
             </tbody>

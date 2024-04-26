@@ -27,16 +27,25 @@ export const CREATE_TICKET = 'CREATE_TICKET'
 export const COMPLETE_TICKET = 'COMPLETE_TICKET'
 export const DELETE_TICKET = 'DELETE_TICKET'
 export const SHOW_TIMES = 'SHOW_TIMES'
-export const FULL_SCHEDULE = 'Full'
+
 export const USERDETAIL = 'USERDETAIL'
 export const WATCHLIST = 'WATCHLIST'
+// comment
 export const CREATE_COMMENT = 'CREATE_COMMENT'
 export const REPLY_COMMENT = 'REPLY_COMMENT'
 export const COMMENT = 'COMMENT'
 export const LIKE_COMMENT = 'LIKE_COMMENT'
 export const DELETE_COMMENT = 'DELETE_COMMENT'
+
 export const SIGN_IN = 'SIGN_IN'
 export const SIGN_IN_GOOGLE = 'SIGN_IN_GOOGLE'
 export const PAYMENT = 'payment'
 export const CANCELLED_SHOW = 'Cancelled'
+export const APPROVAL_SHOW = 'APPROVAL_SHOW'
+export const SHOWTIMES_ADMIN = 'SHOWTIMES'
+// show time
+export const AVAILABLE_SCHEDULE = 'Available'
+export const APPROVAL_SCHEDULE = 'Approval'
+export const FULL_SCHEDULE = 'Full'
+export const CANCELLED_SCHEDULE = 'Cancelled'
 
