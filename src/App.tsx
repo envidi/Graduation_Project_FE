@@ -235,11 +235,11 @@ function App() {
               <Route
                 path="pending"
                 element={
-                  <ProtectedConfirm>
+                  
                     <Suspense fallback={<PageLoader />}>
                       <PendingResult />
                     </Suspense>
-                  </ProtectedConfirm>
+                  
                 }
               />
               <Route
