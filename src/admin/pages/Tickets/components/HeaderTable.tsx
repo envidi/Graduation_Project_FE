@@ -12,14 +12,16 @@ import { Input } from '@/components/ui/input'
 const HeaderTable = ({ table }: any) => {
   return (
     <>
-       <Input
-          placeholder="Filter Movie..."
-          value={(table.getColumn("movieId?.name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("movieId?.name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <Input
+        placeholder="Filter Movie..."
+        value={
+          (table.getColumn('movieId?.name')?.getFilterValue() as string) ?? ''
+        }
+        onChange={(event) =>
+          table.getColumn('movieId?.name')?.setFilterValue(event.target.value)
+        }
+        className="max-w-sm"
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="ml-auto text-sm">

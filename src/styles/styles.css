@@ -716,6 +716,13 @@ header {
   justify-content: center;
   position: relative;
 }
+.details-collection-container2{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 26rem);
+  gap: 4.8rem;
+  justify-content: center;
+  position: relative;
+}
 .details-collection-container::after {
   content: '';
   position: absolute;

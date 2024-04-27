@@ -12,7 +12,7 @@ function DetailMovieItem({ id }: { id: string }) {
     queryKey: [MOVIE_DETAIL, id],
     queryFn: () => getOneMovie(id)
   })
-  if (isLoading) return <Loading/>
+  if (isLoading) return <Loading />
   return (
     <div className="flex flex-col gap-5 ">
       <div>
@@ -58,20 +58,21 @@ function DetailMovieItem({ id }: { id: string }) {
       <div
         className={`grid grid-cols-${dataMovie?.prices && dataMovie?.prices?.length} gap-x-3 `}
       >
-        {dataMovie?.prices?.length > 0 ? dataMovie?.prices?.map((priceMovie: MoviePriceCol) => {
-          return (
-            <p
-              key={priceMovie._id}
-              className="bg-white p-5 flex flex-col shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke"
-            >
-              <span>
-                {' '}
-                Giá phim : {addCommasToNumber(priceMovie?.price) || ''} VND
-              </span>
-              <span> Loại ngày : {priceMovie?.dayType || ''}</span>
-            </p>
-          )
-        }) : ''}
+        {dataMovie?.prices?.length > 0
+          ? dataMovie?.prices?.map((priceMovie: MoviePriceCol) => {
+              return (
+                <p
+                  key={priceMovie._id}
+                  className="bg-white p-5 flex flex-col shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke"
+                >
+                  <span>
+                    Giá phim : {addCommasToNumber(priceMovie?.price) || ''} VND
+                  </span>
+                  <span> Loại ngày : {priceMovie?.dayType || ''}</span>
+                </p>
+              )
+            })
+          : ''}
       </div>
 
       <div className="grid sm:grid-cols-3 grid-cols-1 gap-x-3 sm:gap-y-0 gap-y-2">

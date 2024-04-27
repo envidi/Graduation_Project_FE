@@ -1,7 +1,5 @@
-// import { Category, FormCategoryAdd } from '@/admin/types/category'
 import { Cinema, FormCinemaAdd } from '@/admin/types/cenima'
 import { addCinema, editCinema, getOneCinema } from '@/api/cinema'
-// import { addCategory, editCategory, getCategoryById } from '@/api/category'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useParams } from 'react-router-dom'
@@ -23,7 +21,7 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
 
       setFieldValue('CinemaName', data?.CinemaName)
       setFieldValue('CinemaAdress', data?.CinemaAdress)
-      setFieldValue('ScreeningRoomId', data?.ScreeningRoomId)
+      // setFieldValue('ScreeningRoomId', data?.ScreeningRoomId)
       return data
     },
     enabled: typeForm === 'EDIT' && !!id
@@ -37,17 +35,11 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
     },
     onSuccess: () => {
       if (typeForm === 'EDIT') {
-        toast.success('Sua cinema thanh cong')
-        // setTimeout(() => {
-        //   navigate('/admin/cinema')
-        // }, 500);
+        toast.success('Sua rạp chiếu thành công')
+
         return
       }
       toast.success('Them cinema thanh cong')
-      // navigate('/admin/cinema')
-      // setTimeout(() => {
-      //   navigate('/admin/cinema')
-      // }, 500);
     },
     onError: () => {
       if (typeForm === 'EDIT') {
@@ -80,29 +72,19 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
       if (!values.CinemaAdress) {
         errors.CinemaAdress = 'Required CinemaAdress'
       }
-      if (!values.ScreeningRoomId) {
-        errors.ScreeningRoomId = 'Required ScreeningRoomId'
-      }
+
       return errors
     },
     onSubmit: async (values) => {
-      console.log('value form cinema :', values)
       // return
       try {
         const bodyData = {
           CinemaName: values?.CinemaName,
-          CinemaAdress: values?.CinemaAdress,
-          ScreeningRoomId: values?.ScreeningRoomId || []
-
-          // isDeleteable: categoryData?.isDeleteable,
-          // name: values.name,
-          // products: categoryData?.products || []
+          CinemaAdress: values?.CinemaAdress
         }
-        console.log(bodyData)
-        const response = await mutate(bodyData)
-        console.log('res', response)
+        mutate(bodyData)
       } catch (error) {
-        console.log('error', error)
+        throw new Error(error as string)
       }
     }
   })
@@ -117,7 +99,7 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
           <div className="p-6.5">
             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">Cinema name</label>
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">Tên rạp chiếu</label>
                 <input
                   name="CinemaName"
                   value={values.CinemaName}
@@ -125,7 +107,7 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
                   onBlur={handleBlur}
                   type="text"
                   placeholder="Enter cinema name"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                 />
                 {touched.CinemaName && errors.CinemaName && (
                   <div className="text-red-500 text-xl font-bold">
@@ -135,8 +117,8 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
               </div>
               {/*  */}
               <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  Cinema assress
+                <label className="mb-2 block text-sm font-medium text-black dark:text-white">
+                  Địa chỉ rạp chiếu
                 </label>
                 <input
                   name="CinemaAdress"
@@ -145,7 +127,7 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
                   onBlur={handleBlur}
                   type="text"
                   placeholder="Enter cinema address"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                 />
                 {touched.CinemaAdress && errors.CinemaAdress && (
                   <div className="text-red-500 text-xl font-bold">
@@ -153,26 +135,7 @@ const FormCinema = ({ typeForm }: FormCinemaProps) => {
                   </div>
                 )}
               </div>
-              {/*  */}
-              <div className="w-full xl:w-1/2">
-                <label className="mb-2.5 block text-primary">
-                  ScreeningRoomId
-                </label>
-                <input
-                  name="ScreeningRoomId"
-                  value={values.ScreeningRoomId}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Enter screeningroomid"
-                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                />
-                {touched.ScreeningRoomId && errors.ScreeningRoomId && (
-                  <div className="text-red-500 text-xl font-bold">
-                    {errors.ScreeningRoomId}
-                  </div>
-                )}
-              </div>
+
               {/*  */}
             </div>
             <button
