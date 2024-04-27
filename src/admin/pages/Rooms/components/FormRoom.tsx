@@ -1,9 +1,8 @@
-import { AddandEditRooms } from '@/Interface/screeningrooms'
 import Loader from '@/admin/common/Loader'
 import { editRooms, getOneRooms, newRooms } from '@/api/screeningrooms'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import {  useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 type FormRoomsProps = {

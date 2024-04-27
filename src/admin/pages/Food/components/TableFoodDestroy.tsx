@@ -1,10 +1,8 @@
 import { Food } from '@/admin/types/food'
 import { getAllFoodDestroy, removeFood, restoreFood } from '@/api/food'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { FaEdit } from 'react-icons/fa'
-import { FaPlusCircle } from 'react-icons/fa'
+
 import { FaRegTrashCan } from 'react-icons/fa6'
-import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { ConfirmDialog } from '@/admin/components/Confirm'
 import { useState, useRef } from 'react'
@@ -49,7 +47,7 @@ const TableFoodDestroy = () => {
           <PaginationItem>
             <PaginationPrevious
               onClick={() => setPage(currentPage - 1)}
-              disabled={currentPage === 1}
+              // disabled={currentPage === 1}
             />
           </PaginationItem>
           {pages.map((page) => (
@@ -65,7 +63,7 @@ const TableFoodDestroy = () => {
           <PaginationItem>
             <PaginationNext
               onClick={() => setPage(currentPage + 1)}
-              disabled={currentPage === pageCount}
+              // disabled={currentPage === pageCount}
             />
           </PaginationItem>
         </PaginationContent>
@@ -111,12 +109,12 @@ const TableFoodDestroy = () => {
     setOpenConfirmRestore(false)
   }
 
-  const handleShowConfirmDelete = (id: string) => {
+  const handleShowConfirmDelete = (id: string|undefined) => {
     idToOperate.current = id
     setOpenConfirmDelete(true)
   }
 
-  const handleShowConfirmRestore = (id: string) => {
+  const handleShowConfirmRestore = (id: string|undefined) => {
     idToOperate.current = id
     setOpenConfirmRestore(true)
   }
@@ -172,7 +170,7 @@ const TableFoodDestroy = () => {
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">
-                      {food.price.toLocaleString('vi-VN')} VND
+                      {food && food.price && food?.price.toLocaleString('vi-VN')} VND
                     </p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">

@@ -16,15 +16,7 @@ import { PageLoader } from './components/PageLoader'
 import useAllMovie from './hooks/useAllMovie'
 
 import ECommerce from './admin/pages/Dashboard/ECommerce'
-import SignIn from './admin/pages/Authentication/SignIn'
-import SignUp from './admin/pages/Authentication/SignUp'
-import Chart from './admin/pages/Chart'
-import FormElements from './admin/pages/Form/FormElements'
-import FormLayout from './admin/pages/Form/FormLayout'
-import Tables from './admin/pages/Tables'
-import Alerts from './admin/pages/UiElements/Alerts'
-import Buttons from './admin/pages/UiElements/Buttons'
-import Calendar from './admin/pages/Calendar'
+
 import Settings from './admin/pages/Settings'
 import CategoryPage from './admin/pages/Category'
 
@@ -42,7 +34,6 @@ import SettingsAccountPage from './pages/Profile/account/page'
 // import SettingsAppearancePage from './pages/Profile/Appearence/page'
 import MobileNav from './components/MobileNav'
 import CinemaPage from './admin/pages/Cinema'
-import CinemaAdd from './admin/pages/Cinema/Add'
 import CinemaEdit from './admin/pages/Cinema/Edit'
 import MovieEdit from './admin/pages/Movie/Edit'
 import MovieAdd from './admin/pages/Movie/Add'
@@ -50,9 +41,6 @@ import MoviePageadmin from './admin/pages/Movie'
 import FoodAdminPage from './admin/pages/Food'
 import FoodAdd from './admin/pages/Food/Add'
 import FoodEdit from './admin/pages/Food/Edit'
-import SeatAdminPage from './admin/pages/Seat/Index'
-import SeatAdd from './admin/pages/Seat/Add'
-import SeatEdit from './admin/pages/Seat/Edit'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -70,7 +58,7 @@ const Payment = lazy(() => import('./pages/Payment/Payment'))
 const ShowtimesPage = lazy(() => import('./pages/Showtimes/ShowtimesPage'))
 const ProfileBillPage = lazy(() => import('./pages/Profile/Billing/page'))
 import ProtectedAuthorized from './pages/Routes/ProtectedAuthorRoute'
-import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
+// import ProtectedConfirm from './pages/Routes/ProtectedConfirm'
 import PendingResult from './pages/ResultPage/PendingResult'
 import ProtectedResultPage from './pages/Routes/ProtectedResultPage'
 import Users from './admin/pages/Users'
@@ -78,10 +66,7 @@ import Showtimes from './admin/pages/Showtimes/Showtimes'
 import CreateShowtimes from './admin/pages/Showtimes/CreateShowtimes'
 import UpdateShowtimes from './admin/pages/Showtimes/UpdateShowtimes'
 import Restore from './admin/pages/Showtimes/Restore'
-// import RoomsPage from './admin/pages/Rooms'
-// import AddRooms from './admin/pages/Rooms/AddRooms'
-// import EditRooms from './admin/pages/Rooms/EditRooms'
-// import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
+
 import TicketsPage from './admin/pages/Tickets'
 import FoodAdminDestroyPage from './admin/pages/Food/indexDestroy'
 
@@ -95,6 +80,7 @@ import RoomsPage from './admin/pages/Rooms'
 import AddRooms from './admin/pages/Rooms/AddRooms'
 import EditRooms from './admin/pages/Rooms/EditRooms'
 import ShowtimeApproval from './admin/pages/Showtimes/ShowtimeApproval'
+import ProtectedAdminRoute from './pages/Routes/ProtectedAdminRoute'
 
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
@@ -235,11 +221,9 @@ function App() {
               <Route
                 path="pending"
                 element={
-                  
-                    <Suspense fallback={<PageLoader />}>
-                      <PendingResult />
-                    </Suspense>
-                  
+                  <Suspense fallback={<PageLoader />}>
+                    <PendingResult />
+                  </Suspense>
                 }
               />
               <Route
@@ -302,29 +286,58 @@ function App() {
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
               </Route>
-              <Route path="seat">
-                <Route index element={<SeatAdminPage />} />
-                <Route path="add" element={<SeatAdd />} />
-                <Route path="edit/:id" element={<SeatEdit />} />
-              </Route>
+
               <Route path="cinema">
                 <Route index element={<CinemaPage />} />
-                <Route path="add" element={<CinemaAdd />} />
-                <Route path="edit/:id" element={<CinemaEdit />} />
+                <Route
+                  path="edit/:id"
+                  element={
+                    <ProtectedAdminRoute redirectPath="/admin/cinema">
+                      <CinemaEdit />
+                    </ProtectedAdminRoute>
+                  }
+                />
               </Route>
               <Route path="movie">
                 <Route index element={<MoviePageadmin />} />
-                <Route path="add" element={<MovieAdd />} />
-                <Route path="edit/:id" element={<MovieEdit />} />
+                <Route
+                  path="add"
+                  element={
+                    <ProtectedAdminRoute redirectPath="/admin/movie">
+                      <MovieAdd />
+                    </ProtectedAdminRoute>
+                  }
+                />
+                <Route
+                  path="edit/:id"
+                  element={
+                    <ProtectedAdminRoute redirectPath="/admin/movie">
+                      <MovieEdit />
+                    </ProtectedAdminRoute>
+                  }
+                />
                 <Route path="softdelete" element={<TableSoftDeleteMovie />} />
                 <Route path=":slug" element={<DetailMovie />} />
-
               </Route>
               <Route path="screeningrooms">
                 <Route index element={<RoomsPage />} />
-                {/* <Route path=":id" element={<DetailsRoomsPage />} /> */}
-                <Route path="add" element={<AddRooms />} />
-                <Route path="edit/:id" element={<EditRooms />} />
+
+                <Route
+                  path="add"
+                  element={
+                    <ProtectedAdminRoute redirectPath="/admin/screeningrooms">
+                      <AddRooms />
+                    </ProtectedAdminRoute>
+                  }
+                />
+                <Route
+                  path="edit/:id"
+                  element={
+                    <ProtectedAdminRoute redirectPath="/admin/screeningrooms">
+                      <EditRooms />
+                    </ProtectedAdminRoute>
+                  }
+                />
               </Route>
               {/* <Route
                 path="screeningrooms/destroy"
@@ -337,7 +350,7 @@ function App() {
                 {/* <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} /> */}
               </Route>
-              <Route path="calendar" element={<Calendar />} />
+
               <Route path="profile" element={<Profile />} />
               <Route path="users" element={<Users />} />
 
@@ -345,19 +358,18 @@ function App() {
                 <Route index element={<Showtimes />} />
                 <Route path="approval" element={<ShowtimeApproval />} />
                 <Route path="create" element={<CreateShowtimes />} />
-                <Route path="update/:id" element={<UpdateShowtimes />} />
+                <Route
+                  path="update/:id"
+                  element={
+                    <ProtectedAdminRoute redirectPath="/admin/showtimes">
+                      <UpdateShowtimes />
+                    </ProtectedAdminRoute>
+                  }
+                />
                 <Route path="restore" element={<Restore />} />
               </Route>
 
-              <Route path="forms/form-elements" element={<FormElements />} />
-              <Route path="forms/form-layout" element={<FormLayout />} />
-              <Route path="tables" element={<Tables />} />
               <Route path="settings" element={<Settings />} />
-              <Route path="chart" element={<Chart />} />
-              <Route path="ui/alerts" element={<Alerts />} />
-              <Route path="ui/buttons" element={<Buttons />} />
-              <Route path="auth/signin" element={<SignIn />} />
-              <Route path="auth/signup" element={<SignUp />} />
             </Route>
           </Routes>
         </AnimatePresence>

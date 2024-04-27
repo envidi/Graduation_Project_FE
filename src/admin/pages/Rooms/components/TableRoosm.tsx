@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import {
   FaEdit,
@@ -26,17 +26,19 @@ import {
   PaginationPrevious
 } from '@/components/ui/pagination'
 import Loader from '@/admin/common/Loader'
-// import moment from 'moment'
+import { ContextMain } from '@/context/Context'
+import { ROLE_ADMIN } from '@/utils/constant'
 
 Modal.setAppElement('#root') // Tránh lỗi về accessibility
 
 const ITEMS_PER_PAGE = 10
 const TableRooms = () => {
+  const { userDetail } = useContext(ContextMain)
   const [rooms, setRooms] = useState<Screeningrooms[]>([])
-  const [selectedRoom, setSelectedRoom] = useState('')
+  const [selectedRoom] = useState('')
   const [selectedShow, setSelectedShow] = useState('')
 
-  const [idRoom, setIdRoom] = useState('')
+  const [idRoom, setIdRoom] = useState<string | undefined>('')
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { isLoading, isError } = useQuery<Screeningrooms[]>({
@@ -167,7 +169,7 @@ const TableRooms = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false)
 
   const handleOpenModal = (room: Screeningrooms) => {
-    setIdRoom(room?._id!)
+    setIdRoom(room?._id)
     setModalIsOpen(true)
   }
 
@@ -186,12 +188,14 @@ const TableRooms = () => {
     <>
       <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <div className="text-center flex items-center justify-start mb-6">
-          <button
-            onClick={() => navigate('/admin/screeningrooms/add')}
-            className="bg-indigo-600 px-4 flex gap-x-3 py-2 text-sm rounded-md text-white font-semibold tracking-wide cursor-pointer"
-          >
-            Thêm <FaPlusCircle size={20} />
-          </button>
+          {userDetail?.message?.roleIds == ROLE_ADMIN && (
+            <button
+              onClick={() => navigate('/admin/screeningrooms/add')}
+              className="bg-indigo-600 px-4 flex gap-x-3 py-2 text-sm rounded-md text-white font-semibold tracking-wide cursor-pointer"
+            >
+              Thêm <FaPlusCircle size={20} />
+            </button>
+          )}
         </div>
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto border-stroke">
@@ -212,9 +216,11 @@ const TableRooms = () => {
                 <th className="min-w-[100px] py-4 px-4 font-medium-600 text-primary-white">
                   Trạng thái
                 </th>
-                <th className="py-4 px-4 font-medium-600 text-primary-white">
-                  Hành động
-                </th>
+                {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                  <th className="py-4 px-4 font-medium-600 text-primary-white">
+                    Hành động
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -241,24 +247,26 @@ const TableRooms = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     {room.status}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() =>
-                          navigate(`/admin/screeningrooms/edit/${room._id}`)
-                        }
-                        className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                      >
-                        <FaEdit size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleShowConfirm(room._id as string)}
-                        className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                      >
-                        <FaTrashRestoreAlt size={16} />
-                      </button>
-                    </div>
-                  </td>
+                  {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() =>
+                            navigate(`/admin/screeningrooms/edit/${room._id}`)
+                          }
+                          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+                        >
+                          <FaEdit size={16} />
+                        </button>
+                        <button
+                          onClick={() => handleShowConfirm(room._id as string)}
+                          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+                        >
+                          <FaTrashRestoreAlt size={16} />
+                        </button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
@@ -339,11 +347,17 @@ const TableRooms = () => {
                       className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     >
                       <option value="">Chọn lịch chiếu</option>
-                      {roomsData.ShowtimesId?.map((show: any) => (
-                        <option key={show._id} value={show._id}>
-                          {show.timeFrom} - {show.timeTo}
-                        </option>
-                      ))}
+                      {roomsData.ShowtimesId?.map(
+                        (show: {
+                          _id: string
+                          timeFrom: string
+                          timeTo: string
+                        }) => (
+                          <option key={show._id} value={show._id}>
+                            {show.timeFrom} - {show.timeTo}
+                          </option>
+                        )
+                      )}
                     </select>
                   </td>
                 </tr>
@@ -362,7 +376,7 @@ const TableRooms = () => {
                       >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.movieId?.name}
                       </td>
                     </tr>
@@ -393,7 +407,7 @@ const TableRooms = () => {
                       >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatSold}
                       </td>
                     </tr>
@@ -410,7 +424,7 @@ const TableRooms = () => {
                       >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatNotSold}
                       </td>
                     </tr>
@@ -427,12 +441,12 @@ const TableRooms = () => {
                       >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatVip.length}
                         <br />
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatVip[0]?.price + 'VĐN'}
                       </td>
                     </tr>
@@ -449,12 +463,12 @@ const TableRooms = () => {
                       >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatNormal.length}
                         <br />
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatNormal[0]?.price + 'VĐN'}
                       </td>
                     </tr>

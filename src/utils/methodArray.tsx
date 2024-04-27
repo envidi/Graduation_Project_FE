@@ -1,6 +1,11 @@
 import { FoodItemState } from '@/Interface/food'
 import { SeatUserList } from '@/Interface/ticket'
-import { APPROVAL_SCHEDULE, AVAILABLE_SCHEDULE, CANCELLED_SCHEDULE, FULL_SCHEDULE } from './constant'
+import {
+  APPROVAL_SCHEDULE,
+  AVAILABLE_SCHEDULE,
+  CANCELLED_SCHEDULE,
+  FULL_SCHEDULE
+} from './constant'
 
 export const filterSeat = (data: SeatUserList[]) => {
   return filterData(data, (s: SeatUserList) => s.selected).reduce(
@@ -64,6 +69,18 @@ export const filterStatusMovie = (status: string) => {
       return 'Đã Hủy'
     default:
       return 'Sắp Công Chiếu'
+  }
+}
+export const filterRole = (status: string) => {
+  switch (status) {
+    case 'user':
+      return 'Khách hàng'
+    case 'staff':
+      return 'Nhân viên'
+    case 'admin':
+      return 'Admin'
+    default:
+      return 'Khách hàng'
   }
 }
 export const filterStatusShow = (status: string) => {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import DefaultLayout from '../layout/DefaultLayout'
 import {
   InvalidateQueryFilters,
@@ -9,8 +9,24 @@ import {
 import { block, getUser, unblock, updateUserId } from '@/api/auth'
 import { toast } from 'react-toastify'
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb'
+import { filterRole } from '@/utils/methodArray'
+import { LockKeyhole, PencilLine } from 'lucide-react'
+import { ROLE_ADMIN } from '@/utils/constant'
+import { ContextMain } from '@/context/Context'
+const arrayRole = [
+  { _id: '662ce317888a9655fbf8192e', name: 'Nhân viên' },
+  {
+    _id: '659919a451a235a0f4b80700',
+    name: 'Khách hàng'
+  },
+  {
+    _id: '659b79c6757ca91b82e2b9d0',
+    name: 'Admin'
+  }
+]
 
 const Users = () => {
+  const { userDetail } = useContext(ContextMain)
   const [showEdit, setShowEdit] = useState(false)
   const [confirmBlock, setConfirmBlock] = useState(false)
   const [confirmUnBlock, setConfirmUnBlock] = useState(false)
@@ -68,7 +84,7 @@ const Users = () => {
         if (result.status === 200) {
           queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
-          toast.success('Cập nhật Role thành công <3')
+          toast.success('Cập nhật vai trò thành công !')
           // setTimeout(() =>{
           //   window.location.href="/blog"
           // },2000)
@@ -139,7 +155,7 @@ const Users = () => {
       // const { showtime } = data;
       queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
-      toast.success('Bỏ block thành công <3')
+      toast.success('Bỏ block thành công')
     }
   })
   const toggleCheckBlock = (user: any) => {
@@ -220,7 +236,7 @@ const Users = () => {
         <div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto scrollable-table">
             <div className="inline-block  shadow rounded-lg overflow-hidden ">
-              <table className="w-[1100px]  border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
+              <table className="w-[1200px]  border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                 <thead>
                   <tr>
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
@@ -235,18 +251,20 @@ const Users = () => {
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Email
                     </th>
-                    <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
-                      Role
+                    <th className="w-[200px] py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                      Vai trò
                     </th>
                     <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                       Trạng Thái
                     </th>
-                    <th
-                      className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center"
-                      colSpan={2}
-                    >
-                      Hành Động
-                    </th>
+                    {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                      <th
+                        className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center"
+                        colSpan={2}
+                      >
+                        Hành Động
+                      </th>
+                    )}
                   </tr>
                 </thead>
                 <tbody>
@@ -285,7 +303,7 @@ const Users = () => {
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200  text-sm">
                         <p className="text-gray-900 whitespace-no-wrap">
-                          {item?.roleIds?.roleName}
+                          {filterRole(item?.roleIds?.roleName)}
                         </p>
                       </td>
                       <td className="px-5 py-5 border-b border-gray-200  text-sm">
@@ -307,34 +325,57 @@ const Users = () => {
                           </span>
                         )}
                       </td>
-                      <td className="px-3 py-5 border-b border-gray-200  text-sm ">
-                        <div className="flex gap-4">
-                          <button
-                            className="middle none center  rounded-lg bg-blue-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                            data-ripple-light="true"
-                            onClick={() => toggleShowEdit(item)}
-                          >
-                            Update
-                          </button>
-                          {item?.status === 'Blocked' ? (
+                      {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                        <td className="px-3 py-5 border-b border-gray-200  text-sm ">
+                          <div className="flex gap-4">
                             <button
-                              className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                              className="middle none center  rounded-lg bg-blue-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                               data-ripple-light="true"
-                              onClick={() => toggleCheckUnBlockId(item)}
+                              onClick={() => toggleShowEdit(item)}
                             >
-                              UnBlock
+                              <PencilLine size={18} />
                             </button>
-                          ) : (
-                            <button
-                              className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full"
-                              data-ripple-light="true"
-                              onClick={() => toggleCheckBlock(item)}
-                            >
-                              Block
-                            </button>
-                          )}
-                        </div>
-                      </td>
+                            {item?.status === 'Blocked' ? (
+                              <button
+                                className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                data-ripple-light="true"
+                                onClick={() => toggleCheckUnBlockId(item)}
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  width="18"
+                                  height="18"
+                                  viewBox="0 0 24 24"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  strokeWidth="2"
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  className="lucide lucide-lock-keyhole-open"
+                                >
+                                  <circle cx="12" cy="16" r="1" />
+                                  <rect
+                                    width="18"
+                                    height="12"
+                                    x="3"
+                                    y="10"
+                                    rx="2"
+                                  />
+                                  <path d="M7 10V7a5 5 0 0 1 9.33-2.5" />
+                                </svg>
+                              </button>
+                            ) : (
+                              <button
+                                className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase flex justify-center text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full"
+                                data-ripple-light="true"
+                                onClick={() => toggleCheckBlock(item)}
+                              >
+                                <LockKeyhole size={18} />
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                      )}
                     </tr>
                   ))}
                 </tbody>
@@ -407,63 +448,40 @@ const Users = () => {
               <form onSubmit={handleUpdateRole}>
                 <div className="p-3 justify-center">
                   <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-2 p-4 ">
-                    <label>
-                      <input
-                        type="radio"
-                        value="659b79c6757ca91b82e2b9d0"
-                        className="peer hidden"
-                        name="roleIds"
-                        checked={selectedRole === '659b79c6757ca91b82e2b9d0'}
-                        onChange={handleOptionChange}
-                      />
-
-                      <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 dark:border-graydark border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
-                        <h2 className="font-medium text-gray-700 dark:text-black">Admin</h2>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                    {arrayRole.map((role) => {
+                      return (
+                        <label key={role._id}>
+                          <input
+                            type="radio"
+                            value={role._id}
+                            className="peer hidden"
+                            name="roleIds"
+                            checked={selectedRole === role._id}
+                            onChange={handleOptionChange}
                           />
-                        </svg>
-                      </div>
-                    </label>
 
-                    <label>
-                      <input
-                        type="radio"
-                        value="659919a451a235a0f4b80700"
-                        className="peer hidden"
-                        name="roleIds"
-                        checked={selectedRole === '659919a451a235a0f4b80700'}
-                        onChange={handleOptionChange}
-                      />
-
-                      <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 border-2 rounded-lg cursor-pointer text-sm border-gray-200 dark:border-graydark group peer-checked:border-blue-500">
-                        <h2 className="font-medium text-gray-700 dark:text-black">User</h2>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          strokeWidth="1.5"
-                          stroke="currentColor"
-                          className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
-                    </label>
+                          <div className="hover:bg-gray-50 flex items-center justify-between px-4 py-2 dark:border-graydark border-2 rounded-lg cursor-pointer text-sm border-gray-200 group peer-checked:border-blue-500">
+                            <h2 className="font-medium text-gray-700 dark:text-black">
+                              {role.name}
+                            </h2>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              strokeWidth="1.5"
+                              stroke="currentColor"
+                              className="w-9 h-9 text-blue-600 invisible group-[.peer:checked+&]:visible"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </div>
+                        </label>
+                      )
+                    })}
                   </div>
                 </div>
                 <div className="flex justify-center items-center border-t p-3">

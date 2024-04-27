@@ -1,4 +1,4 @@
-import { exchangeShowtimes, updateShowtimes } from '@/api/showtime'
+import { exchangeShowtimes } from '@/api/showtime'
 import {
   InvalidateQueryFilters,
   useMutation,
@@ -18,7 +18,6 @@ import { Button } from '@/components/ui/button'
 import { getHourAndMinute, selectCalendar } from '@/utils'
 import { Label } from '@/components/ui/label'
 import { DialogFooter } from '@/components/ui/dialog'
-
 
 function ExchangeForm({ shows, setChooseShow }: any) {
   const [open] = React.useState(false)
@@ -161,10 +160,7 @@ function ExchangeForm({ shows, setChooseShow }: any) {
           Hủy
         </Button>
         {isPending ? (
-          <Button
-            type="submit"
-            className="bg-white text-black text-md"
-          >
+          <Button type="submit" className="bg-white text-black text-md">
             <Loader className="animate-spin" />
           </Button>
         ) : (
