@@ -11,7 +11,7 @@ import {
   useQuery
 } from '@tanstack/react-query'
 import { toast } from 'react-toastify'
-import { USERDETAIL } from '@/utils/constant'
+import { APPROVAL_SHOW, SHOWTIMES_ADMIN, USERDETAIL } from '@/utils/constant'
 import { useQueryClient } from '@tanstack/react-query'
 import { TicketType } from '@/store/ticket'
 import { useLocalStorage } from '@uidotdev/usehooks'
@@ -149,7 +149,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   })
 
   const { data: allShowTimes } = useQuery({
-    queryKey: ['SHOWTIMES'],
+    queryKey: [SHOWTIMES_ADMIN],
     queryFn: async () => {
       try {
         const response = await getAllShowTimes()
@@ -176,17 +176,22 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const { mutateAsync: addShowtime } = useMutation({
     mutationFn: async (showtime) => await CreateShowtimes(showtime),
     onSuccess() {
-      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
+      // queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
+      queryClient.invalidateQueries({
+        queryKey: [APPROVAL_SHOW]
+      })
+
+      navigate('/admin/showtimes/approval')
     }
   })
-  const removeShowtime = useMutation({
+  const { mutate: removeShowtime } = useMutation({
     mutationFn: async (id) => await DeleteShowtimes(id),
     onSuccess() {
-      queryClient.invalidateQueries(['SHOWTIMES'] as InvalidateQueryFilters)
-      toast.success('Xóa lịch chiếu thành công <3 ')
+      queryClient.invalidateQueries([SHOWTIMES_ADMIN] as InvalidateQueryFilters)
+      toast.success('Xóa lịch chiếu thành công ')
     },
     onError() {
-      toast.error('Xóa faile, try again !')
+      toast.error('Xóa thất bại. Hãy thử lại !')
     }
   })
 

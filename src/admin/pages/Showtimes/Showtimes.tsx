@@ -3,7 +3,6 @@ import { ContextMain } from '@/context/Context'
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { FaRegTrashAlt } from 'react-icons/fa'
 import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -19,12 +18,31 @@ import {
 } from '@/components/ui/dialog'
 import ExchangeForm from './ExchangeForm'
 import { CANCELLED_SHOW } from '@/utils/constant'
-import { Info } from 'lucide-react'
-
+import { FilePen, Info, Trash } from 'lucide-react'
+import AlertDialogCustom from '@/components/AlertDialogCustom'
+import {
+  filterStatusCssBg,
+  filterStatusCssText,
+  filterStatusShow
+} from '@/utils/methodArray'
+interface Showtype {
+  screenRoomId: {
+    name: string
+  }
+  movieId: {
+    name: string
+  }
+  timeFrom: string
+  date: string
+  seatSold: number
+  SeatId: []
+  status: string
+  _id: string
+  isCheck?: boolean
+}
 const Showtimes = () => {
-  const { allShowTimes, removeShowtimeSoft } = useContext<any>(ContextMain)
-  const [confirmItemId, setConfirmItemId] = useState(null) // State để lưu id của item được chọn xóa
-  const [conFirm, setConFirm] = useState(false)
+  const { allShowTimes, removeShowtime } = useContext<any>(ContextMain)
+
   const [currentPage, setCurrentPage] = useState(1)
   const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
   const [changeShow, setChangeShow] = useState(false)
@@ -36,7 +54,7 @@ const Showtimes = () => {
   const currentShowtime = allShowTimes?.slice(indexOfFirstUser, indexOfLastUser)
 
   // Logic xử lý khi chuyển trang
-  const paginate = (pageNumber: any) => setCurrentPage(pageNumber)
+  const paginate = (pageNumber: number) => setCurrentPage(pageNumber)
   // Tính toán số trang
   const pageNumbers = []
   for (let i = 1; i <= Math.ceil(allShowTimes?.length / usersPerPage); i++) {
@@ -49,7 +67,7 @@ const Showtimes = () => {
     }
   }
 
-  const formatDate = (dateTimeString: any, type: string) => {
+  const formatDate = (dateTimeString: string, type: string) => {
     const date = new Date(dateTimeString)
     const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`
     if (type == 'hour') {
@@ -58,10 +76,7 @@ const Showtimes = () => {
     return getDay(convertAmPm(formattedDate))
   }
 
-  const handleChangeBox = (
-    value: any,
-    item: { isCheck: boolean; _id: string; seatSold: number }
-  ) => {
+  const handleChangeBox = (value: boolean|string, item: Showtype) => {
     setChooseShow((prev: any) => {
       if (item.seatSold > 0) {
         toast.error('Lịch chiếu này đã được đặt. Không thể sửa', {
@@ -77,21 +92,8 @@ const Showtimes = () => {
     })
   }
 
-  const handleConfirmDelete = () => {
-    if (confirmItemId) {
-      removeShowtimeSoft
-        .mutate(confirmItemId)
-        .then(() => {
-          toast.success('Xóa lịch chiếu thành công')
-        })
-        .catch((error: any) => {
-          toast.error(`Lỗi khi xóa: ${error.message}`)
-        })
-        .finally(() => {
-          setConfirmItemId(null)
-          setConFirm(false)
-        })
-    }
+  const handleDeleteShow = (id: string) => {
+    removeShowtime(id)
   }
 
   return (
@@ -135,14 +137,14 @@ const Showtimes = () => {
         </Dialog>
         <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
-            <div>
+            <div className='lg:block hidden'>
               <h2 className="text-gray-600 font-semibold">Lịch chiếu</h2>
               <span className="text-xs">Tất cả lịch chiếu</span>
             </div>
             <div className="flex items-center justify-center">
-              <div className="lg:ml-40   space-x-8">
+              <div className="space-x-8 flex">
                 <Link to={'/admin/showtimes/create'}>
-                  <button className="bg-indigo-600 px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer">
+                  <button className="bg-indigo-600 px-4 py-2 text-sm rounded-md text-white font-semibold tracking-wide cursor-pointer">
                     Tạo lịch chiếu
                   </button>
                 </Link>
@@ -158,16 +160,10 @@ const Showtimes = () => {
                       return !prev
                     })
                   }
-                  className="bg-success px-3 py-2 w-40 rounded-md text-white font-semibold tracking-wide cursor-pointer"
+                  className="bg-success px-3 py-2 lg:w-40 xs:w-30 rounded-md text-white text-sm font-semibold tracking-wide cursor-pointer"
                 >
                   {changeShow ? 'Hủy' : 'Đổi lịch chiếu'}
                 </button>
-
-                <Link to={'/admin/showtimes/restore'}>
-                  <button className="bg-red-500 px-5 py-3 rounded-md text-white font-semibold tracking-wide cursor-pointer ">
-                    <FaRegTrashAlt />
-                  </button>
-                </Link>
               </div>
             </div>
           </div>
@@ -188,13 +184,13 @@ const Showtimes = () => {
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         STT
                       </th>
-                      <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="w-[170px] py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Phòng Chiếu
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Tên Phim
                       </th>
-                      <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="w-[100px] py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Ngày Chiếu
                       </th>
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
@@ -206,7 +202,7 @@ const Showtimes = () => {
                       <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider ">
                         Số ghế
                       </th>
-                      <th className=" py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
+                      <th className="w-[200px] py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Trạng Thái
                       </th>
                       <th
@@ -218,7 +214,7 @@ const Showtimes = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {currentShowtime?.map((item: any, index: any) => (
+                    {currentShowtime?.map((item: Showtype, index: number) => (
                       <tr key={index}>
                         {changeShow ? (
                           <td className="px-5 py-5 border-b border-gray-200  text-sm ">
@@ -289,49 +285,45 @@ const Showtimes = () => {
                           </p>
                         </td>
                         <td className="px-5 py-5 border-b border-gray-200  text-sm">
-                          {item?.status === 'Cancelled' ? (
-                            <span className="relative inline-block px-3 py-1 font-semibold  text-red-900 leading-tight w-full text-center ">
-                              <span
-                                aria-hidden
-                                className="absolute inset-0 bg-red-200 opacity-50 rounded-full "
-                              ></span>
-                              <span className="relative ">{item?.status}</span>
+                          <span
+                            className={`relative inline-block px-3 py-1 font-semibold  ${filterStatusCssText(item.status)} leading-tight w-full text-center `}
+                          >
+                            <span
+                              aria-hidden
+                              className={`absolute inset-0 ${filterStatusCssBg(item.status)} opacity-50 rounded-full `}
+                            ></span>
+                            <span className="relative ">
+                              {filterStatusShow(item?.status)}
                             </span>
-                          ) : (
-                            <span className="relative inline-block px-3 py-1 font-semibold text-green-900 leading-tight w-full text-center ">
-                              <span
-                                aria-hidden
-                                className="absolute inset-0 bg-green-200 opacity-50 rounded-full "
-                              ></span>
-                              <span className="relative ">{item?.status}</span>
-                            </span>
-                          )}
+                          </span>
                         </td>
 
                         <td className="px-3 py-5 border-b border-gray-200 text-sm ">
-                          <div>
+                          <div className="flex gap-x-3">
                             <Link to={`/admin/showtimes/update/${item?._id}`}>
                               <button
                                 className="middle none center  rounded-lg bg-blue-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                                 data-ripple-light="true"
                               >
-                                Update
+                                <FilePen size={18} />
                               </button>
                             </Link>
-                          </div>
-                          <div>
-                            {/* <button
-                              className={`middle none center mr-4 rounded-lg py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md transition-all focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none ${
-                                isPastTime(item?.timeTo)
-                                  ? 'bg-gray-400 cursor-not-allowed'
-                                  : 'bg-red-500 hover:shadow-lg hover:shadow-red-500/40 shadow-red-500/20'
-                              }`}
-                              data-ripple-light="true"
-                              onClick={() => handleDelete(item._id)}
-                              disabled={isPastTime(item?.timeTo)}
+                            <AlertDialogCustom
+                              title="Xóa lịch chiếu"
+                              description="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa lịch chiếu không ?"
+                              fnContinue={() => handleDeleteShow(item._id)}
+                              clxCancle="border border-[white] text-sm"
+                              clxContinue="bg-white text-black text-sm"
+                              clxContent="w-fit"
                             >
-                              Delete
-                            </button> */}
+                              <button
+                                className="middle none center mr-4 rounded-lg py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md transition-all focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-red-500 hover:shadow-lg hover:shadow-red-500/40 shadow-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                                data-ripple-light="true"
+                                disabled={item.seatSold > 0}
+                              >
+                                <Trash size={18} />
+                              </button>
+                            </AlertDialogCustom>
                           </div>
                         </td>
                       </tr>
@@ -401,28 +393,6 @@ const Showtimes = () => {
             <ExchangeForm shows={chooseShow} setChooseShow={setChooseShow} />
           </DialogContent>
         </Dialog>
-        {/* modal */}
-        {conFirm && (
-          <div className="bg-slate-800 bg-opacity-50 flex justify-center items-center absolute top-0 right-0 bottom-0 left-0 h-screen">
-            <div className="bg-white px-16 py-14 rounded-md text-center">
-              <h1 className="text-xl mb-4 font-bold text-slate-500">
-                Do you Want Delete
-              </h1>
-              <button
-                className="bg-red-500 px-4 py-2 rounded-md text-md text-white"
-                onClick={() => setConFirm(false)}
-              >
-                Cancel
-              </button>
-              <button
-                className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold"
-                onClick={handleConfirmDelete}
-              >
-                Ok
-              </button>
-            </div>
-          </div>
-        )}
       </DefaultLayout>
     </>
   )

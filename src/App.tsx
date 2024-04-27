@@ -91,6 +91,10 @@ import PolicyPage from './pages/Policy/PolicyPage'
 import DetailMovie from './admin/pages/Movie/DetailMovie'
 import DetailTicket from './admin/pages/Tickets/components/DetailTicket'
 import TableSoftDeleteMovie from './admin/pages/Movie/TableSoftDelete'
+import RoomsPage from './admin/pages/Rooms'
+import AddRooms from './admin/pages/Rooms/AddRooms'
+import EditRooms from './admin/pages/Rooms/EditRooms'
+import ShowtimeApproval from './admin/pages/Showtimes/ShowtimeApproval'
 
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
@@ -231,11 +235,11 @@ function App() {
               <Route
                 path="pending"
                 element={
-                  <ProtectedConfirm>
+                  
                     <Suspense fallback={<PageLoader />}>
                       <PendingResult />
                     </Suspense>
-                  </ProtectedConfirm>
+                  
                 }
               />
               <Route
@@ -317,10 +321,10 @@ function App() {
 
               </Route>
               <Route path="screeningrooms">
-                {/* <Route index element={<RoomsPage />} />
-                <Route path=":id" element={<DetailsRoomsPage />} />
+                <Route index element={<RoomsPage />} />
+                {/* <Route path=":id" element={<DetailsRoomsPage />} /> */}
                 <Route path="add" element={<AddRooms />} />
-                <Route path="edit/:id" element={<EditRooms />} /> */}
+                <Route path="edit/:id" element={<EditRooms />} />
               </Route>
               {/* <Route
                 path="screeningrooms/destroy"
@@ -339,6 +343,7 @@ function App() {
 
               <Route path="showtimes">
                 <Route index element={<Showtimes />} />
+                <Route path="approval" element={<ShowtimeApproval />} />
                 <Route path="create" element={<CreateShowtimes />} />
                 <Route path="update/:id" element={<UpdateShowtimes />} />
                 <Route path="restore" element={<Restore />} />
