@@ -9,6 +9,7 @@ import { SiGoogleclassroom } from 'react-icons/si'
 import { LuClipboardList } from 'react-icons/lu'
 import { FaRegTrashAlt } from 'react-icons/fa'
 import { Clapperboard, Layers } from 'lucide-react'
+import { Link } from 'react-router-dom'
 interface SidebarProps {
   sidebarOpen: boolean
   // eslint-disable-next-line no-unused-vars
@@ -71,11 +72,32 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 ">
-        <NavLink to="/">
-          <span className="text-white ml-4 font-semibold text-2xl">
+        <Link to="/">
+          <span className="text-white font-semibold text-2xl flex items-center gap-x-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="main-logo-icon mr-0"
+              viewBox="0 0 512 512"
+            >
+              <path
+                d="M448 256c0-106-86-192-192-192S64 150 64 256s86 192 192 192 192-86 192-192z"
+                fill="none"
+                stroke="currentColor"
+                strokeMiterlimit="10"
+                strokeWidth="32"
+              />
+              <path
+                fill="none"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="32"
+                d="M360 94.59V296M443.13 212.87L296 360M417.41 360H216M299.13 443.13l-144-144M152 416V216M68.87 299.13l144-144M94.59 152H288M212.87 68.87L360 216"
+              />
+            </svg>
             Dream Cinema
           </span>
-        </NavLink>
+        </Link>
 
         <button
           ref={trigger}
