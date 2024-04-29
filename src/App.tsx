@@ -81,6 +81,7 @@ import AddRooms from './admin/pages/Rooms/AddRooms'
 import EditRooms from './admin/pages/Rooms/EditRooms'
 import ShowtimeApproval from './admin/pages/Showtimes/ShowtimeApproval'
 import ProtectedAdminRoute from './pages/Routes/ProtectedAdminRoute'
+import ProtectedAdminAndStaffRoute from './pages/Routes/ProtectedAdminandSraffRoute'
 import ProtectedAdminPage from './pages/Routes/ProtectedAdminPage'
 
 const ProfileWatchListPage = lazy(
@@ -88,6 +89,7 @@ const ProfileWatchListPage = lazy(
 )
 
 function App() {
+  const accessToken = localStorage.getItem('accessToken');
   const dispatch = useDispatch()
   const [menuState, setMenuState] = useState(false)
   const menuStyle: CSSProperties = {
@@ -271,8 +273,10 @@ function App() {
                 />
               </Route>
             </Route>
+            {/* admin */}
+            <Route path="/admin" >
 
-            <Route path="/admin">
+
               {/* Define the routes for the admin section */}
               <Route
                 index
@@ -505,10 +509,29 @@ function App() {
                     </ProtectedAdminPage>
                   }
                 />
-                <Route path="restore" element={<Restore />} />
+                <Route path="restore" element={
+                  <ProtectedAdminAndStaffRoute redirectPath="/">
+
+                    {/* <ShowtimeApproval /> */}
+                    <Restore />
+
+                  </ProtectedAdminAndStaffRoute>
+                }
+                />
               </Route>
 
-              <Route path="settings" element={<Settings />} />
+              <Route path="settings" element={
+                <ProtectedAdminAndStaffRoute redirectPath="/">
+
+                  {/* <ShowtimeApproval /> */}
+                  <Settings />
+
+                </ProtectedAdminAndStaffRoute>
+              }
+              />
+              {/*  */}
+
+              {/*  */}
             </Route>
           </Routes>
         </AnimatePresence>
