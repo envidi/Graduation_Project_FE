@@ -125,6 +125,13 @@ function TicketSummary() {
       })
       return
     }
+    const showtime = dataShowtime[0]
+    if (!showtime ||showtime.status == FULL_SCHEDULE || showtime.destroy) {
+      toast.error('Thời gian chiếu không có sẵn', {
+        position: 'top-right'
+      })
+      return
+    }
 
     setTicket({
       ...ticket,

@@ -5,7 +5,7 @@ import TableCategory from './components/TableCategory'
 const CategoryPage = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Category" />
+      <Breadcrumb pageName="Danh mục" pageLink='/admin/category' pageRetun='Danh mục' />
 
       <div className="flex flex-col gap-10">
         <TableCategory />

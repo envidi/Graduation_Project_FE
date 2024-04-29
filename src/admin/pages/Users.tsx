@@ -114,7 +114,7 @@ const Users = () => {
         if (result.status === 200) {
           queryClient.invalidateQueries(['USER'] as InvalidateQueryFilters)
 
-          toast.success('Block thành công!')
+          toast.success('Người dùng đã bị chặn!')
           // setTimeout(() =>{
           //   window.location.href="/blog"
           // },2000)

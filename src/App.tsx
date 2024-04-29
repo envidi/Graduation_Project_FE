@@ -81,6 +81,7 @@ import AddRooms from './admin/pages/Rooms/AddRooms'
 import EditRooms from './admin/pages/Rooms/EditRooms'
 import ShowtimeApproval from './admin/pages/Showtimes/ShowtimeApproval'
 import ProtectedAdminRoute from './pages/Routes/ProtectedAdminRoute'
+import ProtectedAdminPage from './pages/Routes/ProtectedAdminPage'
 
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
@@ -273,69 +274,156 @@ function App() {
 
             <Route path="/admin">
               {/* Define the routes for the admin section */}
-              <Route index element={<ECommerce />} />
+              <Route
+                index
+                element={
+                  <ProtectedAdminPage redirectPath="/">
+                    <ECommerce />
+                  </ProtectedAdminPage>
+                }
+              />
               <Route path="category">
-                <Route index element={<CategoryPage />} />
+                <Route
+                  index
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <CategoryPage />
+                    </ProtectedAdminPage>
+                  }
+                />
                 {/* <Route path="add" element={<CategoryAdd />} />
                 <Route path="edit/:id" element={<CategoryEdit />} /> */}
               </Route>
 
               <Route path="food">
-                <Route index element={<FoodAdminPage />} />
-                <Route path="destroy" element={<FoodAdminDestroyPage />} />
-                <Route path="add" element={<FoodAdd />} />
-                <Route path="edit/:id" element={<FoodEdit />} />
-              </Route>
-
-              <Route path="cinema">
-                <Route index element={<CinemaPage />} />
+                <Route
+                  index
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <FoodAdminPage />
+                    </ProtectedAdminPage>
+                  }
+                />
+                <Route
+                  path="destroy"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <FoodAdminDestroyPage />
+                    </ProtectedAdminPage>
+                  }
+                />
+                <Route
+                  path="add"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <FoodAdd />
+                    </ProtectedAdminPage>
+                  }
+                />
                 <Route
                   path="edit/:id"
                   element={
-                    <ProtectedAdminRoute redirectPath="/admin/cinema">
-                      <CinemaEdit />
-                    </ProtectedAdminRoute>
+                    <ProtectedAdminPage redirectPath="/">
+                      <FoodEdit />
+                    </ProtectedAdminPage>
+                  }
+                />
+              </Route>
+
+              <Route path="cinema">
+                <Route
+                  index
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <CinemaPage />
+                    </ProtectedAdminPage>
+                  }
+                />
+                <Route
+                  path="edit/:id"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <ProtectedAdminRoute redirectPath="/admin/cinema">
+                        <CinemaEdit />
+                      </ProtectedAdminRoute>
+                    </ProtectedAdminPage>
                   }
                 />
               </Route>
               <Route path="movie">
-                <Route index element={<MoviePageadmin />} />
+                <Route
+                  index
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <MoviePageadmin />
+                    </ProtectedAdminPage>
+                  }
+                />
                 <Route
                   path="add"
                   element={
-                    <ProtectedAdminRoute redirectPath="/admin/movie">
-                      <MovieAdd />
-                    </ProtectedAdminRoute>
+                    <ProtectedAdminPage redirectPath="/">
+                      <ProtectedAdminRoute redirectPath="/admin/movie">
+                        <MovieAdd />
+                      </ProtectedAdminRoute>
+                    </ProtectedAdminPage>
                   }
                 />
                 <Route
                   path="edit/:id"
                   element={
-                    <ProtectedAdminRoute redirectPath="/admin/movie">
-                      <MovieEdit />
-                    </ProtectedAdminRoute>
+                    <ProtectedAdminPage redirectPath="/">
+                      <ProtectedAdminRoute redirectPath="/admin/movie">
+                        <MovieEdit />
+                      </ProtectedAdminRoute>
+                    </ProtectedAdminPage>
                   }
                 />
-                <Route path="softdelete" element={<TableSoftDeleteMovie />} />
-                <Route path=":slug" element={<DetailMovie />} />
+                <Route
+                  path="softdelete"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <TableSoftDeleteMovie />
+                    </ProtectedAdminPage>
+                  }
+                />
+                <Route
+                  path=":slug"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <DetailMovie />
+                    </ProtectedAdminPage>
+                  }
+                />
               </Route>
               <Route path="screeningrooms">
-                <Route index element={<RoomsPage />} />
+                <Route
+                  index
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <RoomsPage />
+                    </ProtectedAdminPage>
+                  }
+                />
 
                 <Route
                   path="add"
                   element={
-                    <ProtectedAdminRoute redirectPath="/admin/screeningrooms">
-                      <AddRooms />
-                    </ProtectedAdminRoute>
+                    <ProtectedAdminPage redirectPath="/">
+                      <ProtectedAdminRoute redirectPath="/admin/screeningrooms">
+                        <AddRooms />
+                      </ProtectedAdminRoute>
+                    </ProtectedAdminPage>
                   }
                 />
                 <Route
                   path="edit/:id"
                   element={
-                    <ProtectedAdminRoute redirectPath="/admin/screeningrooms">
-                      <EditRooms />
-                    </ProtectedAdminRoute>
+                    <ProtectedAdminPage redirectPath="/">
+                      <ProtectedAdminRoute redirectPath="/admin/screeningrooms">
+                        <EditRooms />
+                      </ProtectedAdminRoute>
+                    </ProtectedAdminPage>
                   }
                 />
               </Route>
@@ -344,26 +432,77 @@ function App() {
                 element={<RoomsPageDestroy />}
               /> */}
               <Route path="tickets">
-                <Route index element={<TicketsPage />} />
+                <Route
+                  index
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <TicketsPage />
+                    </ProtectedAdminPage>
+                  }
+                />
 
-                <Route path="detail/:id" element={<DetailTicket />} />
+                <Route
+                  path="detail/:id"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <DetailTicket />
+                    </ProtectedAdminPage>
+                  }
+                />
                 {/* <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} /> */}
               </Route>
 
-              <Route path="profile" element={<Profile />} />
-              <Route path="users" element={<Users />} />
+              <Route
+                path="profile"
+                element={
+                  <ProtectedAdminPage redirectPath="/">
+                    <Profile />
+                  </ProtectedAdminPage>
+                }
+              />
+              <Route
+                path="users"
+                element={
+                  <ProtectedAdminPage redirectPath="/">
+                    <Users />
+                  </ProtectedAdminPage>
+                }
+              />
 
               <Route path="showtimes">
-                <Route index element={<Showtimes />} />
-                <Route path="approval" element={<ShowtimeApproval />} />
-                <Route path="create" element={<CreateShowtimes />} />
+                <Route
+                  index
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <Showtimes />
+                    </ProtectedAdminPage>
+                  }
+                />
+                <Route
+                  path="approval"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <ShowtimeApproval />
+                    </ProtectedAdminPage>
+                  }
+                />
+                <Route
+                  path="create"
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <CreateShowtimes />
+                    </ProtectedAdminPage>
+                  }
+                />
                 <Route
                   path="update/:id"
                   element={
-                    <ProtectedAdminRoute redirectPath="/admin/showtimes">
-                      <UpdateShowtimes />
-                    </ProtectedAdminRoute>
+                    <ProtectedAdminPage redirectPath="/">
+                      <ProtectedAdminRoute redirectPath="/admin/showtimes">
+                        <UpdateShowtimes />
+                      </ProtectedAdminRoute>
+                    </ProtectedAdminPage>
                   }
                 />
                 <Route path="restore" element={<Restore />} />
