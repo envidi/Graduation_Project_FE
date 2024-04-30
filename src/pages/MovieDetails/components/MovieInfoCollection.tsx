@@ -22,7 +22,7 @@ export const MovieInfoCollection = () => {
   const movies = useSelector((state: any) => state.movies.movies)
   const { slug } = useParams()
   const { _id = '' } =
-  movies.length > 0 && movies.find((movie: MovieType) => movie.slug === slug)
+    movies.length > 0 && movies.find((movie: MovieType) => movie.slug === slug)
   const { data: dataMovie, isLoading } = useQuery({
     queryKey: ['MOVIE_RELATED', _id],
     queryFn: () => getRelateMovie(_id)
@@ -39,25 +39,27 @@ export const MovieInfoCollection = () => {
     <section className="section-movie-info-collection bg-background-secondary">
       <div className="home-collection-heading-container">
         <h1 className="heading-secondary border-b-4 border-primary-movieColor ">
-        Tìm phim khác &rarr;
+          Tìm phim khác &rarr;
         </h1>
       </div>
 
-      <div className="details-collection-container after:opacity-0 dark:after:opacity-100">
+      <div className="details-collection-container after:opacity-0 dark:after:opacity-100 xs:hidden sm:grid">
         <SwiperSlider dataMovie={dataMovie} slidePerView={5}>
           {dataMovie?.map((movie: MovieType, index: number) => {
             return (
               <SwiperSlide key={index}>
                 <CollectionCard
                   movie={movie}
-                  className="md:w-[26rem] sm:w-[28rem] xs:w-[28rem]"
+                  className="md:w-[26rem] sm:w-[28rem] xs:w-[28rem] "
                 />
               </SwiperSlide>
             )
           })}
         </SwiperSlider>
+      </div>
+      <div className="details-collection-container2 after:opacity-0 dark:after:opacity-100 xs:grid sm:hidden">
         {/* ------------------------------------------------------------------------- */}
-        <Carousel className="xs:block sm:hidden">
+        <Carousel className="">
           {dataMovie?.map((movie: MovieType, i: number) => (
             <CollectionCard
               key={i}

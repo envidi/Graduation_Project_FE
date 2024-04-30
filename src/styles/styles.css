@@ -56,7 +56,7 @@ box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.5% ;
   scroll-behavior: smooth;
 }
 
@@ -712,6 +712,13 @@ header {
 .details-collection-container {
   display: grid;
   /* grid-template-columns: repeat(auto-fit, 26rem); */
+  gap: 4.8rem;
+  justify-content: center;
+  position: relative;
+}
+.details-collection-container2{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 26rem);
   gap: 4.8rem;
   justify-content: center;
   position: relative;

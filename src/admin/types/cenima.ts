@@ -11,6 +11,6 @@ export interface Cinema {
   export interface FormCinemaAdd {
     CinemaName: string,
     CinemaAdress: string,
-    ScreeningRoomId: string[] | string,
+    // ScreeningRoomId: string[] | string,
   }
   

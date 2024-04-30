@@ -1,12 +1,12 @@
 import { ConfirmDialog } from '@/admin/components/Confirm'
-// import { Cinema } from '@/admin/types/cenima'
 import { Movie } from '@/admin/types/movie'
-import { getAllMovie, removeMovie, softDeleteMovie } from '@/api/movie'
-import { convertMintuteToHour, getDay, selectCalendar } from '@/utils'
+import { getAllMovie, softDeleteMovie } from '@/api/movie'
+import { ContextMain } from '@/context/Context'
+import { convertMintuteToHour } from '@/utils'
+import { ROLE_ADMIN } from '@/utils/constant'
 import { filterStatusMovie } from '@/utils/methodArray'
-// import { getAllCinema, removeCinema } from '@/api/cinema'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { FaPlusCircle, FaRegTrashAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -14,7 +14,7 @@ import { toast } from 'react-toastify'
 
 const TableMovie = () => {
   const queryClient = useQueryClient()
-
+  const { userDetail } = useContext(ContextMain)
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const idDelete = useRef<string>()
   const navigate = useNavigate()
@@ -23,7 +23,6 @@ const TableMovie = () => {
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
-  console.log('data movie:', data)
 
   // page
   const ITEMS_PER_PAGE = 10
@@ -39,7 +38,6 @@ const TableMovie = () => {
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-  console.log('data movie 2:', currentItems)
 
   // delete category by mutation react-query
   const { mutate } = useMutation({
@@ -76,15 +74,18 @@ const TableMovie = () => {
       <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto ">
         <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md scrollable-table">
           <div className="text-center mb-5 flex items-center justify-start space-x-4">
-            <button
-              onClick={() => {
-                navigate('/admin/movie/add')
-              }}
-              className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700 transition duration-300"
-            >
-              <span className="mr-2">Add</span>
-              <FaPlusCircle size={20} />
-            </button>
+            {userDetail?.message?.roleIds == ROLE_ADMIN && (
+              <button
+                onClick={() => {
+                  navigate('/admin/movie/add')
+                }}
+                className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700 transition duration-300"
+              >
+                <span className="mr-2">Thêm phim</span>
+                <FaPlusCircle size={20} />
+              </button>
+            )}
+
             <button
               onClick={() => {
                 navigate('/admin/movie/softdelete')
@@ -195,52 +196,57 @@ const TableMovie = () => {
                   </td>
 
                   <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm ">
-                    <div className='flex flex-wrap justify-center gap-x-3 gap-y-3'>
-                      <div
-                        title={
-                          movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
-                            ? 'Không thể cập nhật phim đang chiếu'
-                            : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
-                              ? 'Không thể cập nhật phim đã có xuất chiếu'
-                              : '' // Title mặc định
-                        }
-                      >
-                        <button
-                          onClick={() =>
-                            navigate(`/admin/movie/edit/${movie._id}`)
-                          }
-                          className="rounded-lg bg-blue-500 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true"
-                          // disabled={movie.status === 'IS_SHOWING'}
-                          disabled={
-                            movie.status === 'IS_SHOWING' ||
-                            movie.showTimes.length > 0
+                    <div className="flex flex-wrap justify-center gap-x-3 gap-y-3">
+                      {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                        <div
+                          title={
+                            movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
+                              ? 'Không thể cập nhật phim đang chiếu'
+                              : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
+                                ? 'Không thể cập nhật phim đã có xuất chiếu'
+                                : '' // Title mặc định
                           }
                         >
-                          Cập nhật
-                        </button>
-                      </div>
-                      <div
-                        title={
-                          movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
-                            ? 'Không thể xóa phim đang chiếu'
-                            : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
-                              ? 'Không thể xóa phim đã có xuất chiếu'
-                              : '' // Title mặc định
-                        }
-                      >
-                        <button
-                          className="rounded-lg bg-red-500 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true"
-                          onClick={() => handleShowConfirm(movie._id)}
-                          disabled={
-                            movie.status === 'IS_SHOWING' ||
-                            movie.showTimes.length > 0
+                          <button
+                            onClick={() =>
+                              navigate(`/admin/movie/edit/${movie._id}`)
+                            }
+                            className="rounded-lg bg-blue-500 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            data-ripple-light="true"
+                            // disabled={movie.status === 'IS_SHOWING'}
+                            disabled={
+                              movie.status === 'IS_SHOWING' ||
+                              movie.showTimes.length > 0
+                            }
+                          >
+                            Cập nhật
+                          </button>
+                        </div>
+                      )}
+                      {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                        <div
+                          title={
+                            movie.status === 'IS_SHOWING' // Title nếu movie.status là 'IS_SHOWING'
+                              ? 'Không thể xóa phim đang chiếu'
+                              : movie.showTimes && movie.showTimes.length > 0 // Title nếu showTimes có xuất chiếu
+                                ? 'Không thể xóa phim đã có xuất chiếu'
+                                : '' // Title mặc định
                           }
                         >
-                          Xóa
-                        </button>
-                      </div>
+                          <button
+                            className="rounded-lg bg-red-500 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            data-ripple-light="true"
+                            onClick={() => handleShowConfirm(movie._id)}
+                            disabled={
+                              movie.status === 'IS_SHOWING' ||
+                              movie.showTimes.length > 0
+                            }
+                          >
+                            Xóa
+                          </button>
+                        </div>
+                      )}
+
                       <div>
                         <Link
                           to={`/admin/movie/${movie.slug}`}

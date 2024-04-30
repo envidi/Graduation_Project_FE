@@ -57,7 +57,8 @@ const Settings = () => {
         errors.address = 'Bắt buộc phải nhập địa chỉ và phải lớn hơn 6 ký tự '
       }
       if (!values.mobile || values.mobile.length <= 6) {
-        errors.mobile = 'Bắt buộc phải nhập số điện thoại và phải lớn hơn 6 ký tự '
+        errors.mobile =
+          'Bắt buộc phải nhập số điện thoại và phải lớn hơn 6 ký tự '
       }
       if (!values.email) {
         errors.email = 'Yêu cầu email'
@@ -78,16 +79,12 @@ const Settings = () => {
       }
 
       try {
-        const response = await userUpdate.mutate(data)
-
-        console.log('res', response)
+        userUpdate.mutate(data)
       } catch (error) {
-        console.log('error', error)
+        throw new Error(error as string)
       }
     }
   })
-
-  console.log('errors', errors)
 
   useEffect(() => {
     if (userDetail && userDetail.message)
@@ -118,27 +115,27 @@ const Settings = () => {
   return (
     <DefaultLayout>
       <div className="mx-auto max-w-270">
-        <Breadcrumb pageName="Cài đặt thông tin" />
+        <Breadcrumb pageName="Cài đặt thông tin" pageLink='' pageRetun='' />
 
         <div className="grid grid-cols-5 gap-8">
           <div className="col-span-5 xl:col-span-3">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
-                <h3 className="font-medium text-black ">Thông tin cá nhân</h3>
+                <h3 className="font-medium text-black dark:text-white ">Thông tin cá nhân</h3>
               </div>
               <div className="p-7">
                 <form onSubmit={handleSubmit}>
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-1/2">
                       <label
-                        className="mb-3 block text-sm font-medium text-black "
+                        className="mb-3 block text-sm font-medium text-black dark:text-white "
                         htmlFor="fullName"
                       >
                         Tên tài khoản
                       </label>
                       <div className="relative">
                         <input
-                          className="w-full pl-2 rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4  dark:focus:border-primary"
+                          className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                           name="name"
                           id="name"
                           placeholder="Name..."
@@ -156,13 +153,13 @@ const Settings = () => {
 
                     <div className="w-full sm:w-1/2">
                       <label
-                        className="mb-3 block text-sm font-medium text-black "
+                        className="mb-3 block text-sm font-medium text-black dark:text-white "
                         htmlFor="mobile"
                       >
                         Số điện thoại
                       </label>
                       <input
-                        className="w-full pl-2 rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4  dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                         type="text"
                         name="mobile"
                         id="mobile"
@@ -180,14 +177,14 @@ const Settings = () => {
 
                   <div className="mb-5.5">
                     <label
-                      className="mb-3 block text-sm font-medium text-black "
+                      className="mb-3 block text-sm font-medium text-black dark:text-white "
                       htmlFor="email"
                     >
-                      Địa chỉ email
+                      Email
                     </label>
                     <div className="relative">
                       <input
-                        className="w-full pl-2 rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4  dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                         type="email"
                         name="email"
                         id="email"
@@ -205,14 +202,14 @@ const Settings = () => {
 
                   <div className="mb-5.5">
                     <label
-                      className="mb-3 block text-sm font-medium text-black "
+                      className="mb-3 block text-sm font-medium text-black dark:text-white "
                       htmlFor="email"
                     >
                       Địa chỉ
                     </label>
                     <div className="relative">
                       <input
-                        className="w-full pl-2 rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4  dark:focus:border-primary"
+                        className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                         name="address"
                         id="address"
                         value={values.address}
@@ -229,7 +226,7 @@ const Settings = () => {
 
                   <div className="flex justify-end gap-4.5 pt-4">
                     <button
-                      className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:bg-opacity-90"
+                      className="flex justify-center rounded dark:bg-boxdark-2 bg-slate-400 py-2 px-6 font-medium dark:text-gray text-black hover:bg-opacity-90"
                       type="submit"
                     >
                       Lưu
@@ -244,7 +241,7 @@ const Settings = () => {
           <div className="col-span-5 xl:col-span-2">
             <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
               <div className="border-b border-stroke py-4 px-7 dark:border-strokedark">
-                <h3 className="font-medium text-black ">Ảnh đại diện</h3>
+                <h3 className="font-medium text-black dark:text-white ">Ảnh đại diện</h3>
               </div>
               <div className="p-7">
                 <div className="flex lg:flex-col  lg:items-center md:flex-row xs:flex-col xs:items-center md:space-x-5 lg:space-x-0 space-y-4 md:mb-5 xs:mb-5 lg:mt-3">

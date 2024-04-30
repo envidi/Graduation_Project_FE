@@ -6,7 +6,7 @@ import { getAllCategory } from '@/api/category'
 import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 import { ChangeEventHandler, useState } from 'react'
@@ -20,6 +20,7 @@ type FormMovieProps = {
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
   // const [date, setDate] = useState(new Date())
+  const navigate = useNavigate()
   const [, setfromDate] = useState(new Date())
   const [, settoDate] = useState(new Date())
   const [file, setFiles] = useState<File[]>([])
@@ -94,6 +95,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         return
       }
       toast.success('Thêm phim thành công')
+      navigate('/admin/movie')
     },
     onError: (error: { response: { data: { message: string } } }) => {
       if (typeForm === 'EDIT') {
@@ -288,17 +290,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const selectedOptions = colourOptions?.filter((option: any) =>
     values.categoryId?.includes(option.value)
   )
-  // sử lý validate  date
-  // check from date lớn hơn hiện tại
-  // Hàm kiểm tra xem một ngày có lớn hơn ngày hiện tại không
-  // const isFutureDate = (date: any) => {
-  //   const currentDate = new Date();
-  //   return date > currentDate;
-  // };
-  //   // Hàm kiểm tra xem fromDate có nhỏ hơn toDate không
-  // const isStartDateBeforeEndDate = (startDate, endDate) => {
-  //   return new Date(startDate) < new Date(endDate);
-  // };
 
   // select style
   const dropdownStyles = {
@@ -490,15 +481,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Mô tả
                   </label>
-                  {/* <input
-                  name="desc"
-                  value={values.desc}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Nhập Mô tả ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
-                /> */}
+
                   <textarea
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                     name="desc"
@@ -539,15 +522,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Thời lượng phim
                   </label>
-                  {/* <input
-                  name="duration"
-                  value={values.duration}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="number"
-                  placeholder="Thời lượng phim  ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
-                /> */}
+                 
                   <input
                     name="duration"
                     value={values.duration}
@@ -794,7 +769,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-50 transition duration-300 mt-4"
               type="submit"
             >
-              {typeForm === 'ADD' ? 'Add' : 'Update'}
+              {typeForm === 'ADD' ? 'Thêm' : 'Cập nhật'}
             </button>
           </form>
         </div>
