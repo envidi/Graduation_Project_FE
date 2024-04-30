@@ -81,7 +81,7 @@ const TableMovie = () => {
                 }}
                 className="bg-indigo-600 flex items-center px-4 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-indigo-700 transition duration-300"
               >
-                <span className="mr-2">Add</span>
+                <span className="mr-2">Thêm phim</span>
                 <FaPlusCircle size={20} />
               </button>
             )}

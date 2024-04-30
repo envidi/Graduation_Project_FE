@@ -2,16 +2,18 @@ import { ConfirmDialog } from '@/admin/components/Confirm'
 import Loading from '@/admin/components/Loading/Loading'
 import { Movie } from '@/admin/types/movie'
 import { getAllsoftDelete, removeMovie, restoreMovie } from '@/api/movie'
+import { ContextMain } from '@/context/Context'
 import { convertMintuteToHour } from '@/utils'
+import { ROLE_ADMIN } from '@/utils/constant'
 import { filterStatusMovie } from '@/utils/methodArray'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 function TableItemSoft() {
   const queryClient = useQueryClient()
-
+  const { userDetail } = useContext(ContextMain)
   const [isOpenConfirm, setOpenConfirm] = useState(false)
   const [isOpenConfirm2, setOpenConfirm2] = useState(false)
   const idDelete = useRef<string>()
@@ -133,6 +135,7 @@ function TableItemSoft() {
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark">
                   Trạng thái
                 </th>
+
                 <th className="min-w-[150px] py-4 px-4 font-medium text-gray-800 border-b border-gray-400 dark:border-strokedark text-center">
                   Hành động
                 </th>
@@ -208,25 +211,29 @@ function TableItemSoft() {
                       </p>
                     </td>
 
-                    <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex w-65 flex-wrap justify-center gap-y-3">
-                      <div>
-                        <button
-                          onClick={() => handleShowConfirm2(movie?._id)}
-                          className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true"
-                        >
-                          Khôi phục
-                        </button>
-                      </div>
-                      <div>
-                        <button
-                          className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                          data-ripple-light="true"
-                          onClick={() => handleShowConfirm(movie?._id)}
-                        >
-                          Xóa
-                        </button>
-                      </div>
+                    <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm w-65 flex-wrap justify-center gap-y-3">
+                      {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                        <div>
+                          <button
+                            onClick={() => handleShowConfirm2(movie?._id)}
+                            className="middle none center mr-4 rounded-lg bg-blue-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            data-ripple-light="true"
+                          >
+                            Khôi phục
+                          </button>
+                        </div>
+                      )}
+                      {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                        <div>
+                          <button
+                            className="middle none center mr-4 rounded-lg bg-red-500 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                            data-ripple-light="true"
+                            onClick={() => handleShowConfirm(movie?._id)}
+                          >
+                            Xóa
+                          </button>
+                        </div>
+                      )}
 
                       <div>
                         <Link to={'/admin/movie/' + movie?.slug}>

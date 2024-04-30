@@ -10,6 +10,11 @@ import { useContext } from 'react'
 import { ContextMain } from '@/context/Context'
 import { ROLE_ADMIN } from '@/utils/constant'
 import AlertDialogCustom from '@/components/AlertDialogCustom'
+import {
+  filterStatusCssBg,
+  filterStatusCssText,
+  filterStatusRoom
+} from '@/utils/methodArray'
 
 const TableRoomsDestroy: React.FC = () => {
   const { userDetail } = useContext(ContextMain)
@@ -113,23 +118,25 @@ const TableRoomsDestroy: React.FC = () => {
 
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p
-                      className={`text-primary-white ${rooms.status ? 'text-success' : 'text-error'}`}
+                      className={`${filterStatusCssBg(rooms.status)} rounded-full text-center py-1 font-bold text-sm ${filterStatusCssText(rooms.status)}`}
                     >
-                      {rooms.status ?? ''}
+                      {filterStatusRoom(rooms.status)}
                     </p>
                   </td>
                   {userDetail?.message?.roleIds == ROLE_ADMIN && (
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                       <div className="flex items-center space-x-2">
                         <button
-                          onClick={() => handleRemoveRooms(rooms._id as string, true)}
+                          onClick={() =>
+                            handleRemoveRooms(rooms._id as string, true)
+                          }
                           className="flex items-center justify-center text-gray-6 hover:text-gray-9"
                         >
                           <FaUndo size={16} />
                         </button>
                         <AlertDialogCustom
                           title="Xóa phòng chiếu"
-                          description="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa lịch chiếu không ?"
+                          description="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa phòng chiếu không ?"
                           fnContinue={() => handleRemoveRooms(rooms._id, false)}
                           clxCancle="border border-[white] text-sm"
                           clxContinue="bg-white text-black text-sm"

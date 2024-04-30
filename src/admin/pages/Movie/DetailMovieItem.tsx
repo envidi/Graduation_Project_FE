@@ -6,6 +6,8 @@ import { useQuery } from '@tanstack/react-query'
 import TableShowTimeMovie from './TableShowtimeMovie'
 import TableCommentMovie from './TableComment'
 import Loading from '@/admin/components/Loading/Loading'
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
+import { Button } from '@/components/ui/button'
 
 function DetailMovieItem({ id }: { id: string }) {
   const { data: dataMovie, isLoading } = useQuery({
@@ -18,6 +20,22 @@ function DetailMovieItem({ id }: { id: string }) {
       <div>
         <img src={dataMovie.image} width={100} alt="" />
       </div>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button size="md" variant="outline" className='text-sm bg-white p-5 shadow-default dark:border-strokedark w-fit dark:bg-boxdark rounded-sm border border-stroke'>
+            Trailer
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="p-0 w-fit">
+          <iframe
+            width="917"
+            height="516"
+            src={dataMovie?.trailer||''}
+            title="Một video hạnh phúc để gửi lời chúc Valentine | Review Xàm: Gara Hạnh Phúc"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          ></iframe>
+        </DialogContent>
+      </Dialog>
       <div className="grid grid-cols-2 gap-x-3">
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
           Tên phim : {dataMovie.name || ''}
