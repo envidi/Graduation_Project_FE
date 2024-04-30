@@ -1,6 +1,15 @@
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 import DefaultLayout from '@/admin/layout/DefaultLayout'
 import TableItemSoft from './TableItemSoft'
+import { useRef, useState } from 'react'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getAllsoftDelete, removeMovie, restoreMovie } from '@/api/movie'
+import { Movie } from '@/admin/types/movie'
+import { toast } from 'react-toastify'
+import { convertMintuteToHour } from '@/utils'
+import { filterStatusMovie } from '@/utils/methodArray'
+import { Link } from 'react-router-dom'
+import { ConfirmDialog } from '@/admin/components/Confirm'
 
 const TableSoftDeleteMovie = () => {
   const queryClient = useQueryClient()
