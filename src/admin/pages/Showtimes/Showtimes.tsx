@@ -43,7 +43,7 @@ interface Showtype {
 }
 const Showtimes = () => {
   const navigate = useNavigate()
-  const { allShowTimes, removeShowtime, userDetail } =
+  const { allShowTimes, removeShowtimeSoft, userDetail } =
     useContext<any>(ContextMain)
 
   const [currentPage, setCurrentPage] = useState(1)
@@ -96,7 +96,7 @@ const Showtimes = () => {
   }
 
   const handleDeleteShow = (id: string) => {
-    removeShowtime(id)
+    removeShowtimeSoft.mutate(id)
   }
   return (
     <>
@@ -329,7 +329,7 @@ const Showtimes = () => {
                               </button>
                               <AlertDialogCustom
                                 title="Xóa lịch chiếu"
-                                description="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa lịch chiếu không ?"
+                                description="Bạn có chắc chắn muốn xóa lịch chiếu không ?"
                                 fnContinue={() => handleDeleteShow(item._id)}
                                 clxCancle="border border-[white] text-sm"
                                 clxContinue="bg-white text-black text-sm"

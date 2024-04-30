@@ -5,7 +5,11 @@ import Loading from '@/admin/components/Loading/Loading'
 import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
 import AlertDialogCustom from '@/components/AlertDialogCustom'
 import { Trash } from 'lucide-react'
-import { filterStatusShow } from '@/utils/methodArray'
+import {
+  filterStatusCssBg,
+  filterStatusCssText,
+  filterStatusShow
+} from '@/utils/methodArray'
 import { ROLE_ADMIN } from '@/utils/constant'
 
 function RestoreItem() {
@@ -38,9 +42,9 @@ function RestoreItem() {
   const handleConfirmRestore = (id: string) => {
     restoreShowtime.mutate(id)
   }
-  //   if (showTimeSoft.isLoading) {
-  //     return <Loading />
-  //   }
+  if (showTimeSoft.isLoading) {
+    return <Loading />
+  }
   return (
     <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5 overflow-x-auto scrollable-table">
       <table className="w-[900px] border-collapse  bg-white  dark:bg-boxdark text-left text-sm text-gray-500">
@@ -93,8 +97,12 @@ function RestoreItem() {
                 </td>
                 {/* <td className="px-6 py-4">{formatDate(item?.timeTo)}</td> */}
                 <td className="px-6 py-4">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-green-200 px-2 py-1 text-xs font-semibold text-green-600">
-                    <span className="h-1.5 w-1.5 rounded-full bg-green-600"></span>
+                  <span
+                    className={`inline-flex items-center gap-1 rounded-full ${filterStatusCssBg(item.status)} px-2 py-1 text-xs font-semibold ${filterStatusCssText(item.status)}`}
+                  >
+                    {/* <span
+                      className={`h-1.5 w-1.5 rounded-full ${filterStatusCssText(item.status)}`}
+                    ></span> */}
                     {filterStatusShow(item?.status)}
                   </span>
                 </td>
@@ -118,8 +126,8 @@ function RestoreItem() {
                         </button>
                       </AlertDialogCustom>
                       <AlertDialogCustom
-                        title="Xóa lịch chiếu"
-                        description="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa lịch chiếu không ?"
+                        title="Khôi phục lịch chiếu"
+                        description="Bạn có chắc chắn muốn khôi phục lịch chiếu không ?"
                         fnContinue={() => handleConfirmRestore(item._id)}
                         clxCancle="border border-[white] text-sm"
                         clxContinue="bg-white text-black text-sm"
@@ -143,7 +151,7 @@ function RestoreItem() {
             ))
           ) : (
             <tr className="hover:bg-gray-50">
-              <td colSpan={6} className='text-center py-3'>
+              <td colSpan={6} className="text-center py-3">
                 Không có lịch chiếu bị xóa
               </td>
             </tr>

@@ -10,11 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal'
-import {
-  getAllRooms,
-  getOneRooms,
-  SoftDeleteRooms
-} from '@/api/screeningrooms'
+import { getAllRooms, getOneRooms, SoftDeleteRooms } from '@/api/screeningrooms'
 import { Screeningrooms } from '@/Interface/screeningrooms'
 import { ConfirmDialog } from '@/admin/components/Confirm'
 import {
@@ -28,6 +24,11 @@ import {
 import Loader from '@/admin/common/Loader'
 import { ContextMain } from '@/context/Context'
 import { ROLE_ADMIN } from '@/utils/constant'
+import {
+  filterStatusCssBg,
+  filterStatusCssText,
+  filterStatusRoom
+} from '@/utils/methodArray'
 
 Modal.setAppElement('#root') // Tránh lỗi về accessibility
 
@@ -256,8 +257,12 @@ const TableRooms = () => {
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     {room.projector}
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    {room.status}
+                  <td
+                    className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark ${filterStatusCssText(room.status)}`}
+                  >
+                    <div className={`${filterStatusCssBg(room.status)} rounded-full text-center py-1 font-bold text-sm`}>
+                      {filterStatusRoom(room.status)}
+                    </div>
                   </td>
                   {userDetail?.message?.roleIds == ROLE_ADMIN && (
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">

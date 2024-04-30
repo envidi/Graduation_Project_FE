@@ -158,7 +158,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const showTimeSoft = useQuery({
     queryKey: ['SHOWTIME_SOFT'],
-    queryFn:  getAllSoft
+    queryFn: () => getAllSoft()
   })
 
   const { mutateAsync: addShowtime } = useMutation({
@@ -186,17 +186,27 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
   const removeShowtimeSoft = useMutation({
     mutationFn: async (id) => await deleteSoft(id),
     onSuccess() {
-      queryClient.invalidateQueries(['SOFT'] as InvalidateQueryFilters)
-      toast.success('Xóa mềm lịch chiếu thành công <3 ')
+      queryClient.invalidateQueries({
+        queryKey: ['SHOWTIME_SOFT']
+      })
+      queryClient.invalidateQueries({
+        queryKey: [SHOWTIMES_ADMIN]
+      })
+      toast.success('Xóa mềm lịch chiếu thành công !')
     },
     onError() {
-      toast.error('Xóa faile, try again !')
+      toast.error('Xóa thất bại, thử lại !')
     }
   })
   const restoreShowtime = useMutation({
     mutationFn: async (id) => RestoreShowtime(id),
     onSuccess() {
-      queryClient.invalidateQueries(['SHOWTIME_SOFT'] as InvalidateQueryFilters)
+      queryClient.invalidateQueries({
+        queryKey: ['SHOWTIME_SOFT']
+      })
+      queryClient.invalidateQueries({
+        queryKey: [SHOWTIMES_ADMIN]
+      })
       toast.success('Khôi phục lịch chiếu thành công')
     },
     onError() {

@@ -6,7 +6,7 @@ import { getAllCategory } from '@/api/category'
 import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 import { ChangeEventHandler, useState } from 'react'
@@ -20,6 +20,7 @@ type FormMovieProps = {
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
   // const [date, setDate] = useState(new Date())
+  const navigate = useNavigate()
   const [, setfromDate] = useState(new Date())
   const [, settoDate] = useState(new Date())
   const [file, setFiles] = useState<File[]>([])
@@ -94,6 +95,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         return
       }
       toast.success('Thêm phim thành công')
+      navigate('/admin/movie')
     },
     onError: (error: { response: { data: { message: string } } }) => {
       if (typeForm === 'EDIT') {
@@ -767,7 +769,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-50 transition duration-300 mt-4"
               type="submit"
             >
-              {typeForm === 'ADD' ? 'Add' : 'Update'}
+              {typeForm === 'ADD' ? 'Thêm' : 'Cập nhật'}
             </button>
           </form>
         </div>
