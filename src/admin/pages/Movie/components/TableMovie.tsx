@@ -85,7 +85,6 @@ const TableMovie = () => {
                 <FaPlusCircle size={20} />
               </button>
             )}
-
             <button
               onClick={() => {
                 navigate('/admin/movie/softdelete')
@@ -94,6 +93,8 @@ const TableMovie = () => {
             >
               <FaRegTrashAlt />
             </button>
+
+
           </div>
 
           <table className=" w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
@@ -255,7 +256,7 @@ const TableMovie = () => {
                           <button
                             className="rounded-lg bg-green-400 py-3 px-4 font-sans text-xs font-bold uppercase text-white shadow-md shadow-green-400/20 transition-all hover:shadow-lg hover:shadow-green-400/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                             data-ripple-light="true"
-                            // title='abc'
+                          // title='abc'
                           >
                             Chi tiết
                           </button>
@@ -274,14 +275,15 @@ const TableMovie = () => {
         {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
           <button
             key={page}
-            disabled={currentPage === page}
             onClick={() => setPage(page)}
-            className="mx-2 px-4 py-2 border border-[#eee] dark:border-strokedark hover:bg-gray-200"
+            className={`mx-2 px-4 py-2 border border-[#eee] dark:border-strokedark hover:bg-gray-200 focus:bg-gray-200 
+                  ${currentPage === page ? 'bg-gray-500 text-white' : ''}`}
           >
             {page}
           </button>
         ))}
       </div>
+
       <ConfirmDialog
         open={isOpenConfirm}
         title="Bạn có chắc muốn xóa không"

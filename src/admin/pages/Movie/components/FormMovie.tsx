@@ -56,8 +56,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       setFieldValue('language', data?.language)
       setFieldValue('actor', data?.actor)
       setFieldValue('trailer', data?.trailer)
-      setFieldValue('fromDate', data?.fromDate)
-      setFieldValue('toDate', data?.toDate)
+      // setFieldValue('fromDate', data?.fromDate)
+      // setFieldValue('toDate', data?.toDate)
       setFieldValue('desc', data?.desc)
       setFieldValue('image', data?.image)
       setFieldValue('country', data?.country)
@@ -108,14 +108,14 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   })
 
   const initialValues = {
-    // name: id ? (movieData?.name as string) : '',
+    name: id ? (movieData?.name as string) : '',
     image: id ? (movieData?.image as string) : '',
     author: id ? (movieData?.author as string) : '',
     language: id ? (movieData?.language as string) : '',
     actor: id ? (movieData?.actor as string) : '',
     trailer: id ? (movieData?.trailer as string) : '',
-    fromDate: id ? (movieData?.fromDate as unknown as string) : '',
-    toDate: id ? (movieData?.toDate as unknown as string) : '',
+    // fromDate: id ? (movieData?.fromDate as unknown as string) : '',
+    // toDate: id ? (movieData?.toDate as unknown as string) : '',
     desc: id ? (movieData?.desc as string) : '',
     country: id ? (movieData?.country as string) : '',
     status: id ? (movieData?.status as string) : '',
@@ -174,15 +174,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.trailer.length < 3) {
         errors.trailer = 'đoạn giới thiệu phải dài ít nhất 3 ký tự'
       }
-      // Kiểm tra nếu fromDate không hợp lệ
-      if (!values.fromDate) {
-        errors.fromDate = 'Dữ liệu bắt buộc nhập'
-      }
+      // // Kiểm tra nếu fromDate không hợp lệ
+      // if (!values.fromDate) {
+      //   errors.fromDate = 'Dữ liệu bắt buộc nhập'
+      // }
 
-      // Kiểm tra nếu toDate không hợp lệ
-      if (!values.toDate) {
-        errors.toDate = 'Dữ liệu bắt buộc nhập'
-      }
+      // // Kiểm tra nếu toDate không hợp lệ
+      // if (!values.toDate) {
+      //   errors.toDate = 'Dữ liệu bắt buộc nhập'
+      // }
       if (!values.country) {
         errors.country = 'Quốc gia bắt buộc'
       } else if (values.country.length < 3) {
@@ -198,14 +198,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 0) {
         errors.age_limit = 'Giới hạn tuổi phải là một số và lớn hơn 0'
       }
-      if (!values.rate) {
-        errors.rate = 'Tỷ lệ bắt buộc'
-      } else if (
-        isNaN(values.rate) ||
-        (Number(values.rate) <= 0 && Number(values.rate) <= 1)
-      ) {
-        errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
-      }
+      // if (!values.rate) {
+      //   errors.rate = 'Tỷ lệ bắt buộc'
+      // } else if (
+      //   isNaN(values.rate) ||
+      //   (Number(values.rate) <= 0 && Number(values.rate) <= 1)
+      // ) 
       if (!values.prices) {
         errors.prices = 'Bắt buộc nhập giá'
       } else if (isNaN(values.prices) || Number(values.prices) <= 0) {
@@ -239,10 +237,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         data.set('duration', values?.duration)
         data.set('country', values?.country)
         data.set('status', values?.status)
+        if (values?.rate == undefined) {
+          values.rate = 5
+        }
         data.set('rate', values?.rate)
         // data.set('price', values?.price)
-        data.set('toDate', values?.toDate)
-        data.set('fromDate', values?.fromDate)
+        // data.set('toDate', values?.toDate)
+        // data.set('fromDate', values?.fromDate)
         const priceObj: any = [
           {
             dayType: 'weekday',
@@ -340,6 +341,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       ) : (
         <div className="border rounded bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form
+          autoComplete='false'
             onSubmit={handleSubmit}
             encType="multipart/form-data"
             className="p-6 space-y-6"
@@ -353,6 +355,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tên Phim
                   </label>
                   <input
+                    autoComplete='off'
                     name="name"
                     value={values.name}
                     onChange={handleChange}
@@ -368,15 +371,14 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     </div>
                   )}
                 </div>
-
-                {/*  */}
-
                 {/* actor */}
                 <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Diễn viên
                   </label>
                   <input
+                    autoComplete='off'
+
                     name="actor"
                     value={values.actor}
                     onChange={handleChange}
@@ -398,6 +400,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tác giả
                   </label>
                   <input
+                    autoComplete='off'
+
                     name="author"
                     value={values.author}
                     onChange={handleChange}
@@ -419,6 +423,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Ngôn Ngữ
                   </label>
                   <input
+                    autoComplete='off'
+
                     name="language"
                     value={values.language}
                     onChange={handleChange}
@@ -440,6 +446,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Đoạn phim giới thiệu
                   </label>
                   <input
+                    autoComplete='off'
                     name="trailer"
                     value={values.trailer}
                     onChange={handleChange}
@@ -456,11 +463,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* age_limit */}
-                <div className=" relative z-0 mb-6 w-full group">
+                {/* <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Giới hạn tuổi
                   </label>
                   <input
+                  autoComplete='off'
+                  
                     name="age_limit"
                     value={values.age_limit}
                     onChange={handleChange}
@@ -475,7 +484,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.age_limit as any}
                     </div>
                   )}
-                </div>
+                </div> */}
                 {/* desc */}
                 <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
@@ -497,11 +506,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* country */}
-                <div className=" relative z-0 mb-6 w-full group">
+                {/* <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Quốc gia
                   </label>
                   <input
+                  autoComplete='off'
+                  
                     name="country"
                     value={values.country}
                     onChange={handleChange}
@@ -516,14 +527,16 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.country as any}
                     </div>
                   )}
-                </div>
+                </div> */}
                 {/* duration */}
-                <div className=" relative z-0 mb-6 w-full group">
+                {/* <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Thời lượng phim
                   </label>
-                 
+
                   <input
+                  autoComplete='off'
+                  
                     name="duration"
                     value={values.duration}
                     onChange={handleChange}
@@ -538,14 +551,17 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.duration as any}
                     </div>
                   )}
-                </div>
+                </div> */}
                 {/* rate */}
-                <div className=" relative z-0 mb-6 w-full group">
+                <div className=" relative z-0 mb-6 w-full group hidden">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Rate
                   </label>
                   <input
+                    autoComplete='off'
+
                     name="rate"
+                    // value={ values.rate}
                     value={values.rate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -561,7 +577,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 </div>
                 {/*  */}
               </div>
-
+              {/* box2 */}
               <div className="p-2 mb-4.5 ml-8  flex-col gap-6 xl:flex-row">
                 {/* category */}
                 <div className="form-group">
@@ -588,12 +604,83 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     </div>
                   )}
                 </div>
+                {/* box gruop */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
+                  {/* age_limit */}
+                  <div className="relative z-0 group">
+                    <label className="block mb-2 text-sm font-medium text-black dark:text-white">
+                      Giới hạn tuổi
+                    </label>
+                    <input
+                      autoComplete='off'
+
+                      name="age_limit"
+                      value={values.age_limit}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="text"
+                      placeholder="Nhập giới hạn tuổi ..."
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                    />
+                    {touched.age_limit && errors.age_limit && (
+                      <div className="mt-1 text-red-500 text-sm font-bold">
+                        {errors.age_limit as any}
+                      </div>
+                    )}
+                  </div>
+                  {/* duration */}
+                  <div className="relative z-0 group">
+                    <label className="block mb-2 text-sm font-medium text-black dark:text-white">
+                      Thời lượng phim
+                    </label>
+                    <input
+                      autoComplete='off'
+
+                      name="duration"
+                      value={values.duration}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="number"
+                      placeholder="Nhập thời lượng phim ..."
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                    />
+                    {touched.duration && errors.duration && (
+                      <div className="mt-1 text-red-500 text-sm font-bold">
+                        {errors.duration as any}
+                      </div>
+                    )}
+                  </div>
+                  {/* country */}
+                  <div className="relative z-0 group">
+                    <label className="block mb-2 text-sm font-medium text-black dark:text-white">
+                      Quốc gia
+                    </label>
+                    <input
+                      autoComplete='off'
+
+                      name="country"
+                      value={values.country}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="text"
+                      placeholder="Nhập quốc gia ..."
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                    />
+                    {touched.country && errors.country && (
+                      <div className="mt-1 text-red-500 text-sm font-bold">
+                        {errors.country as any}
+                      </div>
+                    )}
+                  </div>
+                </div>
                 {/* image */}
-                <div className=" relative z-0 mb-6 w-full group">
+                <div className=" relative z-0 mb-6 w-full group mt-3">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Ảnh Phim
                   </label>
                   <input
+                    autoComplete='off'
+
                     name="image"
                     onChange={handleChangeFile}
                     onBlur={handleBlur}
@@ -615,7 +702,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* fromDate */}
-                <div className=" relative z-0 mb-6 w-full group">
+                {/* <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Từ ngày
                   </label>
@@ -645,9 +732,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.fromDate as any}
                     </div>
                   )}
-                </div>
+                </div> */}
                 {/* todate */}
-                <div className=" relative z-0 mb-6 w-full group">
+                {/* <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Đến ngày
                   </label>
@@ -677,13 +764,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.toDate as any}
                     </div>
                   )}
-                </div>
+                </div> */}
                 {/* prices */}
                 <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Giá phim:
                   </label>
                   <input
+                    autoComplete='off'
+
                     name="prices"
                     value={values?.prices}
                     onChange={handleChange}
@@ -727,6 +816,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="IS_SHOWING"
                         selected={values.status === 'IS_SHOWING'}
+                        disabled={!values.id}
                       >
                         Đang Công Chiếu
                       </option>
@@ -734,6 +824,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="PRTMIERED"
                         selected={values.status === 'PRTMIERED'}
+                        disabled={!values.id}
                       >
                         Đã Công Chiếu
                       </option>
@@ -741,6 +832,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="CANCELLED"
                         selected={values.status === 'CANCELLED'}
+                        disabled={!values.id}
                       >
                         Đã Hủy
                       </option>
