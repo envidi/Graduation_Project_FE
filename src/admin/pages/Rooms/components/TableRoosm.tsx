@@ -1,16 +1,16 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext, useRef, useState } from 'react'
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import {
   FaEdit,
   FaPlusCircle,
   FaTrashRestoreAlt,
-  FaInfoCircle
+  FaInfoCircle,
+  FaRegTrashAlt
 } from 'react-icons/fa'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Modal from 'react-modal'
 import {
-  getAllRoomAdmin,
   getAllRooms,
   getOneRooms,
   SoftDeleteRooms
@@ -34,14 +34,18 @@ Modal.setAppElement('#root') // Tránh lỗi về accessibility
 const ITEMS_PER_PAGE = 10
 const TableRooms = () => {
   const { userDetail } = useContext(ContextMain)
-  const [rooms, setRooms] = useState<Screeningrooms[]>([])
-  const [selectedRoom] = useState('')
+  // const [rooms, setRooms] = useState<Screeningrooms[]>([])
+  // const [selectedRoom] = useState('')
   const [selectedShow, setSelectedShow] = useState('')
 
   const [idRoom, setIdRoom] = useState<string | undefined>('')
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { isLoading, isError } = useQuery<Screeningrooms[]>({
+  const {
+    data: rooms,
+    isLoading,
+    isError
+  } = useQuery<Screeningrooms[]>({
     queryKey: ['ROOMS'],
     queryFn: () => getAllRooms()
   })
@@ -150,20 +154,20 @@ const TableRooms = () => {
     )
   }
 
-  useEffect(() => {
-    const fecthRooms = async () => {
-      try {
-        const roomData = await getAllRoomAdmin({
-          id: selectedRoom,
-          _showId: selectedShow
-        })
-        setRooms(roomData)
-      } catch (error) {
-        throw new Error('Error fetching seats:')
-      }
-    }
-    fecthRooms()
-  }, [])
+  // useEffect(() => {
+  //   const fecthRooms = async () => {
+  //     try {
+  //       const roomData = await getAllRoomAdmin({
+  //         id: selectedRoom,
+  //         _showId: selectedShow
+  //       })
+  //       setRooms(roomData)
+  //     } catch (error) {
+  //       throw new Error('Error fetching seats:')
+  //     }
+  //   }
+  //   fecthRooms()
+  // }, [])
   /*------------------------------------------------- */
 
   const [modalIsOpen, setModalIsOpen] = useState(false)
@@ -187,7 +191,7 @@ const TableRooms = () => {
   return (
     <>
       <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
-        <div className="text-center flex items-center justify-start mb-6">
+        <div className="text-center flex items-center justify-start mb-6 gap-x-3">
           {userDetail?.message?.roleIds == ROLE_ADMIN && (
             <button
               onClick={() => navigate('/admin/screeningrooms/add')}
@@ -196,6 +200,14 @@ const TableRooms = () => {
               Thêm <FaPlusCircle size={20} />
             </button>
           )}
+          <button
+            onClick={() => {
+              navigate('/admin/screeningrooms/destroy')
+            }}
+            className="bg-red-500 px-5 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-red-600 transition duration-300"
+          >
+            <FaRegTrashAlt />
+          </button>
         </div>
         <div className="max-w-full overflow-x-auto">
           <table className="w-full table-auto border-stroke">

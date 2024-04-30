@@ -1,7 +1,7 @@
 import DefaultLayout from '@/admin/layout/DefaultLayout'
 import { ContextMain } from '@/context/Context'
 import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
@@ -25,6 +25,7 @@ import {
   filterStatusCssText,
   filterStatusShow
 } from '@/utils/methodArray'
+import { FaRegTrashAlt } from 'react-icons/fa'
 interface Showtype {
   screenRoomId: {
     name: string
@@ -41,6 +42,7 @@ interface Showtype {
   isCheck?: boolean
 }
 const Showtimes = () => {
+  const navigate = useNavigate()
   const { allShowTimes, removeShowtime, userDetail } =
     useContext<any>(ContextMain)
 
@@ -168,6 +170,14 @@ const Showtimes = () => {
                     {changeShow ? 'Hủy' : 'Đổi lịch chiếu'}
                   </button>
                 )}
+                <button
+                  onClick={() => {
+                    navigate('/admin/showtimes/restore')
+                  }}
+                  className="bg-red-500 px-5 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-red-600 transition duration-300"
+                >
+                  <FaRegTrashAlt />
+                </button>
               </div>
             </div>
           </div>

@@ -86,14 +86,14 @@ const TableMovie = () => {
               </button>
             )}
 
-            {/* <button
+            <button
               onClick={() => {
                 navigate('/admin/movie/softdelete')
               }}
               className="bg-red-500 px-5 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-red-600 transition duration-300"
             >
               <FaRegTrashAlt />
-            </button> */}
+            </button>
           </div>
 
           <table className=" w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">

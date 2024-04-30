@@ -83,13 +83,13 @@ import ShowtimeApproval from './admin/pages/Showtimes/ShowtimeApproval'
 import ProtectedAdminRoute from './pages/Routes/ProtectedAdminRoute'
 import ProtectedAdminAndStaffRoute from './pages/Routes/ProtectedAdminandSraffRoute'
 import ProtectedAdminPage from './pages/Routes/ProtectedAdminPage'
+import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
 )
 
 function App() {
-  const accessToken = localStorage.getItem('accessToken');
   const dispatch = useDispatch()
   const [menuState, setMenuState] = useState(false)
   const menuStyle: CSSProperties = {
@@ -274,9 +274,7 @@ function App() {
               </Route>
             </Route>
             {/* admin */}
-            <Route path="/admin" >
-
-
+            <Route path="/admin">
               {/* Define the routes for the admin section */}
               <Route
                 index
@@ -431,10 +429,10 @@ function App() {
                   }
                 />
               </Route>
-              {/* <Route
+              <Route
                 path="screeningrooms/destroy"
                 element={<RoomsPageDestroy />}
-              /> */}
+              />
               <Route path="tickets">
                 <Route
                   index
@@ -509,25 +507,25 @@ function App() {
                     </ProtectedAdminPage>
                   }
                 />
-                <Route path="restore" element={
-                  <ProtectedAdminAndStaffRoute redirectPath="/">
-
-                    {/* <ShowtimeApproval /> */}
-                    <Restore />
-
-                  </ProtectedAdminAndStaffRoute>
-                }
+                <Route
+                  path="restore"
+                  element={
+                    <ProtectedAdminAndStaffRoute redirectPath="/">
+                      {/* <ShowtimeApproval /> */}
+                      <Restore />
+                    </ProtectedAdminAndStaffRoute>
+                  }
                 />
               </Route>
 
-              <Route path="settings" element={
-                <ProtectedAdminAndStaffRoute redirectPath="/">
-
-                  {/* <ShowtimeApproval /> */}
-                  <Settings />
-
-                </ProtectedAdminAndStaffRoute>
-              }
+              <Route
+                path="settings"
+                element={
+                  <ProtectedAdminAndStaffRoute redirectPath="/">
+                    {/* <ShowtimeApproval /> */}
+                    <Settings />
+                  </ProtectedAdminAndStaffRoute>
+                }
               />
               {/*  */}
 

@@ -1,9 +1,4 @@
-import {
-  deleteUser,
-  getDetailUserClient,
-  updateUser,
-  updateUserId
-} from '@/api/auth'
+import { deleteUser, getDetailUserClient, updateUser } from '@/api/auth'
 import React, { createContext, useState } from 'react'
 import {
   InvalidateQueryFilters,
@@ -125,7 +120,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }, 1000)
     navigate('/')
     setIsLogined(false)
-    toast.success('Logout successful')
+    toast.success('Đăng xuất thành công')
   }
 
   const userUpdate = useMutation({
@@ -161,16 +156,9 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
 
-  const { data: showTimeSoft } = useQuery({
-    queryKey: ['SOFT'],
-    queryFn: async () => {
-      try {
-        const response = await getAllSoft()
-        return response
-      } catch (error) {
-        throw new Error(error as string)
-      }
-    }
+  const showTimeSoft = useQuery({
+    queryKey: ['SHOWTIME_SOFT'],
+    queryFn:  getAllSoft
   })
 
   const { mutateAsync: addShowtime } = useMutation({
@@ -206,10 +194,10 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     }
   })
   const restoreShowtime = useMutation({
-    mutationFn: async (id) => await RestoreShowtime(id),
+    mutationFn: async (id) => RestoreShowtime(id),
     onSuccess() {
-      queryClient.invalidateQueries(['SOFT'] as InvalidateQueryFilters)
-      toast.success('Khôi phục lịch chiếu thành công <3 ')
+      queryClient.invalidateQueries(['SHOWTIME_SOFT'] as InvalidateQueryFilters)
+      toast.success('Khôi phục lịch chiếu thành công')
     },
     onError() {
       toast.error('Khôi phục thất bại !')

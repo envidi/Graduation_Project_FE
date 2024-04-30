@@ -34,10 +34,10 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
   )
 
   const [query, setQuery] = useState({
-    status: status == 'IS_SHOWING' ? '' : status,
+    status: ['IS_SHOWING', 'HOT'].includes(status) ? '' : status,
     order: 'asc',
     country: '0',
-    rate: '0',
+    rate: status == 'HOT' ? '5' : '0',
     age: '0'
   })
   const { data: dataMovie, isLoading } = useStatusMovie(query)
@@ -95,16 +95,19 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
               <SheetHeader>
                 <SheetTitle className="text-2xl">Lọc phim</SheetTitle>
               </SheetHeader>
-              <div className="mt-5">
-                <div className="text-2xl mb-5">Lọc theo đánh giá</div>
-                <FilterRate
-                  setQuery={setQuery}
-                  query={query}
-                  className="md:hidden xs:flex"
-                  handleCloseSheet={handleCloseSheet}
-                />
-                <Separator className="my-7 bg-border-calendarBorder h-[0.5px] " />
-              </div>
+              {status != 'HOT' && (
+                <div className="mt-5">
+                  <div className="text-2xl mb-5">Lọc theo đánh giá</div>
+                  <FilterRate
+                    setQuery={setQuery}
+                    query={query}
+                    className="md:hidden xs:flex"
+                    handleCloseSheet={handleCloseSheet}
+                  />
+                  <Separator className="my-7 bg-border-calendarBorder h-[0.5px] " />
+                </div>
+              )}
+
               <div className="mt-5">
                 <div className="text-2xl mb-5">Lọc theo quốc gia</div>
                 <FilterCountry
@@ -127,16 +130,19 @@ function MoviePageItem({ status, title }: MoviePageItemType) {
               </div>
               <SheetFooter>
                 <SheetClose asChild className="sheet-close">
-                  <Button type="submit">Lưu</Button>
+                  <Button type="submit" className='bg-white mt-10 text-black w-fit'>Lưu</Button>
                 </SheetClose>
               </SheetFooter>
             </SheetContent>
           </Sheet>
-          <FilterRate
-            setQuery={setQuery}
-            query={query}
-            className="md:flex xs:hidden"
-          />
+          {status !== 'HOT' && (
+            <FilterRate
+              setQuery={setQuery}
+              query={query}
+              className="md:flex xs:hidden"
+            />
+          )}
+
           <FilterAge
             setQuery={setQuery}
             query={query}
