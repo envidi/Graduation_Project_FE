@@ -6,8 +6,13 @@ import {
   HarddeleteRooms,
   undoSoftDeleteRooms
 } from '@/api/screeningrooms'
+import { useContext } from 'react'
+import { ContextMain } from '@/context/Context'
+import { ROLE_ADMIN } from '@/utils/constant'
+import AlertDialogCustom from '@/components/AlertDialogCustom'
 
 const TableRoomsDestroy: React.FC = () => {
+  const { userDetail } = useContext(ContextMain)
   const queryClient = useQueryClient()
   const { data, isLoading, isError } = useQuery<any>({
     queryKey: ['ROOMS'],
@@ -77,9 +82,11 @@ const TableRoomsDestroy: React.FC = () => {
                 <th className="min-w-[100px] py-4 px-4 font-medium-600 text-primary-white">
                   Trạng thái
                 </th>
-                <th className="py-4 px-4 font-medium-600 text-primary-white">
-                  Hành động
-                </th>
+                {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                  <th className="py-4 px-4 font-medium-600 text-primary-white">
+                    Hành động
+                  </th>
+                )}
               </tr>
             </thead>
             <tbody>
@@ -111,30 +118,30 @@ const TableRoomsDestroy: React.FC = () => {
                       {rooms.status ?? ''}
                     </p>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() => {
-                          if (window.confirm('Bạn có muốn khôi phục không?')) {
-                            handleRemoveRooms(rooms._id as string, true)
-                          }
-                        }}
-                        className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                      >
-                        <FaUndo size={16} />
-                      </button>
-                      <button
-                        onClick={() => {
-                          if (window.confirm('Bạn có muốn xóa cứng không?')) {
-                            handleRemoveRooms(rooms._id as string, false)
-                          }
-                        }}
-                        className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                      >
-                        <FaTrashAlt size={16} />
-                      </button>
-                    </div>
-                  </td>
+                  {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                    <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                      <div className="flex items-center space-x-2">
+                        <button
+                          onClick={() => handleRemoveRooms(rooms._id as string, true)}
+                          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+                        >
+                          <FaUndo size={16} />
+                        </button>
+                        <AlertDialogCustom
+                          title="Xóa phòng chiếu"
+                          description="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa lịch chiếu không ?"
+                          fnContinue={() => handleRemoveRooms(rooms._id, false)}
+                          clxCancle="border border-[white] text-sm"
+                          clxContinue="bg-white text-black text-sm"
+                          clxContent="w-fit"
+                        >
+                          <button className="flex items-center justify-center text-gray-6 hover:text-gray-9">
+                            <FaTrashAlt size={16} />
+                          </button>
+                        </AlertDialogCustom>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>

@@ -52,7 +52,7 @@ export const RestoreShowtime = async (id: any) => {
 }
 export const getAllSoft = async () => {
   const result = await baseShowtimes.get('/all')
-  return result
+  return result.data.data.docs
 }
 export const getShowtimesById = async (id: string) => {
   try {
