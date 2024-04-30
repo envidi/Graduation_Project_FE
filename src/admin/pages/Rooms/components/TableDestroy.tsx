@@ -1,18 +1,18 @@
 import { useQueryClient, useMutation, useQuery } from '@tanstack/react-query'
 import { FaTrashAlt, FaUndo } from 'react-icons/fa'
-import { useNavigate } from 'react-router-dom'
+
 import { toast } from 'react-toastify'
 import {
   getAllRoomsDestroy,
   HarddeleteRooms,
   undoSoftDeleteRooms
 } from '@/api/screeningrooms'
-import { Screeningrooms } from '@/Interface/screeningrooms'
+
 
 type Props={}
 
 const TableRoomsDestroy: React.FC<Props> = () => {
-  const navigate = useNavigate()
+ 
   const queryClient = useQueryClient()
   const { data, isLoading, isError } = useQuery<any>({
     queryKey: ['ROOMS'],

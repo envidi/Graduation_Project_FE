@@ -118,7 +118,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
       <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
         <form
           onSubmit={handleSubmit}
-          className="bg-white dark:bg-gray-800 p-6 bg-white dark:bg-boxdark"
+          className="dark:bg-gray-800 p-6 bg-white dark:bg-boxdark"
           encType="multipart/form-data"
         >
           <div className="mb-6">

@@ -242,23 +242,36 @@ const TableRooms = () => {
                     {room.status}
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                    <div className="flex items-center space-x-2">
-                      <button
-                        onClick={() =>
-                          navigate(`/admin/screeningrooms/edit/${room._id}`)
-                        }
-                        className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                      >
-                        <FaEdit size={16} />
-                      </button>
-                      <button
-                        onClick={() => handleShowConfirm(room._id as string)}
-                        className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                      >
-                        <FaTrashRestoreAlt size={16} />
-                      </button>
-                    </div>
-                  </td>
+  <div
+    className="flex items-center space-x-2"
+    title={
+      room.ShowtimesId && room.ShowtimesId.length > 0
+        ? 'Không thể cập nhật phim đã có xuất chiếu'
+        : ''
+    }
+  >
+    {room.ShowtimesId && room.ShowtimesId.length === 0 && (
+      <>
+        <button
+          onClick={() =>
+            navigate(`/admin/screeningrooms/edit/${room._id}`)
+          }
+          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+          data-ripple-light="true"
+        >
+          <FaEdit size={16} />
+        </button>
+        <button
+          onClick={() => handleShowConfirm(room._id as string)}
+          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+          data-ripple-light="true"
+        >
+          <FaTrashRestoreAlt size={16} />
+        </button>
+      </>
+    )}
+  </div>
+</td>
                 </tr>
               ))}
             </tbody>
@@ -312,156 +325,140 @@ const TableRooms = () => {
             <div>Loading...</div>
           ) : (
             <table
-              className="w-full table-auto"
-              style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px' }}
-            >
-              <tbody>
-                <tr>
-                  <td
-                    className="dark:text-black"
-                    style={{ padding: '10px 0', fontWeight: 'bold' }}
+            className="w-full table-auto"
+            style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px' }}
+          >
+            <tbody>
+              <tr>
+                <td
+                  className="dark:text-black"
+                  style={{ padding: '10px 0', fontWeight: 'bold' }}
+                >
+                  Tên phòng:
+                </td>
+                <td className="dark:text-black">{roomsData?.name}</td>
+              </tr>
+              <tr>
+                <td
+                  className="dark:text-black"
+                  style={{ padding: '10px 0', fontWeight: 'bold' }}
+                >
+                  Chọn lịch chiếu:
+                </td>
+                <td className="dark:text-black" style={{ padding: '10px 0' }}>
+                  <select
+                    value={selectedShow}
+                    onChange={(e) => setSelectedShow(e.target.value)}
+                    className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   >
-                    Tên phòng:
-                  </td>
-                  <td className="dark:text-black">{roomsData?.name}</td>
-                </tr>
-                <tr>
-                  <td
-                    className="dark:text-black"
-                    style={{ padding: '10px 0', fontWeight: 'bold' }}
-                  >
-                    Chọn lịch chiếu:
-                  </td>
-                  <td className="dark:text-black" style={{ padding: '10px 0' }}>
-                    <select
-                      value={selectedShow}
-                      onChange={(e) => setSelectedShow(e.target.value)}
-                      className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    <option value="">Chọn lịch chiếu</option>
+                    {roomsData.ShowtimesId?.map((show: any) => (
+                      <option key={show._id} value={show._id}>
+                        {show.timeFrom} - {show.timeTo}
+                      </option>
+                    ))}
+                  </select>
+                </td>
+              </tr>
+              {selectedShow && (
+                <>
+                  <tr>
+                    <td
+                      className="dark:text-black"
+                      style={{ padding: '10px 0', fontWeight: 'bold' }}
                     >
-                      <option value="">Chọn lịch chiếu</option>
-                      {roomsData.ShowtimesId?.map((show: any) => (
-                        <option key={show._id} value={show._id}>
-                          {show.timeFrom} - {show.timeTo}
-                        </option>
-                      ))}
-                    </select>
-                  </td>
-                </tr>
-                {selectedShow && (
-                  <>
-                    <tr>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0', fontWeight: 'bold' }}
-                      >
-                        Tên Phim:
-                      </td>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0' }}
-                      >
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
-                          )?.movieId?.name}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0', fontWeight: 'bold' }}
-                      >
-                        Số ghế:
-                      </td>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0' }}
-                      >
-                        {roomsData.NumberSeat}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0', fontWeight: 'bold' }}
-                      >
-                        Số ghế đã đặt:
-                      </td>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0' }}
-                      >
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
-                          )?.SeatId?.seatSold}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0', fontWeight: 'bold' }}
-                      >
-                        Số ghế trống:
-                      </td>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0' }}
-                      >
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
-                          )?.SeatId?.seatNotSold}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0', fontWeight: 'bold' }}
-                      >
-                        Ghế Vip:
-                      </td>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0' }}
-                      >
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
-                          )?.SeatId?.seatVip.length}
-                        <br />
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
-                          )?.SeatId?.seatVip[0]?.price + 'VĐN'}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0', fontWeight: 'bold' }}
-                      >
-                        Ghế Thường:
-                      </td>
-                      <td
-                        className="dark:text-black"
-                        style={{ padding: '10px 0' }}
-                      >
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
-                          )?.SeatId?.seatNormal.length}
-                        <br />
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
-                          )?.SeatId?.seatNormal[0]?.price + 'VĐN'}
-                      </td>
-                    </tr>
-                  </>
-                )}
-              </tbody>
-            </table>
+                      Tên Phim:
+                    </td>
+                    <td className="dark:text-black" style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.movieId?.name}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      className="dark:text-black"
+                      style={{ padding: '10px 0', fontWeight: 'bold' }}
+                    >
+                      Số ghế:
+                    </td>
+                    <td className="dark:text-black" style={{ padding: '10px 0' }}>
+                      {roomsData.NumberSeat}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      className="dark:text-black"
+                      style={{ padding: '10px 0', fontWeight: 'bold' }}
+                    >
+                      Số ghế đã đặt / Số ghế trống:
+                    </td>
+                    <td className="dark:text-black" style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId && (
+                        <>
+                          <span>
+                            Đã đặt:{' '}
+                            {roomsData?.ShowtimesId.find(
+                              (show: any) => show._id === selectedShow
+                            )?.SeatId?.seatSold}
+                          </span>
+                          <br />
+                          <span>
+                            Trống:{' '}
+                            {roomsData?.ShowtimesId.find(
+                              (show: any) => show._id === selectedShow
+                            )?.SeatId?.seatNotSold}
+                          </span>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      className="dark:text-black"
+                      style={{ padding: '10px 0', fontWeight: 'bold' }}
+                    >
+                      Ghế Vip:
+                    </td>
+                    <td className="dark:text-black" style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatVip.length}
+                      <br />
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatVip[0]?.price+ 'VNĐ'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td
+                      className="dark:text-black"
+                      style={{ padding: '10px 0', fontWeight: 'bold' }}
+                    >
+                      Ghế Thường:
+                    </td>
+                    <td className="dark:text-black" style={{ padding: '10px 0' }}>
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatNormal.length}
+                      <br />
+                      {roomsData?.ShowtimesId &&
+                        roomsData?.ShowtimesId.find(
+                          (show: any) => show._id === selectedShow
+                        )?.SeatId?.seatNormal[0]?.price + 'VĐN'}
+                    </td>
+                  </tr>
+                </>
+              )}
+            </tbody>
+          </table>
           )}
         </div>
         <button

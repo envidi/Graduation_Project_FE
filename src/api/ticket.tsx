@@ -78,6 +78,10 @@ export const deleteTicket = async (data: TicketCreateType) => {
   const result = await instance.delete(`/ticket/delete/${ticket_id}`)
   return result.data.data
 }
+export const remoteTicket= async (id:string) => {
+  const result = await instance.delete(`/ticket/delete/${id}`)
+  return result.data.data
+}
 export const getDetailTicket = async (ticketId: string) => {
   if (!ticketId) return []
   const result = await instance.get(`/ticket/detail/${ticketId}`)
