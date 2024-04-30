@@ -18,7 +18,7 @@ const TableSoftDeleteMovie = () => {
   const idDelete = useRef<string>()
   const idDelete2 = useRef<string>()
   // fetch category by react-query
-  const { data, isLoading, isError } = useQuery<Movie[]>({
+  const { data : datasoftdelete, isLoading, isError } = useQuery<Movie[]>({
     queryKey: ['MOVIE'],
     queryFn: getAllsoftDelete
   })
@@ -30,14 +30,14 @@ const TableSoftDeleteMovie = () => {
   //tính mục phân trang
   const endIndex = currentPage * itemsPerPage
   const startIndex = endIndex - itemsPerPage
-  const currentItems = (data && data.slice(startIndex, endIndex)) || []
+  const currentItems2 = (datasoftdelete && datasoftdelete.slice(startIndex, endIndex)) || []
   // Tính số trang
-  const pageCount = data ? Math.round(data.length / ITEMS_PER_PAGE) : 0
+  const pageCount = datasoftdelete ? Math.round(datasoftdelete.length / ITEMS_PER_PAGE) : 0
   //phương thức chuyển trang
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-
+console.log('datasoftdelete', currentItems2)
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: removeMovie,
@@ -78,7 +78,7 @@ const TableSoftDeleteMovie = () => {
     setOpenConfirm2(true)
   }
 
-  if (isLoading || !data) {
+  if (isLoading || !datasoftdelete) {
     return <div>Loading...</div>
   }
 
@@ -96,7 +96,7 @@ const TableSoftDeleteMovie = () => {
           pageRetun="Danh sách phim"
         />
         <div className="flex flex-col gap-10">
-          x
+
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto ">
             <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md scrollable-table">
               <div className="text-center mb-5 flex items-center justify-start "></div>
@@ -153,7 +153,13 @@ const TableSoftDeleteMovie = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((movie, index) => (
+                  {currentItems2.length === 0 ? (
+                    <tr className="text-center py-5 dark:border-strokedark">
+                      <td className="text-center py-5 dark:border-strokedark w-full">
+                        <p className="text-gray-800">Không có phim nào đang xóa</p>
+                      </td>
+                    </tr>
+                  ) : currentItems2.map((movie, index) => (
                     <tr
                       key={movie.name}
                       className="border-b border-gray-400 dark:border-strokedark"
@@ -246,7 +252,7 @@ const TableSoftDeleteMovie = () => {
                             <button
                               className="middle none center mr-4 rounded-lg bg-green-400 py-3 px-6 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
                               data-ripple-light="true"
-                              // onClick={() => handleShowConfirm(movie?._id)}
+                            // onClick={() => handleShowConfirm(movie?._id)}
                             >
                               Chi tiết
                             </button>
