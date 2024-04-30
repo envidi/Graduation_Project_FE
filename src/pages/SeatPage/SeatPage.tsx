@@ -27,7 +27,11 @@ const SeatPage = () => {
 
   const [ticket] = useLocalStorage<TicketType | null>('ticket')
 
-  const { data: seats, isLoading: loading } = useAllSeatByShowTime({
+  const {
+    data: seats,
+    isLoading: loading,
+    isError
+  } = useAllSeatByShowTime({
     _hallId: ticket?.hall_id?._id || '',
     _showId: ticket?.id_showtime?._id || ''
   })
@@ -79,6 +83,11 @@ const SeatPage = () => {
   if (loading) {
     return <HashLoader cssOverride={override} color="#eb3656" />
   }
+  if (isError) {
+    toast.error('Lịch chiếu hiện tại không có sẵn hoặc ghế không tồn tại', {
+      position: 'top-right'
+    })
+  }
 
   const updateSeatStatus = (
     seat: SeatUserList,
@@ -112,12 +121,9 @@ const SeatPage = () => {
         }
       })
     if (seatSelecteds.length > 7) {
-      toast.error(
-        'Chỉ có thể chọn tối đa 7 ghế',
-        {
-          position: 'top-center'
-        }
-      )
+      toast.error('Chỉ có thể chọn tối đa 7 ghế', {
+        position: 'top-center'
+      })
       return
     }
     const maxCol =

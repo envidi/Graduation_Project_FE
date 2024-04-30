@@ -6,8 +6,8 @@ const RoomsPageDestroy = () => {
   return (
     <DefaultLayout>
       <Breadcrumb
-        pageName="Phòng chiếu bị xóa"
-        pageRetun="Phòng chiếu / Phòng chiếu bị xóa"
+        pageName="Phòng chiếu bị hủy"
+        pageRetun="Phòng chiếu / Phòng chiếu bị hủy"
         pageLink="/admin/screeningrooms"
       />
 
