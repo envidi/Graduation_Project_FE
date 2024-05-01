@@ -264,7 +264,7 @@ const TableRooms = () => {
                       {filterStatusRoom(room.status)}
                     </div>
                   </td>
-                  <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
+                  {/* <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
   <div
     className="flex items-center space-x-2"
     title={
@@ -294,24 +294,35 @@ const TableRooms = () => {
       </>
     )}
   </div>
-</td>
+</td> */}
                   {userDetail?.message?.roleIds == ROLE_ADMIN && (
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                      <div className="flex items-center space-x-2">
-                        <button
-                          onClick={() =>
-                            navigate(`/admin/screeningrooms/edit/${room._id}`)
-                          }
-                          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                        >
-                          <FaEdit size={16} />
-                        </button>
-                        <button
-                          onClick={() => handleShowConfirm(room._id as string)}
-                          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
-                        >
-                          <FaTrashRestoreAlt size={16} />
-                        </button>
+                      <div className="flex items-center space-x-2"
+                       title={
+                        room.ShowtimesId && room.ShowtimesId.length > 0
+                          ? 'Không thể cập nhật phim đã có xuất chiếu'
+                          : ''
+                      }>
+                        {room.ShowtimesId && room.ShowtimesId.length === 0 && (
+      <>
+        <button
+          onClick={() =>
+            navigate(`/admin/screeningrooms/edit/${room._id}`)
+          }
+          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+          data-ripple-light="true"
+        >
+          <FaEdit size={16} />
+        </button>
+        <button
+          onClick={() => handleShowConfirm(room._id as string)}
+          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+          data-ripple-light="true"
+        >
+          <FaTrashRestoreAlt size={16} />
+        </button>
+      </>
+                        )}
                       </div>
                     </td>
                   )}
