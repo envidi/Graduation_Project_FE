@@ -189,7 +189,7 @@ const TableRooms = () => {
     return <Loader />
   }
   if (isError) return <div>Error</div>
-
+console.log(rooms)
   return (
     <>
       <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -274,13 +274,15 @@ const TableRooms = () => {
                           onClick={() =>
                             navigate(`/admin/screeningrooms/edit/${room._id}`)
                           }
-                          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+                          disabled={room.ShowtimesId.length > 0}
+                          className="flex disabled:opacity-25 disabled:cursor-not-allowed items-center justify-center text-gray-6 hover:text-gray-9"
                         >
                           <FaEdit size={16} />
                         </button>
                         <button
                           onClick={() => handleShowConfirm(room._id as string)}
-                          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+                          className="flex items-center disabled:opacity-25 disabled:cursor-not-allowed justify-center text-gray-6 hover:text-gray-9"
+                          disabled={room.ShowtimesId.length > 0}
                         >
                           <FaTrashRestoreAlt size={16} />
                         </button>
