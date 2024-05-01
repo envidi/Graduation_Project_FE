@@ -29,6 +29,7 @@ import {
   filterStatusCssText,
   filterStatusRoom
 } from '@/utils/methodArray'
+import { addCommasToNumber } from '@/utils'
 
 Modal.setAppElement('#root') // Tránh lỗi về accessibility
 
@@ -260,7 +261,9 @@ const TableRooms = () => {
                   <td
                     className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark ${filterStatusCssText(room.status)}`}
                   >
-                    <div className={`${filterStatusCssBg(room.status)} rounded-full text-center py-1 font-bold text-sm`}>
+                    <div
+                      className={`${filterStatusCssBg(room.status)} rounded-full text-center py-1 font-bold text-sm`}
+                    >
                       {filterStatusRoom(room.status)}
                     </div>
                   </td>
@@ -337,7 +340,7 @@ const TableRooms = () => {
             <div>Loading...</div>
           ) : (
             <table
-              className="w-full table-auto"
+              className=" table-auto w-[900px] "
               style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px' }}
             >
               <tbody>
@@ -456,15 +459,23 @@ const TableRooms = () => {
                         className="dark:text-black"
                         style={{ padding: '10px 0' }}
                       >
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: { _id: string }) => show._id === selectedShow
-                          )?.SeatId?.seatVip.length}
-                        <br />
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: { _id: string }) => show._id === selectedShow
-                          )?.SeatId?.seatVip[0]?.price + 'VĐN'}
+                        <div className="flex">
+                          {roomsData?.ShowtimesId &&
+                            roomsData?.ShowtimesId.find(
+                              (show: { _id: string }) =>
+                                show._id === selectedShow
+                            )?.SeatId?.seatVip.length}
+                          <div className="ms-5">
+                            Giá ghế :{' '}
+                            {roomsData?.ShowtimesId &&
+                              addCommasToNumber(
+                                roomsData?.ShowtimesId.find(
+                                  (show: { _id: string }) =>
+                                    show._id === selectedShow
+                                )?.SeatId?.seatVip[0]?.price
+                              ) + ' VNĐ'}
+                          </div>
+                        </div>
                       </td>
                     </tr>
                     <tr>
@@ -478,15 +489,23 @@ const TableRooms = () => {
                         className="dark:text-black"
                         style={{ padding: '10px 0' }}
                       >
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: { _id: string }) => show._id === selectedShow
-                          )?.SeatId?.seatNormal.length}
-                        <br />
-                        {roomsData?.ShowtimesId &&
-                          roomsData?.ShowtimesId.find(
-                            (show: { _id: string }) => show._id === selectedShow
-                          )?.SeatId?.seatNormal[0]?.price + 'VĐN'}
+                        <div className="flex">
+                          {roomsData?.ShowtimesId &&
+                            roomsData?.ShowtimesId.find(
+                              (show: { _id: string }) =>
+                                show._id === selectedShow
+                            )?.SeatId?.seatNormal.length}
+                          <div className="ms-5">
+                            Giá ghế :{' '}
+                            {addCommasToNumber(
+                              roomsData?.ShowtimesId &&
+                                roomsData?.ShowtimesId.find(
+                                  (show: { _id: string }) =>
+                                    show._id === selectedShow
+                                )?.SeatId?.seatNormal[0]?.price
+                            ) + ' VNĐ'}
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   </>
@@ -515,8 +534,8 @@ const TableRooms = () => {
       {renderPagination()}
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Bạn có chắc chắn muốn xóa không?"
-        subTitle="Không thể hoàn tác hành động này"
+        title="Xoá phòng chiếu"
+        subTitle="Bạn có chắc chắn muốn xóa không?"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveRoom}
       />
