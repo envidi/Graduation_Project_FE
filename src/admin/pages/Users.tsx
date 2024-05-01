@@ -489,13 +489,13 @@ const Users = () => {
                     className="bg-red-600 hover:bg-red-700 px-3 py-1 rounded text-white mr-1 close-modal"
                     onClick={() => setShowEdit(false)}
                   >
-                    Cancel
+                    Hủy
                   </button>
                   <button
                     type="submit"
                     className="bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white"
                   >
-                    Update
+                    Cập nhật
                   </button>
                 </div>
               </form>
@@ -514,13 +514,13 @@ const Users = () => {
               className="bg-red-500 px-4 py-2 rounded-md text-md text-white"
               onClick={() => setConfirmBlock(false)}
             >
-              Cancel
+              Hủy
             </button>
             <button
               className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold"
               onClick={handleBlock}
             >
-              Ok
+             Đồng ý
             </button>
           </div>
         </div>
@@ -536,13 +536,13 @@ const Users = () => {
               className="bg-red-500 px-4 py-2 rounded-md text-md text-white"
               onClick={() => setConfirmUnBlock(false)}
             >
-              Cancel
+              Hủy
             </button>
             <button
               className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold"
               onClick={handleUnBlock}
             >
-              Ok
+              Đồng ý
             </button>
           </div>
         </div>
