@@ -246,7 +246,7 @@ const ContextProvider = ({ children }: { children: React.ReactNode }) => {
     mutationFn: async () => getAllMovie()
   })
   const { data: screenRoom } = useQuery({
-    queryKey: ['ScreenRoom'],
+    queryKey: ['ROOMS'],
     queryFn: getAllScreenRoom
   })
 

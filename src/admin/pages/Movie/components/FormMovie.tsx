@@ -94,6 +94,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
         return
       }
+      console.log('add')
       toast.success('Thêm phim thành công')
       navigate('/admin/movie')
     },
@@ -203,7 +204,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       // } else if (
       //   isNaN(values.rate) ||
       //   (Number(values.rate) <= 0 && Number(values.rate) <= 1)
-      // ) 
+      // )
       if (!values.prices) {
         errors.prices = 'Bắt buộc nhập giá'
       } else if (isNaN(values.prices) || Number(values.prices) <= 0) {
@@ -341,7 +342,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       ) : (
         <div className="border rounded bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form
-          autoComplete='false'
+            autoComplete="false"
             onSubmit={handleSubmit}
             encType="multipart/form-data"
             className="p-6 space-y-6"
@@ -355,7 +356,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tên Phim
                   </label>
                   <input
-                    autoComplete='off'
+                    autoComplete="off"
                     name="name"
                     value={values.name}
                     onChange={handleChange}
@@ -377,8 +378,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Diễn viên
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="actor"
                     value={values.actor}
                     onChange={handleChange}
@@ -400,8 +400,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tác giả
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="author"
                     value={values.author}
                     onChange={handleChange}
@@ -422,9 +421,85 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Ngôn Ngữ
                   </label>
-                  <input
-                    autoComplete='off'
-
+                  <select name="language" onChange={handleChange} onBlur={handleBlur} value={values?.language} className="block w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option value="">Select Country</option>
+                      <option value="Vietnam">Việt Nam</option>
+                      <option value="China">Trung Quốc</option>
+                      <option value="United States">Hoa Kỳ</option>
+                      <option value="United Kingdom">Anh</option>
+                      <option value="Russia">Nga</option>
+                      <option value="France">Pháp</option>
+                      <option value="Germany">Đức</option>
+                      <option value="Italy">Ý</option>
+                      <option value="Spain">Tây Ban Nha</option>
+                      <option value="Japan">Nhật Bản</option>
+                      <option value="South Korea">Hàn Quốc</option>
+                      <option value="India">Ấn Độ</option>
+                      <option value="Brazil">Brazil</option>
+                      <option value="Canada">Canada</option>
+                      <option value="Australia">Úc</option>
+                      <option value="Mexico">Mexico</option>
+                      <option value="Indonesia">Indonesia</option>
+                      <option value="Thailand">Thái Lan</option>
+                      <option value="Malaysia">Malaysia</option>
+                      <option value="Sweden">Thụy Điển</option>
+                      <option value="Netherlands">Hà Lan</option>
+                      <option value="Switzerland">Thụy Sĩ</option>
+                      <option value="Belgium">Bỉ</option>
+                      <option value="Norway">Na Uy</option>
+                      <option value="Finland">Phần Lan</option>
+                      <option value="Poland">Ba Lan</option>
+                      <option value="Denmark">Đan Mạch</option>
+                      <option value="Ireland">Ireland</option>
+                      <option value="Portugal">Bồ Đào Nha</option>
+                      <option value="Austria">Áo</option>
+                      <option value="Greece">Hy Lạp</option>
+                      <option value="Czech Republic">Séc</option>
+                      <option value="Hungary">Hungary</option>
+                      <option value="New Zealand">New Zealand</option>
+                      <option value="Singapore">Singapore</option>
+                      <option value="Argentina">Argentina</option>
+                      <option value="Venezuela">Venezuela</option>
+                      <option value="Chile">Chile</option>
+                      <option value="Peru">Peru</option>
+                      <option value="Colombia">Colombia</option>
+                      <option value="Ukraine">Ukraine</option>
+                      <option value="Belarus">Belarus</option>
+                      <option value="Romania">România</option>
+                      <option value="Bulgaria">Bulgary</option>
+                      <option value="Cuba">Cuba</option>
+                      <option value="El Salvador">El Salvador</option>
+                      <option value="Ecuador">Ecuador</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="South Africa">Nam Phi</option>
+                      <option value="Egypt">Egypt</option>
+                      <option value="Ethiopia">Ethiopia</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="Morocco">Morocco</option>
+                      <option value="Tanzania">Tanzania</option>
+                      <option value="Uganda">Uganda</option>
+                      <option value="Algeria">Algeria</option>
+                      <option value="Sudan">Sudan</option>
+                      <option value="Iraq">Iraq</option>
+                      <option value="Afghanistan">Afghanistan</option>
+                      <option value="Pakistan">Pakistan</option>
+                      <option value="Iran">Iran</option>
+                      <option value="Saudi Arabia">Saudi Arabia</option>
+                      <option value="United Arab Emirates">United Arab Emirates</option>
+                      <option value="Turkey">Turkey</option>
+                      <option value="Israel">Israel</option>
+                      <option value="Jordan">Jordan</option>
+                      <option value="Lebanon">Lebanon</option>
+                      <option value="Qatar">Qatar</option>
+                      <option value="Kuwait">Kuwait</option>
+                      <option value="Oman">Oman</option>
+                      <option value="Bahrain">Bahrain</option>
+                      <option value="Syria">Syria</option>
+                      <option value="Yemen">Yemen</option>
+                    </select>
+                  {/* <input
+                    autoComplete="off"
                     name="language"
                     value={values.language}
                     onChange={handleChange}
@@ -432,7 +507,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     type="text"
                     placeholder="Nhập ngôn ngữ ..."
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
-                  />
+                  /> */}
+
 
                   {touched.language && errors.language && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
@@ -446,7 +522,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Đoạn phim giới thiệu
                   </label>
                   <input
-                    autoComplete='off'
+                    autoComplete="off"
                     name="trailer"
                     value={values.trailer}
                     onChange={handleChange}
@@ -506,60 +582,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* country */}
-                {/* <div className=" relative z-0 mb-6 w-full group">
-                  <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-                    Quốc gia
-                  </label>
-                  <input
-                  autoComplete='off'
-                  
-                    name="country"
-                    value={values.country}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    type="text"
-                    placeholder="Nhập quốc gia ..."
-                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
-                  />
-
-                  {touched.country && errors.country && (
-                    <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.country as any}
-                    </div>
-                  )}
-                </div> */}
-                {/* duration */}
-                {/* <div className=" relative z-0 mb-6 w-full group">
-                  <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-                    Thời lượng phim
-                  </label>
-
-                  <input
-                  autoComplete='off'
-                  
-                    name="duration"
-                    value={values.duration}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    type="number"
-                    placeholder="Nhập giới hạn tuổi ..."
-                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
-                  />
-
-                  {touched.duration && errors.duration && (
-                    <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.duration as any}
-                    </div>
-                  )}
-                </div> */}
                 {/* rate */}
                 <div className=" relative z-0 mb-6 w-full group hidden">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Rate
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="rate"
                     // value={ values.rate}
                     value={values.rate}
@@ -612,8 +641,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       Giới hạn tuổi
                     </label>
                     <input
-                      autoComplete='off'
-
+                      autoComplete="off"
                       name="age_limit"
                       value={values.age_limit}
                       onChange={handleChange}
@@ -634,8 +662,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       Thời lượng phim
                     </label>
                     <input
-                      autoComplete='off'
-
+                      autoComplete="off"
                       name="duration"
                       value={values.duration}
                       onChange={handleChange}
@@ -655,9 +682,87 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     <label className="block mb-2 text-sm font-medium text-black dark:text-white">
                       Quốc gia
                     </label>
-                    <input
-                      autoComplete='off'
+                    <select name="country" onChange={handleChange} onBlur={handleBlur} value={values?.country} className="block w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                      <option value="">Select Country</option>
+                      <option value="Vietnam">Việt Nam</option>
+                      <option value="China">Trung Quốc</option>
+                      <option value="United States">Hoa Kỳ</option>
+                      <option value="United Kingdom">Anh</option>
+                      <option value="Russia">Nga</option>
+                      <option value="France">Pháp</option>
+                      <option value="Germany">Đức</option>
+                      <option value="Italy">Ý</option>
+                      <option value="Spain">Tây Ban Nha</option>
+                      <option value="Japan">Nhật Bản</option>
+                      <option value="South Korea">Hàn Quốc</option>
+                      <option value="India">Ấn Độ</option>
+                      <option value="Brazil">Brazil</option>
+                      <option value="Canada">Canada</option>
+                      <option value="Australia">Úc</option>
+                      <option value="Mexico">Mexico</option>
+                      <option value="Indonesia">Indonesia</option>
+                      <option value="Thailand">Thái Lan</option>
+                      <option value="Malaysia">Malaysia</option>
+                      <option value="Sweden">Thụy Điển</option>
+                      <option value="Netherlands">Hà Lan</option>
+                      <option value="Switzerland">Thụy Sĩ</option>
+                      <option value="Belgium">Bỉ</option>
+                      <option value="Norway">Na Uy</option>
+                      <option value="Finland">Phần Lan</option>
+                      <option value="Poland">Ba Lan</option>
+                      <option value="Denmark">Đan Mạch</option>
+                      <option value="Ireland">Ireland</option>
+                      <option value="Portugal">Bồ Đào Nha</option>
+                      <option value="Austria">Áo</option>
+                      <option value="Greece">Hy Lạp</option>
+                      <option value="Czech Republic">Séc</option>
+                      <option value="Hungary">Hungary</option>
+                      <option value="New Zealand">New Zealand</option>
+                      <option value="Singapore">Singapore</option>
+                      <option value="Argentina">Argentina</option>
+                      <option value="Venezuela">Venezuela</option>
+                      <option value="Chile">Chile</option>
+                      <option value="Peru">Peru</option>
+                      <option value="Colombia">Colombia</option>
+                      <option value="Ukraine">Ukraine</option>
+                      <option value="Belarus">Belarus</option>
+                      <option value="Romania">România</option>
+                      <option value="Bulgaria">Bulgary</option>
+                      <option value="Cuba">Cuba</option>
+                      <option value="El Salvador">El Salvador</option>
+                      <option value="Ecuador">Ecuador</option>
+                      <option value="Kenya">Kenya</option>
+                      <option value="Nigeria">Nigeria</option>
+                      <option value="South Africa">Nam Phi</option>
+                      <option value="Egypt">Egypt</option>
+                      <option value="Ethiopia">Ethiopia</option>
+                      <option value="Ghana">Ghana</option>
+                      <option value="Morocco">Morocco</option>
+                      <option value="Tanzania">Tanzania</option>
+                      <option value="Uganda">Uganda</option>
+                      <option value="Algeria">Algeria</option>
+                      <option value="Sudan">Sudan</option>
+                      <option value="Iraq">Iraq</option>
+                      <option value="Afghanistan">Afghanistan</option>
+                      <option value="Pakistan">Pakistan</option>
+                      <option value="Iran">Iran</option>
+                      <option value="Saudi Arabia">Saudi Arabia</option>
+                      <option value="United Arab Emirates">United Arab Emirates</option>
+                      <option value="Turkey">Turkey</option>
+                      <option value="Israel">Israel</option>
+                      <option value="Jordan">Jordan</option>
+                      <option value="Lebanon">Lebanon</option>
+                      <option value="Qatar">Qatar</option>
+                      <option value="Kuwait">Kuwait</option>
+                      <option value="Oman">Oman</option>
+                      <option value="Bahrain">Bahrain</option>
+                      <option value="Syria">Syria</option>
+                      <option value="Yemen">Yemen</option>
+                    </select>
 
+
+                    {/* <input
+                      autoComplete="off"
                       name="country"
                       value={values.country}
                       onChange={handleChange}
@@ -665,7 +770,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       type="text"
                       placeholder="Nhập quốc gia ..."
                       className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
-                    />
+                    /> */}
                     {touched.country && errors.country && (
                       <div className="mt-1 text-red-500 text-sm font-bold">
                         {errors.country as any}
@@ -679,8 +784,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Ảnh Phim
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="image"
                     onChange={handleChangeFile}
                     onBlur={handleBlur}
@@ -771,8 +875,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Giá phim:
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="prices"
                     value={values?.prices}
                     onChange={handleChange}
@@ -816,7 +919,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="IS_SHOWING"
                         selected={values.status === 'IS_SHOWING'}
-                        disabled={!values.id}
+                        disabled={!id}
                       >
                         Đang Công Chiếu
                       </option>
@@ -824,7 +927,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="PRTMIERED"
                         selected={values.status === 'PRTMIERED'}
-                        disabled={!values.id}
+                        disabled={!id}
                       >
                         Đã Công Chiếu
                       </option>
@@ -832,7 +935,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="CANCELLED"
                         selected={values.status === 'CANCELLED'}
-                        disabled={!values.id}
+                        disabled={!id}
                       >
                         Đã Hủy
                       </option>
