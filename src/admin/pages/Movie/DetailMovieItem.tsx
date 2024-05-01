@@ -1,6 +1,6 @@
 import { MoviePriceCol } from '@/Interface/movieDetail'
 import { getOneMovie } from '@/api/movie'
-import { addCommasToNumber, convertMintuteToHour, getDay } from '@/utils'
+import { addCommasToNumber, convertMintuteToHour } from '@/utils'
 import { MOVIE_DETAIL } from '@/utils/constant'
 import { useQuery } from '@tanstack/react-query'
 import TableShowTimeMovie from './TableShowtimeMovie'
@@ -78,18 +78,18 @@ function DetailMovieItem({ id }: { id: string }) {
       >
         {dataMovie?.prices?.length > 0
           ? dataMovie?.prices?.map((priceMovie: MoviePriceCol) => {
-              return (
-                <p
-                  key={priceMovie._id}
-                  className="bg-white p-5 flex flex-col shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke"
-                >
-                  <span>
-                    Giá phim : {addCommasToNumber(priceMovie?.price) || ''} VND
-                  </span>
-                  <span> Loại ngày : {priceMovie?.dayType || ''}</span>
-                </p>
-              )
-            })
+            return (
+              <p
+                key={priceMovie._id}
+                className="bg-white p-5 flex flex-col shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke"
+              >
+                <span>
+                  Giá phim : {addCommasToNumber(priceMovie?.price) || ''} VND
+                </span>
+                <span> Loại ngày : {priceMovie?.dayType || ''}</span>
+              </p>
+            )
+          })
           : ''}
       </div>
 
@@ -116,14 +116,14 @@ function DetailMovieItem({ id }: { id: string }) {
           Xóa mềm : {dataMovie.destroy ? 'Đã xoá' : 'Chưa xóa'}
         </p>
       </div>
-      <div className="grid sm:grid-cols-2 gap-x-3 gap-y-3">
+      {/* <div className="grid sm:grid-cols-2 gap-x-3 gap-y-3">
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
           Ngày khởi chiếu : {getDay(dataMovie?.fromDate) || ''}
         </p>
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
           Ngày kết thúc : {getDay(dataMovie?.toDate) || ''}
         </p>
-      </div>
+      </div> */}
       <TableShowTimeMovie dataShowtime={dataMovie && dataMovie.showTimeCol} />
       <TableCommentMovie movieId={id} />
     </div>

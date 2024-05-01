@@ -3,7 +3,7 @@ import { Star } from 'lucide-react'
 import { Plus } from 'lucide-react'
 import { Minus } from 'lucide-react'
 import { LazyLoadImage } from 'react-lazy-load-image-component'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { foodsAction } from '@/store/food'
 import { ChangeEventHandler } from 'react'
 import { addCommasToNumber } from '@/utils'
@@ -11,9 +11,9 @@ import { toast } from 'react-toastify'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { TicketType } from '@/store/ticket'
 
-
 function FoodItem({ food }: FoodType) {
   const dispatch = useDispatch()
+  const foodStore = useSelector((state: any) => state.foods.foods)
   const [ticket] = useLocalStorage<TicketType>('ticket')
 
   const handleChangeQuantity: ChangeEventHandler<HTMLInputElement> = (
@@ -38,7 +38,10 @@ function FoodItem({ food }: FoodType) {
   }
 
   const handleIncrementFood = (food: FoodItemState) => {
-    if (food.quantity >= ticket.ticketAmount! * 3) {
+    const foodHasQuantity = foodStore
+      .filter((foodItem: { quantity: number }) => foodItem.quantity > 0)
+      .reduce((acc:number, foodItem: { quantity: number }) => acc + foodItem.quantity, 0)
+    if (foodHasQuantity >= ticket.ticketAmount! * 3) {
       toast.error('Mỗi vé chỉ đặt tối đa 3 cái')
       return
     }

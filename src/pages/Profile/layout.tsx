@@ -13,10 +13,10 @@ const sidebarNavItems = [
     title: 'Tài khoản',
     href: '/profile/forms'
   },
-  {
-    title: 'Tài khoản',
-    href: '/profile/forms/account'
-  },
+  // {
+  //   title: 'Tài khoản',
+  //   href: '/profile/forms/account'
+  // },
   {
     title: 'Giao diện',
     href: '/profile/forms/appearance'

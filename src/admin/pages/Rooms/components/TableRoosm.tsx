@@ -29,6 +29,7 @@ import {
   filterStatusCssText,
   filterStatusRoom
 } from '@/utils/methodArray'
+import { addCommasToNumber } from '@/utils'
 
 Modal.setAppElement('#root') // Tránh lỗi về accessibility
 
@@ -188,7 +189,7 @@ const TableRooms = () => {
     return <Loader />
   }
   if (isError) return <div>Error</div>
-
+console.log(rooms)
   return (
     <>
       <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -260,7 +261,9 @@ const TableRooms = () => {
                   <td
                     className={`border-b border-[#eee] py-5 px-4 dark:border-strokedark ${filterStatusCssText(room.status)}`}
                   >
-                    <div className={`${filterStatusCssBg(room.status)} rounded-full text-center py-1 font-bold text-sm`}>
+                    <div
+                      className={`${filterStatusCssBg(room.status)} rounded-full text-center py-1 font-bold text-sm`}
+                    >
                       {filterStatusRoom(room.status)}
                     </div>
                   </td>
@@ -309,15 +312,17 @@ const TableRooms = () => {
           onClick={() =>
             navigate(`/admin/screeningrooms/edit/${room._id}`)
           }
-          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+                          disabled={room.ShowtimesId.length > 0}
+          className="flex disabled:opacity-25 disabled:cursor-not-allowed items-center justify-center text-gray-6 hover:text-gray-9"
           data-ripple-light="true"
         >
           <FaEdit size={16} />
         </button>
         <button
           onClick={() => handleShowConfirm(room._id as string)}
-          className="flex items-center justify-center text-gray-6 hover:text-gray-9"
+          className="flex items-center disabled:opacity-25 disabled:cursor-not-allowed justify-center text-gray-6 hover:text-gray-9"
           data-ripple-light="true"
+                          disabled={room.ShowtimesId.length > 0}
         >
           <FaTrashRestoreAlt size={16} />
         </button>
@@ -379,7 +384,7 @@ const TableRooms = () => {
             <div>Loading...</div>
           ) : (
             <table
-              className="w-full table-auto"
+              className=" table-auto w-[900px] "
               style={{ marginTop: '20px', lineHeight: '1.5', fontSize: '16px' }}
             >
               <tbody>
@@ -494,12 +499,12 @@ const TableRooms = () => {
                       >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatVip.length}
                         <br />
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatVip[0]?.price + 'VĐN'}
                       </td>
                     </tr>
@@ -516,12 +521,12 @@ const TableRooms = () => {
                       >
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatNormal.length}
                         <br />
                         {roomsData?.ShowtimesId &&
                           roomsData?.ShowtimesId.find(
-                            (show: any) => show._id === selectedShow
+                            (show: { _id: string }) => show._id === selectedShow
                           )?.SeatId?.seatNormal[0]?.price + 'VĐN'}
                       </td>
                     </tr>
@@ -551,8 +556,8 @@ const TableRooms = () => {
       {renderPagination()}
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Bạn có chắc chắn muốn xóa không?"
-        subTitle="Không thể hoàn tác hành động này"
+        title="Xoá phòng chiếu"
+        subTitle="Bạn có chắc chắn muốn xóa không?"
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveRoom}
       />
