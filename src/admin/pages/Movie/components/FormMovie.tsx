@@ -94,6 +94,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
         return
       }
+      console.log('add')
       toast.success('Thêm phim thành công')
       navigate('/admin/movie')
     },
@@ -203,7 +204,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       // } else if (
       //   isNaN(values.rate) ||
       //   (Number(values.rate) <= 0 && Number(values.rate) <= 1)
-      // ) 
+      // )
       if (!values.prices) {
         errors.prices = 'Bắt buộc nhập giá'
       } else if (isNaN(values.prices) || Number(values.prices) <= 0) {
@@ -341,7 +342,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       ) : (
         <div className="border rounded bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form
-          autoComplete='false'
+            autoComplete="false"
             onSubmit={handleSubmit}
             encType="multipart/form-data"
             className="p-6 space-y-6"
@@ -355,7 +356,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tên Phim
                   </label>
                   <input
-                    autoComplete='off'
+                    autoComplete="off"
                     name="name"
                     value={values.name}
                     onChange={handleChange}
@@ -377,8 +378,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Diễn viên
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="actor"
                     value={values.actor}
                     onChange={handleChange}
@@ -400,8 +400,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tác giả
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="author"
                     value={values.author}
                     onChange={handleChange}
@@ -423,8 +422,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Ngôn Ngữ
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="language"
                     value={values.language}
                     onChange={handleChange}
@@ -446,7 +444,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Đoạn phim giới thiệu
                   </label>
                   <input
-                    autoComplete='off'
+                    autoComplete="off"
                     name="trailer"
                     value={values.trailer}
                     onChange={handleChange}
@@ -558,8 +556,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Rate
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="rate"
                     // value={ values.rate}
                     value={values.rate}
@@ -612,8 +609,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       Giới hạn tuổi
                     </label>
                     <input
-                      autoComplete='off'
-
+                      autoComplete="off"
                       name="age_limit"
                       value={values.age_limit}
                       onChange={handleChange}
@@ -634,8 +630,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       Thời lượng phim
                     </label>
                     <input
-                      autoComplete='off'
-
+                      autoComplete="off"
                       name="duration"
                       value={values.duration}
                       onChange={handleChange}
@@ -656,8 +651,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       Quốc gia
                     </label>
                     <input
-                      autoComplete='off'
-
+                      autoComplete="off"
                       name="country"
                       value={values.country}
                       onChange={handleChange}
@@ -679,8 +673,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Ảnh Phim
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="image"
                     onChange={handleChangeFile}
                     onBlur={handleBlur}
@@ -771,8 +764,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Giá phim:
                   </label>
                   <input
-                    autoComplete='off'
-
+                    autoComplete="off"
                     name="prices"
                     value={values?.prices}
                     onChange={handleChange}
