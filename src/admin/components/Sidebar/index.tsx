@@ -72,7 +72,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
     >
       {/* <!-- SIDEBAR HEADER --> */}
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5 ">
-        <Link to="/">
+        <a href='/'>
           <span className="text-white font-semibold text-2xl flex items-center gap-x-2">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -97,7 +97,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
             </svg>
             Dream Cinema
           </span>
-        </Link>
+        </a>
 
         <button
           ref={trigger}
