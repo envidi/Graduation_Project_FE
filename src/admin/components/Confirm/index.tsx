@@ -29,14 +29,18 @@ export function ConfirmDialog({
       {/* <AlertDialogTrigger asChild>
         <Button variant="outline">Show Dialog</Button>
       </AlertDialogTrigger> */}
-      <AlertDialogContent className='w-fit'>
+      <AlertDialogContent className="w-fit">
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{subTitle}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel className='text-sm' onClick={onCancel}>Hủy</AlertDialogCancel>
-          <AlertDialogAction className='bg-red-500 text-sm' onClick={onConfirm}>Tiếp tục</AlertDialogAction>
+          <AlertDialogCancel className="text-sm" onClick={onCancel}>
+            Hủy
+          </AlertDialogCancel>
+          <AlertDialogAction className="bg-red-500 text-sm" onClick={onConfirm}>
+            Tiếp tục
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

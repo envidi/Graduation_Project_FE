@@ -23,10 +23,10 @@ const TableCategory = () => {
     mutationFn: removeCategory,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
-      toast.success('Xóa thành công')
+      toast.success('Xóa thành công')
     },
     onError: () => {
-      toast.error('Xóa thất bại')
+      toast.error('Xóa thất bại')
     }
   })
 
