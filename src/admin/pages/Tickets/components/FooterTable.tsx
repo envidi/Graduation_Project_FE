@@ -15,7 +15,7 @@ const FooterTable = ({ table }: any) => {
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          Trước
         </Button>
         <Button
           variant="outline"
@@ -23,7 +23,7 @@ const FooterTable = ({ table }: any) => {
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          tiếp
         </Button>
       </div>
     </>

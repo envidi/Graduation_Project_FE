@@ -31,20 +31,20 @@ import { joiResolver } from '@hookform/resolvers/joi'
 import { Input } from '@/components/ui/input'
 const profileFormSchema = Joi.object({
   name: Joi.string().min(2).max(30).label('Username').messages({
-    'string.empty': 'Required username',
-    'string.min': '{{#label}} must be at least 2 characters',
-    'string.max': '{{#label}} can only be up to 30 characters.'
+    'string.empty': 'Tên người dùng bắt buộc',
+    'string.min': '{{#label}} mphải có ít nhất 2 ký tự',
+    'string.max': '{{#label}} chỉ có thể có tối đa 30 ký tự.'
   }),
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .label('Email')
     .messages({
-      'string.empty': 'Required email',
-      'string.email': '{{#label}} must be a valid email'
+      'string.empty': 'Email bắt buộc',
+      'string.email': '{{#label}} phải là một email hợp lệ'
     }),
   address: Joi.string().label('Address').required().min(4).messages({
-    'string.empty': 'Required address',
-    'string.min': '{{#label}} can only be up to 4 characters.'
+    'string.empty': 'Địa chỉ bắt buộc',
+    'string.min': '{{#label}} chỉ có thể có tối đa 4 ký tự.'
   }),
   mobile: Joi.number().label('Mobile')
 })
@@ -60,7 +60,7 @@ function UserDialogConfirm() {
       })
     },
     onError() {
-      toast.error('Update faile, try again !!!!!!!')
+      toast.error('Cập nhật không thành công, hãy thử lại')
     }
   })
   const defaultValues = {
