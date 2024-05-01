@@ -70,7 +70,7 @@ const PaginationPrevious = ({
     {...props}
   >
     <ChevronLeft className="h-4 w-4" />
-    <span>Sau</span>
+    <span>Trước</span>
   </PaginationLink>
 )
 PaginationPrevious.displayName = 'PaginationPrevious'

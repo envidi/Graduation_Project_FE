@@ -83,10 +83,10 @@ const TableFood = () => {
     mutationFn: softDeleteFood,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['FOOD'] })
-      toast.success('Xóa thực phẩm thành công')
+      toast.success('Xóa đồ ăn thành công')
     },
     onError: () => {
-      toast.error('Xóa thực phẩm thất bại')
+      toast.error('Xóa đồ ăn thất bại')
     }
   })
 
@@ -191,8 +191,8 @@ const TableFood = () => {
       {renderPagination()}
       <ConfirmDialog
         open={isOpenConfirm}
-        title="Bạn có chắc muốn xóa sản phẩm này?"
-        subTitle="sản phẩm sẽ được chuyển vào bảng xóa."
+        title="Bạn có chắc muốn xóa đồ ăn này?"
+        subTitle="Đồ ăn sẽ được chuyển vào bảng xóa."
         onCancel={() => setOpenConfirm(false)}
         onConfirm={handleRemoveFood}
       />

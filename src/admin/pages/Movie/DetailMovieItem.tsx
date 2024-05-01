@@ -23,7 +23,7 @@ function DetailMovieItem({ id }: { id: string }) {
       <Dialog>
         <DialogTrigger asChild>
           <Button size="md" variant="outline" className='text-sm bg-white p-5 shadow-default dark:border-strokedark w-fit dark:bg-boxdark rounded-sm border border-stroke'>
-            Trailer
+            Đoạn giới thiệu
           </Button>
         </DialogTrigger>
         <DialogContent className="p-0 w-fit">
