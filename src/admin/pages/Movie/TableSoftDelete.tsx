@@ -20,7 +20,7 @@ const TableSoftDeleteMovie = () => {
   const idDelete2 = useRef<string>()
   // fetch category by react-query
   const { data : datasoftdelete, isLoading, isError } = useQuery<Movie[]>({
-    queryKey: ['MOVIE'],
+    queryKey: ['MOVIE_SOFT'],
     queryFn: getAllsoftDelete
   })
 
@@ -38,12 +38,11 @@ const TableSoftDeleteMovie = () => {
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-console.log('datasoftdelete', currentItems2)
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: removeMovie,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['MOVIE'] })
+      queryClient.invalidateQueries({ queryKey: ['MOVIE_SOFT'] })
       toast.success('Xóa thành công')
     },
     onError: () => {
@@ -58,7 +57,7 @@ console.log('datasoftdelete', currentItems2)
   const { mutate: mutate2 } = useMutation({
     mutationFn: restoreMovie,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['MOVIE'] })
+      queryClient.invalidateQueries({ queryKey: ['MOVIE_SOFT'] })
       toast.success('Khôi phục thành công')
     },
     onError: () => {

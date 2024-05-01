@@ -33,7 +33,7 @@ const TableMovie = () => {
   const startIndex = endIndex - itemsPerPage
   const currentItems = (data && data.slice(startIndex, endIndex)) || []
   // Tính số trang
-  const pageCount = data ? Math.round(data.length / ITEMS_PER_PAGE) : 0
+  const pageCount = data ? Math.ceil(data.length / ITEMS_PER_PAGE) : 0
   //phương thức chuyển trang
   const setPage = (page: number) => {
     setCurrentPage(page)
@@ -67,7 +67,8 @@ const TableMovie = () => {
   if (isError) {
     return <div>Error</div>
   }
-
+console.log(data)
+console.log(pageCount)
   // render
   return (
     <>
@@ -152,7 +153,7 @@ const TableMovie = () => {
             <tbody>
               {currentItems.map((movie, index) => (
                 <tr
-                  key={movie.name}
+                  key={index}
                   className="border-b border-gray-400 dark:border-strokedark"
                 >
                   <td className="py-5 px-5 dark:border-strokedark">
