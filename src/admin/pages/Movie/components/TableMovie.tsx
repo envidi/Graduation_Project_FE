@@ -44,7 +44,7 @@ const TableMovie = () => {
 
   // 
   // fetch category by react-query
-  const { data: movies, isLoading, isError } = useQuery<[]>({
+  const { data: movies, isLoading, isError } = useQuery<Movie[]>({
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
@@ -76,17 +76,16 @@ const TableMovie = () => {
   useEffect(() => {
     if (searchTerm) {
       // Nếu có từ khóa tìm kiếm, sử dụng hàm tìm kiếm để lọc danh sách phim
-      setMoviesToDisplay(searchMovies(movies, searchTerm))
+      if (movies) {
+        setMoviesToDisplay(searchMovies(movies, searchTerm))
+      }
     } else {
       // Nếu không, hiển thị toàn bộ danh sách phim
+      if (movies) {
       setMoviesToDisplay(movies)
     }
+    }
   }, [searchTerm, movies])
-
-  // Sử dụng danh sách phim được hiển thị thay vì displayMovies
-  // const currentItems = moviesToDisplay.slice(startIndex, endIndex)
-  // const pageCount = Math.ceil(moviesToDisplay.length / ITEMS_PER_PAGE)
-
   // Sử dụng displayMovies nếu có hoặc một mảng trống nếu không
   const currentItems = (moviesToDisplay && moviesToDisplay.slice(startIndex, endIndex)) || []
   // Sử dụng moviesToDisplay.length nếu có hoặc 0 nếu không
