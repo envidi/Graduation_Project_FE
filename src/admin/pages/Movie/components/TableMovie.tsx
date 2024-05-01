@@ -42,6 +42,8 @@ const TableMovie = () => {
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
+
+  
   // search for movies
   // const [searchResults, setSearchResults] = useState([]);
   // const hasSearchResults = searchResults.length > 0;
