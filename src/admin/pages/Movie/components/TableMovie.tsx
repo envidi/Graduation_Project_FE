@@ -7,9 +7,11 @@ import { ROLE_ADMIN } from '@/utils/constant'
 import { filterStatusMovie } from '@/utils/methodArray'
 // import { Item } from '@radix-ui/react-dropdown-menu'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { any } from 'joi'
+// import { any } from 'joi'
 // import { error } from 'console'
 // import { any } from 'joi'
-import { useContext, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { FaPlusCircle, FaRegTrashAlt } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom'
@@ -22,64 +24,77 @@ const TableMovie = () => {
   const idDelete = useRef<string>()
   const navigate = useNavigate()
   // fetch category by react-query
-  const { data, isLoading, isError } = useQuery<Movie[]>({
+  // const { data, isLoading, isError } = useQuery<Movie[]>({
+  //   queryKey: ['MOVIE'],
+  //   queryFn: getAllMovie
+  // })
+
+
+  // // page
+  // const ITEMS_PER_PAGE = 10
+  // const [currentPage, setCurrentPage] = useState(1)
+  // const [itemsPerPage] = useState(ITEMS_PER_PAGE)
+  // //tính mục phân trang
+  // const endIndex = currentPage * itemsPerPage
+  // const startIndex = endIndex - itemsPerPage
+  // const currentItems = (data && data.slice(startIndex, endIndex)) || []
+  // // Tính số trang
+  // const pageCount = data ? Math.ceil(data.length / ITEMS_PER_PAGE) : 0
+  //phương thức chuyển trang
+
+  // 
+  // fetch category by react-query
+  const { data: movies, isLoading, isError } = useQuery<[]>({
     queryKey: ['MOVIE'],
     queryFn: getAllMovie
   })
+  // Tạo trạng thái cho kết quả tìm kiếm
+  const [searchTerm, setSearchTerm] = useState('')
 
-
-  // page
-  const ITEMS_PER_PAGE = 10
-  const [currentPage, setCurrentPage] = useState(1)
-  const [itemsPerPage] = useState(ITEMS_PER_PAGE)
-  //tính mục phân trang
-  const endIndex = currentPage * itemsPerPage
-  const startIndex = endIndex - itemsPerPage
-  const currentItems = (data && data.slice(startIndex, endIndex)) || []
-  // Tính số trang
-  const pageCount = data ? Math.ceil(data.length / ITEMS_PER_PAGE) : 0
-  //phương thức chuyển trang
+  // Hàm xử lý tìm kiếm
+  const searchMovies = (movies: Movie[], term: string): Movie[] => {
+    return movies.filter(movie =>
+      movie.name.toLowerCase().includes(term.toLowerCase())
+    )
+  }
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
+  // Phân trang
+  const ITEMS_PER_PAGE = 10
+  const [currentPage, setCurrentPage] = useState(1)
+  const [itemsPerPage] = useState(ITEMS_PER_PAGE)
+  const endIndex = currentPage * itemsPerPage
+  const startIndex = endIndex - itemsPerPage
+  // const currentItems = displayMovies.slice(startIndex, endIndex)
+  // const pageCount = Math.ceil(displayMovies.length / ITEMS_PER_PAGE)
 
-  
-  // search for movies
-  // const [searchResults, setSearchResults] = useState([]);
-  // const hasSearchResults = searchResults.length > 0;
-  // Hàm xử lý sự kiện khi thực hiện tìm kiếm
-  // const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const searchTerm = e.target.value.toLowerCase();
-  //   const filteredResults: any = currentItems.filter(item =>
-  //     item.name.toLowerCase().includes(searchTerm)
-  //   );
-  //   setSearchResults(filteredResults);
-  // };
-  // Lấy ra danh sách hiển thị tùy thuộc vào kết quả tìm kiếm
-  // let displayItems = [];
-  // if (searchResults.length > 0) {
-  //   displayItems = searchResults;
-  // } else if (searchResults.length === 0 && currentItems.length !== 0) {
-  //   // Nếu không tìm thấy kết quả nhưng vẫn có dữ liệu hiện tại
-  //   displayItems = [{
-  //     name: 'Không có kết quả nào khớp',
-  //     image: 'Không có kết quả nào khớp',
-  //     actor: 'Không có kết quả nào khớp',
-  //     duration: 'Không có kết quả nào khớp',
-  //     country: 'Không có kết quả nào khớp',
-  //     age_limit: 'Không có kết quả nào khớp',
-  //     author: 'Không có kết quả nào khớp',
-  //     _id: 'Không có kết quả nào khớp',
-  //     slug: 'Không có kết quả nào khớp',
-  //   }];
-  // } else {
-  //   // Nếu không có kết quả và không có dữ liệu hiện tại
-  //   displayItems = [...currentItems];
-  // }
+  // Thay đổi trạng thái lưu trữ danh sách phim được hiển thị
+  const [moviesToDisplay, setMoviesToDisplay] = useState<Movie[]>([])
+
+  // Khi danh sách phim thay đổi hoặc khi tìm kiếm thay đổi, cập nhật danh sách phim được hiển thị
+  useEffect(() => {
+    if (searchTerm) {
+      // Nếu có từ khóa tìm kiếm, sử dụng hàm tìm kiếm để lọc danh sách phim
+      setMoviesToDisplay(searchMovies(movies, searchTerm))
+    } else {
+      // Nếu không, hiển thị toàn bộ danh sách phim
+      setMoviesToDisplay(movies)
+    }
+  }, [searchTerm, movies])
+
+  // Sử dụng danh sách phim được hiển thị thay vì displayMovies
+  // const currentItems = moviesToDisplay.slice(startIndex, endIndex)
+  // const pageCount = Math.ceil(moviesToDisplay.length / ITEMS_PER_PAGE)
+
+  // Sử dụng displayMovies nếu có hoặc một mảng trống nếu không
+  const currentItems = (moviesToDisplay && moviesToDisplay.slice(startIndex, endIndex)) || []
+  // Sử dụng moviesToDisplay.length nếu có hoặc 0 nếu không
+  const pageCount = moviesToDisplay ? Math.ceil(moviesToDisplay.length / ITEMS_PER_PAGE) : 0
 
 
-  // const Items = searchResults.length > 0 ? searchResults : currentItems;
-  // currentItems = searchResults
+
+
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: softDeleteMovie,
@@ -101,15 +116,15 @@ const TableMovie = () => {
     setOpenConfirm(true)
   }
 
-  if (isLoading || !data) {
+  if (isLoading || !movies) {
     return <div>Loading...</div>
   }
 
   if (isError) {
     return <div>Error</div>
   }
-console.log(data)
-console.log(pageCount)
+  // console.log(data)
+  console.log(pageCount)
   // render
   return (
     <>
@@ -136,14 +151,16 @@ console.log(pageCount)
               <FaRegTrashAlt />
             </button>
           </div>
-          {/* <div className="mb-4">
+          <div className="mb-4">
             <input
               type="text"
-              placeholder="Tìm kiếm theo tên"
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-              onChange={handleSearch}
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              placeholder="Tìm kiếm theo tên..."
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
             />
-          </div> */}
+          </div>
+
 
 
           <table className=" w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
