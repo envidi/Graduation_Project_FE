@@ -1,6 +1,6 @@
 import { Category, FormCategoryAdd } from '@/admin/types/category'
 import { addCategory, editCategory, getCategoryById } from '@/api/category'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -11,6 +11,7 @@ type FormCategoryProps = {
 
 const FormCategory = ({ typeForm }: FormCategoryProps) => {
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   //get id from url
   const { id } = useParams()
@@ -36,10 +37,16 @@ const FormCategory = ({ typeForm }: FormCategoryProps) => {
     onSuccess: () => {
       if (typeForm === 'EDIT') {
         toast.success('Sửa danh mục thành công')
+        queryClient.invalidateQueries({
+          queryKey:['CATEGORY']
+        })
         navigate('/admin/category')
         return
       }
       toast.success('Thêm danh mục thành công')
+      queryClient.invalidateQueries({
+        queryKey:['CATEGORY']
+      })
       navigate('/admin/category')
     },
     onError: () => {
