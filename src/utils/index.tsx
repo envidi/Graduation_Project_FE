@@ -250,8 +250,9 @@ export function getCurrentDay() {
   // Định dạng ngày theo yêu cầu
   return tenThang + ' ' + ngay + ', ' + nam
 }
-export function addCommasToNumber(number: number) {
+export function addCommasToNumber(number: number | undefined) {
   // Chuyển số thành chuỗi
+  if (!number) return ''
   const numStr = String(number)
 
   // Tách phần nguyên và phần thập phân (nếu có)

@@ -9,6 +9,7 @@ import {
   selectCalendar
 } from '@/utils'
 import { convertNumberToAlphabet } from '@/utils/seatAlphaIndex'
+import { filterStatusSeat, filterStatusTicket } from '@/utils/methodArray'
 
 function DetailTicketItem({ ticketId }: { ticketId: string }) {
   const { data: dataTicket, isLoading } = useQuery({
@@ -27,7 +28,7 @@ function DetailTicketItem({ ticketId }: { ticketId: string }) {
     seatId,
     foods,
     totalFood,
-    paymentId: { typeBank = '', typePayment = '', createdAt },
+    // paymentId: { typeBank = '', typePayment = '', createdAt='' },
     orderNumber = 0,
     status = '',
     quantity = 0,
@@ -112,7 +113,7 @@ function DetailTicketItem({ ticketId }: { ticketId: string }) {
                   key={seat._id}
                 >
                   {convertNumberToAlphabet(seat.row)}
-                  {seat.column} ({seat.typeSeat})
+                  {seat.column} ({filterStatusSeat(seat.typeSeat)})
                 </div>
               )
             }
@@ -141,25 +142,29 @@ function DetailTicketItem({ ticketId }: { ticketId: string }) {
         </p>
 
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
-          Tổng tiền : {addCommasToNumber(totalFood)}
+          Tổng tiền : {addCommasToNumber(totalFood) ?? 'Chưa thanh toán'}
         </p>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-x-3">
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
-          Ngân hàng thanh toán : {typeBank}
+          Ngân hàng thanh toán :{' '}
+          {dataTicket[0]?.paymentId?.typeBank ?? 'Chưa thanh toán'}
         </p>
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
-          Loại thẻ : {typePayment}
+          Loại thẻ :{' '}
+          {dataTicket[0]?.paymentId?.typePayment ?? 'Chưa thanh toán'}
         </p>
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
-          Ngày : {selectCalendar(createdAt)}
+          Ngày :{' '}
+          {selectCalendar(dataTicket[0]?.paymentId?.createdAt) ??
+            'Chưa thanh toán'}
         </p>
       </div>
       <div className="grid md:grid-cols-3 grid-cols-1 gap-x-3">
         <p className="bg-white flex items-center p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
-          Trạng thái : 
+          Trạng thái :
           <div className="ms-2 bg-primaryAdmin rounded text-white px-2 py-1">
-            {status}
+            {filterStatusTicket(status)}
           </div>
         </p>
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">

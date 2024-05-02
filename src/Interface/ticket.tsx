@@ -49,6 +49,7 @@ export interface TicketBill {
   userId: {
     name: string
   }
+  orderNumber : number
   movieId: {
     // eslint-disable-next-line no-unused-vars
     getValue(arg0: string): import('react').ReactNode

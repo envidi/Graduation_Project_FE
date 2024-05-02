@@ -385,7 +385,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Đồ ăn trong kho
+                              Đồ ăn
                             </NavLink>
                           </li>
                           <li>
@@ -396,7 +396,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                                 (isActive && '!text-white')
                               }
                             >
-                              Đồ ăn đã xóa
+                              Đồ ăn đã hủy
                             </NavLink>
                           </li>
                           {/* Add more categories as needed */}
