@@ -8,8 +8,8 @@ function useAllSeatByShowTime(id_show_hall: {
 }) {
   return useQuery({
     queryKey: [SEAT_STORE, id_show_hall],
-    queryFn: () => getlSeatByShow(id_show_hall)
-    // refetchInterval: 10000
+    queryFn: () => getlSeatByShow(id_show_hall),
+    refetchInterval: 5000
   })
 }
 

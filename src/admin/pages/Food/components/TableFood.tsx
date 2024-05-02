@@ -17,6 +17,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@/components/ui/pagination'
+import { FOOD } from '@/utils/constant'
 
 const ITEMS_PER_PAGE = 10
 // ...rest of your imports and TableFood component
@@ -49,7 +50,7 @@ const TableFood = () => {
           <PaginationItem>
             <PaginationPrevious
               onClick={() => setPage(currentPage - 1)}
-            // disabled={currentPage === 1}
+              // disabled={currentPage === 1}
             />
           </PaginationItem>
           {pages.map((page) => (
@@ -65,7 +66,7 @@ const TableFood = () => {
           <PaginationItem>
             <PaginationNext
               onClick={() => setPage(currentPage + 1)}
-            // disabled={currentPage === pageCount}
+              // disabled={currentPage === pageCount}
             />
           </PaginationItem>
         </PaginationContent>
@@ -83,6 +84,8 @@ const TableFood = () => {
     mutationFn: softDeleteFood,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['FOOD'] })
+      queryClient.invalidateQueries({ queryKey: [FOOD] })
+
       toast.success('Xóa đồ ăn thành công')
     },
     onError: () => {

@@ -27,7 +27,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
     enabled: typeForm === 'EDIT' && !!id
   })
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (bodyData: any) => {
       if (typeForm === 'EDIT') return editFood(bodyData, id as string)
       return addFood(bodyData)
@@ -75,8 +75,8 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
       if (!values.price) {
         errors.price = 'Vui lòng nhập giá đồ ăn'
       }
-      if (values.price <= 0) {
-        errors.price = 'Giá phải lớn hơn 0'
+      if (values.price <= 10000) {
+        errors.price = 'Giá phải lớn hơn 10000'
       }
       return errors
     },
@@ -92,7 +92,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
     }
   })
 
-  if (isLoading) return <Loader />
+  if (isLoading || isPending) return <Loader />
   return (
     <div className="flex flex-col gap-9 items-center justify-center p-8">
       <button
@@ -118,7 +118,7 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
       <div className="max-w-lg w-full rounded-lg shadow-md overflow-hidden">
         <form
           onSubmit={handleSubmit}
-          className="bg-white dark:bg-gray-800 p-6 bg-white dark:bg-boxdark"
+          className="bg-white dark:bg-gray-800 p-6 dark:bg-boxdark"
           encType="multipart/form-data"
         >
           <div className="mb-6">
@@ -150,7 +150,10 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
               name="image"
               type="file"
               onChange={(event) => {
-                setFieldValue('image', event.currentTarget.files && event?.currentTarget?.files[0] )
+                setFieldValue(
+                  'image',
+                  event.currentTarget.files && event?.currentTarget?.files[0]
+                )
               }}
               onBlur={handleBlur}
               className="justify-between border border-grey-lighter rounded hover:text-white text-sm h-12  min-w-70 border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"

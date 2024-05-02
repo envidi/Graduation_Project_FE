@@ -5,7 +5,8 @@ import { useQuery } from '@tanstack/react-query'
 function useAllFood() {
   return useQuery({
     queryKey: [FOOD],
-    queryFn: () => getAllFood()
+    queryFn: () => getAllFood(),
+    refetchInterval: 5000
   })
 }
 

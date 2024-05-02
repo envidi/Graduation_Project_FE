@@ -42,6 +42,7 @@ function FoodCollection() {
   if (isLoading) {
     return <HashLoader cssOverride={override} size={60} color="#eb3656" />
   }
+  console.log(foods)
   return (
     <div className="movie-info-screen-container  sm:w-full xs:w-full ">
       <div className="food-info-screen-container bg-gray-100 shadow-xl dark:shadow-none border-2 border-border-calendarBorder dark:border-none dark:bg-background-third grid md:px-8 lg:px-14 sm:px-16 xs:px-12">
