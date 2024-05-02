@@ -1,4 +1,4 @@
-import SwiperSlider from '@/components/SearchBar/SwiperSlide/SwiperSlider'
+import SwiperSlider from '@/components/SwiperSlide/SwiperSlider'
 
 import { SwiperSlide } from 'swiper/react'
 import { CollectionCard } from '@/components/CollectionCard'

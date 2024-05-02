@@ -84,6 +84,7 @@ import ProtectedAdminRoute from './pages/Routes/ProtectedAdminRoute'
 import ProtectedAdminAndStaffRoute from './pages/Routes/ProtectedAdminandSraffRoute'
 import ProtectedAdminPage from './pages/Routes/ProtectedAdminPage'
 import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
+import TicketsPageReserved from './admin/pages/Tickets/indexReserved'
 
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
@@ -439,6 +440,14 @@ function App() {
                   element={
                     <ProtectedAdminPage redirectPath="/">
                       <TicketsPage />
+                    </ProtectedAdminPage>
+                  }
+                />
+                <Route
+                  path='reserved'
+                  element={
+                    <ProtectedAdminPage redirectPath="/">
+                      <TicketsPageReserved />
                     </ProtectedAdminPage>
                   }
                 />

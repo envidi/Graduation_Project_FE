@@ -20,7 +20,7 @@ const TableRoomsDestroy: React.FC = () => {
   const { userDetail } = useContext(ContextMain)
   const queryClient = useQueryClient()
   const { data, isLoading, isError } = useQuery<any>({
-    queryKey: ['ROOMS'],
+    queryKey: ['ROOMS_SOFT'],
     queryFn: () => getAllRoomsDestroy()
   })
 
@@ -28,6 +28,7 @@ const TableRoomsDestroy: React.FC = () => {
     mutationFn: undoSoftDeleteRooms,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ROOMS'] })
+      queryClient.invalidateQueries({ queryKey: ['ROOMS_SOFT'] })
       toast.success('Khôi phục thành công')
     },
     onError: () => {
@@ -38,6 +39,7 @@ const TableRoomsDestroy: React.FC = () => {
     mutationFn: HarddeleteRooms,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['ROOMS'] })
+      queryClient.invalidateQueries({ queryKey: ['ROOMS_SOFT'] })
       toast.success('Xóa cứng thành công')
     },
     onError: () => {

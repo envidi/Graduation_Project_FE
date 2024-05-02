@@ -123,7 +123,7 @@ const TableMovie = () => {
     return <div>Error</div>
   }
   // console.log(data)
-  console.log(pageCount)
+  
   // render
   return (
     <>
@@ -156,7 +156,7 @@ const TableMovie = () => {
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Tìm kiếm theo tên..."
-              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:border-blue-500"
+              className=" rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
             />
           </div>
 
