@@ -1,4 +1,4 @@
-import { HeroSection } from './components/HeroSection'
+// import { HeroSection } from './components/HeroSection'
 import { HomeCollection } from './components/HomeCollection'
 import { Features } from './components/Features'
 // import { SocialLinks } from './components/SocialLinks'
@@ -12,7 +12,7 @@ const HomePage = ({ dataMovie, isLoading }: MoviePropsType) => {
     <>
       <TopEdge />
       <IntroduceMovie />
-      <HeroSection />
+      {/* <HeroSection /> */}
       <HomeCollection dataMovie={dataMovie} isLoading={isLoading} />
       <Features />
       {/* <SocialLinks /> */}

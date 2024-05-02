@@ -6,7 +6,7 @@ import TableCinema from './components/TableCinema'
 const CinemaPage = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Cinema" />
+      <Breadcrumb pageName="Rạp chiếu" pageLink='/admin/cinema' pageRetun='Rạp chiếu'/>
 
       <div className="flex flex-col gap-10">
         <TableCinema />

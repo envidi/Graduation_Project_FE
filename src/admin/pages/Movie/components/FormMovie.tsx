@@ -6,7 +6,7 @@ import { getAllCategory } from '@/api/category'
 import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 import { ChangeEventHandler, useState } from 'react'
@@ -20,6 +20,7 @@ type FormMovieProps = {
 
 const FormMovie = ({ typeForm }: FormMovieProps) => {
   // const [date, setDate] = useState(new Date())
+  const navigate = useNavigate()
   const [, setfromDate] = useState(new Date())
   const [, settoDate] = useState(new Date())
   const [file, setFiles] = useState<File[]>([])
@@ -94,6 +95,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         return
       }
       toast.success('Thêm phim thành công')
+      navigate('/admin/movie')
     },
     onError: (error: { response: { data: { message: string } } }) => {
       if (typeForm === 'EDIT') {
@@ -106,14 +108,14 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   })
 
   const initialValues = {
-    // name: id ? (movieData?.name as string) : '',
+    name: id ? (movieData?.name as string) : '',
     image: id ? (movieData?.image as string) : '',
     author: id ? (movieData?.author as string) : '',
     language: id ? (movieData?.language as string) : '',
     actor: id ? (movieData?.actor as string) : '',
     trailer: id ? (movieData?.trailer as string) : '',
-    fromDate: id ? (movieData?.fromDate as unknown as string) : '',
-    toDate: id ? (movieData?.toDate as unknown as string) : '',
+    // fromDate: id ? (movieData?.fromDate as unknown as string) : '',
+    // toDate: id ? (movieData?.toDate as unknown as string) : '',
     desc: id ? (movieData?.desc as string) : '',
     country: id ? (movieData?.country as string) : '',
     status: id ? (movieData?.status as string) : '',
@@ -172,12 +174,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (values.trailer.length < 3) {
         errors.trailer = 'đoạn giới thiệu phải dài ít nhất 3 ký tự'
       }
-      // Kiểm tra nếu fromDate không hợp lệ
+      // // Kiểm tra nếu fromDate không hợp lệ
       if (!values.fromDate) {
         errors.fromDate = 'Dữ liệu bắt buộc nhập'
       }
 
-      // Kiểm tra nếu toDate không hợp lệ
+      // // Kiểm tra nếu toDate không hợp lệ
       if (!values.toDate) {
         errors.toDate = 'Dữ liệu bắt buộc nhập'
       }
@@ -196,14 +198,12 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       } else if (isNaN(values.age_limit) || Number(values.age_limit) <= 0) {
         errors.age_limit = 'Giới hạn tuổi phải là một số và lớn hơn 0'
       }
-      if (!values.rate) {
-        errors.rate = 'Tỷ lệ bắt buộc'
-      } else if (
-        isNaN(values.rate) ||
-        (Number(values.rate) <= 0 && Number(values.rate) <= 1)
-      ) {
-        errors.rate = 'tỷ lệ phải là một số và lớn hơn 1'
-      }
+      // if (!values.rate) {
+      //   errors.rate = 'Tỷ lệ bắt buộc'
+      // } else if (
+      //   isNaN(values.rate) ||
+      //   (Number(values.rate) <= 0 && Number(values.rate) <= 1)
+      // )
       if (!values.prices) {
         errors.prices = 'Bắt buộc nhập giá'
       } else if (isNaN(values.prices) || Number(values.prices) <= 0) {
@@ -233,14 +233,21 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         data.set('language', values?.language)
         data.set('trailer', values?.trailer)
         data.set('age_limit', values?.age_limit)
+
+        data.set('fromDate', values?.fromDate)
+        data.set('toDate', values?.toDate)
+
         data.set('desc', values?.desc)
         data.set('duration', values?.duration)
         data.set('country', values?.country)
         data.set('status', values?.status)
+        if (values?.rate == undefined) {
+          values.rate = 5
+        }
         data.set('rate', values?.rate)
         // data.set('price', values?.price)
-        data.set('toDate', values?.toDate)
-        data.set('fromDate', values?.fromDate)
+        // data.set('toDate', values?.toDate)
+        // data.set('fromDate', values?.fromDate)
         const priceObj: any = [
           {
             dayType: 'weekday',
@@ -288,17 +295,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
   const selectedOptions = colourOptions?.filter((option: any) =>
     values.categoryId?.includes(option.value)
   )
-  // sử lý validate  date
-  // check from date lớn hơn hiện tại
-  // Hàm kiểm tra xem một ngày có lớn hơn ngày hiện tại không
-  // const isFutureDate = (date: any) => {
-  //   const currentDate = new Date();
-  //   return date > currentDate;
-  // };
-  //   // Hàm kiểm tra xem fromDate có nhỏ hơn toDate không
-  // const isStartDateBeforeEndDate = (startDate, endDate) => {
-  //   return new Date(startDate) < new Date(endDate);
-  // };
 
   // select style
   const dropdownStyles = {
@@ -349,6 +345,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       ) : (
         <div className="border rounded bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
           <form
+            autoComplete="false"
             onSubmit={handleSubmit}
             encType="multipart/form-data"
             className="p-6 space-y-6"
@@ -362,6 +359,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tên Phim
                   </label>
                   <input
+                    autoComplete="off"
                     name="name"
                     value={values.name}
                     onChange={handleChange}
@@ -377,15 +375,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     </div>
                   )}
                 </div>
-
-                {/*  */}
-
                 {/* actor */}
                 <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Diễn viên
                   </label>
                   <input
+                    autoComplete="off"
                     name="actor"
                     value={values.actor}
                     onChange={handleChange}
@@ -407,6 +403,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Tác giả
                   </label>
                   <input
+                    autoComplete="off"
                     name="author"
                     value={values.author}
                     onChange={handleChange}
@@ -427,7 +424,93 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Ngôn Ngữ
                   </label>
-                  <input
+                  <select
+                    name="language"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.language}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                  >
+                    <option value="">Chọn ngôn ngữ</option>
+                    <option value="Vietnam">Việt Nam</option>
+                    <option value="China">Trung Quốc</option>
+                    <option value="United States">Hoa Kỳ</option>
+                    <option value="United Kingdom">Anh</option>
+                    <option value="Russia">Nga</option>
+                    <option value="France">Pháp</option>
+                    <option value="Germany">Đức</option>
+                    <option value="Italy">Ý</option>
+                    <option value="Spain">Tây Ban Nha</option>
+                    <option value="Japan">Nhật Bản</option>
+                    <option value="South Korea">Hàn Quốc</option>
+                    <option value="India">Ấn Độ</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Úc</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Thailand">Thái Lan</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Sweden">Thụy Điển</option>
+                    <option value="Netherlands">Hà Lan</option>
+                    <option value="Switzerland">Thụy Sĩ</option>
+                    <option value="Belgium">Bỉ</option>
+                    <option value="Norway">Na Uy</option>
+                    <option value="Finland">Phần Lan</option>
+                    <option value="Poland">Ba Lan</option>
+                    <option value="Denmark">Đan Mạch</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Portugal">Bồ Đào Nha</option>
+                    <option value="Austria">Áo</option>
+                    <option value="Greece">Hy Lạp</option>
+                    <option value="Czech Republic">Séc</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Venezuela">Venezuela</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Peru">Peru</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Romania">România</option>
+                    <option value="Bulgaria">Bulgary</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="El Salvador">El Salvador</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="South Africa">Nam Phi</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Tanzania">Tanzania</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Iraq">Iraq</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="United Arab Emirates">
+                      United Arab Emirates
+                    </option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Lebanon">Lebanon</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Syria">Syria</option>
+                    <option value="Yemen">Yemen</option>
+                  </select>
+                  {/* <input
+                    autoComplete="off"
                     name="language"
                     value={values.language}
                     onChange={handleChange}
@@ -435,7 +518,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     type="text"
                     placeholder="Nhập ngôn ngữ ..."
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
-                  />
+                  /> */}
 
                   {touched.language && errors.language && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
@@ -449,6 +532,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Đoạn phim giới thiệu
                   </label>
                   <input
+                    autoComplete="off"
                     name="trailer"
                     value={values.trailer}
                     onChange={handleChange}
@@ -465,11 +549,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* age_limit */}
-                <div className=" relative z-0 mb-6 w-full group">
+                {/* <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Giới hạn tuổi
                   </label>
                   <input
+                  autoComplete='off'
+                  
                     name="age_limit"
                     value={values.age_limit}
                     onChange={handleChange}
@@ -484,21 +570,13 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.age_limit as any}
                     </div>
                   )}
-                </div>
+                </div> */}
                 {/* desc */}
                 <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Mô tả
                   </label>
-                  {/* <input
-                  name="desc"
-                  value={values.desc}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="text"
-                  placeholder="Nhập Mô tả ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
-                /> */}
+
                   <textarea
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                     name="desc"
@@ -514,63 +592,15 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* country */}
-                <div className=" relative z-0 mb-6 w-full group">
-                  <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-                    Quốc gia
-                  </label>
-                  <input
-                    name="country"
-                    value={values.country}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    type="text"
-                    placeholder="Nhập quốc gia ..."
-                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
-                  />
-
-                  {touched.country && errors.country && (
-                    <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.country as any}
-                    </div>
-                  )}
-                </div>
-                {/* duration */}
-                <div className=" relative z-0 mb-6 w-full group">
-                  <label className="mb-2 block text-sm font-medium text-black dark:text-white">
-                    Thời lượng phim
-                  </label>
-                  {/* <input
-                  name="duration"
-                  value={values.duration}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  type="number"
-                  placeholder="Thời lượng phim  ..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition duration-300 ease-in-out transform hover:scale-105 disabled:cursor-default disabled:bg-white disabled:text-gray-500"
-                /> */}
-                  <input
-                    name="duration"
-                    value={values.duration}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                    type="number"
-                    placeholder="Nhập giới hạn tuổi ..."
-                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
-                  />
-
-                  {touched.duration && errors.duration && (
-                    <div className="mt-1 text-red-500 text-sm font-bold">
-                      {errors.duration as any}
-                    </div>
-                  )}
-                </div>
                 {/* rate */}
-                <div className=" relative z-0 mb-6 w-full group">
+                <div className=" relative z-0 mb-6 w-full group hidden">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Rate
                   </label>
                   <input
+                    autoComplete="off"
                     name="rate"
+                    // value={ values.rate}
                     value={values.rate}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -586,8 +616,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 </div>
                 {/*  */}
               </div>
-
-              <div className="p-2 mb-4.5 ml-8  flex-col gap-6 xl:flex-row">
+              {/* box2 */}
+              <div className="lg:p-2 mb-4.5 lg:ml-8  flex-col gap-6 xl:flex-row">
                 {/* category */}
                 <div className="form-group">
                   <label className="block mb-2 font-medium text-primary dark:text-yellow-400">
@@ -613,12 +643,165 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     </div>
                   )}
                 </div>
+                {/* box gruop */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-3">
+                  {/* age_limit */}
+                  <div className="relative z-0 group">
+                    <label className="block mb-2 text-sm font-medium text-black dark:text-white">
+                      Giới hạn tuổi
+                    </label>
+                    <input
+                      autoComplete="off"
+                      name="age_limit"
+                      value={values.age_limit}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="text"
+                      placeholder="Nhập giới hạn tuổi ..."
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                    />
+                    {touched.age_limit && errors.age_limit && (
+                      <div className="mt-1 text-red-500 text-sm font-bold">
+                        {errors.age_limit as any}
+                      </div>
+                    )}
+                  </div>
+                  {/* duration */}
+                  <div className="relative z-0 group">
+                    <label className="block mb-2 text-sm font-medium text-black dark:text-white">
+                      Thời lượng phim
+                    </label>
+                    <input
+                      autoComplete="off"
+                      name="duration"
+                      value={values.duration}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="number"
+                      placeholder="Nhập thời lượng phim ..."
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                    />
+                    {touched.duration && errors.duration && (
+                      <div className="mt-1 text-red-500 text-sm font-bold">
+                        {errors.duration as any}
+                      </div>
+                    )}
+                  </div>
+                  {/* country */}
+                </div>
+                <div className="relative z-0 group mt-2">
+                  <label className="block mb-2 text-sm font-medium text-black dark:text-white">
+                    Quốc gia
+                  </label>
+                  <select
+                    name="country"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.country}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                  >
+                    <option value="">Chọn quốc gia</option>
+                    <option value="Vietnam">Việt Nam</option>
+                    <option value="China">Trung Quốc</option>
+                    <option value="United States">Hoa Kỳ</option>
+                    <option value="United Kingdom">Anh</option>
+                    <option value="Russia">Nga</option>
+                    <option value="France">Pháp</option>
+                    <option value="Germany">Đức</option>
+                    <option value="Italy">Ý</option>
+                    <option value="Spain">Tây Ban Nha</option>
+                    <option value="Japan">Nhật Bản</option>
+                    <option value="South Korea">Hàn Quốc</option>
+                    <option value="India">Ấn Độ</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Úc</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Thailand">Thái Lan</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Sweden">Thụy Điển</option>
+                    <option value="Netherlands">Hà Lan</option>
+                    <option value="Switzerland">Thụy Sĩ</option>
+                    <option value="Belgium">Bỉ</option>
+                    <option value="Norway">Na Uy</option>
+                    <option value="Finland">Phần Lan</option>
+                    <option value="Poland">Ba Lan</option>
+                    <option value="Denmark">Đan Mạch</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Portugal">Bồ Đào Nha</option>
+                    <option value="Austria">Áo</option>
+                    <option value="Greece">Hy Lạp</option>
+                    <option value="Czech Republic">Séc</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Venezuela">Venezuela</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Peru">Peru</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Romania">România</option>
+                    <option value="Bulgaria">Bulgary</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="El Salvador">El Salvador</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="South Africa">Nam Phi</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Tanzania">Tanzania</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Iraq">Iraq</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="United Arab Emirates">
+                      United Arab Emirates
+                    </option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Lebanon">Lebanon</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Syria">Syria</option>
+                    <option value="Yemen">Yemen</option>
+                  </select>
+
+                  {/* <input
+                      autoComplete="off"
+                      name="country"
+                      value={values.country}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      type="text"
+                      placeholder="Nhập quốc gia ..."
+                      className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                    /> */}
+                  {touched.country && errors.country && (
+                    <div className="mt-1 text-red-500 text-sm font-bold">
+                      {errors.country as any}
+                    </div>
+                  )}
+                </div>
                 {/* image */}
-                <div className=" relative z-0 mb-6 w-full group">
+                <div className=" relative z-0 mb-6 w-full group mt-3">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Ảnh Phim
                   </label>
                   <input
+                    autoComplete="off"
                     name="image"
                     onChange={handleChangeFile}
                     onBlur={handleBlur}
@@ -709,6 +892,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     Giá phim:
                   </label>
                   <input
+                    autoComplete="off"
                     name="prices"
                     value={values?.prices}
                     onChange={handleChange}
@@ -752,6 +936,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="IS_SHOWING"
                         selected={values.status === 'IS_SHOWING'}
+                        disabled={!id}
                       >
                         Đang Công Chiếu
                       </option>
@@ -759,6 +944,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="PRTMIERED"
                         selected={values.status === 'PRTMIERED'}
+                        disabled={!id}
                       >
                         Đã Công Chiếu
                       </option>
@@ -766,6 +952,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                         className="text-gray-900"
                         value="CANCELLED"
                         selected={values.status === 'CANCELLED'}
+                        disabled={!id}
                       >
                         Đã Hủy
                       </option>
@@ -794,7 +981,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
               className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-50 transition duration-300 mt-4"
               type="submit"
             >
-              {typeForm === 'ADD' ? 'Add' : 'Update'}
+              {typeForm === 'ADD' ? 'Thêm' : 'Cập nhật'}
             </button>
           </form>
         </div>

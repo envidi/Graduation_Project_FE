@@ -14,7 +14,7 @@ function ProfileBill() {
 
   const [date, setDate] = useState<DateRange | undefined>({
     from: new Date(2024, 1, 20),
-    to: addDays(new Date(2024, 2, 20), 30)
+    to: addDays(new Date(2024, 3, 20), 30)
   })
 
   const debouncedSearchTerm = useDebounce(searchTerm, 1000)

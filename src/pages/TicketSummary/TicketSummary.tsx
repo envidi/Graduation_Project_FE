@@ -97,7 +97,6 @@ function TicketSummary() {
     foods: foodsTicket = [],
     ticketAmount = 0
   } = ticket
-  
 
   const totalFoodPrice =
     foods && foods.length != 0
@@ -121,6 +120,13 @@ function TicketSummary() {
   const handlePurchaseSeat = () => {
     if (seat.length == 0) {
       toast.error('Vui lòng chọn chỗ ngồi !', {
+        position: 'top-right'
+      })
+      return
+    }
+    const showtime = dataShowtime[0]
+    if (!showtime || showtime.status == FULL_SCHEDULE || showtime.destroy) {
+      toast.error('Thời gian chiếu không có sẵn', {
         position: 'top-right'
       })
       return

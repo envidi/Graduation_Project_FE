@@ -1,6 +1,4 @@
 import { Link } from 'react-router-dom'
-import DropdownMessage from './DropdownMessage'
-import DropdownNotification from './DropdownNotification'
 import DropdownUser from './DropdownUser'
 import LogoIcon from '../../images/logo/logo-icon.svg'
 import DarkModeSwitcher from './DarkModeSwitcher'
@@ -57,13 +55,13 @@ const Header = (props: {
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden" to="/">
+          {/* <Link className="block flex-shrink-0 lg:hidden" to="/">
             <img src={LogoIcon} alt="Logo" />
-          </Link>
+          </Link> */}
         </div>
 
         <div className="hidden sm:block">
-          <form action="https://formbold.com/s/unique_form_id" method="POST">
+          {/* <form action="https://formbold.com/s/unique_form_id" method="POST">
             <div className="relative">
               <button className="absolute left-0 top-1/2 -translate-y-1/2 ">
                 <svg
@@ -95,7 +93,7 @@ const Header = (props: {
                 className="w-full bg-transparent pl-9 pr-4 text-slate-950 focus:outline-none xl:w-125 "
               />
             </div>
-          </form>
+          </form> */}
         </div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
@@ -105,11 +103,11 @@ const Header = (props: {
             {/* <!-- Dark Mode Toggler --> */}
 
             {/* <!-- Notification Menu Area --> */}
-            <DropdownNotification />
+            {/* <DropdownNotification /> */}
             {/* <!-- Notification Menu Area --> */}
 
             {/* <!-- Chat Notification Area --> */}
-            <DropdownMessage />
+            {/* <DropdownMessage /> */}
             {/* <!-- Chat Notification Area --> */}
           </ul>
 

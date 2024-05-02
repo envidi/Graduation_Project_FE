@@ -6,8 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { getApprovalShowTimes, updateApprovalShowTimes } from '@/api/showtime'
 import Loading from '@/admin/components/Loading/Loading'
 import { toast } from 'react-toastify'
-import { APPROVAL_SHOW, SHOWTIMES_ADMIN } from '@/utils/constant'
-import AlertDialogCustom from '@/components/AlertDialogCustom'
+import { APPROVAL_SHOW, ROLE_ADMIN, SHOWTIMES_ADMIN } from '@/utils/constant'
 import { ContextMain } from '@/context/Context'
 import {
   filterStatusCssBg,
@@ -31,7 +30,6 @@ interface Showtype {
 }
 function ShowtimeApprovalItem() {
   const { removeShowtime, userDetail } = useContext<any>(ContextMain)
-  console.log(userDetail)
   const queryClient = useQueryClient()
   const { data: allShowTimes, isFetching } = useQuery({
     queryKey: [APPROVAL_SHOW],
@@ -188,8 +186,8 @@ function ShowtimeApprovalItem() {
 
                     <td className="px-3 py-5 border-b border-gray-200 text-sm ">
                       <div className="flex gap-x-3">
-                        {userDetail.message.roleIds ==
-                          '659b79c6757ca91b82e2b9d0' && (
+                        {userDetail?.message?.roleIds ==
+                          ROLE_ADMIN && (
                           <TooltipComponent
                             tooltip="Phê duyệt lịch chiếu"
                             className="text-sm"

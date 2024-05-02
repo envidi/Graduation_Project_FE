@@ -1,9 +1,8 @@
 import DefaultLayout from '@/admin/layout/DefaultLayout'
 import { ContextMain } from '@/context/Context'
 import { useContext, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { FaRegTrashAlt } from 'react-icons/fa'
 import { convertAmPm, getDay, getHourAndMinute } from '@/utils'
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -18,7 +17,7 @@ import {
   DialogTrigger
 } from '@/components/ui/dialog'
 import ExchangeForm from './ExchangeForm'
-import { CANCELLED_SHOW } from '@/utils/constant'
+import { CANCELLED_SHOW, ROLE_ADMIN } from '@/utils/constant'
 import { FilePen, Info, Trash } from 'lucide-react'
 import AlertDialogCustom from '@/components/AlertDialogCustom'
 import {
@@ -26,6 +25,7 @@ import {
   filterStatusCssText,
   filterStatusShow
 } from '@/utils/methodArray'
+import { FaRegTrashAlt } from 'react-icons/fa'
 interface Showtype {
   screenRoomId: {
     name: string
@@ -42,7 +42,9 @@ interface Showtype {
   isCheck?: boolean
 }
 const Showtimes = () => {
-  const { allShowTimes, removeShowtime } = useContext<any>(ContextMain)
+  const navigate = useNavigate()
+  const { allShowTimes, removeShowtimeSoft, userDetail } =
+    useContext<any>(ContextMain)
 
   const [currentPage, setCurrentPage] = useState(1)
   const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
@@ -77,7 +79,7 @@ const Showtimes = () => {
     return getDay(convertAmPm(formattedDate))
   }
 
-  const handleChangeBox = (value: boolean, item: Showtype) => {
+  const handleChangeBox = (value: boolean | string, item: Showtype) => {
     setChooseShow((prev: any) => {
       if (item.seatSold > 0) {
         toast.error('Lịch chiếu này đã được đặt. Không thể sửa', {
@@ -94,9 +96,8 @@ const Showtimes = () => {
   }
 
   const handleDeleteShow = (id: string) => {
-    removeShowtime(id)
+    removeShowtimeSoft.mutate(id)
   }
-
   return (
     <>
       <DefaultLayout>
@@ -138,7 +139,7 @@ const Showtimes = () => {
         </Dialog>
         <div className="bg-white dark:bg-boxdark p-8 rounded-md w-full">
           <div className=" flex items-center justify-between pb-6">
-            <div className='lg:block hidden'>
+            <div className="lg:block hidden">
               <h2 className="text-gray-600 font-semibold">Lịch chiếu</h2>
               <span className="text-xs">Tất cả lịch chiếu</span>
             </div>
@@ -149,21 +150,33 @@ const Showtimes = () => {
                     Tạo lịch chiếu
                   </button>
                 </Link>
-
+                {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                  <button
+                    onClick={() =>
+                      setChangeShow((prev) => {
+                        if (!prev) {
+                          toast.success(
+                            'Hãy chọn 2 lịch chiếu mà bạn muốn đổi',
+                            {
+                              position: 'top-center'
+                            }
+                          )
+                        }
+                        return !prev
+                      })
+                    }
+                    className="bg-success px-3 py-2 lg:w-40 xs:w-30 rounded-md text-white text-sm font-semibold tracking-wide cursor-pointer"
+                  >
+                    {changeShow ? 'Hủy' : 'Đổi lịch chiếu'}
+                  </button>
+                )}
                 <button
-                  onClick={() =>
-                    setChangeShow((prev) => {
-                      if (!prev) {
-                        toast.success('Hãy chọn 2 lịch chiếu mà bạn muốn đổi', {
-                          position: 'top-center'
-                        })
-                      }
-                      return !prev
-                    })
-                  }
-                  className="bg-success px-3 py-2 lg:w-40 xs:w-30 rounded-md text-white text-sm font-semibold tracking-wide cursor-pointer"
+                  onClick={() => {
+                    navigate('/admin/showtimes/restore')
+                  }}
+                  className="bg-red-500 px-5 py-2 rounded-md text-white font-semibold tracking-wide cursor-pointer hover:bg-red-600 transition duration-300"
                 >
-                  {changeShow ? 'Hủy' : 'Đổi lịch chiếu'}
+                  <FaRegTrashAlt />
                 </button>
               </div>
             </div>
@@ -206,12 +219,14 @@ const Showtimes = () => {
                       <th className="w-[200px] py-3 border-b-2 border-gray-200 bg-gray-100 text-center text-[10px] font-semibold text-gray-600 uppercase tracking-wider">
                         Trạng Thái
                       </th>
-                      <th
-                        className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center"
-                        colSpan={2}
-                      >
-                        Hành Động
-                      </th>
+                      {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                        <th
+                          className=" py-3 border-b-2 border-gray-200 bg-gray-100  text-[10px] font-semibold text-gray-600 uppercase tracking-wider text-center"
+                          colSpan={2}
+                        >
+                          Hành Động
+                        </th>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -298,35 +313,39 @@ const Showtimes = () => {
                             </span>
                           </span>
                         </td>
-
-                        <td className="px-3 py-5 border-b border-gray-200 text-sm ">
-                          <div className="flex gap-x-3">
-                            <Link to={`/admin/showtimes/update/${item?._id}`}>
+                        {userDetail?.message?.roleIds == ROLE_ADMIN && (
+                          <td className="px-3 py-5 border-b border-gray-200 text-sm ">
+                            <div className="flex gap-x-3">
                               <button
-                                className="middle none center  rounded-lg bg-blue-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
-                                data-ripple-light="true"
-                              >
-                                <FilePen size={18} />
-                              </button>
-                            </Link>
-                            <AlertDialogCustom
-                              title="Xóa lịch chiếu"
-                              description="Hành động này không thể hoàn tác. Bạn có chắc chắn muốn xóa lịch chiếu không ?"
-                              fnContinue={() => handleDeleteShow(item._id)}
-                              clxCancle="border border-[white] text-sm"
-                              clxContinue="bg-white text-black text-sm"
-                              clxContent="w-fit"
-                            >
-                              <button
-                                className="middle none center mr-4 rounded-lg py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md transition-all focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-red-500 hover:shadow-lg hover:shadow-red-500/40 shadow-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                                className="middle none center   rounded-lg bg-blue-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none  disabled:opacity-50 disabled:shadow-none"
                                 data-ripple-light="true"
                                 disabled={item.seatSold > 0}
                               >
-                                <Trash size={18} />
+                                <Link
+                                  to={`/admin/showtimes/update/${item?._id}`}
+                                >
+                                  <FilePen size={18} />
+                                </Link>
                               </button>
-                            </AlertDialogCustom>
-                          </div>
-                        </td>
+                              <AlertDialogCustom
+                                title="Xóa lịch chiếu"
+                                description="Bạn có chắc chắn muốn xóa lịch chiếu không ?"
+                                fnContinue={() => handleDeleteShow(item._id)}
+                                clxCancle="border border-[white] text-sm"
+                                clxContinue="bg-white text-black text-sm"
+                                clxContent="w-fit"
+                              >
+                                <button
+                                  className="middle none center mr-4 rounded-lg py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md transition-all focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none bg-red-500 hover:shadow-lg hover:shadow-red-500/40 shadow-red-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+                                  data-ripple-light="true"
+                                  disabled={item.seatSold > 0}
+                                >
+                                  <Trash size={18} />
+                                </button>
+                              </AlertDialogCustom>
+                            </div>
+                          </td>
+                        )}
                       </tr>
                     ))}
                   </tbody>

@@ -1,6 +1,18 @@
 import { FoodItemState } from '@/Interface/food'
 import { SeatUserList } from '@/Interface/ticket'
-import { APPROVAL_SCHEDULE, AVAILABLE_SCHEDULE, CANCELLED_SCHEDULE, FULL_SCHEDULE } from './constant'
+import {
+  APPROVAL_SCHEDULE,
+  AVAILABLE_SCHEDULE,
+  AVAILABLE_SCREEN,
+  CANCELLED_SCHEDULE,
+  CANCELLED_SCREEN,
+  FULL_SCHEDULE,
+  FULL_SCREEN,
+  NORMAL,
+  PAID_TICKET,
+  RESERVED_TICKET,
+  VIP
+} from './constant'
 
 export const filterSeat = (data: SeatUserList[]) => {
   return filterData(data, (s: SeatUserList) => s.selected).reduce(
@@ -66,6 +78,18 @@ export const filterStatusMovie = (status: string) => {
       return 'Sắp Công Chiếu'
   }
 }
+export const filterRole = (status: string) => {
+  switch (status) {
+    case 'user':
+      return 'Khách hàng'
+    case 'staff':
+      return 'Nhân viên'
+    case 'admin':
+      return 'Admin'
+    default:
+      return 'Khách hàng'
+  }
+}
 export const filterStatusShow = (status: string) => {
   switch (status) {
     case AVAILABLE_SCHEDULE:
@@ -80,6 +104,18 @@ export const filterStatusShow = (status: string) => {
       return 'Chờ phê duyệt'
   }
 }
+export const filterStatusRoom = (status: string) => {
+  switch (status) {
+    case AVAILABLE_SCREEN:
+      return 'Phòng đang dùng'
+    case CANCELLED_SCREEN:
+      return 'Phòng đã hủy'
+    case FULL_SCREEN:
+      return 'Phòng đã đầy'
+    default:
+      return 'Phòng đang dùng'
+  }
+}
 export const filterStatusCssText = (status: string) => {
   switch (status) {
     case AVAILABLE_SCHEDULE:
@@ -87,11 +123,33 @@ export const filterStatusCssText = (status: string) => {
     case APPROVAL_SCHEDULE:
       return 'text-orange-900'
     case FULL_SCHEDULE:
-      return 'Hết ghế'
+      return 'text-blue-800'
     case CANCELLED_SCHEDULE:
       return 'text-red-900'
     default:
       return 'Chờ phê duyệt'
+  }
+}
+export const filterStatusTicket = (status: string) => {
+  switch (status) {
+    case PAID_TICKET:
+      return 'Đã thanh toán'
+    case RESERVED_TICKET:
+      return 'Chưa thanh toán'
+
+    default:
+      return 'Đã thanh toán'
+  }
+}
+export const filterStatusSeat = (status: string) => {
+  switch (status) {
+    case NORMAL:
+      return 'Ghế thường'
+    case VIP:
+      return 'Ghế vip'
+
+    default:
+      return 'Ghế thường'
   }
 }
 export const filterStatusCssBg = (status: string) => {
@@ -101,7 +159,7 @@ export const filterStatusCssBg = (status: string) => {
     case APPROVAL_SCHEDULE:
       return 'bg-orange-200'
     case FULL_SCHEDULE:
-      return 'Hết ghế'
+      return 'bg-blue-300'
     case CANCELLED_SCHEDULE:
       return 'bg-red-200'
     default:

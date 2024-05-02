@@ -1,9 +1,8 @@
-import { AddandEditRooms } from '@/Interface/screeningrooms'
 import Loader from '@/admin/common/Loader'
 import { editRooms, getOneRooms, newRooms } from '@/api/screeningrooms'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import {  useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 type FormRoomsProps = {
@@ -11,6 +10,7 @@ type FormRoomsProps = {
 }
 const FormRooms = ({ typeForm }: FormRoomsProps) => {
   // const _id='65d30a80a047aeebd3c78c72';
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   // const handleBack = () => {
   //   navigate(-1)
@@ -43,10 +43,16 @@ const FormRooms = ({ typeForm }: FormRoomsProps) => {
     onSuccess: () => {
       if (typeForm === 'EDIT') {
         toast.success('Chỉnh sửa phòng thành công')
+        queryClient.invalidateQueries({
+          queryKey : ['ROOMS']
+        })
         navigate('/admin/screeningrooms')
         return
       }
       toast.success('Thêm phòng thành công')
+      queryClient.invalidateQueries({
+        queryKey : ['ROOMS']
+      })
       navigate('/admin/screeningrooms')
     },
     onError: () => {

@@ -38,7 +38,7 @@ function AlertDialogCustom({
         <AlertDialogFooter>
           <AlertDialogCancel className={clxCancle}>Cancel</AlertDialogCancel>
           <AlertDialogAction className={clxContinue} onClick={fnContinue}>
-            Continue
+            Tiếp tục
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

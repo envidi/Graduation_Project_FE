@@ -4,20 +4,14 @@ import { useFormik } from 'formik'
 import { toast } from 'react-toastify'
 import ForgotPassword from './FogotPassword'
 import { ContextAuth, ContextMain } from '@/context/Context'
-import { SIGN_IN, SIGN_IN_GOOGLE } from '@/utils/constant'
-import { CredentialResponse, GoogleLogin } from '@react-oauth/google'
-import { JwtPayload, jwtDecode } from 'jwt-decode'
+import { SIGN_IN } from '@/utils/constant'
 import useMutationSign, { ErrorMutation, MutationSign } from '@/hooks/useSignIn'
+import LoginWithGoogle from './LoginWithGoogle'
 export interface FormValues {
   email: string
   name?: string | undefined
   password: string | undefined
   avatar?: string | undefined
-}
-interface IJwtPayload extends JwtPayload {
-  email: string
-  name: string
-  picture: string
 }
 
 export const LoginModal = () => {
@@ -48,7 +42,6 @@ export const LoginModal = () => {
     onSuccessSign,
     onErrorSign
   )
-  const { mutate } = useMutationSign(SIGN_IN_GOOGLE, onSuccessSign, onErrorSign)
 
   const formikValidate = useFormik<FormValues>({
     initialValues: {
@@ -76,27 +69,15 @@ export const LoginModal = () => {
     onSubmit: async (values) => {
       try {
         await mutateSign(values)
+        setShowForm(false)
       } catch (error) {
-        console.error('Lỗi khi gọi API:', error)
+        throw new Error(error as string)
       }
     }
   })
 
   const handleLoginState = () => {
     setShowForm((prevShowForm) => !prevShowForm) // Cập nhật trạng thái để ẩn/hiển thị form
-  }
-  const handleLoginGoogleSucess = (credentialResponse: CredentialResponse) => {
-    const credential = jwtDecode<IJwtPayload>(credentialResponse.credential!)
-
-    mutate({
-      email: credential.email,
-      name: credential.name,
-      password: credential.sub,
-      avatar: credential.picture
-    })
-  }
-  const handleLoginGoogleError = () => {
-    toast.error('Đăng nhập Google thất bại!')
   }
 
   return (
@@ -106,7 +87,7 @@ export const LoginModal = () => {
           <form onSubmit={formikValidate.handleSubmit}>
             <div className="signup-form-heading">
               <h2 className="signup-form-heading-text">
-              Đăng nhập vào tài khoản DREAM CINEMA của bạn
+                Đăng nhập vào tài khoản DREAM CINEMA của bạn
               </h2>
               <button
                 type="button"
@@ -158,7 +139,7 @@ export const LoginModal = () => {
                 )}
               <div className="signup-form-category">
                 <label>
-                Nhập mật khẩu của bạn: <span>*</span>
+                  Nhập mật khẩu của bạn: <span>*</span>
                 </label>
                 <div className="input-password">
                   <input
@@ -212,10 +193,7 @@ export const LoginModal = () => {
                 </div>
               </div>
               <div className="flex justify-center w-full">
-                <GoogleLogin
-                  onSuccess={handleLoginGoogleSucess}
-                  onError={handleLoginGoogleError}
-                />
+                <LoginWithGoogle />
               </div>
               <div className="flex justify-between">
                 <a

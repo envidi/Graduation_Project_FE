@@ -18,8 +18,8 @@ export interface Movie {
     slug: string
     destroy: boolean
     createdAt: Date
-    updatedAt: Date
-    fromDate: Date
+    // updatedAt: Date
+    // fromDate: Date
     toDate: Date
     
   }
@@ -41,7 +41,7 @@ export interface Movie {
     price: number
     categoryId: string[] | string
     showTimes: string[] | string
-    fromDate: string
-    toDate: string
+    // fromDate: string
+    // toDate: string
   }
   

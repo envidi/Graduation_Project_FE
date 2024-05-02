@@ -44,10 +44,10 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
       return addCategory(bodyData)
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
       if (typeForm === 'EDIT') {
         toast.success('Sửa danh mục thành công')
         setOpen(false)
-        queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
         return
       }
       toast.success('Thêm danh mục thành công')
@@ -82,17 +82,15 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
       return errors
     },
     onSubmit: async (values) => {
-      console.log('submit')
       try {
         const bodyData = {
           isDeleteable: categoryData?.isDeleteable,
           name: values.name,
           products: categoryData?.products || []
         }
-        const response = await mutate(bodyData)
-        console.log('res', response)
+        mutate(bodyData)
       } catch (error) {
-        console.log('error', error)
+        throw new Error(error as string)
       }
     }
   })
@@ -105,7 +103,7 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
         {typeForm == 'ADD' ? (
           <div className="text-center mb-2 flex items-center justify-start">
             <button className="flex items-center justify-center border border-stroke py-2 px-4 rounded-full">
-              Thêm  <FaPlusCircle size={20} className="ml-4" />
+              Thêm <FaPlusCircle size={20} className="ml-4" />
             </button>
           </div>
         ) : (
@@ -118,15 +116,15 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
         <form onSubmit={handleSubmit}>
           <DialogHeader>
             <DialogTitle>
-              {typeForm === 'ADD' ? 'Add' : 'Edit'} Danh mục
+              {typeForm === 'ADD' ? 'Thêm' : 'Chỉnh sửa'} danh mục
             </DialogTitle>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="p-6.5">
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                <div className="w-full xl:w-1/2">
+                <div className="w-full ">
                   <label className="mb-2.5 block text-primary">
-                  Tên danh mục
+                    Tên danh mục
                   </label>
                   <input
                     name="name"
@@ -135,10 +133,10 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
                     onBlur={handleBlur}
                     type="text"
                     placeholder="Nhập tên danh mục"
-                    className="w-full rounded border-[1.5px] border-stroke py-3 px-5 text-primary outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   />
                   {touched.name && errors.name && (
-                    <div className="text-red-500 text-xl font-bold">
+                    <div className="text-red-500 text-sm font-bold">
                       {errors.name}
                     </div>
                   )}
@@ -148,7 +146,7 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
           </div>
           <DialogFooter>
             <Button variant="outline" type="submit">
-              {typeForm === 'ADD' ? 'Add' : 'Update'}
+              {typeForm === 'ADD' ? 'Thêm' : 'Cập nhật'}
             </Button>
           </DialogFooter>
         </form>

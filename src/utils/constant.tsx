@@ -20,8 +20,7 @@ export const RESERVED = 'Reserved'
 export const UNAVAILABLE = 'Unavailable'
 export const TICKET = 'TICKET'
 export const statusSeat = [AVAILABLE, SOLD, RESERVED, UNAVAILABLE]
-export const NORMAL = 'normal'
-export const VIP = 'VIP'
+
 export const SEAT_STORE = 'seat'
 export const CREATE_TICKET = 'CREATE_TICKET'
 export const COMPLETE_TICKET = 'COMPLETE_TICKET'
@@ -48,4 +47,20 @@ export const AVAILABLE_SCHEDULE = 'Available'
 export const APPROVAL_SCHEDULE = 'Approval'
 export const FULL_SCHEDULE = 'Full'
 export const CANCELLED_SCHEDULE = 'Cancelled'
+export const ROLE_ADMIN = '659b79c6757ca91b82e2b9d0'
+export const ROLE_STAFF = '662ce317888a9655fbf8192e'
+export const ROLE_USER = '659919a451a235a0f4b80700'
+
+export const API_GOOGLE = 'https://www.googleapis.com/oauth2/v3/userinfo'
+// room
+export const AVAILABLE_SCREEN = 'Available'
+export const CANCELLED_SCREEN = 'Cancelled'
+export const FULL_SCREEN = 'Full'
+//ticket
+export const PAID_TICKET = 'PAID'
+export const RESERVED_TICKET = 'RESERVED'
+// seat
+export const NORMAL = 'normal'
+export const VIP = 'VIP'
+
 

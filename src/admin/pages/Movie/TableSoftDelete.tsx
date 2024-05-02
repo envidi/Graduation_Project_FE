@@ -1,17 +1,15 @@
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
-import { ConfirmDialog } from '@/admin/components/Confirm'
 import DefaultLayout from '@/admin/layout/DefaultLayout'
-// import { Cinema } from '@/admin/types/cenima'
-import { Movie } from '@/admin/types/movie'
-import { getAllsoftDelete, removeMovie, restoreMovie } from '@/api/movie'
-import { convertMintuteToHour } from '@/utils'
-// import { getAllCinema, removeCinema } from '@/api/cinema'
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import TableItemSoft from './TableItemSoft'
 import { useRef, useState } from 'react'
-import { FaPlusCircle } from 'react-icons/fa'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { getAllsoftDelete, removeMovie, restoreMovie } from '@/api/movie'
+import { Movie } from '@/admin/types/movie'
 import { toast } from 'react-toastify'
+import { convertMintuteToHour } from '@/utils'
+import { filterStatusMovie } from '@/utils/methodArray'
+import { Link } from 'react-router-dom'
+import { ConfirmDialog } from '@/admin/components/Confirm'
 
 const TableSoftDeleteMovie = () => {
   const queryClient = useQueryClient()
@@ -20,13 +18,11 @@ const TableSoftDeleteMovie = () => {
   const [isOpenConfirm2, setOpenConfirm2] = useState(false)
   const idDelete = useRef<string>()
   const idDelete2 = useRef<string>()
-  const navigate = useNavigate()
   // fetch category by react-query
-  const { data, isLoading, isError } = useQuery<Movie[]>({
-    queryKey: ['MOVIE'],
+  const { data : datasoftdelete, isLoading, isError } = useQuery<Movie[]>({
+    queryKey: ['MOVIE_SOFT'],
     queryFn: getAllsoftDelete
   })
-  console.log('data soft', data)
 
   // page
   const ITEMS_PER_PAGE = 10
@@ -35,27 +31,24 @@ const TableSoftDeleteMovie = () => {
   //tính mục phân trang
   const endIndex = currentPage * itemsPerPage
   const startIndex = endIndex - itemsPerPage
-  const currentItems = (data && data.slice(startIndex, endIndex)) || []
+  const currentItems2 = (datasoftdelete && datasoftdelete.slice(startIndex, endIndex)) || []
   // Tính số trang
-  const pageCount = data ? Math.round(data.length / ITEMS_PER_PAGE) : 0
+  const pageCount = datasoftdelete ? Math.round(datasoftdelete.length / ITEMS_PER_PAGE) : 0
   //phương thức chuyển trang
   const setPage = (page: number) => {
     setCurrentPage(page)
   }
-
-
   // delete category by mutation react-query
   const { mutate } = useMutation({
     mutationFn: removeMovie,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['MOVIE'] })
+      queryClient.invalidateQueries({ queryKey: ['MOVIE_SOFT'] })
       toast.success('Xóa thành công')
     },
     onError: () => {
       toast.error('Xóa thất bại')
     }
   })
-
 
   const handleRemoveMovie = () => {
     mutate(idDelete.current!)
@@ -64,7 +57,7 @@ const TableSoftDeleteMovie = () => {
   const { mutate: mutate2 } = useMutation({
     mutationFn: restoreMovie,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['MOVIE'] })
+      queryClient.invalidateQueries({ queryKey: ['MOVIE_SOFT'] })
       toast.success('Khôi phục thành công')
     },
     onError: () => {
@@ -85,7 +78,7 @@ const TableSoftDeleteMovie = () => {
     setOpenConfirm2(true)
   }
 
-  if (isLoading || !data) {
+  if (isLoading || !datasoftdelete) {
     return <div>Loading...</div>
   }
 
@@ -97,14 +90,16 @@ const TableSoftDeleteMovie = () => {
   return (
     <>
       <DefaultLayout>
-        <Breadcrumb pageName="Danh sách phim đang xóa" pageLink='/admin/movie' pageRetun='Danh sách phim' />
+        <Breadcrumb
+          pageName="Danh sách phim đang xóa"
+          pageLink="/admin/movie"
+          pageRetun="Danh sách phim"
+        />
         <div className="flex flex-col gap-10">
-          x
+
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto ">
             <div className="max-w-full overflow-x-auto bg-white dark:bg-boxdark px-5 py-7 shadow-lg rounded-md scrollable-table">
-              <div className="text-center mb-5 flex items-center justify-start ">
-
-              </div>
+              <div className="text-center mb-5 flex items-center justify-start "></div>
               <table className=" w-full table-auto border  border-gray-200 dark:border-strokedark bg-white dark:bg-boxdark">
                 <thead>
                   {/* <tr className="bg-gray-200 text-left dark:bg-meta-4 border border-gray-400 dark:border-strokedark"> */}
@@ -158,7 +153,13 @@ const TableSoftDeleteMovie = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentItems.map((movie, index) => (
+                  {currentItems2.length === 0 ? (
+                    <tr className="text-center py-5 dark:border-strokedark">
+                      <td className="text-center py-5 dark:border-strokedark w-full">
+                        <p className="text-gray-800">Không có phim nào đang xóa</p>
+                      </td>
+                    </tr>
+                  ) : currentItems2.map((movie, index) => (
                     <tr
                       key={movie.name}
                       className="border-b border-gray-400 dark:border-strokedark"
@@ -222,23 +223,9 @@ const TableSoftDeleteMovie = () => {
                   </td> */}
                       <td className="py-5 px-4 dark:border-strokedark">
                         <p className="text-gray-800">
-                          {(() => {
-                            switch (movie.status) {
-                              case 'COMING_SOON':
-                                return 'Sắp Công Chiếu';
-                              case 'IS_SHOWING':
-                                return 'Đang Công Chiếu';
-                              case 'PRTMIERED':
-                                return 'Đã Công Chiếu';
-                              case 'CANCELLED':
-                                return 'Đã Hủy';
-                              default:
-                                return movie.status;
-                            }
-                          })()}
+                          {filterStatusMovie(movie.status)}
                         </p>
                       </td>
-
 
                       <td className="px-5 py-5 border-b dark:border-strokedark bg-white dark:bg-boxdark text-sm flex w-65 flex-wrap justify-center gap-y-3">
                         <div>
@@ -278,7 +265,6 @@ const TableSoftDeleteMovie = () => {
               </table>
             </div>
           </div>
-
           <div className="pagination-controls flex justify-center mt-4">
             {Array.from({ length: pageCount }, (_, i) => i + 1).map((page) => (
               <button
