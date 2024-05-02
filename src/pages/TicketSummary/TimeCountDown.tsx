@@ -18,7 +18,7 @@ function TimeCountDown() {
   useEffect(() => {
     startCountdown()
     setCountdown(count)
-    if (count == 10) {
+    if (count == 1) {
       stopCountdown()
       mutation.mutate({
         ticket_id: ticket.ticket_id

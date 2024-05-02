@@ -1,7 +1,7 @@
 import { CollectionCard } from '../../../components/CollectionCard'
 import { useQuery } from '@tanstack/react-query'
 import { getRelateMovie } from '@/api/movie'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { SwiperSlide } from 'swiper/react'
 import 'swiper/css'
 // import 'swiper/css/pagination'
@@ -20,10 +20,15 @@ import { useSelector } from 'react-redux'
 export const MovieInfoCollection = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const movies = useSelector((state: any) => state.movies.movies)
+  const navigate = useNavigate()
   const { slug } = useParams()
   const { _id = '' } =
     movies.length > 0 && movies.find((movie: MovieType) => movie.slug === slug)
-  const { data: dataMovie, isLoading } = useQuery({
+  const {
+    data: dataMovie,
+    isLoading,
+    isError
+  } = useQuery({
     queryKey: ['MOVIE_RELATED', _id],
     queryFn: () => getRelateMovie(_id)
   })
@@ -33,6 +38,10 @@ export const MovieInfoCollection = () => {
   }
   if (isLoading) {
     return <HashLoader cssOverride={override} size={60} color="#eb3656" />
+  }
+  if (isError) {
+    navigate('/')
+    return
   }
 
   return (
