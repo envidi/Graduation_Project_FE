@@ -13,17 +13,16 @@ import { filterRole } from '@/utils/methodArray'
 import { LockKeyhole, PencilLine } from 'lucide-react'
 import { ROLE_ADMIN } from '@/utils/constant'
 import { ContextMain } from '@/context/Context'
-import { token } from '@/api/baseAuth'
 const arrayRole = [
   { _id: '662ce317888a9655fbf8192e', name: 'Nhân viên' },
   {
     _id: '659919a451a235a0f4b80700',
     name: 'Khách hàng'
   },
-  {
-    _id: '659b79c6757ca91b82e2b9d0',
-    name: 'Admin'
-  }
+  // {
+  //   _id: '659b79c6757ca91b82e2b9d0',
+  //   name: 'Admin'
+  // }
 ]
 
 const Users = () => {
