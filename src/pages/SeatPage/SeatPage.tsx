@@ -133,10 +133,7 @@ const SeatPage = () => {
         : null
     const maxRow =
       seatSelecteds.length > 1 ? getMaxRowCol(seatSelecteds, seat, 'row') : null
-    console.log('seat', seat)
-    console.log('maxCol', maxCol)
-    console.log(' maxCol?.column - seat.column', maxCol?.column - seat.column)
-    console.log(' seat.row == maxRow?.row', seat.row == maxCol?.row)
+
     if (
       (maxRow && seat.row - maxRow.row > 1) ||
       (maxCol &&

@@ -15,6 +15,7 @@ import {
   PaginationNext,
   PaginationPrevious
 } from '@/components/ui/pagination'
+import { FOOD } from '@/utils/constant'
 
 const ITEMS_PER_PAGE = 10
 // ...rest of your imports and TableFood component
@@ -92,6 +93,7 @@ const TableFoodDestroy = () => {
     mutationFn: restoreFood, // Bạn cần cung cấp hàm restoreFood tương ứng
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['FOOD'] })
+      queryClient.invalidateQueries({ queryKey: [FOOD] })
       toast.success('Khôi phục thực phẩm thành công')
     },
     onError: () => {
