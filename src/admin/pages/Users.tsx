@@ -13,6 +13,7 @@ import { filterRole } from '@/utils/methodArray'
 import { LockKeyhole, PencilLine } from 'lucide-react'
 import { ROLE_ADMIN } from '@/utils/constant'
 import { ContextMain } from '@/context/Context'
+import { token } from '@/api/baseAuth'
 const arrayRole = [
   { _id: '662ce317888a9655fbf8192e', name: 'Nhân viên' },
   {
@@ -37,7 +38,13 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
 
-  useEffect(() => {}, [selectedUserIndex, checkBlock, checkUnblockId])
+  useEffect(() => {
+    if (!token) {
+      console.log('không có ')
+    } else {
+      console.log('token', token)
+    }
+  }, [selectedUserIndex, checkBlock, checkUnblockId])
   const { data: allUser } = useQuery({
     queryKey: ['USER'],
     queryFn: async () => {
@@ -75,6 +82,7 @@ const Users = () => {
       setCurrentPage((pre) => pre + 1)
     }
   }
+
   const queryClient = useQueryClient()
   const userUpdateId = useMutation({
     mutationFn: async (user: any) => {
@@ -329,17 +337,27 @@ const Users = () => {
                         <td className="px-3 py-5 border-b border-gray-200  text-sm ">
                           <div className="flex gap-4">
                             <button
-                              className="middle none center  rounded-lg bg-blue-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                              className={`middle none center rounded-lg bg-blue-500 py-1 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-blue-500/20 transition-all ${
+                                item._id === userDetail?.message?._id
+                                  ? 'disabled:opacity-50 disabled:pointer-events-none'
+                                  : ''
+                              }`}
                               data-ripple-light="true"
                               onClick={() => toggleShowEdit(item)}
+                              disabled={item._id === userDetail?.message?._id}
                             >
                               <PencilLine size={18} />
                             </button>
                             {item?.status === 'Blocked' ? (
                               <button
-                                className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none"
+                                className={`middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none ${
+                                  item._id === userDetail?.message?._id
+                                    ? 'disabled:opacity-50 disabled:pointer-events-none'
+                                    : ''
+                                }`}
                                 data-ripple-light="true"
                                 onClick={() => toggleCheckUnBlockId(item)}
+                                disabled={item._id === userDetail?.message?._id}
                               >
                                 <svg
                                   xmlns="http://www.w3.org/2000/svg"
@@ -366,9 +384,15 @@ const Users = () => {
                               </button>
                             ) : (
                               <button
-                                className="middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase flex justify-center text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full"
+                                className={`middle none center mr-4 rounded-lg bg-red-500 py-2 px-3 font-sans text-xs font-bold uppercase flex justify-center text-white shadow-md shadow-red-500/20 transition-all hover:shadow-lg hover:shadow-red-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none w-full ${
+                                  item._id === userDetail?.message?._id
+                                    ? 'disabled:opacity-50 disabled:pointer-events-none'
+                                    : ''
+                                }`}
                                 data-ripple-light="true"
                                 onClick={() => toggleCheckBlock(item)}
+                                disabled={item._id === userDetail?.message?._id}
+
                               >
                                 <LockKeyhole size={18} />
                               </button>
@@ -520,7 +544,7 @@ const Users = () => {
               className="bg-indigo-500 px-7 py-2 ml-2 rounded-md text-md text-white font-semibold"
               onClick={handleBlock}
             >
-             Đồng ý
+              Đồng ý
             </button>
           </div>
         </div>
