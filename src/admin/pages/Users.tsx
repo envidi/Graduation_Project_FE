@@ -18,10 +18,6 @@ const arrayRole = [
   {
     _id: '659919a451a235a0f4b80700',
     name: 'Khách hàng'
-  },
-  {
-    _id: '659b79c6757ca91b82e2b9d0',
-    name: 'Admin'
   }
 ]
 
@@ -37,7 +33,7 @@ const Users = () => {
   const [currentPage, setCurrentPage] = useState(1)
   const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
 
-  useEffect(() => {}, [selectedUserIndex, checkBlock, checkUnblockId])
+  useEffect(() => { }, [selectedUserIndex, checkBlock, checkUnblockId])
   const { data: allUser } = useQuery({
     queryKey: ['USER'],
     queryFn: async () => {
