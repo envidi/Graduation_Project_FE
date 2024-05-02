@@ -164,17 +164,17 @@ function TicketSummary() {
       screenRoomId: ticket.hall_id,
       cinemaId: ticket.cinemaId
     }
-
-    if (ticket.ticket_id !== '') {
-      mutateTicket({
-        ...newObject,
-        ticket_id: ticket.ticket_id
-      })
-      return
-    }
-    mutateTicket({
-      ...newObject
-    })
+    // console.log(mapData(seat))
+    // if (ticket.ticket_id !== '') {
+    //   mutateTicket({
+    //     ...newObject,
+    //     ticket_id: ticket.ticket_id
+    //   })
+    //   return
+    // }
+    // mutateTicket({
+    //   ...newObject
+    // })
   }
   const handlePurchaseFood = () => {
     if (foods) {

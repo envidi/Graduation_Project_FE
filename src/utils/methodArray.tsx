@@ -7,7 +7,11 @@ import {
   CANCELLED_SCHEDULE,
   CANCELLED_SCREEN,
   FULL_SCHEDULE,
-  FULL_SCREEN
+  FULL_SCREEN,
+  NORMAL,
+  PAID_TICKET,
+  RESERVED_TICKET,
+  VIP
 } from './constant'
 
 export const filterSeat = (data: SeatUserList[]) => {
@@ -124,6 +128,28 @@ export const filterStatusCssText = (status: string) => {
       return 'text-red-900'
     default:
       return 'Chờ phê duyệt'
+  }
+}
+export const filterStatusTicket = (status: string) => {
+  switch (status) {
+    case PAID_TICKET:
+      return 'Đã thanh toán'
+    case RESERVED_TICKET:
+      return 'Chưa thanh toán'
+
+    default:
+      return 'Đã thanh toán'
+  }
+}
+export const filterStatusSeat = (status: string) => {
+  switch (status) {
+    case NORMAL:
+      return 'Ghế thường'
+    case VIP:
+      return 'Ghế vip'
+
+    default:
+      return 'Ghế thường'
   }
 }
 export const filterStatusCssBg = (status: string) => {

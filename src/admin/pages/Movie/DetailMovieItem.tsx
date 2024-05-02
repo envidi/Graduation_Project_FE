@@ -1,6 +1,6 @@
 import { MoviePriceCol } from '@/Interface/movieDetail'
 import { getOneMovie } from '@/api/movie'
-import { addCommasToNumber, convertMintuteToHour } from '@/utils'
+import { addCommasToNumber, convertMintuteToHour, getDay } from '@/utils'
 import { MOVIE_DETAIL } from '@/utils/constant'
 import { useQuery } from '@tanstack/react-query'
 import TableShowTimeMovie from './TableShowtimeMovie'
@@ -116,14 +116,14 @@ function DetailMovieItem({ id }: { id: string }) {
           Xóa mềm : {dataMovie.destroy ? 'Đã xoá' : 'Chưa xóa'}
         </p>
       </div>
-      {/* <div className="grid sm:grid-cols-2 gap-x-3 gap-y-3">
+      <div className="grid sm:grid-cols-2 gap-x-3 gap-y-3">
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
           Ngày khởi chiếu : {getDay(dataMovie?.fromDate) || ''}
         </p>
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
           Ngày kết thúc : {getDay(dataMovie?.toDate) || ''}
         </p>
-      </div> */}
+      </div>
       <TableShowTimeMovie dataShowtime={dataMovie && dataMovie.showTimeCol} />
       <TableCommentMovie movieId={id} />
     </div>

@@ -111,6 +111,7 @@ const SeatPage = () => {
     const seatResult = allSeat.map((s: SeatUserList) =>
       s._id === seat._id ? updateSeatStatus(s, seat.selected) : s
     )
+
     const seatSelecteds = seatResult
       .filter((seatSelected) => seatSelected.selected)
       .map((seatSelected) => {
@@ -132,9 +133,28 @@ const SeatPage = () => {
         : null
     const maxRow =
       seatSelecteds.length > 1 ? getMaxRowCol(seatSelecteds, seat, 'row') : null
-
+    console.log('seat', seat)
+    console.log('maxCol', maxCol)
+    console.log(' maxCol?.column - seat.column', maxCol?.column - seat.column)
+    console.log(' seat.row == maxRow?.row', seat.row == maxCol?.row)
     if (
       (maxRow && seat.row - maxRow.row > 1) ||
+      (maxCol &&
+        maxRow &&
+        maxRow.row - seat.row > 0 &&
+        seat.column == maxRow?.column) ||
+      (maxCol &&
+        maxRow &&
+        maxRow.row - seat.row > 2 &&
+        seat.column !== maxRow?.column) ||
+      (maxCol &&
+        maxRow &&
+        maxCol.column - seat.column == 1 &&
+        seat.row == maxCol?.row) ||
+      (maxCol &&
+        maxRow &&
+        maxCol.column - seat.column > 2 &&
+        seat.row !== maxCol?.row) ||
       (maxCol && seat.column - maxCol.column > 1)
     ) {
       toast.error(

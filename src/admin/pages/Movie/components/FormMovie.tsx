@@ -176,14 +176,14 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         errors.trailer = 'đoạn giới thiệu phải dài ít nhất 3 ký tự'
       }
       // // Kiểm tra nếu fromDate không hợp lệ
-      // if (!values.fromDate) {
-      //   errors.fromDate = 'Dữ liệu bắt buộc nhập'
-      // }
+      if (!values.fromDate) {
+        errors.fromDate = 'Dữ liệu bắt buộc nhập'
+      }
 
       // // Kiểm tra nếu toDate không hợp lệ
-      // if (!values.toDate) {
-      //   errors.toDate = 'Dữ liệu bắt buộc nhập'
-      // }
+      if (!values.toDate) {
+        errors.toDate = 'Dữ liệu bắt buộc nhập'
+      }
       if (!values.country) {
         errors.country = 'Quốc gia bắt buộc'
       } else if (values.country.length < 3) {
@@ -234,6 +234,10 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
         data.set('language', values?.language)
         data.set('trailer', values?.trailer)
         data.set('age_limit', values?.age_limit)
+
+        data.set('fromDate', values?.fromDate)
+        data.set('toDate', values?.toDate)
+
         data.set('desc', values?.desc)
         data.set('duration', values?.duration)
         data.set('country', values?.country)
@@ -695,7 +699,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* fromDate */}
-                {/* <div className=" relative z-0 mb-6 w-full group">
+                <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Từ ngày
                   </label>
@@ -725,9 +729,9 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.fromDate as any}
                     </div>
                   )}
-                </div> */}
+                </div>
                 {/* todate */}
-                {/* <div className=" relative z-0 mb-6 w-full group">
+                <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Đến ngày
                   </label>
@@ -757,7 +761,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       {errors.toDate as any}
                     </div>
                   )}
-                </div> */}
+                </div>
                 {/* prices */}
                 <div className=" relative z-0 mb-6 w-full group">
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
