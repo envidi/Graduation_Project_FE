@@ -50,9 +50,9 @@ import MoviePageadmin from './admin/pages/Movie'
 import FoodAdminPage from './admin/pages/Food'
 import FoodAdd from './admin/pages/Food/Add'
 import FoodEdit from './admin/pages/Food/Edit'
-import SeatAdminPage from './admin/pages/Seat/Index'
-import SeatAdd from './admin/pages/Seat/Add'
-import SeatEdit from './admin/pages/Seat/Edit'
+// import SeatAdminPage from './admin/pages/Seat/Index'
+// import SeatAdd from './admin/pages/Seat/Add'
+// import SeatEdit from './admin/pages/Seat/Edit'
 const MovieDetailsPage = lazy(
   () => import('./pages/MovieDetails/MovieDetailsPage')
 )
@@ -95,6 +95,7 @@ import RoomsPage from './admin/pages/Rooms'
 import AddRooms from './admin/pages/Rooms/AddRooms'
 import EditRooms from './admin/pages/Rooms/EditRooms'
 import ShowtimeApproval from './admin/pages/Showtimes/ShowtimeApproval'
+import RoomsPageDestroy from './admin/pages/Rooms/indexTableDestroy'
 
 const ProfileWatchListPage = lazy(
   () => import('./pages/Profile/WatchList/page')
@@ -302,11 +303,11 @@ function App() {
                 <Route path="add" element={<FoodAdd />} />
                 <Route path="edit/:id" element={<FoodEdit />} />
               </Route>
-              <Route path="seat">
+              {/* <Route path="seat">
                 <Route index element={<SeatAdminPage />} />
                 <Route path="add" element={<SeatAdd />} />
                 <Route path="edit/:id" element={<SeatEdit />} />
-              </Route>
+              </Route> */}
               <Route path="cinema">
                 <Route index element={<CinemaPage />} />
                 <Route path="add" element={<CinemaAdd />} />
@@ -326,10 +327,10 @@ function App() {
                 <Route path="add" element={<AddRooms />} />
                 <Route path="edit/:id" element={<EditRooms />} />
               </Route>
-              {/* <Route
+              <Route
                 path="screeningrooms/destroy"
                 element={<RoomsPageDestroy />}
-              /> */}
+              />
               <Route path="tickets">
                 <Route index element={<TicketsPage />} />
 
