@@ -97,7 +97,6 @@ function TicketSummary() {
     foods: foodsTicket = [],
     ticketAmount = 0
   } = ticket
-  
 
   const totalFoodPrice =
     foods && foods.length != 0
@@ -126,7 +125,7 @@ function TicketSummary() {
       return
     }
     const showtime = dataShowtime[0]
-    if (!showtime ||showtime.status == FULL_SCHEDULE || showtime.destroy) {
+    if (!showtime || showtime.status == FULL_SCHEDULE || showtime.destroy) {
       toast.error('Thời gian chiếu không có sẵn', {
         position: 'top-right'
       })
@@ -164,17 +163,17 @@ function TicketSummary() {
       screenRoomId: ticket.hall_id,
       cinemaId: ticket.cinemaId
     }
-    // console.log(mapData(seat))
-    // if (ticket.ticket_id !== '') {
-    //   mutateTicket({
-    //     ...newObject,
-    //     ticket_id: ticket.ticket_id
-    //   })
-    //   return
-    // }
-    // mutateTicket({
-    //   ...newObject
-    // })
+
+    if (ticket.ticket_id !== '') {
+      mutateTicket({
+        ...newObject,
+        ticket_id: ticket.ticket_id
+      })
+      return
+    }
+    mutateTicket({
+      ...newObject
+    })
   }
   const handlePurchaseFood = () => {
     if (foods) {

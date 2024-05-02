@@ -60,6 +60,14 @@ export const getAllTikets = async () => {
   const result = await instance.get('/ticket/data')
   return result.data.data
 }
+export const getAllTiketsReserved = async () => {
+  const result = await instance.get('/ticket/reserved')
+  return result.data.data
+}
+export const deleteTicketReserved = async (id: string) => {
+  const result = await instance.delete('/ticket/delete/' + id)
+  return result.data.data
+}
 export const updateTicket = async (data: TicketCreateType) => {
   const { ticket_id, ...other } = data
   const result = await InsanceTokenFn('paymentToken', 'ticket').patch(

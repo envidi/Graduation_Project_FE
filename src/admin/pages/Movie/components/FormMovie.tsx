@@ -6,7 +6,7 @@ import { getAllCategory } from '@/api/category'
 import { addMovie, editMovie, getOneMovie } from '@/api/movie'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useFormik } from 'formik'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import Select from 'react-select'
 import { ChangeEventHandler, useState } from 'react'
@@ -56,8 +56,8 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
       setFieldValue('language', data?.language)
       setFieldValue('actor', data?.actor)
       setFieldValue('trailer', data?.trailer)
-      // setFieldValue('fromDate', data?.fromDate)
-      // setFieldValue('toDate', data?.toDate)
+      setFieldValue('fromDate', data?.fromDate)
+      setFieldValue('toDate', data?.toDate)
       setFieldValue('desc', data?.desc)
       setFieldValue('image', data?.image)
       setFieldValue('country', data?.country)
@@ -94,7 +94,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
 
         return
       }
-      console.log('add')
       toast.success('Thêm phim thành công')
       navigate('/admin/movie')
     },
@@ -425,83 +424,91 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   <label className="mb-2 block text-sm font-medium text-black dark:text-white">
                     Ngôn Ngữ
                   </label>
-                  <select name="language" onChange={handleChange} onBlur={handleBlur} value={values?.language} className="block w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <option value="">Select Country</option>
-                      <option value="Vietnam">Việt Nam</option>
-                      <option value="China">Trung Quốc</option>
-                      <option value="United States">Hoa Kỳ</option>
-                      <option value="United Kingdom">Anh</option>
-                      <option value="Russia">Nga</option>
-                      <option value="France">Pháp</option>
-                      <option value="Germany">Đức</option>
-                      <option value="Italy">Ý</option>
-                      <option value="Spain">Tây Ban Nha</option>
-                      <option value="Japan">Nhật Bản</option>
-                      <option value="South Korea">Hàn Quốc</option>
-                      <option value="India">Ấn Độ</option>
-                      <option value="Brazil">Brazil</option>
-                      <option value="Canada">Canada</option>
-                      <option value="Australia">Úc</option>
-                      <option value="Mexico">Mexico</option>
-                      <option value="Indonesia">Indonesia</option>
-                      <option value="Thailand">Thái Lan</option>
-                      <option value="Malaysia">Malaysia</option>
-                      <option value="Sweden">Thụy Điển</option>
-                      <option value="Netherlands">Hà Lan</option>
-                      <option value="Switzerland">Thụy Sĩ</option>
-                      <option value="Belgium">Bỉ</option>
-                      <option value="Norway">Na Uy</option>
-                      <option value="Finland">Phần Lan</option>
-                      <option value="Poland">Ba Lan</option>
-                      <option value="Denmark">Đan Mạch</option>
-                      <option value="Ireland">Ireland</option>
-                      <option value="Portugal">Bồ Đào Nha</option>
-                      <option value="Austria">Áo</option>
-                      <option value="Greece">Hy Lạp</option>
-                      <option value="Czech Republic">Séc</option>
-                      <option value="Hungary">Hungary</option>
-                      <option value="New Zealand">New Zealand</option>
-                      <option value="Singapore">Singapore</option>
-                      <option value="Argentina">Argentina</option>
-                      <option value="Venezuela">Venezuela</option>
-                      <option value="Chile">Chile</option>
-                      <option value="Peru">Peru</option>
-                      <option value="Colombia">Colombia</option>
-                      <option value="Ukraine">Ukraine</option>
-                      <option value="Belarus">Belarus</option>
-                      <option value="Romania">România</option>
-                      <option value="Bulgaria">Bulgary</option>
-                      <option value="Cuba">Cuba</option>
-                      <option value="El Salvador">El Salvador</option>
-                      <option value="Ecuador">Ecuador</option>
-                      <option value="Kenya">Kenya</option>
-                      <option value="Nigeria">Nigeria</option>
-                      <option value="South Africa">Nam Phi</option>
-                      <option value="Egypt">Egypt</option>
-                      <option value="Ethiopia">Ethiopia</option>
-                      <option value="Ghana">Ghana</option>
-                      <option value="Morocco">Morocco</option>
-                      <option value="Tanzania">Tanzania</option>
-                      <option value="Uganda">Uganda</option>
-                      <option value="Algeria">Algeria</option>
-                      <option value="Sudan">Sudan</option>
-                      <option value="Iraq">Iraq</option>
-                      <option value="Afghanistan">Afghanistan</option>
-                      <option value="Pakistan">Pakistan</option>
-                      <option value="Iran">Iran</option>
-                      <option value="Saudi Arabia">Saudi Arabia</option>
-                      <option value="United Arab Emirates">United Arab Emirates</option>
-                      <option value="Turkey">Turkey</option>
-                      <option value="Israel">Israel</option>
-                      <option value="Jordan">Jordan</option>
-                      <option value="Lebanon">Lebanon</option>
-                      <option value="Qatar">Qatar</option>
-                      <option value="Kuwait">Kuwait</option>
-                      <option value="Oman">Oman</option>
-                      <option value="Bahrain">Bahrain</option>
-                      <option value="Syria">Syria</option>
-                      <option value="Yemen">Yemen</option>
-                    </select>
+                  <select
+                    name="language"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.language}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                  >
+                    <option value="">Chọn ngôn ngữ</option>
+                    <option value="Vietnam">Việt Nam</option>
+                    <option value="China">Trung Quốc</option>
+                    <option value="United States">Hoa Kỳ</option>
+                    <option value="United Kingdom">Anh</option>
+                    <option value="Russia">Nga</option>
+                    <option value="France">Pháp</option>
+                    <option value="Germany">Đức</option>
+                    <option value="Italy">Ý</option>
+                    <option value="Spain">Tây Ban Nha</option>
+                    <option value="Japan">Nhật Bản</option>
+                    <option value="South Korea">Hàn Quốc</option>
+                    <option value="India">Ấn Độ</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Úc</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Thailand">Thái Lan</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Sweden">Thụy Điển</option>
+                    <option value="Netherlands">Hà Lan</option>
+                    <option value="Switzerland">Thụy Sĩ</option>
+                    <option value="Belgium">Bỉ</option>
+                    <option value="Norway">Na Uy</option>
+                    <option value="Finland">Phần Lan</option>
+                    <option value="Poland">Ba Lan</option>
+                    <option value="Denmark">Đan Mạch</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Portugal">Bồ Đào Nha</option>
+                    <option value="Austria">Áo</option>
+                    <option value="Greece">Hy Lạp</option>
+                    <option value="Czech Republic">Séc</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Venezuela">Venezuela</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Peru">Peru</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Romania">România</option>
+                    <option value="Bulgaria">Bulgary</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="El Salvador">El Salvador</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="South Africa">Nam Phi</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Tanzania">Tanzania</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Iraq">Iraq</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="United Arab Emirates">
+                      United Arab Emirates
+                    </option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Lebanon">Lebanon</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Syria">Syria</option>
+                    <option value="Yemen">Yemen</option>
+                  </select>
                   {/* <input
                     autoComplete="off"
                     name="language"
@@ -512,7 +519,6 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     placeholder="Nhập ngôn ngữ ..."
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                   /> */}
-
 
                   {touched.language && errors.language && (
                     <div className="mt-1 text-red-500 text-sm font-bold">
@@ -611,7 +617,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                 {/*  */}
               </div>
               {/* box2 */}
-              <div className="p-2 mb-4.5 ml-8  flex-col gap-6 xl:flex-row">
+              <div className="lg:p-2 mb-4.5 lg:ml-8  flex-col gap-6 xl:flex-row">
                 {/* category */}
                 <div className="form-group">
                   <label className="block mb-2 font-medium text-primary dark:text-yellow-400">
@@ -638,7 +644,7 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                   )}
                 </div>
                 {/* box gruop */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-3">
                   {/* age_limit */}
                   <div className="relative z-0 group">
                     <label className="block mb-2 text-sm font-medium text-black dark:text-white">
@@ -682,90 +688,98 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                     )}
                   </div>
                   {/* country */}
-                  <div className="relative z-0 group">
-                    <label className="block mb-2 text-sm font-medium text-black dark:text-white">
-                      Quốc gia
-                    </label>
-                    <select name="country" onChange={handleChange} onBlur={handleBlur} value={values?.country} className="block w-full py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-gray-100 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                      <option value="">Select Country</option>
-                      <option value="Vietnam">Việt Nam</option>
-                      <option value="China">Trung Quốc</option>
-                      <option value="United States">Hoa Kỳ</option>
-                      <option value="United Kingdom">Anh</option>
-                      <option value="Russia">Nga</option>
-                      <option value="France">Pháp</option>
-                      <option value="Germany">Đức</option>
-                      <option value="Italy">Ý</option>
-                      <option value="Spain">Tây Ban Nha</option>
-                      <option value="Japan">Nhật Bản</option>
-                      <option value="South Korea">Hàn Quốc</option>
-                      <option value="India">Ấn Độ</option>
-                      <option value="Brazil">Brazil</option>
-                      <option value="Canada">Canada</option>
-                      <option value="Australia">Úc</option>
-                      <option value="Mexico">Mexico</option>
-                      <option value="Indonesia">Indonesia</option>
-                      <option value="Thailand">Thái Lan</option>
-                      <option value="Malaysia">Malaysia</option>
-                      <option value="Sweden">Thụy Điển</option>
-                      <option value="Netherlands">Hà Lan</option>
-                      <option value="Switzerland">Thụy Sĩ</option>
-                      <option value="Belgium">Bỉ</option>
-                      <option value="Norway">Na Uy</option>
-                      <option value="Finland">Phần Lan</option>
-                      <option value="Poland">Ba Lan</option>
-                      <option value="Denmark">Đan Mạch</option>
-                      <option value="Ireland">Ireland</option>
-                      <option value="Portugal">Bồ Đào Nha</option>
-                      <option value="Austria">Áo</option>
-                      <option value="Greece">Hy Lạp</option>
-                      <option value="Czech Republic">Séc</option>
-                      <option value="Hungary">Hungary</option>
-                      <option value="New Zealand">New Zealand</option>
-                      <option value="Singapore">Singapore</option>
-                      <option value="Argentina">Argentina</option>
-                      <option value="Venezuela">Venezuela</option>
-                      <option value="Chile">Chile</option>
-                      <option value="Peru">Peru</option>
-                      <option value="Colombia">Colombia</option>
-                      <option value="Ukraine">Ukraine</option>
-                      <option value="Belarus">Belarus</option>
-                      <option value="Romania">România</option>
-                      <option value="Bulgaria">Bulgary</option>
-                      <option value="Cuba">Cuba</option>
-                      <option value="El Salvador">El Salvador</option>
-                      <option value="Ecuador">Ecuador</option>
-                      <option value="Kenya">Kenya</option>
-                      <option value="Nigeria">Nigeria</option>
-                      <option value="South Africa">Nam Phi</option>
-                      <option value="Egypt">Egypt</option>
-                      <option value="Ethiopia">Ethiopia</option>
-                      <option value="Ghana">Ghana</option>
-                      <option value="Morocco">Morocco</option>
-                      <option value="Tanzania">Tanzania</option>
-                      <option value="Uganda">Uganda</option>
-                      <option value="Algeria">Algeria</option>
-                      <option value="Sudan">Sudan</option>
-                      <option value="Iraq">Iraq</option>
-                      <option value="Afghanistan">Afghanistan</option>
-                      <option value="Pakistan">Pakistan</option>
-                      <option value="Iran">Iran</option>
-                      <option value="Saudi Arabia">Saudi Arabia</option>
-                      <option value="United Arab Emirates">United Arab Emirates</option>
-                      <option value="Turkey">Turkey</option>
-                      <option value="Israel">Israel</option>
-                      <option value="Jordan">Jordan</option>
-                      <option value="Lebanon">Lebanon</option>
-                      <option value="Qatar">Qatar</option>
-                      <option value="Kuwait">Kuwait</option>
-                      <option value="Oman">Oman</option>
-                      <option value="Bahrain">Bahrain</option>
-                      <option value="Syria">Syria</option>
-                      <option value="Yemen">Yemen</option>
-                    </select>
+                </div>
+                <div className="relative z-0 group mt-2">
+                  <label className="block mb-2 text-sm font-medium text-black dark:text-white">
+                    Quốc gia
+                  </label>
+                  <select
+                    name="country"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values?.country}
+                    className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
+                  >
+                    <option value="">Chọn quốc gia</option>
+                    <option value="Vietnam">Việt Nam</option>
+                    <option value="China">Trung Quốc</option>
+                    <option value="United States">Hoa Kỳ</option>
+                    <option value="United Kingdom">Anh</option>
+                    <option value="Russia">Nga</option>
+                    <option value="France">Pháp</option>
+                    <option value="Germany">Đức</option>
+                    <option value="Italy">Ý</option>
+                    <option value="Spain">Tây Ban Nha</option>
+                    <option value="Japan">Nhật Bản</option>
+                    <option value="South Korea">Hàn Quốc</option>
+                    <option value="India">Ấn Độ</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Canada">Canada</option>
+                    <option value="Australia">Úc</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Thailand">Thái Lan</option>
+                    <option value="Malaysia">Malaysia</option>
+                    <option value="Sweden">Thụy Điển</option>
+                    <option value="Netherlands">Hà Lan</option>
+                    <option value="Switzerland">Thụy Sĩ</option>
+                    <option value="Belgium">Bỉ</option>
+                    <option value="Norway">Na Uy</option>
+                    <option value="Finland">Phần Lan</option>
+                    <option value="Poland">Ba Lan</option>
+                    <option value="Denmark">Đan Mạch</option>
+                    <option value="Ireland">Ireland</option>
+                    <option value="Portugal">Bồ Đào Nha</option>
+                    <option value="Austria">Áo</option>
+                    <option value="Greece">Hy Lạp</option>
+                    <option value="Czech Republic">Séc</option>
+                    <option value="Hungary">Hungary</option>
+                    <option value="New Zealand">New Zealand</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Argentina">Argentina</option>
+                    <option value="Venezuela">Venezuela</option>
+                    <option value="Chile">Chile</option>
+                    <option value="Peru">Peru</option>
+                    <option value="Colombia">Colombia</option>
+                    <option value="Ukraine">Ukraine</option>
+                    <option value="Belarus">Belarus</option>
+                    <option value="Romania">România</option>
+                    <option value="Bulgaria">Bulgary</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="El Salvador">El Salvador</option>
+                    <option value="Ecuador">Ecuador</option>
+                    <option value="Kenya">Kenya</option>
+                    <option value="Nigeria">Nigeria</option>
+                    <option value="South Africa">Nam Phi</option>
+                    <option value="Egypt">Egypt</option>
+                    <option value="Ethiopia">Ethiopia</option>
+                    <option value="Ghana">Ghana</option>
+                    <option value="Morocco">Morocco</option>
+                    <option value="Tanzania">Tanzania</option>
+                    <option value="Uganda">Uganda</option>
+                    <option value="Algeria">Algeria</option>
+                    <option value="Sudan">Sudan</option>
+                    <option value="Iraq">Iraq</option>
+                    <option value="Afghanistan">Afghanistan</option>
+                    <option value="Pakistan">Pakistan</option>
+                    <option value="Iran">Iran</option>
+                    <option value="Saudi Arabia">Saudi Arabia</option>
+                    <option value="United Arab Emirates">
+                      United Arab Emirates
+                    </option>
+                    <option value="Turkey">Turkey</option>
+                    <option value="Israel">Israel</option>
+                    <option value="Jordan">Jordan</option>
+                    <option value="Lebanon">Lebanon</option>
+                    <option value="Qatar">Qatar</option>
+                    <option value="Kuwait">Kuwait</option>
+                    <option value="Oman">Oman</option>
+                    <option value="Bahrain">Bahrain</option>
+                    <option value="Syria">Syria</option>
+                    <option value="Yemen">Yemen</option>
+                  </select>
 
-
-                    {/* <input
+                  {/* <input
                       autoComplete="off"
                       name="country"
                       value={values.country}
@@ -775,12 +789,11 @@ const FormMovie = ({ typeForm }: FormMovieProps) => {
                       placeholder="Nhập quốc gia ..."
                       className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 text-black outline-none transition focus:border-border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-border-primary"
                     /> */}
-                    {touched.country && errors.country && (
-                      <div className="mt-1 text-red-500 text-sm font-bold">
-                        {errors.country as any}
-                      </div>
-                    )}
-                  </div>
+                  {touched.country && errors.country && (
+                    <div className="mt-1 text-red-500 text-sm font-bold">
+                      {errors.country as any}
+                    </div>
+                  )}
                 </div>
                 {/* image */}
                 <div className=" relative z-0 mb-6 w-full group mt-3">
