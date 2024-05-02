@@ -69,6 +69,7 @@ export const LoginModal = () => {
     onSubmit: async (values) => {
       try {
         await mutateSign(values)
+        setShowForm(false)
       } catch (error) {
         throw new Error(error as string)
       }

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const token = localStorage.getItem('Accesstoken')
+export const token = localStorage.getItem('Accesstoken')
 export const baseAuth = axios.create({
   baseURL: `${import.meta.env.VITE_API_URL}/api/user`
 })

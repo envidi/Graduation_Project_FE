@@ -90,6 +90,7 @@ export const SignupModal = () => {
 
       try {
         await CreateUser.mutateAsync(data)
+        setShowForm(false)
         resetFormik()
       } catch (error: any) {
         throw new Error(error)
