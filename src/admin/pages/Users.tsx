@@ -39,11 +39,7 @@ const Users = () => {
   const [usersPerPage] = useState(5) // Số người dùng trên mỗi trang
 
   useEffect(() => {
-    if (!token) {
-      console.log('không có ')
-    } else {
-      console.log('token', token)
-    }
+   
   }, [selectedUserIndex, checkBlock, checkUnblockId])
   const { data: allUser } = useQuery({
     queryKey: ['USER'],
