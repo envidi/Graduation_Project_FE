@@ -13,14 +13,14 @@ export interface Movie {
     status: string
     rate: string
     categoryId: string[] | string
-    prices: string[] | string
+    prices: any
     showTimes: string[] | string
     slug: string
     destroy: boolean
     createdAt: Date
-    updatedAt: Date
-    fromDate: string
-    toDate: string
+    // updatedAt: Date
+    // fromDate: Date
+    toDate: Date
     
   }
   
@@ -41,14 +41,7 @@ export interface Movie {
     price: number
     categoryId: string[] | string
     showTimes: string[] | string
-    fromDate: string
-    toDate: string
-    // prices: string[] | string
-    // prices: { price: number; dayType: string }[] | string;
-    // priceweekday: number
-    // dayTypeweekday: string
-    // pricesweekend: number
-    // dayTypeweekend: string
-
+    // fromDate: string
+    // toDate: string
   }
   

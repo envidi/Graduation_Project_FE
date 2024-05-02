@@ -40,6 +40,7 @@ const ECommerce: React.FC = () => {
           title="Số thể loại"
           total={!cateLoading ? cateCount || 0 : 0}
           rate=""
+          link='/admin/category'
           levelUp
         >
           <Layers size={20} />
@@ -49,6 +50,7 @@ const ECommerce: React.FC = () => {
           title="Tổng sản phẩm"
           total={loadingMovie ? 0 : movieCount || 0}
           rate=""
+          link='/admin/movie'
           levelUp
         >
           <MovieDashB />
@@ -57,6 +59,7 @@ const ECommerce: React.FC = () => {
           title="Số người dùng"
           total={isLoading ? 0 : userCount?.data?.countUser || 0}
           rate=""
+          link='/admin/users'
           levelDown
         >
           <UserDashB />

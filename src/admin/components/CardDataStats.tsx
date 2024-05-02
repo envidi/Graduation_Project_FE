@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 
 interface CardDataStatsProps {
   title: string
@@ -7,6 +8,7 @@ interface CardDataStatsProps {
   levelUp?: boolean
   levelDown?: boolean
   children: ReactNode
+  link ?: string
 }
 
 const CardDataStats: React.FC<CardDataStatsProps> = ({
@@ -15,7 +17,8 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
   rate,
   levelUp,
   levelDown,
-  children
+  children,
+  link
 }) => {
   return (
     <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -28,7 +31,7 @@ const CardDataStats: React.FC<CardDataStatsProps> = ({
           <h4 className="text-title-md font-bold text-black dark:text-white">
             {total}
           </h4>
-          <span className="text-sm font-medium w-full">{title}</span>
+          <Link to={link} className="text-sm font-medium w-full">{title}</Link>
         </div>
 
         <span

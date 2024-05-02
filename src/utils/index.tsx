@@ -13,9 +13,9 @@ export function countComments(comment: MyObjectComment | undefined): number {
   return count
 }
 // Lấy giờ không lấy ngày VD 19:30
-export const getHourAndMinute = (date: string) => {
-  if (date.toString().length === 0) {
-    return
+export const getHourAndMinute = (date: string | undefined) => {
+  if (!date || date.toString().length === 0) {
+    return ''
   }
   const hourAndMinute = date.split(' ')[1]
   return hourAndMinute
@@ -102,7 +102,8 @@ export function chuyenDoiNgay(dateString: Date | string) {
   return `${thu}, ${ngayTrongThang} ${tenThangHienThi}`
 }
 // 01-02-2024
-export function chuyenDoiThu(dateString: string) {
+export function chuyenDoiThu(dateString: string | undefined) {
+  if (!dateString) return
   const parts = dateString.split('.')
   const ngay = parseInt(parts[0], 10) // Phải chuyển về kiểu số nguyên
   const thang = parseInt(parts[1], 10) - 1 // Phải chuyển về kiểu số nguyên và trừ đi 1 vì tháng bắt đầu từ 0
@@ -249,8 +250,9 @@ export function getCurrentDay() {
   // Định dạng ngày theo yêu cầu
   return tenThang + ' ' + ngay + ', ' + nam
 }
-export function addCommasToNumber(number: number) {
+export function addCommasToNumber(number: number | undefined) {
   // Chuyển số thành chuỗi
+  if (!number) return ''
   const numStr = String(number)
 
   // Tách phần nguyên và phần thập phân (nếu có)
@@ -312,4 +314,34 @@ export const getTimeToShowTime = (time: Value, duration: number) => {
 
   // Định dạng lại thời gian thành chuỗi HH:MM
   return startTime.toTimeString().substring(0, 5)
+}
+export function compareTime(t1: string, t2: string) {
+  // Chuyển đổi chuỗi thành các phần tử giờ và phút
+  const [hours1, minutes1] = t1.split(':').map(Number)
+  const [hours2, minutes2] = t2.split(':').map(Number)
+
+  // So sánh giờ
+  if (hours1 < hours2) return -1 // t1 sớm hơn t2
+  if (hours1 > hours2) return 1 // t1 muộn hơn t2
+
+  // Nếu giờ bằng nhau, so sánh phút
+  if (minutes1 < minutes2) return -1 // t1 sớm hơn t2
+  if (minutes1 > minutes2) return 1 // t1 muộn hơn t2
+
+  return 0 // t1 và t2 bằng nhau
+}
+export function checkDateAdded(end: Date) {
+  // Tạo đối tượng Date từ các ngày nhập vào
+  const startDate = new Date()
+  // Tính toán sự khác biệt giữa hai ngày theo tháng
+  const months =
+    (end.getFullYear() - startDate.getFullYear()) * 12 +
+    (end.getMonth() - startDate.getMonth())
+
+  // Kiểm tra nếu khoảng thời gian là hơn 2 tháng
+  if (months > 2 || (months === 2 && end.getDate() > startDate.getDate())) {
+    return true
+  } else {
+    return false
+  }
 }

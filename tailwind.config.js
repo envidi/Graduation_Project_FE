@@ -77,7 +77,8 @@ module.exports = {
           calendarBorder: 'var(--calendar-border)',
           borderSocialLink: 'hsl(var(--border-social-link))',
           borderPayment: 'hsl(var(--border-payment))',
-          borderProfileContain: 'hsl(var(--border-profile-container))'
+          borderProfileContain: 'hsl(var(--border-profile-container))',
+          primary: '#3C50E0'
         },
         input: 'hsl(var(--input))',
         shadow: {

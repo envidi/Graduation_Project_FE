@@ -10,6 +10,9 @@ const options: ApexOptions = {
     position: 'top',
     horizontalAlign: 'left'
   },
+  // fill : {
+  //   colors: ['']
+  // },
   colors: ['#3C50E0', '#80CAEE'],
   chart: {
     fontFamily: 'Satoshi, sans-serif',
@@ -51,8 +54,9 @@ const options: ApexOptions = {
     curve: 'straight'
   },
   // labels: {
-  //   show: false,
-  //   position: "top",
+  //   style: {
+  //     colors: ['#F44336', '#E91E63', '#9C27B0']
+  //   }
   // },
   grid: {
     xaxis: {
@@ -67,7 +71,10 @@ const options: ApexOptions = {
     }
   },
   dataLabels: {
-    enabled: false
+    enabled: false,
+    style: {
+      colors: ['#F44336', '#E91E63', '#9C27B0']
+    }
   },
   markers: {
     size: 4,
@@ -104,16 +111,29 @@ const options: ApexOptions = {
     },
     axisTicks: {
       show: false
+      // color: '#FFFFFF'
+    },
+    labels: {
+      style: {
+        cssClass: '!fill-[white]'
+      }
     }
   },
   yaxis: {
     title: {
       style: {
         fontSize: '0px'
+        // color: '#fff'
       }
     },
     min: 0,
-    max: 1000
+    max: 1000,
+    labels: {
+      style: {
+        cssClass: '!fill-[white]'
+      }
+    },
+    tickAmount: 8
   }
 }
 

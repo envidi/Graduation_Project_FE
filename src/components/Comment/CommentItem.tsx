@@ -70,12 +70,17 @@ function CommentItem({
               </div>
               <Popover>
                 <PopoverTrigger asChild>
-                  <Button className="hover:bg-background-main absolute top-1 right-1">
-                    <FaEllipsisVertical />
-                  </Button>
+                  {userDetail?.message?.name === comment?.userId?.name && (
+                    <Button className="hover:bg-background-main absolute top-1 right-1">
+                      <FaEllipsisVertical />
+                    </Button>
+                  )}
                 </PopoverTrigger>
                 <PopoverContent className="w-fit">
-                  <Button onClick={handleDeleteComment} className="bg-transparent flex items-center text-background-main p-0">
+                  <Button
+                    onClick={handleDeleteComment}
+                    className="bg-transparent flex items-center text-background-main p-0"
+                  >
                     <Trash size={16} />
                   </Button>
                 </PopoverContent>

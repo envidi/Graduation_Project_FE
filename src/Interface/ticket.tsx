@@ -31,7 +31,7 @@ export interface TicketFoodBill {
   name: string
   price: number
 }
-export interface TicketSeatBill{
+export interface TicketSeatBill {
   _id: string
   typeSeat: string
   price: number
@@ -46,8 +46,13 @@ export interface TicketBill {
     price: number
   }
   seatId: TicketSeatBill[]
-  userId: string
+  userId: {
+    name: string
+  }
+  orderNumber : number
   movieId: {
+    // eslint-disable-next-line no-unused-vars
+    getValue(arg0: string): import('react').ReactNode
     _id: string
     name: string
     image: string

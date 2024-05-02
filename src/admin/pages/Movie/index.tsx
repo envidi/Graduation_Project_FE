@@ -5,7 +5,7 @@ import TableMovie from './components/TableMovie'
 const MoviePageadmin = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Movie" />
+      <Breadcrumb pageName="Phim" pageLink='/admin/movie' pageRetun='Phim' />
       <div className="flex flex-col gap-10">
         <TableMovie />
       </div>

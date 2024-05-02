@@ -32,7 +32,7 @@ function WatchList() {
         position: 'top-right'
       })
       queryClient.invalidateQueries({
-        queryKey: [WATCHLIST, userDetail.message._id]
+        queryKey: [WATCHLIST, userDetail?.message?._id]
       })
     },
     onError: () => {
@@ -47,13 +47,12 @@ function WatchList() {
     display: 'block',
     margin: '9.6rem auto'
   }
-  console.log(dataWatchList)
   if (isLoading) {
     return <HashLoader cssOverride={override} size={60} color="#eb3656" />
   }
   const categoryName = (categories: { name: string }[]) => {
-    if (categories.length === 0) return ''
-    return categories.map((cate: { name: string }) => cate.name).join(', ')
+    if (categories?.length === 0) return ''
+    return categories?.map((cate: { name: string }) => cate.name).join(', ') ||[]
   }
 
   return (
@@ -100,7 +99,7 @@ function WatchList() {
                       </Button>
                     </div>
                     <img
-                      src={watchList.movieId.image}
+                      src={watchList?.movieId?.image||''}
                       alt=""
                       className="group-hover:blur-sm transition-all ease-out duration-500"
                     />
@@ -139,7 +138,7 @@ function WatchList() {
                       </Button>
                     </div>
                     <img
-                      src={watchList.movieId.image}
+                      src={watchList?.movieId?.image||''}
                       alt=""
                       className="group-hover:blur-sm transition-all ease-out duration-500"
                     />
@@ -165,7 +164,7 @@ function WatchList() {
                 <div className="flex" key={watchList._id}>
                   <div className="relative group overflow-hidden basis-1/5">
                     <img
-                      src={watchList.movieId.image}
+                      src={watchList?.movieId?.image ||''}
                       alt=""
                       className="group-hover:blur-sm transition-all ease-out duration-500"
                     />
@@ -210,7 +209,7 @@ function WatchList() {
                 <div className="flex" key={watchList._id}>
                   <div className="relative group overflow-hidden lg:basis-1/4 md:basis-1/5 sm:basis-1/3 xs:basis-1/5">
                     <img
-                      src={watchList.movieId.image}
+                      src={watchList?.movieId?.image||''}
                       alt=""
                       className="group-hover:blur-sm transition-all ease-out duration-500"
                     />

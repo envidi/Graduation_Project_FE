@@ -1,6 +1,20 @@
+.footer {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* Màn 92em - 5 cột */
+  gap: 1rem;
+  margin-left: 10rem;
+  margin-top: 2rem
+}
+
 @media (max-width: 92em) {
   html {
     font-size: 56.25%;
+  }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+    margin-left: 10rem;
   }
 }
 
@@ -93,12 +107,12 @@
     padding: 1.4rem 3rem;
   }
 
-  <<<<<<<<< Temporary merge branch 1 .signup-form,
+  .signup-form,
   .login-form {
     top: 1.6rem;
   }
 
-  =========.signup-form {
+  .signup-form {
     top: 1.6rem;
   }
 
@@ -106,7 +120,7 @@
     /* top: 1.6rem; */
   }
 
-  >>>>>>>>>Temporary merge branch 2 .signup-form {
+  .signup-form {
     padding: 1.4rem 2.4rem;
   }
 
@@ -121,6 +135,15 @@
   .btn-reg {
     margin-top: 1.2rem;
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+    /* margin-left: 10rem; */
+  }
+  .feadback{
+    display: none;
+  }
 }
 
 /* *************************** */
@@ -128,20 +151,20 @@
 /* *************************** */
 
 @media (max-width: 52em) {
-  <<<<<<<<< Temporary merge branch 1 .logo-container {
+  .logo-container {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  =========.logo-container {
+  .logo-container {
     position: absolute;
     top: 15px;
     left: 50%;
     transform: translateX(-50%);
   }
 
-  >>>>>>>>>Temporary merge branch 2 .nav-items {
+   .nav-items {
     display: flex;
     flex-direction: column;
     background-color: #313441;
@@ -327,6 +350,19 @@
   .nav-signed-name {
     display: none;
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
+  }
+  .feadback{
+    display: none;
+  }
+  .footer h1{
+    font-size: 11px;;
+  }
 }
 
 @media (max-width: 57em) {
@@ -346,7 +382,14 @@
   .ticket-heading {
     width: 32.5rem;
   }
-
+  
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
+  }
 }
 
 /* *************************** */
@@ -507,11 +550,11 @@
     width: 75%;
   }
 
-  <<<<<<<<< Temporary merge branch 1 .customer-info-heading {
+  .customer-info-heading {
     margin: 2.4rem 0;
   }
 
-  =========.showtimes-card {
+  .showtimes-card {
     grid-template-columns: 0.45fr 0.55fr;
   }
 
@@ -519,7 +562,7 @@
     /* display: grid; */
   }
 
-  >>>>>>>>>Temporary merge branch 2 .purchase-history-item {
+  .purchase-history-item {
     grid-template-columns: 0.6fr 0.4fr;
   }
 
@@ -547,6 +590,13 @@
 
   .showtimes-details-btn {
     margin-top: auto;
+  }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
   }
 }
 
@@ -737,12 +787,26 @@
     width: 100%;
     margin-left: 0;
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 3rem;
+    margin-left: 2px;
+   
+  }
 }
 
 @media ((max-width: 600px) and (min-width: 410px)) {
   .movie-info-screen-container-3d {
     grid-template-columns: repeat(2, 1fr);
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+   
+  }
+
 }
 
 @media (min-width: 600px) and (max-width: 1280px) {
@@ -753,4 +817,30 @@
     top: 15px;
     /* z-index: 3; */
   }
+  .footer {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Màn 92em - 5 cột */
+    gap: 1rem;
+    margin-left: 6rem;
+  }
+  .feadback{
+    display: none;
+  }
+}
+
+.hashlink-container {
+  display: flex;
+  align-items: center; /* Canh giữa theo chiều dọc */
+}
+
+/* Đảm bảo icon có kích thước cố định */
+.main-logo-icon {
+  width: 2.5rem; /* Đặt kích thước tùy ý */
+  height: 2.5rem; /* Đặt kích thước tùy ý */
+  margin-right: 1rem; /* Khoảng cách giữa icon và chữ */
+}
+
+/* Đảm bảo chữ có kích thước cố định */
+.logo-text {
+  font-size: 1.5rem; /* Đặt kích thước tùy ý */
 }

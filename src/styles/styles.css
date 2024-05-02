@@ -56,7 +56,7 @@ box-shadow: 0 2.4rem 4.8rem rgba(0, 0, 0, 0.075);
 }
 
 html {
-  font-size: 62.5%;
+  font-size: 62.5% ;
   scroll-behavior: smooth;
 }
 
@@ -71,25 +71,39 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+.scrollable-table::-webkit-scrollbar {
+  width: 1px !important ; /* Độ rộng của thanh cuộn */
+  padding: 0;
+}
+
+.scrollable-table::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Màu nền của đường dẫn cuộn */
+}
+
+.scrollable-table::-webkit-scrollbar-thumb {
+  background-color: darkgrey; /* Màu của nút cuộn */
+  border-radius: 1px;
+  border: 2px solid white; /* Thêm viền trắng xung quanh nút cuộn */
+}
 ::-webkit-scrollbar {
-  width: 4px;
+  width: 2px;
 }
 
 /* Track */
 ::-webkit-scrollbar-track {
   box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
+  border-radius: 1px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background-color: #b30000;
+  background-color: grey;
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #b30000;
+  background: grey;
 }
 
 /* Track */
@@ -698,6 +712,13 @@ header {
 .details-collection-container {
   display: grid;
   /* grid-template-columns: repeat(auto-fit, 26rem); */
+  gap: 4.8rem;
+  justify-content: center;
+  position: relative;
+}
+.details-collection-container2{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 26rem);
   gap: 4.8rem;
   justify-content: center;
   position: relative;

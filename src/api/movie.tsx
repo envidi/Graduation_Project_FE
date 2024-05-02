@@ -95,3 +95,18 @@ export const editMoviePice = async (cinema : any , id: any) => {
   const result = await instance.patch(`/movies/price/${id}`, cinema)
   return result.data
 }
+//  get soft deleta
+export const getAllsoftDelete = async () => {
+  const result = await instance.get('/movie/softdelete')
+  return result.data.data.docs
+}
+//   soft deleta
+export const softDeleteMovie = async (id: string) => {
+  const result = await instance.patch(`/movie/softdelete/${id}`)
+  return result.data.data.docs
+}
+//   srestore movie
+export const restoreMovie = async (id: string) => {
+  const result = await instance.patch(`/movie/restore/${id}`)
+  return result.data
+}

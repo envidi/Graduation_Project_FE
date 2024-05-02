@@ -1,200 +1,265 @@
-import {  TicketBill } from "@/Interface/ticket";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from '@/components/ui/button'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { convertNumberToAlphabet } from "@/utils/seatAlphaIndex";
-import { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from '@/components/ui/dropdown-menu'
+import { getDay, getHourAndMinute } from '@/utils'
+import { filterStatusTicket } from '@/utils/methodArray'
+import { MoreHorizontal } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
-export const columns: ColumnDef<TicketBill>[] = [
-    
-    {
-        id: "select",
-        header: ({ table }) => (
-            <Checkbox
-                checked={
-                    table.getIsAllPageRowsSelected() ||
-                    (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value:any) =>
-                    table.toggleAllPageRowsSelected(!!value)
-                }
-                aria-label="Select all"
-            />
-        ),
-        cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value:any) => row.toggleSelected(!!value)}
-                aria-label="Select row"
-            />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
-        accessorKey: "movieId?.image",
-        header: "Ảnh",
-        cell: ({ row }) => {
-          
-            const { movieId } = row.original;
-            return <img src={movieId?.image} width={50} />;
-        },
-    },
-    {
-        accessorKey: "movieId?.name",
-        header: "Tên phim",
-        cell: ({ row }) => {
-            return <div>{row?.original?.movieId?.name}</div>;
-        },
-    },
-    // {
-    //     accessorKey: "movieId?.categoryId",
-    //     header: "Tên phim",
-    //     cell: ({ row }) => {
-    //         const data=row?.original?.movieId?.categoryId
-    //         return <div>{data[0].name}</div>;
-    //     },
-    // },
-    {
-        accessorKey: "SeatId",
-        header: "Tên ghế",
-        cell: ({ row }) => {
-            const data= row?.original?.seatId;
-            return <div>{convertNumberToAlphabet(data[0]?.row)}{data[0]?.column}</div>;
-        },
-    },
-    
-    {
-        accessorKey: "SeatId[0]?.typeSeat",
-        header: "Loại Ghế",
-        cell: ({ row }) => {
-            const data= row?.original?.seatId;
-            return <div>{data[0]?.typeSeat}</div>;
-        },
-    },
-    {
-        accessorKey: "userId?.name",
-        header: "Name",
-        cell: ({ row }) => {
-            console.log(row)
-            return <div>{row?.original?.userId?.name}</div>;
-        },
-    },
-    {
-        accessorKey: "cinemaId?.CinemaName",
-        header: "Tên rạp",
-        cell: ({ row }) => {
-            return <div>{row?.original?.cinemaId?.CinemaName}</div>;
-        },
-    },
-    {
-        accessorKey: "cinemaId?.CinemaAdress",
-        header: "Địa Chỉ",
-        cell: ({ row }) => {
-            return <div>{row?.original?.cinemaId?.CinemaAdress}</div>;
-        },
-    },
-    {
-        accessorKey: "screenRoomId?.name",
-        header: "Tên phòng",
-        cell: ({ row }) => {
-            return <div>{row?.original?.screenRoomId?.name}</div>;
-        },
-    },
-    {
-        accessorKey: "foods",
-        header: "Tên đồ ăn",
-        cell: ({ row }) => {
-            const data =row?.original?.foods
-            const foodName  = data[0]?.name 
-            return <div>{foodName}</div>;
-        },
-    },
-    {
-        accessorKey: "showtimeId",
-        header: "Thơi gian chiếu",
-        cell: ({ row }) => {
-            const timeFrom=row?.original?.showtimeId?.timeFrom
-            const formattedTime= timeFrom
-              return <div>{formattedTime}</div>;
-        },
-    },
-    {
-        accessorKey: "quantity",
-        header: "Số lượng",
-        cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("quantity"));
-            return <div className="font-medium">{amount}</div>;
-        },
-    },
-    {
-        accessorKey: "totalPrice",
-        header: "Giá",
-        cell: ({ row }) => {
-          const amount = parseFloat(row.getValue("totalPrice"));
-      
-          // Format the amount as a VNĐ amount
-          const formatted = new Intl.NumberFormat("vi-VN", {
-            style: "currency",
-            currency: "VND",
-          }).format(amount);
-      
-          return <div className="font-medium">{formatted}</div>;
-        },
-      },
-    {
-        accessorKey: " paymentId?.typeBank",
-        header: "Loại Ngân Hàng",
-        cell: ({ row }) => {
-            return <div>{row?.original?.paymentId?.typeBank}</div>;
-        },
-    },
-    {
-        accessorKey: " paymentId?.typePayment",
-        header: "Loại Thanh Toán",
-        cell: ({ row }) => {
-            return <div>{row?.original?.paymentId?.typePayment}</div>;
-        },
-    },
-    {
-        accessorKey: "status",
-        header: "Trạng thái",
-        cell: ({ row }) => {
-            const { status } = row?.original || {};
-            // return <div>{status ? "Checked" : "unchecked"}</div>;
-            return <div>{status}</div>
-        },
-    },
-    {
-        id: "actions",
-        enableHiding: false,
-        cell: ({ row }) => {
-            return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                   <DropdownMenuItem>Xóa Cứng</DropdownMenuItem>
-                        <DropdownMenuItem>
-                           Xóa Mềm
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            );
-        },
-    },
-];
+export const columns = [
+  {
+    id: 'select',
+    header: ({ table }: any) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value: any) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }: any) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false
+  },
+
+  {
+    accessorKey: 'orderNumber',
+    header: 'Mã vé',
+    cell: ({ row }: any) => {
+      return <div>{row.getValue('orderNumber')}</div>
+    }
+  },
+  {
+    accessorKey: 'image',
+    header: <div className="w-18">Ảnh phim</div>,
+    cell: ({ row }: any) => {
+      return <img src={row.getValue('image')} width={50} />
+    }
+  },
+  {
+    accessorKey: 'name',
+    header: <div className="w-30">Tên phim</div>,
+    cell: ({ row }: any) => {
+      return <div>{row.getValue('name')}</div>
+    }
+  },
+  {
+    accessorKey: 'email',
+    header: <div className="w-30">Khách hàng</div>,
+    cell: ({ row }: any) => {
+      return <div>{row.getValue('email')}</div>
+    }
+  },
+
+  {
+    accessorKey: 'timeFrom',
+    header: 'Ngày chiếu',
+    cell: ({ row }: any) => {
+      const formattedTime = getDay(row.getValue('timeFrom'))
+      return <div className="w-25">{formattedTime}</div>
+    }
+  },
+  {
+    accessorKey: 'timeFrom',
+    header: <div className="w-18">Giờ chiếu</div>,
+    cell: ({ row }: any) => {
+      const formattedTime = getHourAndMinute(row.getValue('timeFrom'))
+      return <div className="">{formattedTime}</div>
+    }
+  },
+
+  {
+    accessorKey: 'totalPrice',
+    header: <div className="w-20">Tổng tiền</div>,
+    cell: ({ row }: any) => {
+      const amount = parseFloat(row.getValue('totalPrice'))
+
+      // Format the amount as a VNĐ amount
+      const formatted = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+      }).format(amount)
+
+      return <div className="font-medium">{formatted}</div>
+    }
+  },
+
+  {
+    accessorKey: 'status',
+    header: <div className="w-20">Trạng thái</div>,
+    cell: ({ row }: any) => {
+      row.get
+      // return <div>{status ? "Checked" : "unchecked"}</div>;
+      const status = filterStatusTicket(row.getValue('status'))
+      return <div>{status}</div>
+    }
+  },
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }: any) => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild className="">
+            <Button variant="ghost" className="h-8 w-8 p-0 ">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="text-sm px-3 py-2">
+              <Link to={`/admin/tickets/detail/${row.original._id}`}>
+                Chi tiết
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    }
+  }
+]
+export const columnsReserved = (onRemove: any) => [
+  {
+    id: 'select',
+    header: ({ table }: any) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && 'indeterminate')
+        }
+        onCheckedChange={(value: any) =>
+          table.toggleAllPageRowsSelected(!!value)
+        }
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }: any) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value: any) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false
+  },
+
+  {
+    accessorKey: 'orderNumber',
+    header: 'Mã vé',
+    cell: ({ row }: any) => {
+      return <div>{row.getValue('orderNumber')}</div>
+    }
+  },
+  {
+    accessorKey: 'image',
+    header: <div className="w-18">Ảnh phim</div>,
+    cell: ({ row }: any) => {
+      return <img src={row.getValue('image')} width={50} />
+    }
+  },
+  {
+    accessorKey: 'name',
+    header: <div className="w-30">Tên phim</div>,
+    cell: ({ row }: any) => {
+      return <div>{row.getValue('name')}</div>
+    }
+  },
+  {
+    accessorKey: 'email',
+    header: <div className="w-30">Khách hàng</div>,
+    cell: ({ row }: any) => {
+      return <div>{row.getValue('email')}</div>
+    }
+  },
+
+  {
+    accessorKey: 'timeFrom',
+    header: 'Ngày chiếu',
+    cell: ({ row }: any) => {
+      const formattedTime = getDay(row.getValue('timeFrom'))
+      return <div className="w-25">{formattedTime}</div>
+    }
+  },
+  {
+    accessorKey: 'timeFrom',
+    header: <div className="w-18">Giờ chiếu</div>,
+    cell: ({ row }: any) => {
+      const formattedTime = getHourAndMinute(row.getValue('timeFrom'))
+      return <div className="">{formattedTime}</div>
+    }
+  },
+
+  {
+    accessorKey: 'totalPrice',
+    header: <div className="w-20">Tổng tiền</div>,
+    cell: ({ row }: any) => {
+      const amount = parseFloat(row.getValue('totalPrice'))
+
+      // Format the amount as a VNĐ amount
+      const formatted = new Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+      }).format(amount)
+
+      return <div className="font-medium">{formatted}</div>
+    }
+  },
+
+  {
+    accessorKey: 'status',
+    header: <div className="w-20">Trạng thái</div>,
+    cell: ({ row }: any) => {
+      row.get
+      // return <div>{status ? "Checked" : "unchecked"}</div>;
+      const status = filterStatusTicket(row.getValue('status'))
+      return <div>{status}</div>
+    }
+  },
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }: any) => {
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild className="">
+            <Button variant="ghost" className="h-8 w-8 p-0 ">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              className="text-sm px-3 py-2"
+              onClick={() => onRemove(row.original._id)}
+            >
+              Xóa vé
+            </DropdownMenuItem>
+            <DropdownMenuItem className="text-sm px-3 py-2">
+              <Link to={`/admin/tickets/detail/${row.original._id}`}>
+                Chi tiết
+              </Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      )
+    }
+  }
+]

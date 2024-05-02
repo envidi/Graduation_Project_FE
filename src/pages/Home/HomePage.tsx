@@ -1,7 +1,7 @@
-import { HeroSection } from './components/HeroSection'
+// import { HeroSection } from './components/HeroSection'
 import { HomeCollection } from './components/HomeCollection'
 import { Features } from './components/Features'
-import { SocialLinks } from './components/SocialLinks'
+// import { SocialLinks } from './components/SocialLinks'
 import { TopEdge } from '../../components/TopEdge'
 import IntroduceMovie from './components/IntroduceMovie'
 // import Header from '../../layouts/components/Header/Header'
@@ -12,10 +12,10 @@ const HomePage = ({ dataMovie, isLoading }: MoviePropsType) => {
     <>
       <TopEdge />
       <IntroduceMovie />
-      <HeroSection />
+      {/* <HeroSection /> */}
       <HomeCollection dataMovie={dataMovie} isLoading={isLoading} />
       <Features />
-      <SocialLinks />
+      {/* <SocialLinks /> */}
     </>
   )
 }

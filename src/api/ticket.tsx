@@ -57,8 +57,16 @@ export const getAllTicketByUser = async (query: {
   return result.data.data
 }
 export const getAllTikets = async () => {
-  const result = await instance.get('/ticket/all')  
-  return result.data.data.docs    
+  const result = await instance.get('/ticket/data')
+  return result.data.data
+}
+export const getAllTiketsReserved = async () => {
+  const result = await instance.get('/ticket/reserved')
+  return result.data.data
+}
+export const deleteTicketReserved = async (id: string) => {
+  const result = await instance.delete('/ticket/delete/' + id)
+  return result.data.data
 }
 export const updateTicket = async (data: TicketCreateType) => {
   const { ticket_id, ...other } = data
@@ -77,4 +85,9 @@ export const deleteTicket = async (data: TicketCreateType) => {
   const { ticket_id } = data
   const result = await instance.delete(`/ticket/delete/${ticket_id}`)
   return result.data.data
+}
+export const getDetailTicket = async (ticketId: string) => {
+  if (!ticketId) return []
+  const result = await instance.get(`/ticket/detail/${ticketId}`)
+  return result.data.data.docs
 }

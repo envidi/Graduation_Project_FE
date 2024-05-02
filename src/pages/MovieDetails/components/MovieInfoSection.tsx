@@ -55,7 +55,7 @@ export const MovieInfoSection = () => {
   const { data: dataWatchList } = useWatchList(userDetail)
   const watchListId = dataWatchList
     ? dataWatchList.map(
-        (watchId: { movieId: { _id: string } }) => watchId.movieId._id
+        (watchId: { movieId: { _id: string } }) => watchId?.movieId?._id
       )
     : []
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,10 +136,10 @@ export const MovieInfoSection = () => {
         CinemaAdress: screenRoom.cinemaId.CinemaAdress
       },
       id_movie: {
-        _id : _id,
-        name : name,
-        categoryId : categoryCol,
-        image : image
+        _id: _id,
+        name: name,
+        categoryId: categoryCol,
+        image: image
       },
       hall_name: screenRoom.screenRoomId.name,
       hall_id: {
@@ -231,7 +231,7 @@ export const MovieInfoSection = () => {
               <Dialog>
                 <DialogTrigger asChild>
                   <Button size="md" variant="outline">
-                    Trailer
+                    Đoạn giới thiệu
                   </Button>
                 </DialogTrigger>
                 <DialogContent className="p-0 w-fit">
@@ -279,6 +279,7 @@ export const MovieInfoSection = () => {
             <MovieShowtimeSection
               handleChooseShowtime={handleChooseShowtime}
               showTimeDimension={showTimeDimension}
+              dataMovie={dataMovie}
             />
           )}
           {!showTimeDimension ||

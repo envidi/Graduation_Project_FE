@@ -27,11 +27,14 @@ const SeatPage = () => {
 
   const [ticket] = useLocalStorage<TicketType | null>('ticket')
 
-  const { data: seats, isLoading: loading } = useAllSeatByShowTime({
+  const {
+    data: seats,
+    isLoading: loading,
+    isError
+  } = useAllSeatByShowTime({
     _hallId: ticket?.hall_id?._id || '',
     _showId: ticket?.id_showtime?._id || ''
   })
-
   const [, setSelectedSeat] = useState<SeatUserList>()
   useEffect(() => {
     if (!seats || seats.length == 0) return
@@ -80,6 +83,11 @@ const SeatPage = () => {
   if (loading) {
     return <HashLoader cssOverride={override} color="#eb3656" />
   }
+  if (isError) {
+    toast.error('Lịch chiếu hiện tại không có sẵn hoặc ghế không tồn tại', {
+      position: 'top-right'
+    })
+  }
 
   const updateSeatStatus = (
     seat: SeatUserList,
@@ -103,6 +111,7 @@ const SeatPage = () => {
     const seatResult = allSeat.map((s: SeatUserList) =>
       s._id === seat._id ? updateSeatStatus(s, seat.selected) : s
     )
+
     const seatSelecteds = seatResult
       .filter((seatSelected) => seatSelected.selected)
       .map((seatSelected) => {
@@ -113,12 +122,9 @@ const SeatPage = () => {
         }
       })
     if (seatSelecteds.length > 7) {
-      toast.error(
-        'Chỉ có thể chọn tối đa 7 ghế',
-        {
-          position: 'top-center'
-        }
-      )
+      toast.error('Chỉ có thể chọn tối đa 7 ghế', {
+        position: 'top-center'
+      })
       return
     }
     const maxCol =
@@ -130,6 +136,22 @@ const SeatPage = () => {
 
     if (
       (maxRow && seat.row - maxRow.row > 1) ||
+      (maxCol &&
+        maxRow &&
+        maxRow.row - seat.row > 0 &&
+        seat.column == maxRow?.column) ||
+      (maxCol &&
+        maxRow &&
+        maxRow.row - seat.row > 2 &&
+        seat.column !== maxRow?.column) ||
+      (maxCol &&
+        maxRow &&
+        maxCol.column - seat.column == 1 &&
+        seat.row == maxCol?.row) ||
+      (maxCol &&
+        maxRow &&
+        maxCol.column - seat.column > 2 &&
+        seat.row !== maxCol?.row) ||
       (maxCol && seat.column - maxCol.column > 1)
     ) {
       toast.error(

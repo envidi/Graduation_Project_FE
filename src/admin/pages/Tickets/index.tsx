@@ -1,18 +1,19 @@
 import Breadcrumb from '@/admin/components/Breadcrumbs/Breadcrumb'
 import DefaultLayout from '@/admin/layout/DefaultLayout'
 
-import ListTickets from './components/ListTicket'
-
-
+import ListTicketDemo from './components/ListTicket2'
 
 const TicketsPage = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Tickets" />
+      <Breadcrumb
+        pageName="Vé"
+        pageRetun="Danh sách vé"
+        pageLink="/admin/tickets"
+      />
 
       <div className="flex flex-col gap-10">
-      
-        <ListTickets/>
+        <ListTicketDemo />
       </div>
     </DefaultLayout>
   )

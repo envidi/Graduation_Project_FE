@@ -1,5 +1,5 @@
 import { TicketType } from '@/store/ticket'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'react-toastify'
 import { Armchair, Cookie } from 'lucide-react'
 
@@ -24,7 +24,7 @@ import {
 } from './IconTicket'
 
 import { FoodItemState } from '@/Interface/food'
-import { FoodSelector } from '@/store/food'
+import { FoodSelector, foodsAction } from '@/store/food'
 import { useLocation } from 'react-router-dom'
 import TicketItem from './Ticket/TicketItem'
 import TicketList from './Ticket/TicketList'
@@ -47,8 +47,11 @@ import { ContextMain } from '@/context/Context'
 import usePaymentMuatation, {
   MutatePaymentType
 } from '@/hooks/usePaymentMuatation'
+import useAllFood from '@/hooks/useAllFood'
 
 function TicketSummary() {
+  const dispatch = useDispatch()
+  const { data: dataFoodApi } = useAllFood()
   const { userDetail } = useContext(ContextMain)
   const queryClient = useQueryClient()
   const { seat, paymentMethod } = useSelector(
@@ -97,7 +100,6 @@ function TicketSummary() {
     foods: foodsTicket = [],
     ticketAmount = 0
   } = ticket
-  
 
   const totalFoodPrice =
     foods && foods.length != 0
@@ -121,6 +123,13 @@ function TicketSummary() {
   const handlePurchaseSeat = () => {
     if (seat.length == 0) {
       toast.error('Vui lòng chọn chỗ ngồi !', {
+        position: 'top-right'
+      })
+      return
+    }
+    const showtime = dataShowtime[0]
+    if (!showtime || showtime.status == FULL_SCHEDULE || showtime.destroy) {
+      toast.error('Thời gian chiếu không có sẵn', {
         position: 'top-right'
       })
       return
@@ -187,6 +196,22 @@ function TicketSummary() {
       toast.error('Thời gian chiếu không có sẵn', {
         position: 'top-right'
       })
+      return
+    }
+    const allFood = dataFoodApi.map((food: { _id: string }) => food._id)
+    const chooseFood = foodValid.map((food: { _id: string }) => food._id)
+
+    if (!allFood.includes(...chooseFood)) {
+      toast.error('Đồ ăn không tồn tại', {
+        position: 'top-right'
+      })
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+      const { foods, ...rest } = ticket
+      setTicket({
+        ...rest
+      })
+      // dispatch(foodsAction.fetchData(dataFoodApi))
+      navigate('/purchase/food')
       return
     }
     if (paymentMethod._id == 1) {

@@ -5,7 +5,7 @@ import FormCinema from './components/FormCinema'
 const CinemaEdit = () => {
   return (
     <DefaultLayout>
-      <Breadcrumb pageName="Add Cinema" />
+      <Breadcrumb pageName="Cập nhật rạp chiếu" pageLink='/admin/cinema' pageRetun='Rạp chiếu / Sửa rạp chiếu'/>
 
       <div className="flex flex-col gap-10">
         <FormCinema typeForm="EDIT" />

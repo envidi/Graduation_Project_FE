@@ -185,7 +185,7 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
                 Giá
               </h5>
             </div>
-<div className=" p-2.5 text-center  xl:p-5">
+            <div className=" p-2.5 text-center  xl:p-5">
               <h5 className="text-sm font-medium uppercase xsm:text-base">
                 Tổng tiền
               </h5>
@@ -259,7 +259,7 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
           </div>
 
           <div className=" p-2.5 text-center lg:block hidden  xl:p-5">
-<h5 className="text-sm font-medium uppercase xsm:text-base hover:cursor-pointer lg:flex hidden  justify-between">
+            <h5 className="text-sm font-medium uppercase xsm:text-base hover:cursor-pointer lg:flex hidden  justify-between">
               Doanh thu phim
               <TooltipProvider>
                 <Tooltip>
@@ -330,7 +330,7 @@ const TableOne = ({ title, action }: { title: string; action: string }) => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <svg
-xmlns="http://www.w3.org/2000/svg"
+                      xmlns="http://www.w3.org/2000/svg"
                       width="18"
                       height="18"
                       viewBox="0 0 24 24"
