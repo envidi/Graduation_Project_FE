@@ -8,6 +8,7 @@ import TableCommentMovie from './TableComment'
 import Loading from '@/admin/components/Loading/Loading'
 import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { filterStatusMovie } from '@/utils/methodArray'
 
 function DetailMovieItem({ id }: { id: string }) {
   const { data: dataMovie, isLoading } = useQuery({
@@ -23,7 +24,7 @@ function DetailMovieItem({ id }: { id: string }) {
       <Dialog>
         <DialogTrigger asChild>
           <Button size="md" variant="outline" className='text-sm bg-white p-5 shadow-default dark:border-strokedark w-fit dark:bg-boxdark rounded-sm border border-stroke'>
-            Trailer
+            Đoạn giới thiệu
           </Button>
         </DialogTrigger>
         <DialogContent className="p-0 w-fit">
@@ -57,7 +58,8 @@ function DetailMovieItem({ id }: { id: string }) {
           Diễn viên : {dataMovie?.actor || ''}
         </p>
         <p className="bg-white p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">
-          Trạng thái : {dataMovie?.status || ''}
+          {/* Trạng thái : {dataMovie?.status || ''} */}
+          {filterStatusMovie(dataMovie?.status)}
         </p>
       </div>
       <p className="bg-white flex items-center p-5 shadow-default dark:border-strokedark dark:bg-boxdark rounded-sm border border-stroke">

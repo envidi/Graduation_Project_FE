@@ -34,19 +34,19 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
     },
     onSuccess: () => {
       if (typeForm === 'EDIT') {
-        toast.success('Sửa thức ăn thành công')
+        toast.success('Sửa đồ ăn thành công')
         navigate('/admin/food')
         return
       }
-      toast.success('Thêm thức ăn thành công')
+      toast.success('Thêm đồ ăn thành công')
       navigate('/admin/food')
     },
     onError: () => {
       if (typeForm === 'EDIT') {
-        toast.error('Sửa thức ăn thất bại')
+        toast.error('Sửa đồ ăn thất bại')
         return
       }
-      toast.error('Thêm thức ăn thất bại')
+      toast.error('Thêm đồ ăn thất bại')
     }
   })
 
@@ -67,13 +67,13 @@ const FormFood = ({ typeForm }: FormFoodProps) => {
     validate: (values) => {
       const errors: Partial<any> = {}
       if (!values.name) {
-        errors.name = 'Vui lòng nhập tên sản phẩm'
+        errors.name = 'Vui lòng nhập tên đồ ăn'
       }
       if (!values.image) {
-        errors.image = 'Vui lòng chọn ảnh sản phẩm'
+        errors.image = 'Vui lòng chọn ảnh đồ ăn'
       }
       if (!values.price) {
-        errors.price = 'Vui lòng nhập giá sản phẩm'
+        errors.price = 'Vui lòng nhập giá đồ ăn'
       }
       if (values.price <= 0) {
         errors.price = 'Giá phải lớn hơn 0'

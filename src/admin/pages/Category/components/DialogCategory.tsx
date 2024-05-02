@@ -44,10 +44,10 @@ export function DialogCategory({ typeForm, id }: FormCategoryProps) {
       return addCategory(bodyData)
     },
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
       if (typeForm === 'EDIT') {
         toast.success('Sửa danh mục thành công')
         setOpen(false)
-        queryClient.invalidateQueries({ queryKey: ['CATEGORY'] })
         return
       }
       toast.success('Thêm danh mục thành công')
