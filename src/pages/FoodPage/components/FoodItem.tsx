@@ -73,7 +73,7 @@ function FoodItem({ food }: FoodType) {
       {/* <h3 className="showtimes-date">Aug 19, 2023</h3> */}
       <div className="rounded-xl ">
         <LazyLoadImage
-          className="object-cover hover:scale-110 transition-all duration-300 ease-in-out rounded-xl"
+          className="object-cover hover:scale-110 transition-all duration-300 ease-in-out rounded-xl select-none"
           src={food.image}
           alt={'Movie Photo'}
           effect="opacity"
@@ -90,7 +90,7 @@ function FoodItem({ food }: FoodType) {
           ))}
         </div>
         <div className="flex justify-between items-center mt-3">
-          <div className="text-primary-locationMovie text-2xl">{food.name}</div>
+          <div className="text-primary-locationMovie text-2xl select-none">{food.name}</div>
           <div className="bg-primary-movieColor text-primary-nameMovie px-5 py-2 rounded-lg text-2xl">
             {addCommasToNumber(food.price)}
           </div>
@@ -105,7 +105,7 @@ function FoodItem({ food }: FoodType) {
             </button>
             <input
               type="number"
-              className="lg:w-20 md:w-20 sm:w-16 xs:w-20 bg-transparent border-primary-nameMovie border-[1px] rounded-lg outline-none px-3 text-2xl py-2"
+              className="lg:w-20 select-none md:w-20 sm:w-16 xs:w-20 bg-transparent border-primary-nameMovie border-[1px] rounded-lg outline-none px-3 text-2xl py-2"
               onChange={handleChangeQuantity}
               value={food.quantity}
             />
