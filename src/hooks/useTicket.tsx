@@ -15,7 +15,7 @@ import {
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useLocalStorage } from '@uidotdev/usehooks'
 import { toast } from 'react-toastify'
-
+// Hook này để tạo vé cập nhật và xóa vé
 function useTicket(
   action: string,
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-explicit-any
@@ -29,13 +29,17 @@ function useTicket(
       switch (action) {
         case CREATE_TICKET:
           if (ticket.ticket_id !== undefined) {
+            // Nếu đã có vé thì cập nhật cập nhật vé cho người dùng
             return updateTicketSeat(newTodo)
           }
+          // Tạo vé mới cho người dùng
           return checkoutTicket(newTodo)
         case COMPLETE_TICKET:
+          // Cập nhật vé cho người dùng
           return updateTicket(newTodo)
 
         case DELETE_TICKET:
+          // Xóa vé nếu người dùng không mua nữa
           return deleteTicket(newTodo)
         default:
           return checkoutTicket(newTodo)

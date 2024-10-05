@@ -13,6 +13,7 @@ export interface MyObjectComment {
   }
   createdAt?: TDate
 }
+//hook này xử lý việc thêm , sửa đổi bình luận trên UI không thao tác với database
 
 const useNode = () => {
   const insertNode = (
