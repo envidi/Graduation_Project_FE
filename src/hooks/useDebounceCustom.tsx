@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useDebounce } from '@uidotdev/usehooks'
 import { searchMovie } from '@/api/movie'
+// hook này xử lý việc khi người dùng search thì sẽ chờ người dùng gõ xong mới call api để trả về dữ liệu
 function useDebounceCustom() {
   const [searchTerm, setSearchTerm] = useState('')
   const [results, setResults] = useState([])

@@ -7,8 +7,11 @@ export interface MutationSign {
   data: { Accesstoken: string }
 }
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-export interface ErrorMutation{response : { data : {message : string}}}
+export interface ErrorMutation {
+  response: { data: { message: string } }
+}
 
+// Hook này xử lý việc đăng nhập thường với đăng nhập với google
 function useMutationSign(
   action: string,
   onSuccess?: (response: MutationSign) => void,
@@ -19,8 +22,10 @@ function useMutationSign(
     mutationFn: (data: FormValues) => {
       switch (action) {
         case SIGN_IN:
+          // Đăng nhập thường
           return signin(data)
         case SIGN_IN_GOOGLE:
+          // Đăng nhập bằng google
           return signinWithGoogle(data)
         default:
           return signin(data)

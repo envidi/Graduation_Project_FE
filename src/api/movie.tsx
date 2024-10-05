@@ -62,8 +62,8 @@ export const getAllScreenRoom = async () => {
   const result = await instance.get('/screen')
   return result.data.datas.docs
 }
-export const getOneScreenRoom = async (id:any) => {
-  const result = await instance.get(`/screen/${id}` )
+export const getOneScreenRoom = async (id: any) => {
+  const result = await instance.get(`/screen/${id}`)
   return result
 }
 
@@ -91,7 +91,7 @@ export const editMovie = async (cinema: FormMovieAdd, id: string) => {
 }
 // update price movie
 //edit cinema
-export const editMoviePice = async (cinema : any , id: any) => {
+export const editMoviePice = async (cinema: any, id: any) => {
   const result = await instance.patch(`/movies/price/${id}`, cinema)
   return result.data
 }

@@ -15,12 +15,14 @@ import {
 } from '@/utils/constant'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 
+// Hook này lấy ra comment theo Id của comment đó
 function useComment(id: string) {
   return useQuery({
     queryKey: [COMMENT, id],
     queryFn: () => getCommentByMovie(id)
   })
 }
+// Hook này dùng để tạo mới , trả lời, thích, xóa bình luận
 export function useMutationComment(
   action: string,
   onSuccess?: () => void,

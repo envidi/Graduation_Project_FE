@@ -128,7 +128,14 @@ function TicketSummary() {
       return
     }
     const showtime = dataShowtime[0]
-    if (!showtime || showtime.status == FULL_SCHEDULE || showtime.destroy) {
+
+    if (
+      !showtime ||
+      showtime.status == FULL_SCHEDULE ||
+      showtime.destroy ||
+      showtime.timeFrom !== ticket.time_from ||
+      showtime.screenRoomId.name !== ticket.hall_name
+    ) {
       toast.error('Thời gian chiếu không có sẵn', {
         position: 'top-right'
       })
@@ -201,7 +208,7 @@ function TicketSummary() {
     const allFood = dataFoodApi.map((food: { _id: string }) => food._id)
     const chooseFood = foodValid.map((food: { _id: string }) => food._id)
 
-    if (!allFood.includes(...chooseFood)) {
+    if (chooseFood.length > 0 && !allFood.includes(...chooseFood)) {
       toast.error('Đồ ăn không tồn tại', {
         position: 'top-right'
       })
@@ -214,6 +221,15 @@ function TicketSummary() {
       navigate('/purchase/food')
       return
     }
+    if (paymentMethod._id == 0) {
+      toast.error('Hãy chọn 1 phương thức thanh toán', {
+        position: 'top-right'
+      })
+      // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+
+      return
+    }
+
     if (paymentMethod._id == 1) {
       mutate({
         amount: ticket.total,
