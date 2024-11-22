@@ -59,7 +59,7 @@ const TableRoomsDestroy: React.FC = () => {
   }
 
   if (isLoading || !data) {
-    return <div>Loading...</div>
+    return <Loader />
   }
 
   if (isError) {
@@ -100,9 +100,7 @@ const TableRoomsDestroy: React.FC = () => {
               {data?.map((rooms: any, index: number) => (
                 <tr key={rooms._id}>
                   <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
-                    <p className="text-sm font-medium text-primary-white">
-                      {index}
-                    </p>
+                    <p className="text-sm font-medium text-primary-white">{(currentPage - 1) * itemsPerPage + index + 1}</p>
                   </td>
                   <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                     <p className="text-primary-white">{rooms.name ?? ''}</p>
@@ -157,6 +155,7 @@ const TableRoomsDestroy: React.FC = () => {
           </table>
         </div>
       </div>
+      {renderPagination()}
     </>
   )
 }

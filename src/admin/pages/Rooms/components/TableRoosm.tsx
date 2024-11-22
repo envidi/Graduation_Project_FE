@@ -33,6 +33,9 @@ import { addCommasToNumber } from '@/utils'
 
 Modal.setAppElement('#root') // Tránh lỗi về accessibility
 
+
+
+
 const ITEMS_PER_PAGE = 10
 const TableRooms = () => {
   const { userDetail } = useContext(ContextMain)
@@ -66,7 +69,7 @@ const TableRooms = () => {
       toast.success('Xóa phòng thành công')
     },
     onError: () => {
-      toast.error('Xóa phòng thất bại')
+      toast.error('Xóa mềm phòng thất bại')
     }
   })
   const handleRemoveRoom = () => {
@@ -126,7 +129,7 @@ const TableRooms = () => {
         pages.push(
           <PaginationItem
             key={`ellipsis-${i}`}
-            // disabled
+          // disabled
           >
             <span className="px-3">...</span>
           </PaginationItem>
@@ -141,14 +144,14 @@ const TableRooms = () => {
           <PaginationItem>
             <PaginationPrevious
               onClick={() => setPage(currentPage - 1)}
-              // disabled={currentPage === 1}
+            // disabled={currentPage === 1}
             />
           </PaginationItem>
           {pages}
           <PaginationItem>
             <PaginationNext
               onClick={() => setPage(currentPage + 1)}
-              // disabled={currentPage === pageCount}
+            // disabled={currentPage === pageCount}
             />
           </PaginationItem>
         </PaginationContent>
@@ -189,7 +192,7 @@ const TableRooms = () => {
     return <Loader />
   }
   if (isError) return <div>Error</div>
-console.log(rooms)
+  console.log(rooms)
   return (
     <>
       <div className="rounded-sm border border-stroke px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -501,10 +504,10 @@ console.log(rooms)
                             Giá ghế :{' '}
                             {addCommasToNumber(
                               roomsData?.ShowtimesId &&
-                                roomsData?.ShowtimesId.find(
-                                  (show: { _id: string }) =>
-                                    show._id === selectedShow
-                                )?.SeatId?.seatNormal[0]?.price
+                              roomsData?.ShowtimesId.find(
+                                (show: { _id: string }) =>
+                                  show._id === selectedShow
+                              )?.SeatId?.seatNormal[0]?.price
                             ) + ' VNĐ'}
                           </div>
                         </div>
